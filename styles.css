@@ -1,131 +1,36 @@
-/* Styles for login page */
-.login-container {
-    width: 300px;
-    margin: 50px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-.login-container h2 {
-    margin-bottom: 20px;
-}
-
-.form-group {
-    margin-bottom: 15px;
-    text-align: left;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-}
-
-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #04AA6D;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-button:hover {
-    opacity: 0.8;
-}
-
-.form-footer {
-    margin-top: 10px;
-    text-align: left;
-}
-
-.form-footer label {
-    display: inline-block;
-}
-
-.form-footer a {
-    float: right;
-    text-decoration: none;
-    color: #04AA6D;
-}
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-}
-
-header {
-    background: #333;
-    color: #fff;
-    padding: 10px 0;
-    text-align: center;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
-}
-
-header nav ul {
-    list-style: none;
-    padding: 0;
-}
-
-header nav ul li {
-    display: inline;
-    margin: 0 10px;
-}
-
-header nav ul li a {
-    color: #fff;
-    text-decoration: none;
-}
-
-.showcase {
-    text-align: center;
-    padding: 100px 0;
-    background: url('images/your-image.jpg') no-repeat center center/cover;
-    color: #fff;
-}
-
-.showcase .fade-in {
-    animation: fadeIn 2s ease-in-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-.content, .upload-download {
-    padding: 20px;
-    background: #fff;
-    margin: 20px auto;
-    width: 80%;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-footer {
-    background: #333;
-    color: #fff;
-    text-align: center;
-    padding: 10px 0;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
-}
-
-.form-footer a:hover {
-    text-decoration: underline;
-}
-html {
-    scroll-behavior: smooth;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Cá Nhân</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Chào Mừng Đến Với Trang Cá Nhân Của Tôi</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#about">Giới Thiệu</a></li>
+            <li><a href="#projects">Dự Án</a></li>
+            <li><a href="#contact">Liên Hệ</a></li>
+        </ul>
+    </nav>
+    <section id="about">
+        <h2>Giới Thiệu</h2>
+        <p>Xin chào! Tôi là [Tên của bạn], một người đam mê công nghệ và lập trình.</p>
+    </section>
+    <section id="projects">
+        <h2>Dự Án</h2>
+        <p>Đây là nơi tôi chia sẻ những dự án và sở thích cá nhân của mình.</p>
+    </section>
+    <section id="contact">
+        <h2>Liên Hệ</h2>
+        <p>Bạn có thể liên hệ với tôi qua email: [email của bạn]</p>
+    </section>
+    <footer>
+        <p>Trang Cá Nhân © 2024</p>
+    </footer>
+</body>
+</html>
