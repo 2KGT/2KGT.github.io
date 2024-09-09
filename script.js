@@ -19,3 +19,13 @@ document.getElementById('upload-form').addEventListener('submit', function(event
           });
     }
 });
+document.addEventListener('DOMContentLoaded', function() {
+    const nav = document.querySelector('header');
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 50) {
+            nav.classList.add('scrolled');
+        } else {
+            nav.classList.remove('scrolled');
+        }
+    });
+});
