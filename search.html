@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Search Results</h1>
+    </header>
+    <main>
+        <form method="POST" action="/search">
+            <input type="text" name="query" placeholder="Enter search term">
+            <button type="submit">Search</button>
+        </form>
+        {% if query %}
+        <h2>Results for "{{ query }}"</h2>
+        <ul>
+            {% for result in results %}
+            <li>{{ result }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </main>
+    <footer>
+        <p>© 2024 My Personal Website</p>
+    </footer>
+</body>
+</html>
