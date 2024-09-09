@@ -1,157 +1,3 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang Cá Nhân</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        .container {
-            width: 80%;
-            margin: auto;
-            overflow: hidden;
-        }
-        header {
-            background: #333;
-            color: #fff;
-            padding-top: 30px;
-            min-height: 70px;
-            border-bottom: #77aaff 3px solid;
-        }
-        header a {
-            color: #fff;
-            text-decoration: none;
-            text-transform: uppercase;
-            font-size: 16px;
-        }
-        header ul {
-            padding: 0;
-            list-style: none;
-        }
-        header li {
-            float: left;
-            display: inline;
-            padding: 0 20px 0 20px;
-        }
-        header #branding {
-            float: left;
-        }
-        header #branding h1 {
-            margin: 0;
-        }
-        header nav {
-            float: right;
-            margin-top: 10px;
-        }
-        .showcase {
-            min-height: 400px;
-            background: url(https://img3.thuthuatphanmem.vn/uploads/2019/06/13/anh-nen-anime-dep_095240141.jpg) no-repeat 0 -400px;
-            text-align: center;
-            color: #fff;
-        }
-        .showcase h1 {
-            margin-top: 100px;
-            font-size: 55px;
-            margin-bottom: 10px;
-        }
-        .showcase p {
-            font-size: 20px;
-        }
-        .content {
-            padding: 20px;
-            background: #fff;
-        }
-        .content h2 {
-            text-align: center;
-        }
-        .content p {
-            line-height: 1.6;
-        }
-        footer {
-            background: #333;
-            color: #fff;
-            text-align: center;
-            padding: 30px 0;
-            margin-top: 30px;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <div class="container">
-            <div id="branding">
-                <h1><span class="highlight">Trang</span> Cá Nhân</h1>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="#">Trang Chủ</a></li>
-                    <li><a href="#">Giới Thiệu</a></li>
-                    <li><a href="#">Liên Hệ</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
-    <section class="showcase">
-        <div class="container">
-            <h1>Chào Mừng Đến Với Trang Cá Nhân Của Tôi</h1>
-            <p>Đây là nơi tôi chia sẻ những thông tin và hình ảnh cá nhân.</p>
-        </div>
-    </section>
-
-    <section class="content">
-        <div class="container">
-            <h2>Giới Thiệu</h2>
-            <p>Xin chào! Tôi là [Tên của bạn], một người đam mê công nghệ và lập trình. Tôi thích tạo ra những trang web đẹp và hữu ích. Đây là nơi tôi chia sẻ những dự án và sở thích cá nhân của mình.</p>
-        </div>
-    </section>
-
-    <footer>
-        <p>Trang Cá Nhân © 2024</p>
-    </footer>
-</body>
-</html>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Expandable Button Example</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <button class="expand-btn">Click me to expand</button>
-    <div class="expandable-content">
-        <p>This is the expandable content. It will be shown when the button is clicked.</p>
-    </div>
-
-    <script src="script.js"></script>
-</body>
-</html>
-body {
-    font-family: Arial, sans-serif;
-}
-
-.expand-btn {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.expandable-content {
-    display: none;
-    margin-top: 20px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    background-color: #f9f9f9;
-}
-
 document.querySelector('.expand-btn').addEventListener('click', function() {
     const content = document.querySelector('.expandable-content');
     if (content.style.display === 'none' || content.style.display === '') {
@@ -160,5 +6,132 @@ document.querySelector('.expand-btn').addEventListener('click', function() {
         content.style.display = 'none';
     }
 });
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Cá Nhân</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Trang Cá Nhân</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Trang Chủ</a></li>
+                <li><a href="#">Giới Thiệu</a></li>
+                <li><a href="#">Liên Hệ</a></li>
+                <li><a href="#" id="login-btn">Đăng Nhập</a></li>
+                <li><a href="#" id="register-btn">Đăng Ký</a></li>
+            </ul>
+        </nav>
+    </header>
 
+    <section class="showcase">
+        <img src="images/your-image.jpg" alt="Hình ảnh cá nhân">
+        <h2>Chào Mừng Đến Với Trang Cá Nhân Của Tôi</h2>
+        <p>Đây là nơi tôi chia sẻ những thông tin và hình ảnh cá nhân.</p>
+    </section>
 
+    <section class="content">
+        <h2>Giới Thiệu</h2>
+        <p>Xin chào! Tôi là [Tên của bạn], một người đam mê công nghệ và lập trình. Tôi thích tạo ra những trang web đẹp và hữu ích. Đây là nơi tôi chia sẻ những dự án và sở thích cá nhân của mình.</p>
+    </section>
+
+    <section class="upload-download">
+        <h2>Tải Lên và Tải Xuống Tệp</h2>
+        <form id="upload-form">
+            <input type="file" id="file-input">
+            <button type="submit">Tải Lên</button>
+        </form>
+        <div id="file-list">
+            <a href="files/your-file.pdf" download>Tải Xuống Tệp</a>
+        </div>
+    </section>
+
+    <footer>
+        <p>Trang Cá Nhân &copy; 2024</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background: #333;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+}
+
+header nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+header nav ul li {
+    display: inline;
+    margin: 0 10px;
+}
+
+header nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.showcase {
+    text-align: center;
+    padding: 50px 0;
+}
+
+.showcase img {
+    max-width: 100%;
+    height: auto;
+}
+
+.content, .upload-download {
+    padding: 20px;
+    background: #fff;
+    margin: 20px auto;
+    width: 80%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+footer {
+    background: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+document.getElementById('upload-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const fileInput = document.getElementById('file-input');
+    const file = fileInput.files[0];
+    if (file) {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        fetch('/upload', {
+            method: 'POST',
+            body: formData
+        }).then(response => response.json())
+          .then(data => {
+              if (data.success) {
+                  alert('Tải lên thành công!');
+              } else {
+                  alert('Tải lên thất bại!');
+              }
+          });
+    }
+});
