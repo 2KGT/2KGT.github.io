@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+/* Đặt font và màu nền cho toàn bộ trang */
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f0f0f0;
@@ -6,32 +6,24 @@ body {
     margin: 0;
     padding: 0;
 }
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang Cá Nhân</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+
+/* Định dạng cho phần header */
 header {
     background-color: #4CAF50;
     color: white;
     padding: 20px;
     text-align: center;
 }
-<body>
-    
-<header>
-        <h1>Chào Mừng Đến Với Trang Cá Nhân Của Tôi</h1>
-    </header>
+
+/* Định dạng cho menu điều hướng */
 nav ul {
     list-style-type: none;
     padding: 0;
     text-align: center;
     background-color: #333;
 }
-    <nav>
-        nav ul li {
+
+nav ul li {
     display: inline;
     margin: 0 10px;
 }
@@ -40,39 +32,20 @@ nav ul li a {
     color: white;
     text-decoration: none;
 }
-<ul>
-            <li><a href="#about">Giới Thiệu</a></li>
-            <li><a href="#projects">Dự Án</a></li>
-            <li><a href="#contact">Liên Hệ</a></li>
-        </ul>
-    </nav>
-    section {
+
+/* Định dạng cho các phần nội dung */
+section {
     padding: 20px;
     margin: 20px;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-<section id="about">
-        <h2>Giới Thiệu</h2>
-        <p>Xin chào! Tôi là [Tên của bạn], một người đam mê công nghệ và lập trình.</p>
-    </section>
-    <section id="projects">
-        <h2>Dự Án</h2>
-        <p>Đây là nơi tôi chia sẻ những dự án và sở thích cá nhân của mình.</p>
-    </section>
-    <section id="contact">
-        <h2>Liên Hệ</h2>
-        <p>Bạn có thể liên hệ với tôi qua email: [email của bạn]</p>
-    </section>
-    footer {
+
+/* Định dạng cho phần footer */
+footer {
     text-align: center;
     padding: 10px;
     background-color: #333;
     color: white;
 }
-<footer>
-        <p>Trang Cá Nhân © 2024</p>
-    </footer>
-</body>
-</html>
