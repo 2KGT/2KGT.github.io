@@ -1,51 +1,33 @@
-/* Đặt font và màu nền cho toàn bộ trang */
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+    background-image: url('anime-background.jpg');
+    background-size: cover;
     color: #333;
-    margin: 0;
-    padding: 0;
-}
-
-/* Định dạng cho phần header */
-header {
-    background-color: #4CAF50;
-    color: white;
-    padding: 20px;
     text-align: center;
 }
 
-/* Định dạng cho menu điều hướng */
-nav ul {
-    list-style-type: none;
-    padding: 0;
-    text-align: center;
-    background-color: #333;
-}
-
-nav ul li {
-    display: inline;
-    margin: 0 10px;
-}
-
-nav ul li a {
-    color: white;
-    text-decoration: none;
-}
-
-/* Định dạng cho các phần nội dung */
-section {
+header, footer {
+    background-color: rgba(255, 255, 255, 0.8);
     padding: 20px;
+}
+
+main {
+    background-color: rgba(255, 255, 255, 0.8);
     margin: 20px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 10px;
 }
 
-/* Định dạng cho phần footer */
-footer {
-    text-align: center;
-    padding: 10px;
-    background-color: #333;
+button {
+    background-color: #ff69b4;
     color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #ff1493;
 }
