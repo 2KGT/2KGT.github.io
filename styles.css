@@ -1,4 +1,11 @@
 <!DOCTYPE html>
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,18 +13,47 @@
     <title>Trang Cá Nhân</title>
     <link rel="stylesheet" href="style.css">
 </head>
+header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
 <body>
-    <header>
+    
+<header>
         <h1>Chào Mừng Đến Với Trang Cá Nhân Của Tôi</h1>
     </header>
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+    background-color: #333;
+}
     <nav>
-        <ul>
+        nav ul li {
+    display: inline;
+    margin: 0 10px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+<ul>
             <li><a href="#about">Giới Thiệu</a></li>
             <li><a href="#projects">Dự Án</a></li>
             <li><a href="#contact">Liên Hệ</a></li>
         </ul>
     </nav>
-    <section id="about">
+    section {
+    padding: 20px;
+    margin: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+<section id="about">
         <h2>Giới Thiệu</h2>
         <p>Xin chào! Tôi là [Tên của bạn], một người đam mê công nghệ và lập trình.</p>
     </section>
@@ -29,7 +65,13 @@
         <h2>Liên Hệ</h2>
         <p>Bạn có thể liên hệ với tôi qua email: [email của bạn]</p>
     </section>
-    <footer>
+    footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+}
+<footer>
         <p>Trang Cá Nhân © 2024</p>
     </footer>
 </body>
