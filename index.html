@@ -116,3 +116,49 @@
     </footer>
 </body>
 </html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expandable Button Example</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <button class="expand-btn">Click me to expand</button>
+    <div class="expandable-content">
+        <p>This is the expandable content. It will be shown when the button is clicked.</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+body {
+    font-family: Arial, sans-serif;
+}
+
+.expand-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.expandable-content {
+    display: none;
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+
+document.querySelector('.expand-btn').addEventListener('click', function() {
+    const content = document.querySelector('.expandable-content');
+    if (content.style.display === 'none' || content.style.display === '') {
+        content.style.display = 'block';
+    } else {
+        content.style.display = 'none';
+    }
+});
+
+
