@@ -1,25 +1,26 @@
 body {
     font-family: Arial, sans-serif;
-    background-image: url('anime-background.jpg');
-    background-size: cover;
+    background-color: #f0f0f0;
     color: #333;
     text-align: center;
 }
 
 header, footer {
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: #4CAF50;
+    color: white;
     padding: 20px;
 }
 
 main {
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: white;
     margin: 20px;
     padding: 20px;
     border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 button {
-    background-color: #ff69b4;
+    background-color: #4CAF50;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -29,5 +30,5 @@ button {
 }
 
 button:hover {
-    background-color: #ff1493;
+    background-color: #45a049;
 }
