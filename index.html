@@ -1,41 +1,23 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Lưu Trữ</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>My Personal Website</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     <header>
-        <h1>Chào mừng đến với Website Lưu Trữ</h1>
+        <h1>Welcome to My Personal Website</h1>
     </header>
     <main>
-        <section id="intro">
-            <h2>Giới thiệu</h2>
-            <p>Đây là một website lưu trữ với đầy đủ các chức năng cơ bản.</p>
-        </section>
-        <section id="auth">
-            <h2>Đăng ký và Đăng nhập</h2>
-            <button id="signup">Đăng ký</button>
-            <button id="login">Đăng nhập</button>
-        </section>
-        <section id="profile">
-            <h2>Hồ sơ thành viên</h2>
-            <p>Thông tin hồ sơ của bạn sẽ hiển thị ở đây.</p>
-        </section>
-        <section id="community">
-            <h2>Cộng đồng</h2>
-            <p>Trò chuyện với các thành viên khác tại đây.</p>
-        </section>
-        <section id="upload-download">
-            <h2>Tải lên và Tải xuống</h2>
-            <input type="file" id="upload" name="upload">
-            <button id="download">Tải xuống</button>
+        <section>
+            <h2>Gallery</h2>
+            <!-- Add your images and videos here -->
         </section>
     </main>
     <footer>
-        <p>© 2024 Website Lưu Trữ</p>
+        <p>© 2024 My Personal Website</p>
     </footer>
 </body>
 </html>
