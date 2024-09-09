@@ -1,0 +1,62 @@
+/* Styles for login page */
+.login-container {
+    width: 300px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.login-container h2 {
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #04AA6D;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+.form-footer {
+    margin-top: 10px;
+    text-align: left;
+}
+
+.form-footer label {
+    display: inline-block;
+}
+
+.form-footer a {
+    float: right;
+    text-decoration: none;
+    color: #04AA6D;
+}
+
+.form-footer a:hover {
+    text-decoration: underline;
+}
