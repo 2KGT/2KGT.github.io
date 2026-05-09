@@ -125,7 +125,7 @@ jobs:
           git checkout main
           if [ -f /tmp/current_app.json ]; then mv /tmp/current_app.json current_app.json; fi
           git add apps.json
-          git commit -m "Update Kyic Repository [skip ci]" || echo "No changes"
+          git commit -m "Update Kyic Repository" || echo "No changes" 
           git push origin main
 
       - name: 🤖 6.1 Telegram Notification
