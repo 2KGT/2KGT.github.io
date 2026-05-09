@@ -129,7 +129,7 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes."
           else
-            git commit -m "Auto-update Sileo Repo [skip ci]"
+            git commit -m "Auto-update Sileo Repo"
             git pull origin main --rebase
             git push origin main
           fi
