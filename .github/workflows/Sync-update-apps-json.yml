@@ -53,13 +53,14 @@ jobs:
                   versions: [] 
                 };
               }
+              // Tránh trùng lặp downloadURL
               if (!appsMap[key].versions.find(v => v.downloadURL === vData.downloadURL)) {
                 appsMap[key].versions.push(vData);
               }
               return appsMap[key];
             };
 
-            // Kiểm tra file thay đổi nếu là sự kiện push
+            // --- 1. QUÉT FILE TRONG THƯ MỤC APPS/ ---
             let changedFiles = [];
             if (eventName === 'push') {
               try {
@@ -80,19 +81,50 @@ jobs:
                 } catch (e) {}
 
                 const stats = fs.statSync(path);
-                const vData = { version, date: stats.mtime.toISOString(), size: stats.size, downloadURL: `https://2kgt.github.io/repo/apps/${file}` };
+                const vData = { 
+                  version, 
+                  date: stats.mtime.toISOString(), 
+                  size: stats.size, 
+                  downloadURL: `https://2kgt.github.io/repo/apps/${file}` 
+                };
                 const appObj = addAppToMap(name, bundleId, "Utilities", vData);
-                
-                // Nếu file này vừa được upload (push)
                 if (changedFiles.includes(path)) appToNotify = { ...appObj, ...vData };
               }
             }
 
-            // Xử lý logic appToNotify cho Release
-            if (eventName === 'release') {
-               // ... logic release như cũ ...
+            // --- 2. QUÉT FILE TỪ GITHUB RELEASES ---
+            try {
+              const releases = await github.rest.repos.listReleases({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+              });
+
+              for (const rel of releases.data) {
+                for (const asset of rel.assets) {
+                  if (asset.name.toLowerCase().endsWith('.ipa')) {
+                    const name = cleanAppName(asset.name);
+                    const version = extractVersion(asset.name);
+                    const vData = {
+                      version: version,
+                      date: asset.updated_at,
+                      size: asset.size,
+                      downloadURL: asset.browser_download_url
+                    };
+                    
+                    const appObj = addAppToMap(name, "com.kyic.release", "Utilities", vData);
+                    
+                    // Nếu là sự kiện release hiện tại, ưu tiên thông báo app này
+                    if (eventName === 'release' && rel.id === context.payload.release.id) {
+                      appToNotify = { ...appObj, ...vData };
+                    }
+                  }
+                }
+              }
+            } catch (e) {
+              console.log("Lỗi quét Release: " + e.message);
             }
 
+            // --- 3. TỔNG HỢP VÀ GHI FILE ---
             const finalApps = Object.values(appsMap).map(app => {
               app.versions.sort((a, b) => new Date(b.date) - new Date(a.date));
               const latest = app.versions[0];
@@ -109,7 +141,6 @@ jobs:
             };
             fs.writeFileSync('apps.json', JSON.stringify(repoData, null, 2));
 
-            // Luôn ghi file current_app.json để bước sau sử dụng
             const notifyData = {
               isManual: (eventName === 'workflow_dispatch'),
               targetApp: appToNotify || latestApp || { name: "Kyic Repository", version: "Cập nhật", downloadURL: "https://2kgt.github.io/repo/" }
@@ -120,12 +151,13 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          if [ -f current_app.json ]; then cp current_app.json /tmp/current_app.json; fi
-          git fetch origin main
-          git checkout main
-          if [ -f /tmp/current_app.json ]; then mv /tmp/current_app.json current_app.json; fi
-          git add apps.json
-          git commit -m "Update Kyic Repository" || echo "No changes" 
+          
+          # Commit thay đổi (Không dùng [skip ci] để Pages cập nhật)
+          git add apps.json current_app.json
+          git commit -m "Update Kyic Repository" || echo "No changes"
+          
+          # Tránh lỗi non-fast-forward
+          git pull origin main --rebase
           git push origin main
 
       - name: 🤖 6.1 Telegram Notification
@@ -136,8 +168,6 @@ jobs:
           JOB_STATUS: ${{ job.status }}
         run: |
           REAL_TIME=$(TZ="Asia/Ho_Chi_Minh" date +"%d/%m/%Y %H:%M")
-          
-          # Đảm bảo file tồn tại để jq không báo lỗi
           if [ ! -f current_app.json ]; then
             echo '{"isManual":true,"targetApp":{"name":"Kyic Repository","version":"Mới nhất","downloadURL":"https://2kgt.github.io/repo/"}}' > current_app.json
           fi
@@ -147,18 +177,8 @@ jobs:
           APP_VER=$(jq -r '.targetApp.version' current_app.json)
           IPA_URL=$(jq -r '.targetApp.downloadURL' current_app.json)
 
-          if [ "$IS_MANUAL" == "true" ]; then
-            TITLE="🔄 <b>Cập nhật Kho lưu trữ IPA</b>"
-            SUB_TITLE="✨ <i>Hệ thống vừa được làm mới thủ công</i>"
-          else
-            TITLE="🚀 <b>Cập nhật Ứng dụng mới</b>"
-            SUB_TITLE="🤩 <i>Hệ thống đồng bộ tự động Kyic</i>"
-          fi
-
-          case "$JOB_STATUS" in
-            "success") ICON="✅"; TEXT_STT="Thành công" ;;
-            *)         ICON="❌"; TEXT_STT="Thất bại" ;;
-          esac
+          [ "$IS_MANUAL" == "true" ] && TITLE="🔄 <b>Cập nhật Repo IPA</b>" || TITLE="🚀 <b>Cập nhật Ứng dụng mới</b>"
+          [ "$JOB_STATUS" == "success" ] && TEXT_STT="Thành công ✅" || TEXT_STT="Thất bại ❌"
 
           MSG="$TITLE
           ──────────────────
@@ -166,8 +186,7 @@ jobs:
           💡 <b>Phiên bản:</b> <code>$APP_VER</code>
           📊 <b>Trạng thái:</b> <code>$TEXT_STT</code>
           ⏰ <b>Thời gian:</b> <code>$REAL_TIME</code>
-          ──────────────────
-          $SUB_TITLE"
+          ──────────────────"
 
           KEYBOARD=$(jq -nrc --arg url1 "https://2kgt.github.io/repo/" --arg url2 "$IPA_URL" '{
             inline_keyboard: [[
