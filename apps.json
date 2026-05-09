@@ -17,13 +17,19 @@
       "versions": [
         {
           "version": "1.1.28",
-          "date": "2026-05-09T10:32:07.965Z",
+          "date": "2026-05-09T10:43:47.579Z",
           "size": 9592698,
           "downloadURL": "https://2kgt.github.io/repo/apps/Zebra_1.1.28.ipa"
+        },
+        {
+          "version": "1.1.28",
+          "date": "2026-04-22T07:11:19Z",
+          "size": 9592698,
+          "downloadURL": "https://github.com/2KGT/repo/releases/download/V1.1.28/Zebra_1.1.28.ipa"
         }
       ],
       "version": "1.1.28",
-      "versionDate": "2026-05-09T10:32:07.965Z",
+      "versionDate": "2026-05-09T10:43:47.579Z",
       "size": 9592698,
       "downloadURL": "https://2kgt.github.io/repo/apps/Zebra_1.1.28.ipa"
     },
@@ -41,13 +47,19 @@
       "versions": [
         {
           "version": "2.4",
-          "date": "2026-05-09T10:32:07.950Z",
+          "date": "2026-05-09T10:43:47.565Z",
           "size": 1392732,
           "downloadURL": "https://2kgt.github.io/repo/apps/MuteOTA_2.4.ipa"
+        },
+        {
+          "version": "1.8",
+          "date": "2026-05-02T05:45:02Z",
+          "size": 1336398,
+          "downloadURL": "https://github.com/2KGT/repo/releases/download/V1.8/MuteOTA_1.8.ipa"
         }
       ],
       "version": "2.4",
-      "versionDate": "2026-05-09T10:32:07.950Z",
+      "versionDate": "2026-05-09T10:43:47.565Z",
       "size": 1392732,
       "downloadURL": "https://2kgt.github.io/repo/apps/MuteOTA_2.4.ipa"
     },
@@ -65,13 +77,13 @@
       "versions": [
         {
           "version": "0.1",
-          "date": "2026-05-09T10:32:07.947Z",
+          "date": "2026-05-09T10:43:47.562Z",
           "size": 3085580,
           "downloadURL": "https://2kgt.github.io/repo/apps/Lithium_v0.1.ipa"
         }
       ],
       "version": "0.1",
-      "versionDate": "2026-05-09T10:32:07.947Z",
+      "versionDate": "2026-05-09T10:43:47.562Z",
       "size": 3085580,
       "downloadURL": "https://2kgt.github.io/repo/apps/Lithium_v0.1.ipa"
     },
@@ -89,25 +101,25 @@
       "versions": [
         {
           "version": "1.0",
-          "date": "2026-05-09T10:32:07.943Z",
+          "date": "2026-05-09T10:43:47.558Z",
           "size": 10151779,
           "downloadURL": "https://2kgt.github.io/repo/apps/LCSign_1.0.ipa"
         },
         {
           "version": "1.0.7",
-          "date": "2026-05-09T10:32:07.922Z",
+          "date": "2026-05-09T10:43:47.538Z",
           "size": 14346028,
           "downloadURL": "https://2kgt.github.io/repo/apps/LCSign_1.0.7.ipa"
         },
         {
           "version": "1.0.6",
-          "date": "2026-05-09T10:32:07.886Z",
+          "date": "2026-05-09T10:43:47.505Z",
           "size": 11155218,
           "downloadURL": "https://2kgt.github.io/repo/apps/LCSign_1.0.6.ipa"
         }
       ],
       "version": "1.0",
-      "versionDate": "2026-05-09T10:32:07.943Z",
+      "versionDate": "2026-05-09T10:43:47.558Z",
       "size": 10151779,
       "downloadURL": "https://2kgt.github.io/repo/apps/LCSign_1.0.ipa"
     },
@@ -125,13 +137,13 @@
       "versions": [
         {
           "version": "2.8.2",
-          "date": "2026-05-09T10:32:07.859Z",
+          "date": "2026-05-09T10:43:47.480Z",
           "size": 14210105,
           "downloadURL": "https://2kgt.github.io/repo/apps/Feather_2.8.2.ipa"
         }
       ],
       "version": "2.8.2",
-      "versionDate": "2026-05-09T10:32:07.859Z",
+      "versionDate": "2026-05-09T10:43:47.480Z",
       "size": 14210105,
       "downloadURL": "https://2kgt.github.io/repo/apps/Feather_2.8.2.ipa"
     },
@@ -149,21 +161,237 @@
       "versions": [
         {
           "version": "5.0.2",
-          "date": "2026-05-09T10:32:07.835Z",
+          "date": "2026-05-09T10:43:47.457Z",
           "size": 7473847,
           "downloadURL": "https://2kgt.github.io/repo/apps/ESign_5.0.2.ipa"
         },
         {
           "version": "4.8.1",
-          "date": "2026-05-09T10:32:07.816Z",
+          "date": "2026-05-09T10:43:47.438Z",
           "size": 9115820,
           "downloadURL": "https://2kgt.github.io/repo/apps/ESign_4.8.1.ipa"
         }
       ],
       "version": "5.0.2",
-      "versionDate": "2026-05-09T10:32:07.835Z",
+      "versionDate": "2026-05-09T10:43:47.457Z",
       "size": 7473847,
       "downloadURL": "https://2kgt.github.io/repo/apps/ESign_5.0.2.ipa"
+    },
+    {
+      "name": "Phim.4K",
+      "bundleIdentifier": "com.kyic.release",
+      "developerName": "Kyic",
+      "subtitle": "Phim.4K",
+      "category": "Utilities",
+      "iconURL": "https://2kgt.github.io/repo/icons/Phim.4K.png",
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {}
+      },
+      "versions": [
+        {
+          "version": "2.3.1",
+          "date": "2026-05-06T07:31:50Z",
+          "size": 21184094,
+          "downloadURL": "https://github.com/2KGT/repo/releases/download/V2.3.1/Phim.4K_2.3.1.ipa"
+        },
+        {
+          "version": "2.1.0",
+          "date": "2026-05-02T04:32:40Z",
+          "size": 23186835,
+          "downloadURL": "https://github.com/2KGT/repo/releases/download/V2.1.0/Phim.4K_v2.1.0.ipa"
+        },
+        {
+          "version": "2.2.2",
+          "date": "2026-05-02T03:36:31Z",
+          "size": 45714246,
+          "downloadURL": "https://github.com/2KGT/repo/releases/download/V2.2.2/Phim.4K_v2.2.2.ipa"
+        }
+      ],
+      "version": "2.3.1",
+      "versionDate": "2026-05-06T07:31:50Z",
+      "size": 21184094,
+      "downloadURL": "https://github.com/2KGT/repo/releases/download/V2.3.1/Phim.4K_2.3.1.ipa"
+    },
+    {
+      "name": "BiliBili",
+      "bundleIdentifier": "com.kyic.release",
+      "developerName": "Kyic",
+      "subtitle": "BiliBili",
+      "category": "Utilities",
+      "iconURL": "https://2kgt.github.io/repo/icons/BiliBili.png",
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {}
+      },
+      "versions": [
+        {
+          "version": "2.70.0",
+          "date": "2026-05-02T03:49:17Z",
+          "size": 72320922,
+          "downloadURL": "https://github.com/2KGT/repo/releases/download/V2.70.0/BiliBili_2.70.0.ipa"
+        }
+      ],
+      "version": "2.70.0",
+      "versionDate": "2026-05-02T03:49:17Z",
+      "size": 72320922,
+      "downloadURL": "https://github.com/2KGT/repo/releases/download/V2.70.0/BiliBili_2.70.0.ipa"
+    },
+    {
+      "name": "Turrit",
+      "bundleIdentifier": "com.kyic.release",
+      "developerName": "Kyic",
+      "subtitle": "Turrit",
+      "category": "Utilities",
+      "iconURL": "https://2kgt.github.io/repo/icons/Turrit.png",
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {}
+      },
+      "versions": [
+        {
+          "version": "1.4.7",
+          "date": "2026-05-02T03:46:25Z",
+          "size": 86814066,
+          "downloadURL": "https://github.com/2KGT/repo/releases/download/v1.4.7/Turrit_1.4.7.ipa"
+        },
+        {
+          "version": "1.4.6",
+          "date": "2026-05-02T00:25:21Z",
+          "size": 88952942,
+          "downloadURL": "https://github.com/2KGT/repo/releases/download/V.1.4.6/Turrit_v1.4.6.ipa"
+        }
+      ],
+      "version": "1.4.7",
+      "versionDate": "2026-05-02T03:46:25Z",
+      "size": 86814066,
+      "downloadURL": "https://github.com/2KGT/repo/releases/download/v1.4.7/Turrit_1.4.7.ipa"
+    },
+    {
+      "name": "YouTube",
+      "bundleIdentifier": "com.kyic.release",
+      "developerName": "Kyic",
+      "subtitle": "YouTube",
+      "category": "Utilities",
+      "iconURL": "https://2kgt.github.io/repo/icons/YouTube.png",
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {}
+      },
+      "versions": [
+        {
+          "version": "21.17.3",
+          "date": "2026-05-02T03:38:46Z",
+          "size": 138365206,
+          "downloadURL": "https://github.com/2KGT/repo/releases/download/V21.17.3/YouTube_v21.17.3.ipa"
+        },
+        {
+          "version": "21.16.2",
+          "date": "2026-04-21T10:41:34Z",
+          "size": 127948186,
+          "downloadURL": "https://github.com/2KGT/repo/releases/download/V21.16.2/YouTube_21.16.2_ytx.ipa"
+        }
+      ],
+      "version": "21.17.3",
+      "versionDate": "2026-05-02T03:38:46Z",
+      "size": 138365206,
+      "downloadURL": "https://github.com/2KGT/repo/releases/download/V21.17.3/YouTube_v21.17.3.ipa"
+    },
+    {
+      "name": "Instagram",
+      "bundleIdentifier": "com.kyic.release",
+      "developerName": "Kyic",
+      "subtitle": "Instagram",
+      "category": "Utilities",
+      "iconURL": "https://2kgt.github.io/repo/icons/Instagram.png",
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {}
+      },
+      "versions": [
+        {
+          "version": "419.0.0",
+          "date": "2026-05-02T01:54:33Z",
+          "size": 274889166,
+          "downloadURL": "https://github.com/2KGT/repo/releases/download/V419.0.0/Instagram_v419.0.0.ipa"
+        }
+      ],
+      "version": "419.0.0",
+      "versionDate": "2026-05-02T01:54:33Z",
+      "size": 274889166,
+      "downloadURL": "https://github.com/2KGT/repo/releases/download/V419.0.0/Instagram_v419.0.0.ipa"
+    },
+    {
+      "name": "Stay",
+      "bundleIdentifier": "com.kyic.release",
+      "developerName": "Kyic",
+      "subtitle": "Stay",
+      "category": "Utilities",
+      "iconURL": "https://2kgt.github.io/repo/icons/Stay.png",
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {}
+      },
+      "versions": [
+        {
+          "version": "2.9.18",
+          "date": "2026-05-02T00:43:40Z",
+          "size": 37649800,
+          "downloadURL": "https://github.com/2KGT/repo/releases/download/V2.9.18/Stay_v2.9.18.ipa"
+        }
+      ],
+      "version": "2.9.18",
+      "versionDate": "2026-05-02T00:43:40Z",
+      "size": 37649800,
+      "downloadURL": "https://github.com/2KGT/repo/releases/download/V2.9.18/Stay_v2.9.18.ipa"
+    },
+    {
+      "name": "UnKeySign",
+      "bundleIdentifier": "com.kyic.release",
+      "developerName": "Kyic",
+      "subtitle": "UnKeySign",
+      "category": "Utilities",
+      "iconURL": "https://2kgt.github.io/repo/icons/UnKeySign.png",
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {}
+      },
+      "versions": [
+        {
+          "version": "1.1.8",
+          "date": "2026-04-26T05:00:05Z",
+          "size": 28669111,
+          "downloadURL": "https://github.com/2KGT/repo/releases/download/V1.1.8/UnKeySign_1.1.8.ipa"
+        }
+      ],
+      "version": "1.1.8",
+      "versionDate": "2026-04-26T05:00:05Z",
+      "size": 28669111,
+      "downloadURL": "https://github.com/2KGT/repo/releases/download/V1.1.8/UnKeySign_1.1.8.ipa"
+    },
+    {
+      "name": "Telegram",
+      "bundleIdentifier": "com.kyic.release",
+      "developerName": "Kyic",
+      "subtitle": "Telegram",
+      "category": "Utilities",
+      "iconURL": "https://2kgt.github.io/repo/icons/Telegram.png",
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {}
+      },
+      "versions": [
+        {
+          "version": "12.6.3",
+          "date": "2026-04-22T07:07:34Z",
+          "size": 74074696,
+          "downloadURL": "https://github.com/2KGT/repo/releases/download/V.12.6.3/Telegram_12.6.3.ipa"
+        }
+      ],
+      "version": "12.6.3",
+      "versionDate": "2026-04-22T07:07:34Z",
+      "size": 74074696,
+      "downloadURL": "https://github.com/2KGT/repo/releases/download/V.12.6.3/Telegram_12.6.3.ipa"
     }
   ]
 }
