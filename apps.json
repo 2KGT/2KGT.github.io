@@ -1,6 +1,6 @@
 {
   "name": "Kyic Repository",
-  "identifier": "com.2kgt.repo",
+  "identifier": "com.kyic.repo",
   "iconURL": "https://2kgt.github.io/repo/icons/Kyic.png?raw=true",
   "apps": [
     {
@@ -17,13 +17,13 @@
       "versions": [
         {
           "version": "1.1.28",
-          "date": "2026-05-06T08:24:48.396Z",
+          "date": "2026-05-09T00:22:03.234Z",
           "size": 9592698,
           "downloadURL": "https://2kgt.github.io/repo/apps/Zebra_1.1.28.ipa"
         }
       ],
       "version": "1.1.28",
-      "versionDate": "2026-05-06T08:24:48.396Z",
+      "versionDate": "2026-05-09T00:22:03.234Z",
       "size": 9592698,
       "downloadURL": "https://2kgt.github.io/repo/apps/Zebra_1.1.28.ipa"
     },
@@ -41,13 +41,13 @@
       "versions": [
         {
           "version": "2.4",
-          "date": "2026-05-06T08:24:48.380Z",
+          "date": "2026-05-09T00:22:03.220Z",
           "size": 1392732,
           "downloadURL": "https://2kgt.github.io/repo/apps/MuteOTA_2.4.ipa"
         }
       ],
       "version": "2.4",
-      "versionDate": "2026-05-06T08:24:48.380Z",
+      "versionDate": "2026-05-09T00:22:03.220Z",
       "size": 1392732,
       "downloadURL": "https://2kgt.github.io/repo/apps/MuteOTA_2.4.ipa"
     },
@@ -65,13 +65,13 @@
       "versions": [
         {
           "version": "0.1",
-          "date": "2026-05-06T08:24:48.377Z",
+          "date": "2026-05-09T00:22:03.217Z",
           "size": 3085580,
           "downloadURL": "https://2kgt.github.io/repo/apps/Lithium_v0.1.ipa"
         }
       ],
       "version": "0.1",
-      "versionDate": "2026-05-06T08:24:48.377Z",
+      "versionDate": "2026-05-09T00:22:03.217Z",
       "size": 3085580,
       "downloadURL": "https://2kgt.github.io/repo/apps/Lithium_v0.1.ipa"
     },
@@ -89,25 +89,25 @@
       "versions": [
         {
           "version": "1.0",
-          "date": "2026-05-06T08:24:48.374Z",
+          "date": "2026-05-09T00:22:03.214Z",
           "size": 10151779,
           "downloadURL": "https://2kgt.github.io/repo/apps/LCSign_1.0.ipa"
         },
         {
           "version": "1.0.7",
-          "date": "2026-05-06T08:24:48.352Z",
+          "date": "2026-05-09T00:22:03.194Z",
           "size": 14346028,
           "downloadURL": "https://2kgt.github.io/repo/apps/LCSign_1.0.7.ipa"
         },
         {
           "version": "1.0.6",
-          "date": "2026-05-06T08:24:48.315Z",
+          "date": "2026-05-09T00:22:03.160Z",
           "size": 11155218,
           "downloadURL": "https://2kgt.github.io/repo/apps/LCSign_1.0.6.ipa"
         }
       ],
       "version": "1.0",
-      "versionDate": "2026-05-06T08:24:48.374Z",
+      "versionDate": "2026-05-09T00:22:03.214Z",
       "size": 10151779,
       "downloadURL": "https://2kgt.github.io/repo/apps/LCSign_1.0.ipa"
     },
@@ -125,13 +125,13 @@
       "versions": [
         {
           "version": "2.8.2",
-          "date": "2026-05-06T08:24:48.287Z",
+          "date": "2026-05-09T00:22:03.135Z",
           "size": 14210105,
           "downloadURL": "https://2kgt.github.io/repo/apps/Feather_2.8.2.ipa"
         }
       ],
       "version": "2.8.2",
-      "versionDate": "2026-05-06T08:24:48.287Z",
+      "versionDate": "2026-05-09T00:22:03.135Z",
       "size": 14210105,
       "downloadURL": "https://2kgt.github.io/repo/apps/Feather_2.8.2.ipa"
     },
@@ -149,19 +149,19 @@
       "versions": [
         {
           "version": "5.0.2",
-          "date": "2026-05-06T08:24:48.263Z",
+          "date": "2026-05-09T00:22:03.112Z",
           "size": 7473847,
           "downloadURL": "https://2kgt.github.io/repo/apps/ESign_5.0.2.ipa"
         },
         {
           "version": "4.8.1",
-          "date": "2026-05-06T08:24:48.242Z",
+          "date": "2026-05-09T00:22:03.095Z",
           "size": 9115820,
           "downloadURL": "https://2kgt.github.io/repo/apps/ESign_4.8.1.ipa"
         }
       ],
       "version": "5.0.2",
-      "versionDate": "2026-05-06T08:24:48.263Z",
+      "versionDate": "2026-05-09T00:22:03.112Z",
       "size": 7473847,
       "downloadURL": "https://2kgt.github.io/repo/apps/ESign_5.0.2.ipa"
     }
