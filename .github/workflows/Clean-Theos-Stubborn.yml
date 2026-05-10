@@ -1,4 +1,4 @@
-name: Clean theos Stubborn
+name: Clean Theos Stubborn
 
 on:
   workflow_dispatch: # Để bạn có thể bấm chạy thủ công
