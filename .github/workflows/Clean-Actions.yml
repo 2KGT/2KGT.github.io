@@ -1,4 +1,4 @@
-name: "Clean All Workflow Runs"
+name: Clean All Workflow Runs
 
 on:
   workflow_dispatch:
