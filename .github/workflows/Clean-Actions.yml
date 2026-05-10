@@ -10,14 +10,24 @@ jobs:
       actions: write
     steps:
       - name: "Delete all workflow runs"
-        env:
-          GH_TOKEN: ${{ github.token }}
         run: |
-          # Lấy danh sách ID của tất cả các workflow
-          workflow_ids=$(gh api repos/${{ github.repository }}/workflows --jq '.workflows[].id')
-          
-          for id in $workflow_ids; do
-            echo "Đang dọn dẹp Workflow ID: $id"
-            # Xóa tất cả các lần chạy của từng workflow
-            gh run delete --workflow $id --all || echo "Workflow $id đã sạch."
+          # Lấy danh sách ID các workflow qua API
+          WORKFLOW_IDS=$(curl -s -H "Authorization: Bearer ${{ github.token }}" \
+            "https://api.github.com/repos/${{ github.repository }}/workflows" \
+            | jq -r '.workflows[].id')
+
+          for ID in $WORKFLOW_IDS; do
+            echo "Đang dọn dẹp Workflow ID: $ID"
+            
+            # Lấy danh sách các run ID của workflow đó
+            RUN_IDS=$(curl -s -H "Authorization: Bearer ${{ github.token }}" \
+              "https://api.github.com/repos/${{ github.repository }}/workflows/$ID/runs?per_page=100" \
+              | jq -r '.workflow_runs[].id')
+
+            for RUN_ID in $RUN_IDS; do
+              echo "Xóa Run ID: $RUN_ID"
+              curl -s -X DELETE -H "Authorization: Bearer ${{ github.token }}" \
+                "https://api.github.com/repos/${{ github.repository }}/actions/runs/$RUN_ID"
+            done
           done
+          echo "Dọn dẹp hoàn tất!"
