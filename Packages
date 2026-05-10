@@ -6,6 +6,7 @@ Installed-Size: 20764
 Depends: mobilesubstrate
 Filename: debs/ytlite_5.2.1.deb
 SileoDepiction: https://2kgt.github.io/repo/depictions/YTLite.json
+Icon: https://2kgt.github.io/repo/icons/YTLite.png
 Size: 7420522
 MD5sum: ffba73f062577070050fc20e6844fd70
 SHA1: 1ac014831f89c19abf364c2c76c4c36c5e87029d
@@ -43,6 +44,7 @@ Installed-Size: 168
 Depends: firmware (>= 14.0)
 Filename: debs/com.kyic.autoac_0.0.0.1_iphoneos-arm64.deb
 SileoDepiction: https://2kgt.github.io/repo/depictions/AutoAC.json
+Icon: https://2kgt.github.io/repo/icons/AutoAC.png
 Size: 5584
 MD5sum: d4ac853853f38f2f3f2fddbc95d5c92e
 SHA1: a31ec595f029d2f6c0de569ed2039ccc43440386
@@ -103,6 +105,7 @@ Installed-Size: 114
 Depends: mobilesubstrate (>= 0.9.5000), firmware (>= 11.0)
 Filename: debs/yougroupsettings_1.0.9_arm64.deb
 SileoDepiction: https://2kgt.github.io/repo/depictions/YouGroupSettings.json
+Icon: https://2kgt.github.io/repo/icons/YouGroupSettings.png
 Size: 5232
 MD5sum: ceb50fb35a2325ae81348f137ff27433
 SHA1: a86296e9d88e630449527d8efe83ef20975c0df3
@@ -123,6 +126,7 @@ Installed-Size: 106
 Depends: mobilesubstrate (>= 0.9.5000), firmware (>= 11.0)
 Filename: debs/yougroupsettings_1.0.9_arm.deb
 SileoDepiction: https://2kgt.github.io/repo/depictions/YouGroupSettings.json
+Icon: https://2kgt.github.io/repo/icons/YouGroupSettings.png
 Size: 5242
 MD5sum: 8d8c094e34840c50ead8c958b0eac8f6
 SHA1: 596d4c5afcd8fe93bab3cf59c36ff3e33e54ae7b
