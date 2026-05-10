@@ -8,14 +8,21 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       actions: write
+      contents: read
     steps:
+      # Bước QUAN TRỌNG NHẤT: Nạp repo để lệnh gh biết đường chạy
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
       - name: "Clean via GH CLI"
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          # Lấy danh sách tất cả workflow đang tồn tại trong repo
-          # Sử dụng --limit 1000 để quét rộng hơn
-          gh run list --limit 1000 --json databaseId  -q '.[].databaseId' > runs.txt
+          REPO="${{ github.repository }}"
+          echo "🔍 Đang quét lượt chạy tại: $REPO"
+
+          # Liệt kê ID của tất cả các run cũ, trừ chính nó đang chạy
+          gh run list --repo "$REPO" --limit 1000 --json databaseId -q ".[].databaseId" > runs.txt
           
           if [ ! -s runs.txt ]; then
             echo "✅ Không tìm thấy lượt chạy nào cần xóa."
@@ -24,7 +31,7 @@ jobs:
 
           echo "🗑️ Đang xóa $(wc -l < runs.txt) lượt chạy..."
           
-          # Xóa hàng loạt
-          cat runs.txt | xargs -I {} gh run delete {}
+          # Sử dụng xargs để xóa hàng loạt cho nhanh
+          cat runs.txt | xargs -I {} gh run delete --repo "$REPO" {}
           
           echo "✨ Dọn dẹp hoàn tất!"
