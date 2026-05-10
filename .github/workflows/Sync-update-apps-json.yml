@@ -122,7 +122,7 @@ jobs:
             if (appToNotify) {
               notifyPayload = { type: "app_update", message: "Ứng dụng đã được cập nhật.", app: appToNotify };
             } else if (eventName === 'workflow_dispatch') {
-              notifyPayload.message = "Quản trị viên đã cập nhật lại toàn bộ danh sách ứng dụng.";
+              notifyPayload.message = "Quản trị viên đã cập nhật danh sách ứng dụng.";
             }
 
             core.setOutput("notify_info", JSON.stringify(notifyPayload));
@@ -162,7 +162,7 @@ jobs:
             BTN_URL="$URL"
           else
             TITLE="🔄 <b>ĐỒNG BỘ HỆ THỐNG</b>"
-            BODY="📝 <b>Trạng thái:</b> <code>$MSG_CONTENT</code>"
+            BODY="📊 <b>Trạng thái:</b> <code>$MSG_CONTENT</code>"
             BTN_TEXT="🌐 Mở Trang Chủ"
             BTN_URL="https://2kgt.github.io/repo/"
           fi
