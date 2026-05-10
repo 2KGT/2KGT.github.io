@@ -1,4 +1,4 @@
-name: Clean History Workflow Runs
+name: Clean History Workflow
 
 on:
   workflow_dispatch:
