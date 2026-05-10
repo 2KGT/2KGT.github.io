@@ -1,19 +1,23 @@
 name: "Clean All Workflow Runs"
 
 on:
-  workflow_dispatch: # Chạy thủ công bằng nút bấm
+  workflow_dispatch:
 
 jobs:
   delete-runs:
     runs-on: ubuntu-latest
     permissions:
       actions: write
-      contents: read
     steps:
       - name: "Delete all workflow runs"
-        uses: Mattraiano/delete-workflow-runs@v2
-        with:
-          token: ${{ github.token }}
-          repository: ${{ github.repository }}
-          retain_days: 0
-          keep_minimum_runs: 0
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Lấy danh sách ID của tất cả các workflow
+          workflow_ids=$(gh api repos/${{ github.repository }}/workflows --jq '.workflows[].id')
+          
+          for id in $workflow_ids; do
+            echo "Đang dọn dẹp Workflow ID: $id"
+            # Xóa tất cả các lần chạy của từng workflow
+            gh run delete --workflow $id --all || echo "Workflow $id đã sạch."
+          done
