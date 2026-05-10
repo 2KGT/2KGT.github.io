@@ -32,135 +32,132 @@ jobs:
             const { execSync } = require('child_process');
             const AppInfoParser = require(`${process.env.GITHUB_WORKSPACE}/node_modules/app-info-parser`);
             
-            const appsMap = {};
+            // 1. Đọc dữ liệu cũ để duy trì nhật ký (Persistence)
+            let repoData = { name: "Kyic Repository", identifier: "com.2kgt.repo", iconURL: "https://2kgt.github.io/repo/icons/Kyic.png?raw=true", apps: [] };
+            if (fs.existsSync('apps.json')) {
+              try { repoData = JSON.parse(fs.readFileSync('apps.json', 'utf8')); } catch (e) {}
+            }
+
             const eventName = context.eventName;
             let appToNotify = null;
+            const currentFilesURLs = new Set(); // Đánh dấu các tệp thực sự tồn tại
 
             const extractVersion = (f) => (f.match(/[_-]v?(\d+\.\d+(\.\d+)?)/i) || [null, "1.0"])[1];
             const cleanAppName = (f) => f.replace(/\.ipa$/i, '').replace(/[_-]v?\d+(\.\d+)*.*$/i, '').replace(/_/g, ' ').trim();
 
-            const addAppToMap = (name, bundleId, category, vData) => {
-              const key = name.toLowerCase();
-              if (!appsMap[key]) {
-                appsMap[key] = { 
-                  name, 
-                  bundleIdentifier: bundleId, 
-                  developerName: "Kyic", 
-                  subtitle: name,
-                  category: category || "Utilities", 
+            const updateAppInRepo = (name, bundleId, vData) => {
+              currentFilesURLs.add(vData.downloadURL);
+              let app = repoData.apps.find(a => a.bundleIdentifier === bundleId || a.name.toLowerCase() === name.toLowerCase());
+              
+              if (!app) {
+                app = { 
+                  name, bundleIdentifier: bundleId, developerName: "Kyic", 
+                  subtitle: name, category: "Utilities", 
                   iconURL: `https://2kgt.github.io/repo/icons/${name.replace(/\s+/g, '')}.png`,
                   appPermissions: { entitlements: [], privacy: {} },
                   versions: [] 
                 };
+                repoData.apps.push(app);
               }
-              // Tránh trùng lặp downloadURL
-              if (!appsMap[key].versions.find(v => v.downloadURL === vData.downloadURL)) {
-                appsMap[key].versions.push(vData);
+              
+              if (!app.versions.find(v => v.downloadURL === vData.downloadURL)) {
+                app.versions.push(vData);
               }
-              return appsMap[key];
+              return app;
             };
 
-            // --- 1. QUÉT FILE TRONG THƯ MỤC APPS/ ---
-            let changedFiles = [];
-            if (eventName === 'push') {
-              try {
-                changedFiles = execSync('git diff --name-only HEAD^ HEAD').toString().split('\n').map(f => f.trim());
-              } catch (e) {}
-            }
-
+            // --- NGUỒN 1: QUÉT THƯ MỤC APPS/ ---
             if (fs.existsSync('apps')) {
               const files = fs.readdirSync('apps').filter(f => f.toLowerCase().endsWith('.ipa'));
+              let changedFiles = "";
+              try { changedFiles = execSync('git diff --name-only HEAD^ HEAD').toString(); } catch (e) {}
+
               for (const file of files) {
                 const path = `apps/${file}`;
                 const name = cleanAppName(file);
                 const version = extractVersion(file);
-                let bundleId = "com.kyic.app";
+                let bundleId = "com.kyic." + name.replace(/\s+/g, '').toLowerCase();
+                
                 try {
                   const info = await (new AppInfoParser(path)).parse();
                   bundleId = info.CFBundleIdentifier || bundleId;
                 } catch (e) {}
 
                 const stats = fs.statSync(path);
-                const vData = { 
-                  version, 
-                  date: stats.mtime.toISOString(), 
-                  size: stats.size, 
-                  downloadURL: `https://2kgt.github.io/repo/apps/${file}` 
-                };
-                const appObj = addAppToMap(name, bundleId, "Utilities", vData);
-                if (changedFiles.includes(path)) appToNotify = { ...appObj, ...vData };
+                const vData = { version, date: stats.mtime.toISOString(), size: stats.size, downloadURL: `https://2kgt.github.io/repo/apps/${file}` };
+                const appObj = updateAppInRepo(name, bundleId, vData);
+
+                if (eventName === 'push' && changedFiles.includes(file)) {
+                  appToNotify = { ...appObj, ...vData };
+                }
               }
             }
 
-            // --- 2. QUÉT FILE TỪ GITHUB RELEASES ---
+            // --- NGUỒN 2: QUÉT GITHUB RELEASES ---
             try {
-              const releases = await github.rest.repos.listReleases({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-              });
-
+              const releases = await github.rest.repos.listReleases({ owner: context.repo.owner, repo: context.repo.repo });
               for (const rel of releases.data) {
                 for (const asset of rel.assets) {
                   if (asset.name.toLowerCase().endsWith('.ipa')) {
-                    const name = cleanAppName(asset.name);
-                    const version = extractVersion(asset.name);
-                    const vData = {
-                      version: version,
-                      date: asset.updated_at,
-                      size: asset.size,
-                      downloadURL: asset.browser_download_url
+                    const vData = { 
+                      version: extractVersion(asset.name), 
+                      date: asset.updated_at, 
+                      size: asset.size, 
+                      downloadURL: asset.browser_download_url 
                     };
+                    const appObj = updateAppInRepo(cleanAppName(asset.name), "com.kyic.release", vData);
                     
-                    const appObj = addAppToMap(name, "com.kyic.release", "Utilities", vData);
-                    
-                    // Nếu là sự kiện release hiện tại, ưu tiên thông báo app này
                     if (eventName === 'release' && rel.id === context.payload.release.id) {
                       appToNotify = { ...appObj, ...vData };
                     }
                   }
                 }
               }
-            } catch (e) {
-              console.log("Lỗi quét Release: " + e.message);
-            }
+            } catch (e) {}
 
-            // --- 3. TỔNG HỢP VÀ GHI FILE ---
-            const finalApps = Object.values(appsMap).map(app => {
+            // --- DỌN DẸP (CLEANUP): XÓA NẾU KHÔNG CÒN TỆP ---
+            repoData.apps.forEach(app => {
+              app.versions = app.versions.filter(v => currentFilesURLs.has(v.downloadURL));
+            });
+            repoData.apps = repoData.apps.filter(app => app.versions.length > 0);
+
+            // Cập nhật thông tin bản mới nhất cho từng app
+            repoData.apps.forEach(app => {
               app.versions.sort((a, b) => new Date(b.date) - new Date(a.date));
               const latest = app.versions[0];
-              return { ...app, version: latest.version, versionDate: latest.date, size: latest.size, downloadURL: latest.downloadURL };
+              Object.assign(app, { version: latest.version, versionDate: latest.date, size: latest.size, downloadURL: latest.downloadURL });
             });
 
-            const latestApp = finalApps.sort((a, b) => new Date(b.versionDate) - new Date(a.versionDate))[0];
-
-            const repoData = { 
-              name: "Kyic Repository", 
-              identifier: "com.2kgt.repo", 
-              iconURL: "https://2kgt.github.io/repo/icons/Kyic.png?raw=true",
-              apps: finalApps 
-            };
+            // Ghi file
             fs.writeFileSync('apps.json', JSON.stringify(repoData, null, 2));
+            fs.writeFileSync('current_app.json', JSON.stringify({ 
+              isManual: (eventName === 'workflow_dispatch'), 
+              targetApp: appToNotify || repoData.apps.sort((a,b) => new Date(b.versionDate) - new Date(a.versionDate))[0] 
+            }));
 
-            const notifyData = {
-              isManual: (eventName === 'workflow_dispatch'),
-              targetApp: appToNotify || latestApp || { name: "Kyic Repository", version: "Cập nhật", downloadURL: "https://2kgt.github.io/repo/" }
-            };
-            fs.writeFileSync('current_app.json', JSON.stringify(notifyData));
-
-      - name: "🚀 Sync & Push"
+      - name: "🚀 Sync & Push (No-Conflict Strategy)"
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # Commit thay đổi (Không dùng [skip ci] để Pages cập nhật)
-          git add apps.json current_app.json
-          git commit -m "Update Kyic Repository" || echo "No changes"
+          # Lưu tạm file vừa ghi
+          cp apps.json /tmp/apps.json
+          cp current_app.json /tmp/current_app.json
           
-          # Tránh lỗi non-fast-forward
-          git pull origin main --rebase
-          git push origin main
+          # Làm sạch repo và cập nhật từ server để tránh lỗi conflict
+          git fetch origin main
+          git reset --hard origin/main
+          
+          # Chép ngược lại và thêm .nojekyll để GitHub Pages chạy tốt
+          cp /tmp/apps.json apps.json
+          cp /tmp/current_app.json current_app.json
+          touch .nojekyll
+          
+          git add apps.json current_app.json .nojekyll
+          git commit -m "Update Kyic Repository [Automated Sync]" || echo "No changes"
+          git push origin main --force
 
-      - name: 🤖 6.1 Telegram Notification
+      - name: 🤖 Telegram Notification
         if: always()
         env:
           TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
@@ -177,16 +174,17 @@ jobs:
           APP_VER=$(jq -r '.targetApp.version' current_app.json)
           IPA_URL=$(jq -r '.targetApp.downloadURL' current_app.json)
 
-          [ "$IS_MANUAL" == "true" ] && TITLE="🔄 <b>Cập nhật Repo IPA</b>" || TITLE="🚀 <b>Cập nhật Ứng dụng mới</b>"
-          [ "$JOB_STATUS" == "success" ] && TEXT_STT="Thành công ✅" || TEXT_STT="Thất bại ❌"
+          [ "$IS_MANUAL" == "true" ] && TITLE="🔄 <b>Làm mới dữ liệu Repo</b>" || TITLE="🚀 <b>Ứng dụng mới xuất hiện</b>"
+          [ "$JOB_STATUS" == "success" ] && STT="Thành công ✅" || STT="Thất bại ❌"
 
           MSG="$TITLE
           ──────────────────
           📱 <b>Ứng dụng:</b> <code>$APP_NAME</code>
           💡 <b>Phiên bản:</b> <code>$APP_VER</code>
-          📊 <b>Trạng thái:</b> <code>$TEXT_STT</code>
+          📊 <b>Trạng thái:</b> <code>$STT</code>
           ⏰ <b>Thời gian:</b> <code>$REAL_TIME</code>
-          ──────────────────"
+          ──────────────────
+          🤩 <i>Hệ thống đồng bộ tự động Kyic</i>"
 
           KEYBOARD=$(jq -nrc --arg url1 "https://2kgt.github.io/repo/" --arg url2 "$IPA_URL" '{
             inline_keyboard: [[
