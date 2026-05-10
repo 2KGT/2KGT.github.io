@@ -196,16 +196,76 @@
           "downloadURL": "https://github.com/2KGT/repo/releases/download/V1.4.8/Turrit_1.4.8.ipa"
         },
         {
+          "version": "2.3.1",
+          "date": "2026-05-06T07:31:50Z",
+          "size": 21184094,
+          "downloadURL": "https://github.com/2KGT/repo/releases/download/V2.3.1/Phim.4K_2.3.1.ipa"
+        },
+        {
+          "version": "2.1.0",
+          "date": "2026-05-02T04:32:40Z",
+          "size": 23186835,
+          "downloadURL": "https://github.com/2KGT/repo/releases/download/V2.1.0/Phim.4K_v2.1.0.ipa"
+        },
+        {
+          "version": "2.70.0",
+          "date": "2026-05-02T03:49:17Z",
+          "size": 72320922,
+          "downloadURL": "https://github.com/2KGT/repo/releases/download/V2.70.0/BiliBili_2.70.0.ipa"
+        },
+        {
           "version": "1.4.7",
           "date": "2026-05-02T03:46:25Z",
           "size": 86814066,
           "downloadURL": "https://github.com/2KGT/repo/releases/download/v1.4.7/Turrit_1.4.7.ipa"
         },
         {
+          "version": "21.17.3",
+          "date": "2026-05-02T03:38:46Z",
+          "size": 138365206,
+          "downloadURL": "https://github.com/2KGT/repo/releases/download/V21.17.3/YouTube_v21.17.3.ipa"
+        },
+        {
+          "version": "2.2.2",
+          "date": "2026-05-02T03:36:31Z",
+          "size": 45714246,
+          "downloadURL": "https://github.com/2KGT/repo/releases/download/V2.2.2/Phim.4K_v2.2.2.ipa"
+        },
+        {
+          "version": "419.0.0",
+          "date": "2026-05-02T01:54:33Z",
+          "size": 274889166,
+          "downloadURL": "https://github.com/2KGT/repo/releases/download/V419.0.0/Instagram_v419.0.0.ipa"
+        },
+        {
+          "version": "2.9.18",
+          "date": "2026-05-02T00:43:40Z",
+          "size": 37649800,
+          "downloadURL": "https://github.com/2KGT/repo/releases/download/V2.9.18/Stay_v2.9.18.ipa"
+        },
+        {
           "version": "1.4.6",
           "date": "2026-05-02T00:25:21Z",
           "size": 88952942,
           "downloadURL": "https://github.com/2KGT/repo/releases/download/V.1.4.6/Turrit_v1.4.6.ipa"
+        },
+        {
+          "version": "1.1.8",
+          "date": "2026-04-26T05:00:05Z",
+          "size": 28669111,
+          "downloadURL": "https://github.com/2KGT/repo/releases/download/V1.1.8/UnKeySign_1.1.8.ipa"
+        },
+        {
+          "version": "12.6.3",
+          "date": "2026-04-22T07:07:34Z",
+          "size": 74074696,
+          "downloadURL": "https://github.com/2KGT/repo/releases/download/V.12.6.3/Telegram_12.6.3.ipa"
+        },
+        {
+          "version": "21.16.2",
+          "date": "2026-04-21T10:41:34Z",
+          "size": 127948186,
+          "downloadURL": "https://github.com/2KGT/repo/releases/download/V21.16.2/YouTube_21.16.2_ytx.ipa"
         }
       ],
       "version": "1.4.8",
