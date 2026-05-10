@@ -17,6 +17,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: main
 
       - name: Install Tools
         run: |
@@ -26,26 +27,29 @@ jobs:
       - name: Generate Repository Data
         id: info
         run: |
-          # Kiểm tra và đảm bảo quyền hạn cho file deb
+          # Kiểm tra thư mục debs
           if [ ! -d "debs" ] || [ -z "$(ls -A debs/*.deb 2>/dev/null)" ]; then 
-            echo "Không tìm thấy file .deb trong thư mục debs/"; exit 1; 
+            echo "Không tìm thấy file .deb"; exit 1; 
           fi
           chmod -R 644 debs/*.deb
 
-          # 1. Lấy thông tin Tweak mới nhất (Dùng cho thông báo Telegram)
-          LATEST_DEB=$(ls -t debs/*.deb | head -1)
-          TWEAK_NAME=$(dpkg-deb -f "$LATEST_DEB" Name || dpkg-deb -f "$LATEST_DEB" Package)
-          TWEAK_VER=$(dpkg-deb -f "$LATEST_DEB" Version)
-          FILENAME=$(basename "$LATEST_DEB")
+          # 1. Xác định file vừa được thay đổi (cho thông báo)
+          if [ "${{ github.event_name }}" == "push" ]; then
+            CHANGED_FILE=$(git diff --name-only HEAD^ HEAD | grep 'debs/.*\.deb' | head -1)
+          fi
           
-          # URL Encode chuẩn xác để tránh lỗi link có khoảng trắng
+          # Nếu không tìm thấy file thay đổi cụ thể, lấy file mới nhất
+          TARGET_DEB=${CHANGED_FILE:-$(ls -t debs/*.deb | head -1)}
+          
+          TWEAK_NAME=$(dpkg-deb -f "$TARGET_DEB" Name || dpkg-deb -f "$TARGET_DEB" Package)
+          TWEAK_VER=$(dpkg-deb -f "$TARGET_DEB" Version)
+          FILENAME=$(basename "$TARGET_DEB")
           ENCODED_FILENAME=$(python3 -c "import urllib.parse; print(urllib.parse.quote(input()))" <<< "$FILENAME")
           DEB_URL="https://2kgt.github.io/repo/debs/$ENCODED_FILENAME"
 
-          # 2. Tạo Depiction JSON (Làm sạch cũ, tạo mới)
+          # 2. Tạo Depiction JSON
           mkdir -p depictions/images
-          rm -f depictions/*.json 
-
+          # Giữ lại các file cũ, chỉ ghi đè những gì thay đổi để tối ưu hóa
           for DEB in debs/*.deb; do
             [ -e "$DEB" ] || continue
             NAME=$(dpkg-deb -f "$DEB" Name || dpkg-deb -f "$DEB" Package)
@@ -54,7 +58,6 @@ jobs:
             DESC=$(dpkg-deb -f "$DEB" Description || echo "No description.")
             CHGLOG=$(dpkg-deb -f "$DEB" Changelog || echo "New version update.")
             
-            # Xử lý Screenshots tự động (nếu có file [TênTweak][Số].png)
             SCREENSHOTS_JSON="[]"
             for i in {1..5}; do
               if [ -f "depictions/images/${NAME}${i}.png" ]; then
@@ -66,111 +69,97 @@ jobs:
               --arg name "$NAME" --arg ver "$VER" --arg auth "$AUTH" --arg desc "$DESC" --arg chg "$CHGLOG" \
               --arg banner "https://2kgt.github.io/repo/depictions/images/${NAME}-banner.png" \
               --argjson ss "$SCREENSHOTS_JSON" \
-              '{
-                min_bridge_version: "1.1",
-                tabs: [{
-                  tabname: "Chi tiết",
-                  class: "DepictionStackView",
-                  views: [
-                    (if .banner then {class: "DepictionImageView", url: $banner, width: 1242, height: 600} else empty end),
-                    {class: "DepictionHeaderView", title: $name},
-                    {class: "DepictionSubheaderView", title: ("Phiên bản " + $ver)},
-                    (if ($ss | length > 0) then {class: "DepictionScreenshotsView", itemCornerRadius: 10, itemSize: "{160, 346}", screenshots: $ss} else empty end),
-                    {class: "DepictionMarkdownView", markdown: ("### Mô tả\n" + $desc + "\n\n### Nhật ký thay đổi\n" + $chg), useRawFormat: true},
-                    {class: "DepictionSeparatorView"},
-                    {class: "DepictionTableTextView", title: "Nhà phát triển", text: $auth}
-                  ]
-                }],
-                class: "DepictionTabView"
-              }' > "depictions/${NAME}.json"
+              '{"min_bridge_version":"1.1","tabs":[{"tabname":"Chi tiết","class":"DepictionStackView","views":[(if .banner then {class:"DepictionImageView",url:$banner,width:1242,height:600} else empty end),{class:"DepictionHeaderView",title:$name},{class:"DepictionSubheaderView",title:("Phiên bản "+$ver)},(if ($ss|length>0) then {class:"DepictionScreenshotsView",itemCornerRadius:10,itemSize:"{160, 346}",screenshots:$ss} else empty end),{class:"DepictionMarkdownView",markdown:("### Mô tả\n"+$desc+"\n\n### Nhật ký thay đổi\n"+$chg),useRawFormat:true},{class:"DepictionSeparatorView"},{class:"DepictionTableTextView",title:"Nhà phát triển",text:$auth}]}],"class":"DepictionTabView"}' > "depictions/${NAME}.json"
           done
 
-          # 3. Quét Packages và chèn metadata (Icon, Depiction)
+          # 3. Quét Packages
           dpkg-scanpackages -m debs /dev/null > Packages
           for DEB in debs/*.deb; do
             [ -e "$DEB" ] || continue
             CUR_FILE=$(basename "$DEB")
             CUR_NAME=$(dpkg-deb -f "$DEB" Name || dpkg-deb -f "$DEB" Package)
             ENC_NAME=$(python3 -c "import urllib.parse; print(urllib.parse.quote(input()))" <<< "$CUR_NAME")
-            
             sed -i "/Filename: debs\/$CUR_FILE$/a Icon: https://2kgt.github.io/repo/icons/$CUR_NAME.png" Packages
             sed -i "/Filename: debs\/$CUR_FILE$/a SileoDepiction: https://2kgt.github.io/repo/depictions/$ENC_NAME.json" Packages
           done
           bzip2 -kf Packages
 
-          # 4. Tạo file Release chuẩn Sileo
+          # 4. Tạo Release
           {
-            echo "Origin: Kyic Repository"
-            echo "Label: Kyic Repository"
-            echo "Suite: stable"
-            echo "Version: 1.0"
-            echo "Codename: ios"
-            echo "Architectures: iphoneos-arm64 iphoneos-arm"
-            echo "Components: main"
-            echo "Description: Kyic Repository - Kho lưu trữ tweaks chất lượng cao."
-            echo "Icon: icons/Kyic.png"
+            echo "Origin: Kyic Repository"; echo "Label: Kyic Repository"; echo "Suite: stable"; echo "Version: 1.0"
+            echo "Codename: ios"; echo "Architectures: iphoneos-arm64 iphoneos-arm"; echo "Components: main"
+            echo "Description: Kyic Repository - Kho lưu trữ tweaks chất lượng cao."; echo "Icon: icons/Kyic.png"
             echo "Date: $(date -R)"
           } > Release
 
-          # 5. Lưu thông báo tạm thời
-          IS_MANUAL="false"
-          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then IS_MANUAL="true"; fi
-          jq -n \
-            --arg name "$TWEAK_NAME" --arg ver "$TWEAK_VER" --arg url "$DEB_URL" --arg manual "$IS_MANUAL" \
-            '{name: $name, version: $ver, url: $url, is_manual: $manual}' > /tmp/sileo_notify.json
+          # 5. Đóng gói Output thông báo (Logic thông minh)
+          NOTIFY_TYPE="system"
+          if [ -n "$CHANGED_FILE" ]; then NOTIFY_TYPE="tweak_update"; fi
+          
+          # Truyền dữ liệu qua Output
+          DATA=$(jq -nrc --arg type "$NOTIFY_TYPE" --arg name "$TWEAK_NAME" --arg ver "$TWEAK_VER" --arg url "$DEB_URL" \
+            '{type: $type, name: $name, version: $ver, url: $url}')
+          echo "notify_info=$DATA" >> $GITHUB_OUTPUT
 
-      - name: "🚀 Sync and Push"
+      - name: "🚀 Sync & Push (No-Conflict Strategy)"
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # Đảm bảo GitHub Pages nhận diện tất cả thư mục
+          # Lưu tạm file quan trọng
+          mkdir -p /tmp/repo_data/
+          cp Packages* Release /tmp/repo_data/
+          cp -r depictions/*.json /tmp/repo_data/
+          
+          git fetch origin main
+          git reset --hard origin/main
+          
+          # Khôi phục dữ liệu
+          cp /tmp/repo_data/Packages* .
+          cp /tmp/repo_data/Release .
+          cp /tmp/repo_data/*.json depictions/
           touch .nojekyll
           
           git add Packages* Release depictions/*.json .nojekyll
-          
-          if git diff --staged --quiet; then
-            echo "Không có thay đổi để commit."
-          else
-            # XÓA [skip ci] để GitHub Pages tự động build lại trang web
-            git commit -m "Auto-update Sileo Repo"
-            
-            # TRÁNH LỖI non-fast-forward bằng cách rebase
-            git pull origin main --rebase
-            
-            git push origin main
-          fi
+          git commit -m "Auto-update Sileo Repo [Automated]" || echo "No changes"
+          git push origin main --force
 
       - name: "🤖 Telegram Notification"
         if: always()
         env:
           TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TO: ${{ secrets.TELEGRAM_TO }}
+          RAW_DATA: ${{ steps.info.outputs.notify_info }}
+          STATUS: ${{ job.status }}
         run: |
-          JSON_PATH="/tmp/sileo_notify.json"
-          if [ ! -f "$JSON_PATH" ]; then
-            NAME="Kyic Repository"; VER="1.0"; IS_MANUAL="true"; URL="https://2kgt.github.io/repo/"
+          TYPE=$(echo $RAW_DATA | jq -r '.type')
+          NAME=$(echo $RAW_DATA | jq -r '.name')
+          VER=$(echo $RAW_DATA | jq -r '.version')
+          URL=$(echo $RAW_DATA | jq -r '.url')
+          REAL_TIME=$(TZ="Asia/Ho_Chi_Minh" date +"%d/%m/%Y %H:%M")
+
+          if [ "$TYPE" == "tweak_update" ] && [ "$STATUS" == "success" ]; then
+            TITLE="🚀 <b>TWEAK MỚI XUẤT HIỆN</b>"
+            BODY="📦 <b>Tweak:</b> <code>$NAME</code>\n💡 <b>Phiên bản:</b> <code>$VER</code>"
+            BTN_TEXT="📥 Tải về .deb"
+            BTN_URL="$URL"
           else
-            NAME=$(jq -r '.name' $JSON_PATH)
-            VER=$(jq -r '.version' $JSON_PATH)
-            URL=$(jq -r '.url' $JSON_PATH)
-            IS_MANUAL=$(jq -r '.is_manual' $JSON_PATH)
+            TITLE="🔄 <b>ĐỒNG BỘ SILEO REPO</b>"
+            BODY="📊 <b>Trạng thái:</b> <code>Cập nhật hệ thống thành công ✅</code>"
+            BTN_TEXT="🌐 Mở Trang Chủ"
+            BTN_URL="https://2kgt.github.io/repo/"
           fi
 
-          [ "$IS_MANUAL" == "true" ] && TITLE="🔄 <b>Cập nhật Sileo Repo</b>" || TITLE="🚀 <b>Tweak mới xuất hiện</b>"
-          
           MSG="$TITLE
           ──────────────────
-          📦 <b>Tweak:</b> <code>$NAME</code>
-          💡 <b>Phiên bản:</b> <code>$VER</code>
-          📊 <b>Trạng thái:</b> <code>Hoàn tất ✅</code>
-          ⏰ <b>Thời gian:</b> <code>$(TZ="Asia/Ho_Chi_Minh" date +"%d/%m/%Y %H:%M")</code>
+          $BODY
+          ⏰ <b>Thời gian:</b> <code>$REAL_TIME</code>
           ──────────────────"
 
-          KEYBOARD=$(jq -nrc --arg url1 "https://2kgt.github.io/repo/" --arg url2 "$URL" '{
+          KEYBOARD=$(jq -nrc --arg url1 "https://2kgt.github.io/repo/" --arg url2 "$BTN_URL" --arg btn "$BTN_TEXT" '{
             inline_keyboard: [[
               {text: "🌐 Add source", url: $url1},
-              {text: "📥 Tải về .deb", url: $url2}
+              {text: $btn, url: $url2}
             ]]
           }')
 
