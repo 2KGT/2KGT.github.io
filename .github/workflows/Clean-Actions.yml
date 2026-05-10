@@ -10,28 +10,29 @@ jobs:
       actions: write
       contents: read
     steps:
-      # Bước QUAN TRỌNG NHẤT: Nạp repo để lệnh gh biết đường chạy
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: "Clean via GH CLI"
+      - name: "Dọn dẹp từng bước"
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           REPO="${{ github.repository }}"
-          echo "🔍 Đang quét lượt chạy tại: $REPO"
-
-          # Liệt kê ID của tất cả các run cũ, trừ chính nó đang chạy
-          gh run list --repo "$REPO" --limit 1000 --json databaseId -q ".[].databaseId" > runs.txt
+          
+          # 1. Lấy danh sách 500 ID lượt chạy cũ nhất (tránh quá tải)
+          gh run list --repo "$REPO" --limit 500 --json databaseId -q ".[].databaseId" > runs.txt
           
           if [ ! -s runs.txt ]; then
-            echo "✅ Không tìm thấy lượt chạy nào cần xóa."
+            echo "✅ Chúc mừng! Repo đã sạch bóng rác."
             exit 0
           fi
 
           echo "🗑️ Đang xóa $(wc -l < runs.txt) lượt chạy..."
           
-          # Sử dụng xargs để xóa hàng loạt cho nhanh
-          cat runs.txt | xargs -I {} gh run delete --repo "$REPO" {}
+          # 2. Vòng lặp xóa từng ID một, nếu lỗi 1 cái thì vẫn tiếp tục cái sau
+          while read -r run_id; do
+            echo "Đang xóa: $run_id"
+            gh run delete --repo "$REPO" "$run_id" || echo "⚠️ Bỏ qua lỗi ID $run_id"
+          done < runs.txt
           
-          echo "✨ Dọn dẹp hoàn tất!"
+          echo "✨ Đã dọn xong đợt này. Nếu vẫn còn rác, hãy nhấn Run lại lần nữa!"
