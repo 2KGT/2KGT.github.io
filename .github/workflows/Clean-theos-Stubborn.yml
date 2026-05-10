@@ -1,4 +1,4 @@
-name: Emergency Clean theos
+name: Clean theos Stubborn
 
 on:
   workflow_dispatch: # Để bạn có thể bấm chạy thủ công
