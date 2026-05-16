@@ -183,7 +183,7 @@ jobs:
             
             # Sử dụng ký tự xuống dòng thực tế trong Bash thay vì chuỗi \n
             TITLE="🚀 <b>ỨNG DỤNG MỚI</b>"
-            BODY="📱 <b>Ứng dụng:</b> <code>$NAME</code>
+            BODY="📱 <b>Ứng dụng:</b> <code>$NAME</code>"
             💡 <b>Phiên bản:</b> <code>$VER</code>"
             BTN_TEXT="📥 Tải xuống IPA"
             BTN_URL="$URL"
