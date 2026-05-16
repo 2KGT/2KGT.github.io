@@ -127,18 +127,54 @@ jobs:
 
             core.setOutput("notify_info", JSON.stringify(notifyPayload));
 
-      - name: "🚀 Sync & Push (No Rác)"
+      - name: "🚀 Sync & Push (Smart Retry)"
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          cp apps.json /tmp/apps.json
-          git fetch origin main
-          git reset --hard origin/main
-          cp /tmp/apps.json apps.json
-          touch .nojekyll
-          git add apps.json .nojekyll
-          git commit -m "Update Kyic Repository [Automated Sync]" || echo "No changes"
-          git push origin main --force
+          
+          # 1. Lưu tạm file dữ liệu ra ngoài
+          cp apps.json /tmp/apps.json 2>/dev/null || cp Packages /tmp/Packages 2>/dev/null || true
+          if [ -f Release ]; then cp Release /tmp/Release; fi
+          if [ -d depictions ]; then cp -r depictions /tmp/depictions; fi
+          
+          # 2. Vòng lặp cố gắng push tối đa 5 lần nếu bị tranh chấp
+          for i in {1..5}; do
+            echo "🔄 Cố gắng đồng bộ và push (Lần $i)..."
+            
+            # Cập nhật code mới nhất từ GitHub về máy ảo
+            git fetch origin main
+            git reset --hard origin/main
+            
+            # Khôi phục lại dữ liệu đã tạo từ bước trước
+            cp /tmp/apps.json apps.json 2>/dev/null || cp /tmp/Packages Packages 2>/dev/null || true
+            if [ -f /tmp/Release ]; then cp /tmp/Release Release; fi
+            if [ -d /tmp/depictions ]; then cp -r /tmp/depictions/* depictions/ 2>/dev/null || true; fi
+            touch .nojekyll
+            
+            # Thêm vào hàng đợi commit
+            git add apps.json Packages* Release depictions/*.json .nojekyll 2>/dev/null || true
+            
+            # Nếu không có gì thay đổi thì thoát luôn
+            if git diff --staged --quiet; then
+              echo "✅ Không có thay đổi nào cần cập nhật."
+              exit 0
+            fi
+            
+            git commit -m "Update Repository [Automated Sync]"
+            
+            # Tiến hành đẩy code lên, nếu thành công thì thoát vòng lặp
+            if git push origin main; then
+              echo "🚀 Cập nhật dữ liệu Repo thành công!"
+              exit 0
+            fi
+            
+            echo "⚠️ Tranh chấp xảy ra! Đợi 3 giây rồi thử lại..."
+            sleep 3
+          done
+          
+          echo "❌ Thất bại sau 5 lần thử do repo bị thay đổi liên tục."
+          exit 1
+
 
       - name: 🤖 Telegram Notification
         if: always()
