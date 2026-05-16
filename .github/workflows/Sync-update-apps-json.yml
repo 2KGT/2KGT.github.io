@@ -181,7 +181,7 @@ jobs:
             URL=$(echo $RAW_DATA | jq -r '.app.url')
             
             TITLE="🚀 <b>ỨNG DỤNG MỚI</b>"
-            BODY="📱 <b>Ứng dụng:</b> <code>$NAME</code>"$'\n'"💡 <b>Phiên bản:</b> <code>$VER</code>"$'\n'"⚖️ <b>Size:</b> <code>$SIZE</code>"
+            BODY="📱 <b>Ứng dụng:</b> <code>$NAME</code>"$'\n 💡 <b>Phiên bản:</b> <code>$VER</code>"$'\n ⚖️ <b>Size:</b> <code>$SIZE</code>"
             BTN_TEXT="📥 Tải xuống IPA"
             BTN_URL="$URL"
           else
