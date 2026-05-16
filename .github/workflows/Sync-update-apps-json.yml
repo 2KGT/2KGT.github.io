@@ -24,7 +24,7 @@ jobs:
       - name: "Install Dependencies"
         run: npm install app-info-parser node-fetch@2
 
-      - name: "🚀 Sync, Update & Push (Fix Bug Hiển Thị)"
+      - name: "🚀 Sync, Update & Push (Fix Tuyệt Đối \n)"
         id: sync_and_update
         uses: actions/github-script@v7
         with:
@@ -77,11 +77,10 @@ jobs:
                 return app;
               };
 
-              // --- QUÉT THƯ MỤC APPS/ (FIX CHÍNH XÁC TẠI ĐÂY) ---
+              // --- QUÉT THƯ MỤC APPS/ ---
               if (fs.existsSync('apps')) {
                 const files = fs.readdirSync('apps').filter(f => f.toLowerCase().endsWith('.ipa'));
                 
-                // Lấy mảng các file thay đổi thực sự từ git diff
                 let changedFilesSet = new Set();
                 try { 
                   const diffOutput = execSync('git diff --name-only HEAD^ HEAD').toString().trim();
@@ -97,11 +96,11 @@ jobs:
                   const stats = fs.statSync(path);
                   const vData = { version, date: stats.mtime.toISOString(), size: stats.size, downloadURL: `https://2kgt.github.io/repo/apps/${file}` };
                   
-                  const appObj = updateAppInRepo(name, "com.kyic." + name.replace(/\s/g,'').toLowerCase(), vData);
+                  updateAppInRepo(name, "com.kyic." + name.replace(/\s/g,'').toLowerCase(), vData);
                   
-                  // So sánh chính xác tuyệt đối theo mảng Set
+                  // Gán trực tiếp từ dữ liệu gốc của file đang duyệt, tránh gán lệch từ mảng trộn
                   if (eventName === 'push' && changedFilesSet.has(path) && !appToNotify) {
-                    appToNotify = { name: appObj.name, version: vData.version, url: vData.downloadURL };
+                    appToNotify = { name: name, version: version, url: vData.downloadURL };
                   }
                 }
               }
@@ -113,10 +112,11 @@ jobs:
                   for (const asset of rel.assets) {
                     if (asset.name.toLowerCase().endsWith('.ipa')) {
                       const vData = { version: extractVersion(asset.name), date: asset.updated_at, size: asset.size, downloadURL: asset.browser_download_url };
-                      const appObj = updateAppInRepo(cleanAppName(asset.name), "com.kyic.release", vData);
+                      const name = cleanAppName(asset.name);
+                      updateAppInRepo(name, "com.kyic.release", vData);
                       
                       if (eventName === 'release' && rel.id === context.payload.release.id && !appToNotify) {
-                        appToNotify = { name: appObj.name, version: vData.version, url: vData.browser_download_url };
+                        appToNotify = { name: name, version: vData.version, url: asset.browser_download_url };
                       }
                     }
                   }
@@ -180,8 +180,11 @@ jobs:
             NAME=$(echo $RAW_DATA | jq -r '.app.name')
             VER=$(echo $RAW_DATA | jq -r '.app.version')
             URL=$(echo $RAW_DATA | jq -r '.app.url')
+            
+            # Sử dụng ký tự xuống dòng thực tế trong Bash thay vì chuỗi \n
             TITLE="🚀 <b>ỨNG DỤNG MỚI</b>"
-            BODY="📱 <b>Ứng dụng:</b> <code>$NAME</code>\n💡 <b>Phiên bản:</b> <code>$VER</code>"
+            BODY="📱 <b>Ứng dụng:</b> <code>$NAME</code>
+            💡 <b>Phiên bản:</b> <code>$VER</code>"
             BTN_TEXT="📥 Tải xuống IPA"
             BTN_URL="$URL"
           else
@@ -191,11 +194,8 @@ jobs:
             BTN_URL="https://2kgt.github.io/repo/"
           fi
 
-          MSG="$TITLE
-          ──────────────────
-          $BODY
-          ⏰ <b>Thời gian:</b> <code>$REAL_TIME</code>
-          ──────────────────"
+          # Gộp chuỗi xuống dòng chuẩn bằng công cụ echo -e của hệ điều hành
+          MSG=$(echo -e "$TITLE\n──────────────────\n$BODY\n⏰ <b>Thời gian:</b> <code>$REAL_TIME</code>\n──────────────────")
 
           KEYBOARD=$(jq -nrc --arg url1 "https://2kgt.github.io/repo/" --arg url2 "$BTN_URL" --arg btn "$BTN_TEXT" '{
             inline_keyboard: [[
