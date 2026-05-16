@@ -24,7 +24,7 @@ jobs:
       - name: "Install Dependencies"
         run: npm install app-info-parser node-fetch@2
 
-      - name: "🚀 Sync, Update & Push (Bất tử chống tranh chấp)"
+      - name: "🚀 Sync, Update & Push (Fix Bug Hiển Thị)"
         id: sync_and_update
         uses: actions/github-script@v7
         with:
@@ -32,7 +32,6 @@ jobs:
             const fs = require('fs');
             const { execSync } = require('child_process');
             
-            // Cấu hình Git cơ bản trước
             execSync('git config --global user.name "github-actions[bot]"');
             execSync('git config --global user.email "github-actions[bot]@users.noreply.github.com"');
 
@@ -42,21 +41,18 @@ jobs:
             const extractVersion = (f) => (f.match(/[_-]v?(\d+\.\d+(\.\d+)?)/i) || [null, "1.0"])[1];
             const cleanAppName = (f) => f.replace(/\.ipa$/i, '').replace(/[_-]v?\d+(\.\d+)*.*$/i, '').replace(/_/g, ' ').trim();
 
-            // Vòng lặp tối đa 5 lần để xử lý xung đột thời gian thực
             for (let i = 1; i <= 5; i++) {
               console.log(`🔄 Cố gắng đồng bộ, cập nhật dữ liệu và push (Lần ${i})...`);
               
               try {
-                // Luôn cập nhật trạng thái mới nhất từ nhánh chính
                 execSync('git fetch origin main');
                 execSync('git reset --hard origin/main');
               } catch (e) {
-                console.log("⚠️ Không thể fetch dữ liệu mới nhất, thử lại sau 3 giây...");
+                console.log("⚠️ Không thể fetch dữ liệu mới nhất, đang thử lại...");
                 execSync('sleep 3');
                 continue;
               }
 
-              // 1. Khởi tạo hoặc đọc dữ liệu Repo mới nhất sau khi vừa đồng bộ
               let repoData = { 
                 name: "Kyic Repository", 
                 identifier: "com.2kgt.repo", 
@@ -81,11 +77,18 @@ jobs:
                 return app;
               };
 
-              // --- QUÉT THƯ MỤC APPS/ ---
+              // --- QUÉT THƯ MỤC APPS/ (FIX CHÍNH XÁC TẠI ĐÂY) ---
               if (fs.existsSync('apps')) {
                 const files = fs.readdirSync('apps').filter(f => f.toLowerCase().endsWith('.ipa'));
-                let changedFiles = "";
-                try { changedFiles = execSync('git diff --name-only HEAD^ HEAD').toString(); } catch (e) {}
+                
+                // Lấy mảng các file thay đổi thực sự từ git diff
+                let changedFilesSet = new Set();
+                try { 
+                  const diffOutput = execSync('git diff --name-only HEAD^ HEAD').toString().trim();
+                  if (diffOutput) {
+                    diffOutput.split('\n').forEach(line => changedFilesSet.add(line.trim()));
+                  }
+                } catch (e) {}
 
                 for (const file of files) {
                   const path = `apps/${file}`;
@@ -96,7 +99,8 @@ jobs:
                   
                   const appObj = updateAppInRepo(name, "com.kyic." + name.replace(/\s/g,'').toLowerCase(), vData);
                   
-                  if (eventName === 'push' && changedFiles.includes(path)) {
+                  // So sánh chính xác tuyệt đối theo mảng Set
+                  if (eventName === 'push' && changedFilesSet.has(path) && !appToNotify) {
                     appToNotify = { name: appObj.name, version: vData.version, url: vData.downloadURL };
                   }
                 }
@@ -111,7 +115,7 @@ jobs:
                       const vData = { version: extractVersion(asset.name), date: asset.updated_at, size: asset.size, downloadURL: asset.browser_download_url };
                       const appObj = updateAppInRepo(cleanAppName(asset.name), "com.kyic.release", vData);
                       
-                      if (eventName === 'release' && rel.id === context.payload.release.id) {
+                      if (eventName === 'release' && rel.id === context.payload.release.id && !appToNotify) {
                         appToNotify = { name: appObj.name, version: vData.version, url: vData.browser_download_url };
                       }
                     }
@@ -131,28 +135,27 @@ jobs:
               repoData.apps = repoData.apps.filter(app => app.versions.length > 0);
               fs.writeFileSync('apps.json', JSON.stringify(repoData, null, 2));
 
-              // --- KIỂM TRA THAY ĐỔI VÀ COMMIT ---
               execSync('touch .nojekyll');
               execSync('git add apps.json .nojekyll');
 
               const isClean = execSync('git status --porcelain').toString().trim() === "";
               if (isClean) {
-                console.log("✅ Không có thay đổi nào mới cần cập nhật cấu trúc.");
-                break; // Thoát nếu không có thay đổi
+                console.log("✅ Không có thay đổi cấu trúc.");
+                break;
               }
 
               try {
                 execSync('git commit -m "Update Kyic Repository [Automated Sync]"');
                 execSync('git push origin main');
-                console.log("🚀 Đồng bộ dữ liệu lên GitHub thành công!");
-                break; // Push thành công thì dừng vòng lặp
+                console.log("🚀 Đẩy dữ liệu thành công!");
+                break;
               } catch (pushError) {
-                console.log("⚠️ Tranh chấp xảy ra trong quá trình Push! Đang chờ để thử lại...");
+                console.log("⚠️ Tranh chấp xảy ra, đang thử lại...");
                 execSync('sleep 3');
               }
             }
 
-            // --- LOGIC ĐÓNG GÓI THÔNG BÁO ---
+            // --- ĐÓNG GÓI THÔNG BÁO ---
             let notifyPayload = { type: "system", message: "Dữ liệu Repository đã được đồng bộ hóa.", app: null };
             if (appToNotify) {
               notifyPayload = { type: "app_update", message: "Ứng dụng đã được cập nhật.", app: appToNotify };
