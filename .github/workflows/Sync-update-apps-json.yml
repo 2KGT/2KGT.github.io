@@ -184,7 +184,8 @@ jobs:
             
             TITLE="🚀 <b>ỨNG DỤNG MỚI</b>"
             # Định nghĩa chuỗi có xuống dòng thực tế bằng cách bấm Enter trong Bash
-            BODY="📱 <b>Ứng dụng:</b> <code>$NAME</code>"$'\n'"💡 <b>Phiên bản:</b> <code>$VER</code>"
+            BODY="📱 <b>Ứng dụng:</b> <code>$NAME</code>"
+            BODY="💡 <b>Phiên bản:</b> <code>$VER</code>"
             BTN_TEXT="📥 Tải xuống IPA"
             BTN_URL="$URL"
           else
