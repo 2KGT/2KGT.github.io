@@ -98,7 +98,9 @@ jobs:
                   updateAppInRepo(name, "com.kyic." + name.replace(/\s/g,'').toLowerCase(), vData);
                   
                   if (eventName === 'push' && changedFilesSet.has(path) && !appToNotify) {
-                    appToNotify = { name: name, version: version, url: vData.downloadURL };
+                    // Tính toán size đổi từ bytes sang MB trực tiếp tại đây
+                    const formattedSize = (stats.size / (1024 * 1024)).toFixed(2) + ' MB';
+                    appToNotify = { name: name, version: version, size: formattedSize, url: vData.downloadURL };
                   }
                 }
               }
@@ -113,7 +115,8 @@ jobs:
                       updateAppInRepo(name, "com.kyic.release", vData);
                       
                       if (eventName === 'release' && rel.id === context.payload.release.id && !appToNotify) {
-                        appToNotify = { name: name, version: vData.version, url: asset.browser_download_url };
+                        const formattedSize = (asset.size / (1024 * 1024)).toFixed(2) + ' MB';
+                        appToNotify = { name: name, version: vData.version, size: formattedSize, url: asset.browser_download_url };
                       }
                     }
                   }
@@ -174,10 +177,11 @@ jobs:
           if [ "$TYPE" == "app_update" ] && [ "$JOB_STATUS" == "success" ]; then
             NAME=$(echo $RAW_DATA | jq -r '.app.name')
             VER=$(echo $RAW_DATA | jq -r '.app.version')
+            SIZE=$(echo $RAW_DATA | jq -r '.app.size')
             URL=$(echo $RAW_DATA | jq -r '.app.url')
             
             TITLE="🚀 <b>ỨNG DỤNG MỚI</b>"
-            BODY="📱 <b>Ứng dụng:</b> <code>$NAME</code>"$'\n'"💡 <b>Phiên bản:</b> <code>$VER</code>"
+            BODY="📱 <b>Ứng dụng:</b> <code>$NAME</code>"$'\n'"💡 <b>Phiên bản:</b> <code>$VER</code>"$'\n'"⚖️ <b>Size:</b> <code>$SIZE</code>"
             BTN_TEXT="📥 Tải xuống IPA"
             BTN_URL="$URL"
           else
