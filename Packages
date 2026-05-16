@@ -99,27 +99,6 @@ Sileodepiction: https://poomsmart.github.io/repo/sileodepictions/noytpremium.jso
 
 Package: com.ps.yougroupsettings
 Version: 1.0.9
-Architecture: iphoneos-arm64
-Maintainer: PoomSmart <unicorn03.glimmer@icloud.com>
-Installed-Size: 114
-Depends: mobilesubstrate (>= 0.9.5000), firmware (>= 11.0)
-Filename: debs/yougroupsettings_1.0.9_arm64.deb
-SileoDepiction: https://2kgt.github.io/repo/depictions/YouGroupSettings.json
-Icon: https://2kgt.github.io/repo/icons/YouGroupSettings.png
-Size: 5232
-MD5sum: ceb50fb35a2325ae81348f137ff27433
-SHA1: a86296e9d88e630449527d8efe83ef20975c0df3
-SHA256: c6df24d9b4169f9a88aa618e4f3de85adca2f98177961d95daedeb33307f7728
-Section: Tweaks
-Description: Allows tweak-made settings to be grouped and displayed in iOS YouTube app.
-Tag: compatible_min::ios11.0
-Author: PoomSmart <unicorn03.glimmer@icloud.com>
-Depiction: https://chariz.com/get/yougroupsettings
-Icon: https://img.chariz.cloud/icon/yougroupsettings/icon@3x.png
-Name: YouGroupSettings
-
-Package: com.ps.yougroupsettings
-Version: 1.0.9
 Architecture: iphoneos-arm
 Maintainer: PoomSmart <unicorn03.glimmer@icloud.com>
 Installed-Size: 106
@@ -131,6 +110,27 @@ Size: 5242
 MD5sum: 8d8c094e34840c50ead8c958b0eac8f6
 SHA1: 596d4c5afcd8fe93bab3cf59c36ff3e33e54ae7b
 SHA256: 2d3bca8c5ace9f11e5735c4ee7fdfd3b330103b968039a3e2ad2ead009838499
+Section: Tweaks
+Description: Allows tweak-made settings to be grouped and displayed in iOS YouTube app.
+Tag: compatible_min::ios11.0
+Author: PoomSmart <unicorn03.glimmer@icloud.com>
+Depiction: https://chariz.com/get/yougroupsettings
+Icon: https://img.chariz.cloud/icon/yougroupsettings/icon@3x.png
+Name: YouGroupSettings
+
+Package: com.ps.yougroupsettings
+Version: 1.0.9
+Architecture: iphoneos-arm64
+Maintainer: PoomSmart <unicorn03.glimmer@icloud.com>
+Installed-Size: 114
+Depends: mobilesubstrate (>= 0.9.5000), firmware (>= 11.0)
+Filename: debs/yougroupsettings_1.0.9_arm64.deb
+SileoDepiction: https://2kgt.github.io/repo/depictions/YouGroupSettings.json
+Icon: https://2kgt.github.io/repo/icons/YouGroupSettings.png
+Size: 5232
+MD5sum: ceb50fb35a2325ae81348f137ff27433
+SHA1: a86296e9d88e630449527d8efe83ef20975c0df3
+SHA256: c6df24d9b4169f9a88aa618e4f3de85adca2f98177961d95daedeb33307f7728
 Section: Tweaks
 Description: Allows tweak-made settings to be grouped and displayed in iOS YouTube app.
 Tag: compatible_min::ios11.0
@@ -327,26 +327,6 @@ Name: YTUnShorts
 
 Package: com.ps.ytvideooverlay
 Version: 2.3.5
-Architecture: iphoneos-arm64
-Maintainer: PoomSmart
-Installed-Size: 144
-Depends: mobilesubstrate (>= 0.9.5000), firmware (>= 11.0)
-Filename: debs/ytvideooverlay_2.3.5_arm64.deb
-SileoDepiction: https://2kgt.github.io/repo/depictions/YTVideoOverlay.json
-Icon: https://2kgt.github.io/repo/icons/YTVideoOverlay.png
-Size: 16258
-MD5sum: e04ce8fa25491d8b6ffcb7c6fa225519
-SHA1: d7df7c2ab8dc970beae4ac77d6288a354a367017
-SHA256: 525742716f9437dd134863547bcb436bd4d286d89c6b4c71d976e3b56d27859c
-Section: Tweaks
-Description: A helper tweak to add buttons on YouTube video overlay.
-Author: PoomSmart
-Depiction: https://poomsmart.github.io/repo/depictions/ytvideooverlay.html
-Name: YTVideoOverlay
-Sileodepiction: https://poomsmart.github.io/repo/sileodepictions/ytvideooverlay.json
-
-Package: com.ps.ytvideooverlay
-Version: 2.3.5
 Architecture: iphoneos-arm
 Maintainer: PoomSmart
 Installed-Size: 128
@@ -365,25 +345,25 @@ Depiction: https://poomsmart.github.io/repo/depictions/ytvideooverlay.html
 Name: YTVideoOverlay
 Sileodepiction: https://poomsmart.github.io/repo/sileodepictions/ytvideooverlay.json
 
-Package: com.ps.ytx
-Version: 1.7.19
+Package: com.ps.ytvideooverlay
+Version: 2.3.5
 Architecture: iphoneos-arm64
 Maintainer: PoomSmart
-Installed-Size: 72
-Depends: mobilesubstrate (>= 0.9.5000), firmware (>= 11.0), com.ps.ytabgoodies
-Filename: debs/ytx_1.7.19_arm64.deb
-SileoDepiction: https://2kgt.github.io/repo/depictions/YouTube%20X.json
-Icon: https://2kgt.github.io/repo/icons/YouTube X.png
-Size: 5684
-MD5sum: 043c6e792611c9c4d4501c90d9794153
-SHA1: fb5e68562a652452607ce48af202e25212a9023c
-SHA256: 4c42a461ec2838962614a97f7f4d3a77a39bf073145fd7543bdbd2a255bbc7c2
+Installed-Size: 144
+Depends: mobilesubstrate (>= 0.9.5000), firmware (>= 11.0)
+Filename: debs/ytvideooverlay_2.3.5_arm64.deb
+SileoDepiction: https://2kgt.github.io/repo/depictions/YTVideoOverlay.json
+Icon: https://2kgt.github.io/repo/icons/YTVideoOverlay.png
+Size: 16258
+MD5sum: e04ce8fa25491d8b6ffcb7c6fa225519
+SHA1: d7df7c2ab8dc970beae4ac77d6288a354a367017
+SHA256: 525742716f9437dd134863547bcb436bd4d286d89c6b4c71d976e3b56d27859c
 Section: Tweaks
-Description: A YouTube improvement tweak.
+Description: A helper tweak to add buttons on YouTube video overlay.
 Author: PoomSmart
-Depiction: https://poomsmart.github.io/repo/depictions/ytx.html
-Name: YouTube X
-Sileodepiction: https://poomsmart.github.io/repo/sileodepictions/ytx.json
+Depiction: https://poomsmart.github.io/repo/depictions/ytvideooverlay.html
+Name: YTVideoOverlay
+Sileodepiction: https://poomsmart.github.io/repo/sileodepictions/ytvideooverlay.json
 
 Package: com.ps.ytx
 Version: 1.7.19
@@ -398,6 +378,26 @@ Size: 5728
 MD5sum: 1fe505d84bec2e5b24d2bb26e48ac48f
 SHA1: 18ee76c6192cba0e15d11ae97d8db7bc37776f93
 SHA256: 5c4203245b9eafa05fd356f21e7613788146dcad6abcda3ae193b6d1b6cc26a5
+Section: Tweaks
+Description: A YouTube improvement tweak.
+Author: PoomSmart
+Depiction: https://poomsmart.github.io/repo/depictions/ytx.html
+Name: YouTube X
+Sileodepiction: https://poomsmart.github.io/repo/sileodepictions/ytx.json
+
+Package: com.ps.ytx
+Version: 1.7.19
+Architecture: iphoneos-arm64
+Maintainer: PoomSmart
+Installed-Size: 72
+Depends: mobilesubstrate (>= 0.9.5000), firmware (>= 11.0), com.ps.ytabgoodies
+Filename: debs/ytx_1.7.19_arm64.deb
+SileoDepiction: https://2kgt.github.io/repo/depictions/YouTube%20X.json
+Icon: https://2kgt.github.io/repo/icons/YouTube X.png
+Size: 5684
+MD5sum: 043c6e792611c9c4d4501c90d9794153
+SHA1: fb5e68562a652452607ce48af202e25212a9023c
+SHA256: 4c42a461ec2838962614a97f7f4d3a77a39bf073145fd7543bdbd2a255bbc7c2
 Section: Tweaks
 Description: A YouTube improvement tweak.
 Author: PoomSmart
