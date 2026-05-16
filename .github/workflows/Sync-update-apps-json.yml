@@ -24,7 +24,7 @@ jobs:
       - name: "Install Dependencies"
         run: npm install app-info-parser node-fetch@2
 
-      - name: "🚀 Sync, Update & Push (Fix Tuyệt Đối Lỗi Hiển Thị)"
+      - name: "🚀 Sync, Update & Push"
         id: sync_and_update
         uses: actions/github-script@v7
         with:
@@ -39,11 +39,10 @@ jobs:
             let appToNotify = null;
 
             const extractVersion = (f) => (f.match(/[_-]v?(\d+\.\d+(\.\d+)?)/i) || [null, "1.0"])[1];
-            // Sửa hàm làm sạch tên: Loại bỏ mọi ký tự xuống dòng hoặc khoảng trống lạ bám vào tên file
             const cleanAppName = (f) => f.replace(/\.ipa$/i, '').replace(/[_-]v?\d+(\.\d+)*.*$/i, '').replace(/_/g, ' ').replace(/\\n/g, '').replace(/\n/g, '').trim();
 
             for (let i = 1; i <= 5; i++) {
-              console.log(`🔄 Cố gắng đồng bộ, cập nhật dữ liệu và push (Lần ${i})...`);
+              console.log('🔄 Cố gắng đồng bộ, cập nhật dữ liệu và push (Lần ' + i + ')...');
               
               try {
                 execSync('git fetch origin main');
@@ -78,7 +77,6 @@ jobs:
                 return app;
               };
 
-              // --- QUÉT THƯ MỤC APPS/ ---
               if (fs.existsSync('apps')) {
                 const files = fs.readdirSync('apps').filter(f => f.toLowerCase().endsWith('.ipa'));
                 
@@ -91,11 +89,11 @@ jobs:
                 } catch (e) {}
 
                 for (const file of files) {
-                  const path = `apps/${file}`;
+                  const path = 'apps/' + file;
                   const name = cleanAppName(file);
                   const version = extractVersion(file);
                   const stats = fs.statSync(path);
-                  const vData = { version, date: stats.mtime.toISOString(), size: stats.size, downloadURL: `https://2kgt.github.io/repo/apps/${file}` };
+                  const vData = { version, date: stats.mtime.toISOString(), size: stats.size, downloadURL: 'https://2kgt.github.io/repo/apps/' + file };
                   
                   updateAppInRepo(name, "com.kyic." + name.replace(/\s/g,'').toLowerCase(), vData);
                   
@@ -105,7 +103,6 @@ jobs:
                 }
               }
 
-              // --- QUÉT GITHUB RELEASES ---
               try {
                 const releases = await github.rest.repos.listReleases({ owner: context.repo.owner, repo: context.repo.repo });
                 for (const rel of releases.data) {
@@ -123,7 +120,6 @@ jobs:
                 }
               } catch (e) {}
 
-              // --- DỌN DẸP & SẮP XẾP ---
               repoData.apps.forEach(app => {
                 app.versions = app.versions.filter(v => currentFilesURLs.has(v.downloadURL));
                 if (app.versions.length > 0) {
@@ -155,7 +151,6 @@ jobs:
               }
             }
 
-            // --- ĐÓNG GÓI THÔNG BÁO ---
             let notifyPayload = { type: "system", message: "Dữ liệu Repository đã được đồng bộ hóa.", app: null };
             if (appToNotify) {
               notifyPayload = { type: "app_update", message: "Ứng dụng đã được cập nhật.", app: appToNotify };
@@ -181,10 +176,8 @@ jobs:
             VER=$(echo $RAW_DATA | jq -r '.app.version')
             URL=$(echo $RAW_DATA | jq -r '.app.url')
             
-            # Khởi tạo bố cục xuống dòng thực tế thuần túy bằng dấu xuống dòng của Bash (Không dùng ký tự \n văn bản)
             TITLE="🚀 <b>ỨNG DỤNG MỚI</b>"
-            BODY="📱 <b>Ứng dụng:</b> <code>$NAME</code>
-💡 <b>Phiên bản:</b> <code>$VER</code>"
+            BODY="📱 <b>Ứng dụng:</b> <code>$NAME</code>"$'\n'"💡 <b>Phiên bản:</b> <code>$VER</code>"
             BTN_TEXT="📥 Tải xuống IPA"
             BTN_URL="$URL"
           else
@@ -194,12 +187,7 @@ jobs:
             BTN_URL="https://2kgt.github.io/repo/"
           fi
 
-          # Dựng khung tin nhắn bằng ký tự ngắt dòng vật lý
-          MSG="$TITLE
-──────────────────
-$BODY
-⏰ <b>Thời gian:</b> <code>$REAL_TIME</code>
-──────────────────"
+          MSG="$TITLE"$'\n'"──────────────────"$'\n'"$BODY"$'\n'"⏰ <b>Thời gian:</b> <code>$REAL_TIME</code>"$'\n'"──────────────────"
 
           KEYBOARD=$(jq -nrc --arg url1 "https://2kgt.github.io/repo/" --arg url2 "$BTN_URL" --arg btn "$BTN_TEXT" '{
             inline_keyboard: [[
