@@ -172,6 +172,7 @@ jobs:
           RAW_DATA: ${{ steps.sync_and_update.outputs.notify_info }}
           JOB_STATUS: ${{ job.status }}
         run: |
+          # Đọc dữ liệu từ JSON bí ẩn ra dạng thô
           TYPE=$(echo $RAW_DATA | jq -r '.type')
           MSG_CONTENT=$(echo $RAW_DATA | jq -r '.message')
           REAL_TIME=$(TZ="Asia/Ho_Chi_Minh" date +"%H:%M %d/%m/%Y")
@@ -181,10 +182,9 @@ jobs:
             VER=$(echo $RAW_DATA | jq -r '.app.version')
             URL=$(echo $RAW_DATA | jq -r '.app.url')
             
-            # Sử dụng ký tự xuống dòng thực tế trong Bash thay vì chuỗi \n
             TITLE="🚀 <b>ỨNG DỤNG MỚI</b>"
-            BODY="📱 <b>Ứng dụng:</b> <code>$NAME</code>"
-            BODY="💡 <b>Phiên bản:</b> <code>$VER</code>"
+            # Định nghĩa chuỗi có xuống dòng thực tế bằng cách bấm Enter trong Bash
+            BODY="📱 <b>Ứng dụng:</b> <code>$NAME</code>"$'\n'"💡 <b>Phiên bản:</b> <code>$VER</code>"
             BTN_TEXT="📥 Tải xuống IPA"
             BTN_URL="$URL"
           else
@@ -194,8 +194,11 @@ jobs:
             BTN_URL="https://2kgt.github.io/repo/"
           fi
 
-          # Gộp chuỗi xuống dòng chuẩn bằng công cụ echo -e của hệ điều hành
-          MSG=$(echo -e "$TITLE\n──────────────────\n$BODY\n⏰ <b>Thời gian:</b> <code>$REAL_TIME</code>\n──────────────────")
+          # Dùng toán tử xử lý chuỗi của Bash để quét sạch bất kỳ chữ \n thô nào còn sót lại và bẻ nó xuống dòng
+          BODY="${BODY//\\n/$'\n'}"
+
+          # Tạo bố cục tin nhắn hoàn chỉnh với các đường kẻ phân cách rõ ràng
+          MSG="$TITLE"$'\n'"──────────────────"$'\n'"$BODY"$'\n'"⏰ <b>Thời gian:</b> <code>$REAL_TIME</code>"$'\n'"──────────────────"
 
           KEYBOARD=$(jq -nrc --arg url1 "https://2kgt.github.io/repo/" --arg url2 "$BTN_URL" --arg btn "$BTN_TEXT" '{
             inline_keyboard: [[
@@ -204,7 +207,9 @@ jobs:
             ]]
           }')
 
+          # Bắn dữ liệu đi qua API Telegram
           curl -s -X POST "https://api.telegram.org/bot$TOKEN/sendMessage" \
-            -d "chat_id=$TO" -d "parse_mode=HTML" \
+            -d "chat_id=$TO" \
+            -d "parse_mode=HTML" \
             --data-urlencode "text=$MSG" \
             --data-urlencode "reply_markup=$KEYBOARD"
