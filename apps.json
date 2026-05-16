@@ -190,12 +190,6 @@
       },
       "versions": [
         {
-          "version": "2.9.20",
-          "date": "2026-05-16T09:04:36Z",
-          "size": 35110763,
-          "downloadURL": "https://github.com/2KGT/repo/releases/download/V2.9.20/Stay_2.9.20.ipa"
-        },
-        {
           "version": "1.4.8",
           "date": "2026-05-10T01:09:20Z",
           "size": 84944438,
@@ -274,10 +268,10 @@
           "downloadURL": "https://github.com/2KGT/repo/releases/download/V21.16.2/YouTube_21.16.2_ytx.ipa"
         }
       ],
-      "version": "2.9.20",
-      "versionDate": "2026-05-16T09:04:36Z",
-      "size": 35110763,
-      "downloadURL": "https://github.com/2KGT/repo/releases/download/V2.9.20/Stay_2.9.20.ipa"
+      "version": "1.4.8",
+      "versionDate": "2026-05-10T01:09:20Z",
+      "size": 84944438,
+      "downloadURL": "https://github.com/2KGT/repo/releases/download/V1.4.8/Turrit_1.4.8.ipa"
     },
     {
       "name": "Phim.4K",
