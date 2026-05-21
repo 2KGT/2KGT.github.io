@@ -491,15 +491,19 @@ def run_sileo_engine(release_assets):
 # [Task M-2]: Bơm con trỏ ánh xạ SileoDepiction vào file Release để kích hoạt giao diện Store
 def update_release_file_for_sileo():
     print("✍️  Cập nhật file Release liên kết giao diện đại diện nguồn...")
+    
+    # Tự động lấy từ đầu tiên của chuỗi REPO_NAME làm Label viết tắt để hiển thị ngoài danh sách nguồn Sileo
+    short_label = REPO_NAME.split()[0] if REPO_NAME else "Kyic"
+    
     release_content = (
         f"Origin: {REPO_NAME}\n"
-        f"Label: {REPO_NAME}\n"
+        f"Label: {short_label}\n"
         f"Suite: stable\n"
         f"Version: 1.0\n"
         f"Codename: ios\n"
         f"Architectures: iphoneos-arm iphoneos-arm64\n"
         f"Components: main\n"
-        f"Description: Kho ứng dụng và tiện ích nâng cao của Kyic Store.\n"
+        f"Description: Kho tài nguyên ứng dụng và tiện ích nâng cao của {REPO_NAME}.\n"
         f"SileoDepiction: {BASE_URL}sileo.json\n"
     )
     with open("Release", "w", encoding="utf-8") as f:
