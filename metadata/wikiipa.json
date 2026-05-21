@@ -1,0 +1,518 @@
+{
+  "apps": {
+    "https://2kgt.github.io/repo/apps/Lithium_v0.1.ipa": {
+      "bid": "com.jbdotparty.Lithium",
+      "ver": "0.1",
+      "name": "Lithium",
+      "icon": "https://2kgt.github.io/repo/icons/Lithium.png",
+      "banner": "https://2kgt.github.io/repo/depictions/images/Kyic_banner.png",
+      "screenshots": [
+        "https://2kgt.github.io/repo/depictions/images/Kyic1.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic2.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic3.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic4.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic5.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic6.png"
+      ],
+      "desc": "Ứng dụng Lithium được phát triển và tối ưu hóa Premium tại Kyic Store.",
+      "permissions": {},
+      "privacy_url": null,
+      "is_store": false
+    },
+    "https://2kgt.github.io/repo/apps/LCSign_1.0.ipa": {
+      "bid": "com.huami.LoadController",
+      "ver": "1.0",
+      "name": "LCSign",
+      "icon": "https://2kgt.github.io/repo/icons/LCSign.png",
+      "banner": "https://2kgt.github.io/repo/depictions/images/Kyic_banner.png",
+      "screenshots": [
+        "https://2kgt.github.io/repo/depictions/images/Kyic1.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic2.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic3.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic4.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic5.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic6.png"
+      ],
+      "desc": "Ứng dụng LCSign được phát triển và tối ưu hóa Premium tại Kyic Store.",
+      "permissions": {},
+      "privacy_url": null,
+      "is_store": false
+    },
+    "https://2kgt.github.io/repo/apps/ESign_5.0.2.ipa": {
+      "bid": "p3.xyz.yyyue.esign",
+      "ver": "5.0.2",
+      "name": "ESign",
+      "icon": "https://2kgt.github.io/repo/icons/ESign.png",
+      "banner": "https://2kgt.github.io/repo/depictions/images/Kyic_banner.png",
+      "screenshots": [
+        "https://2kgt.github.io/repo/depictions/images/Kyic1.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic2.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic3.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic4.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic5.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic6.png"
+      ],
+      "desc": "Ứng dụng ESign được phát triển và tối ưu hóa Premium tại Kyic Store.",
+      "permissions": {},
+      "privacy_url": null,
+      "is_store": false
+    },
+    "https://2kgt.github.io/repo/apps/LCSign_1.0.7.ipa": {
+      "bid": "com.huami.LoadController",
+      "ver": "1.0.7",
+      "name": "LCSign",
+      "icon": "https://2kgt.github.io/repo/icons/LCSign.png",
+      "banner": "https://2kgt.github.io/repo/depictions/images/Kyic_banner.png",
+      "screenshots": [
+        "https://2kgt.github.io/repo/depictions/images/Kyic1.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic2.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic3.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic4.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic5.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic6.png"
+      ],
+      "desc": "Ứng dụng LCSign được phát triển và tối ưu hóa Premium tại Kyic Store.",
+      "permissions": {},
+      "privacy_url": null,
+      "is_store": false
+    },
+    "https://2kgt.github.io/repo/apps/MuteOTA_2.4.ipa": {
+      "bid": "com.MuteOTA.hbs",
+      "ver": "1.2",
+      "name": "MuteOTA",
+      "icon": "https://2kgt.github.io/repo/icons/MuteOTA.png",
+      "banner": "https://2kgt.github.io/repo/depictions/images/Kyic_banner.png",
+      "screenshots": [
+        "https://2kgt.github.io/repo/depictions/images/Kyic1.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic2.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic3.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic4.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic5.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic6.png"
+      ],
+      "desc": "Ứng dụng MuteOTA được phát triển và tối ưu hóa Premium tại Kyic Store.",
+      "permissions": {},
+      "privacy_url": null,
+      "is_store": false
+    },
+    "https://2kgt.github.io/repo/apps/Feather_2.8.2.ipa": {
+      "bid": "thewonderofyou.Feather",
+      "ver": "2.8.2",
+      "name": "Feather",
+      "icon": "https://2kgt.github.io/repo/icons/Feather.png",
+      "banner": "https://2kgt.github.io/repo/depictions/images/Kyic_banner.png",
+      "screenshots": [
+        "https://2kgt.github.io/repo/depictions/images/Kyic1.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic2.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic3.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic4.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic5.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic6.png"
+      ],
+      "desc": "Ứng dụng Feather được phát triển và tối ưu hóa Premium tại Kyic Store.",
+      "permissions": {},
+      "privacy_url": null,
+      "is_store": false
+    },
+    "https://2kgt.github.io/repo/apps/LCSign_1.0.6.ipa": {
+      "bid": "com.huami.LoadController",
+      "ver": "1.0.6",
+      "name": "LCSign",
+      "icon": "https://2kgt.github.io/repo/icons/LCSign.png",
+      "banner": "https://2kgt.github.io/repo/depictions/images/Kyic_banner.png",
+      "screenshots": [
+        "https://2kgt.github.io/repo/depictions/images/Kyic1.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic2.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic3.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic4.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic5.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic6.png"
+      ],
+      "desc": "Ứng dụng LCSign được phát triển và tối ưu hóa Premium tại Kyic Store.",
+      "permissions": {},
+      "privacy_url": null,
+      "is_store": false
+    },
+    "https://2kgt.github.io/repo/apps/全能签_26.0.5.ipa": {
+      "bid": "nsk-sign.nuosike.sign",
+      "ver": "26.0.5",
+      "name": "全能签",
+      "icon": "https://2kgt.github.io/repo/icons/全能签.png",
+      "banner": "https://2kgt.github.io/repo/depictions/images/Kyic_banner.png",
+      "screenshots": [
+        "https://2kgt.github.io/repo/depictions/images/Kyic1.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic2.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic3.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic4.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic5.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic6.png"
+      ],
+      "desc": "Ứng dụng 全能签 được phát triển và tối ưu hóa Premium tại Kyic Store.",
+      "permissions": {},
+      "privacy_url": null,
+      "is_store": false
+    },
+    "https://2kgt.github.io/repo/apps/Zebra_1.1.28.ipa": {
+      "bid": "xyz.willy.Zebra",
+      "ver": "1.1.28",
+      "name": "Zebra",
+      "icon": "https://2kgt.github.io/repo/icons/Zebra.png",
+      "banner": "https://2kgt.github.io/repo/depictions/images/Kyic_banner.png",
+      "screenshots": [
+        "https://2kgt.github.io/repo/depictions/images/Kyic1.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic2.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic3.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic4.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic5.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic6.png"
+      ],
+      "desc": "Ứng dụng Zebra được phát triển và tối ưu hóa Premium tại Kyic Store.",
+      "permissions": {},
+      "privacy_url": null,
+      "is_store": false
+    },
+    "https://2kgt.github.io/repo/apps/ESign_4.8.1.ipa": {
+      "bid": "p3.xyz.yyyue.esign",
+      "ver": "4.8.1",
+      "name": "ESign",
+      "icon": "https://2kgt.github.io/repo/icons/ESign.png",
+      "banner": "https://2kgt.github.io/repo/depictions/images/Kyic_banner.png",
+      "screenshots": [
+        "https://2kgt.github.io/repo/depictions/images/Kyic1.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic2.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic3.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic4.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic5.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic6.png"
+      ],
+      "desc": "Ứng dụng ESign được phát triển và tối ưu hóa Premium tại Kyic Store.",
+      "permissions": {},
+      "privacy_url": null,
+      "is_store": false
+    },
+    "https://2kgt.github.io/repo/apps/GBox_6.0.2.ipa": {
+      "bid": "com.ncs.gbox",
+      "ver": "6.0.2",
+      "name": "GBox",
+      "icon": "https://2kgt.github.io/repo/icons/GBox.png",
+      "banner": "https://2kgt.github.io/repo/depictions/images/Kyic_banner.png",
+      "screenshots": [
+        "https://2kgt.github.io/repo/depictions/images/Kyic1.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic2.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic3.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic4.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic5.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic6.png"
+      ],
+      "desc": "Ứng dụng GBox được phát triển và tối ưu hóa Premium tại Kyic Store.",
+      "permissions": {},
+      "privacy_url": null,
+      "is_store": false
+    },
+    "https://github.com/2KGT/repo/releases/download/V2.9.20/Stay_2.9.20.ipa": {
+      "bid": "com.dajiu.stay.pro",
+      "ver": "2.9.20",
+      "name": "Stay",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/32/98/8d/32988da7-0949-788b-592e-3e63b57e77a2/AppIcon-0-0-1x_U007emarketing-0-11-0-85-220.png/512x512bb.jpg",
+      "banner": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/6c/da/3e/6cda3e23-de5b-76e2-21dc-ca1315558b50/a565e7ac-03ee-446f-88c6-abbfeb8a1c67_stay-2.5.8-en1-5.5.png/392x696bb.jpg",
+      "screenshots": [
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/6c/da/3e/6cda3e23-de5b-76e2-21dc-ca1315558b50/a565e7ac-03ee-446f-88c6-abbfeb8a1c67_stay-2.5.8-en1-5.5.png/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/13/3f/ea/133fea82-578f-8ada-bcad-e18d71fa126f/3d2a5f83-b39f-4668-a998-b6f61f873f62_5.5-en-t2.png/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/e7/dd/84/e7dd8429-9450-f41a-3c7e-2b71ebf8a318/dc3e7ddc-c47d-469b-a4f9-928dc04ad537_sceenshot-en-5.5-t3.png/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/d8/0b/03/d80b0321-851f-9801-469b-274445b2b5ee/b23ccce3-2cfc-4df2-a936-9cc3bf4996f8_sceenshot-en-5.5-t5.png/392x696bb.jpg"
+      ],
+      "desc": "# The choice of 2 million Safari users. A Must-Have Extension for Safari. \n\nStay is a powerful extension designed specifically for Safari, focused on enhancing browsing efficiency, flexibility, and cross-device continuity.\n\nStay supports all Apple platforms and offers a one-time payment that covers iPhone, iPad, and Mac devices.\n\nWith Stay installed, what new features can you expect in your Safari browser?\n【Userscripts】\n Give Safari more capabilities. By installing or writing user scripts, Safari can support features such as automatic pagination, immersive translation, redirect blocking, aggregated search, and more.\n【Cross-Device Bookmark Sync】\nEnhance Safari’s bookmark functionality. With Stay’s multi-platform coverage, your bookmarks are no longer limited to the Apple ecosystem and can be synced across devices.\n【Downloads】\nEnhance file downloads in Safari. Downloads are faster, and files can be saved into categorized folders, making it easier to manage downloaded resources.\n【Ad Blocking】\nEnhance Safari’s ad filtering capabilities. Supports AdGuard, uBlock Origin, and AdBlock Plus, compatible with EasyList filtering rules, making your browsing experience cleaner and safer.\n【Dark Mode for Web Pages】\nEnable dark mode for all web pages browsed in Safari.\n\nBy purchasing Stay Pro, you can enjoy the following additional benefits:\n- Supports self-hosted script synchronization\n- Unlimited custom ad-blocking rules\n- Ability to mark ads directly on web pages\n- Download management with privacy mode support\n\nPrivacy policy: https://www.privacypolicyonline.com/live.php?token=ZPXT0Jfv2diYUfbf5ciLDV9oYRgJ6Evc\nTerms of service: https://fastclip.app/policy/terms-stay.htm\n\nVisit our open-source version address at https://github.com/shenruisi/Stay.\nFor any questions, please follow our official Twitter @stayfork to provide feedback.\nJoin our Telegram group at t.me/fastclipchat.",
+      "permissions": {},
+      "privacy_url": null,
+      "is_store": true
+    },
+    "https://github.com/2KGT/repo/releases/download/V1.4.8/Turrit_1.4.8.ipa": {
+      "bid": "com.seastar.turrit",
+      "ver": "1.4.8",
+      "name": "Turrit",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/98/98/28/989828aa-a470-3852-5607-12112ea09692/Turrit-0-0-1x_U007epad-0-1-0-sRGB-85-220.png/512x512bb.jpg",
+      "banner": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/7d/39/5f/7d395fa6-c795-29af-5c2a-53f2e310e4ea/1242_2208_1.jpg/392x696bb.jpg",
+      "screenshots": [
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/7d/39/5f/7d395fa6-c795-29af-5c2a-53f2e310e4ea/1242_2208_1.jpg/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/67/72/67/6772670f-722c-4219-3353-b172c1e3b052/1242_2208_2.jpg/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/85/06/72/85067294-0992-284c-0b88-ae44c0dda8c1/1242_2208_6-3.jpg/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/6e/82/2c/6e822c39-5993-52e7-761c-0a79a2d23c33/1242_2208_5.jpg/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/5c/ee/3b/5cee3bef-3104-bc8d-c02f-7b6ccbf43643/1242_2208_6-4.jpg/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/0c/18/b4/0c18b4d5-b701-8b66-ac49-5d848396de8f/1242_2208_6.jpg/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/de/44/13/de441378-cec5-e482-99b6-3171c2c4d068/1242_2208_6-1.jpg/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/1a/d4/95/1ad49526-57a6-095e-2a33-46f95b907f3a/1242_2208_6-2.jpg/392x696bb.jpg"
+      ],
+      "desc": "Turrit is a messenger built to deliver a superior messaging experience while maintaining strong security and privacy standards. As an enhanced messaging platform based on the latest Telegram technology, Turrit combines familiar communication features with exclusive upgrades designed to give you more control, efficiency, and flexibility in everyday conversations.\n\nMore than just a messenger, Turrit offers a Plus experience — empowering users with premium tools, refined performance, and smarter message management across chats, groups, and channels.\n\nKey Features\n\nVideo Page\nDiscover a TikTok-style video feed tailored to your interests. Customise video content from your favourite channels and groups, all in one immersive viewing experience.\n\nPremium User Experience & Advanced Management\nEnjoy higher limits, enhanced chat organisation, and powerful tools designed for users who value control and productivity. From smarter chat folders to improved navigation, Turrit helps you manage conversations with ease.\n\nText, Voice & Video Communication\nStay connected through fast and reliable messaging, crystal-clear voice calls, and high-quality video calls — whether you’re chatting one-on-one or in groups.\n\nFast & Reliable File Transfers\nShare documents, photos, and videos effortlessly with accelerated transfer speeds or compressed quality options. Downloads now resume automatically if the app restarts or returns to the foreground, ensuring a smooth experience even on unstable networks.\n\nSmart Chat & Channel Tools\nGain deeper insights and better control over your communities. View approximate group and channel creation dates, jump to the first message, add chats to folders, select all outgoing messages, and even add notes to channels for better context.\n\nEfficient Storage & Media Management\nNew auto-clear cache limits (1GB and 2GB) help you manage storage intelligently, while batch media saving makes organising your files faster than ever.\nSeamlessly save images, videos, and files directly to PikPak cloud storage via the newly integrated PikPak entry, making cross-platform file management faster and more convenient.\n\nBuilt-in Translator\nCommunicate without language barriers using free, accurate translation across multiple languages — ideal for global conversations.\nEnhanced translation now supports Markdown formatting and richer content rendering, ensuring clearer and more structured message display, along with a free speech-to-text feature for effortless voice input.\n\nEnhanced Search & Navigation\nFind messages faster with Search Assistance, circular scrolling in chat folders, a dedicated Recent Chats folder, and clearer chat lists that now display group sender usernames.\n\nCustomisation & Interface Improvements\nChoose from additional app icons, enjoy a refined text editor positioned below the message input field, and enable the improved call screen for a more intuitive calling experience.\n\nQuick Friend Connections\nAdd friends instantly using QR code scanning, making social connections faster and more convenient.\n\nPerformance & Stability\n\nTurrit is built on the latest Telegram codebase, delivering improved stability, smoother performance, and a more reliable messaging experience across all use cases.\n\nExperience messaging without limits. Stay securely connected with powerful features designed to keep conversations organised, fast, and enjoyable.\n\nIf you have any questions, please contact our support team at support@seastar.im\n\nPrivacy Policy: https://www.iturrit.com/privacy\n\nOfficial Website: https://iturrit.com/",
+      "permissions": {},
+      "privacy_url": null,
+      "is_store": true
+    },
+    "https://github.com/2KGT/repo/releases/download/V2.3.1/Phim.4K_2.3.1.ipa": {
+      "bid": "xyz.phim4k.ios",
+      "ver": "2.3.1",
+      "name": "Phim.4K",
+      "icon": "https://2kgt.github.io/repo/icons/Phim.4K.png",
+      "banner": "https://2kgt.github.io/repo/depictions/images/Kyic_banner.png",
+      "screenshots": [
+        "https://2kgt.github.io/repo/depictions/images/Kyic1.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic2.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic3.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic4.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic5.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic6.png"
+      ],
+      "desc": "Ứng dụng Phim.4K được phát triển và tối ưu hóa Premium tại Kyic Store.",
+      "permissions": {},
+      "privacy_url": null,
+      "is_store": false
+    },
+    "https://github.com/2KGT/repo/releases/download/v1.4.7/Turrit_1.4.7.ipa": {
+      "bid": "com.seastar.turrit",
+      "ver": "1.4.7",
+      "name": "Turrit",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/98/98/28/989828aa-a470-3852-5607-12112ea09692/Turrit-0-0-1x_U007epad-0-1-0-sRGB-85-220.png/512x512bb.jpg",
+      "banner": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/7d/39/5f/7d395fa6-c795-29af-5c2a-53f2e310e4ea/1242_2208_1.jpg/392x696bb.jpg",
+      "screenshots": [
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/7d/39/5f/7d395fa6-c795-29af-5c2a-53f2e310e4ea/1242_2208_1.jpg/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/67/72/67/6772670f-722c-4219-3353-b172c1e3b052/1242_2208_2.jpg/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/85/06/72/85067294-0992-284c-0b88-ae44c0dda8c1/1242_2208_6-3.jpg/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/6e/82/2c/6e822c39-5993-52e7-761c-0a79a2d23c33/1242_2208_5.jpg/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/5c/ee/3b/5cee3bef-3104-bc8d-c02f-7b6ccbf43643/1242_2208_6-4.jpg/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/0c/18/b4/0c18b4d5-b701-8b66-ac49-5d848396de8f/1242_2208_6.jpg/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/de/44/13/de441378-cec5-e482-99b6-3171c2c4d068/1242_2208_6-1.jpg/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/1a/d4/95/1ad49526-57a6-095e-2a33-46f95b907f3a/1242_2208_6-2.jpg/392x696bb.jpg"
+      ],
+      "desc": "Turrit is a messenger built to deliver a superior messaging experience while maintaining strong security and privacy standards. As an enhanced messaging platform based on the latest Telegram technology, Turrit combines familiar communication features with exclusive upgrades designed to give you more control, efficiency, and flexibility in everyday conversations.\n\nMore than just a messenger, Turrit offers a Plus experience — empowering users with premium tools, refined performance, and smarter message management across chats, groups, and channels.\n\nKey Features\n\nVideo Page\nDiscover a TikTok-style video feed tailored to your interests. Customise video content from your favourite channels and groups, all in one immersive viewing experience.\n\nPremium User Experience & Advanced Management\nEnjoy higher limits, enhanced chat organisation, and powerful tools designed for users who value control and productivity. From smarter chat folders to improved navigation, Turrit helps you manage conversations with ease.\n\nText, Voice & Video Communication\nStay connected through fast and reliable messaging, crystal-clear voice calls, and high-quality video calls — whether you’re chatting one-on-one or in groups.\n\nFast & Reliable File Transfers\nShare documents, photos, and videos effortlessly with accelerated transfer speeds or compressed quality options. Downloads now resume automatically if the app restarts or returns to the foreground, ensuring a smooth experience even on unstable networks.\n\nSmart Chat & Channel Tools\nGain deeper insights and better control over your communities. View approximate group and channel creation dates, jump to the first message, add chats to folders, select all outgoing messages, and even add notes to channels for better context.\n\nEfficient Storage & Media Management\nNew auto-clear cache limits (1GB and 2GB) help you manage storage intelligently, while batch media saving makes organising your files faster than ever.\nSeamlessly save images, videos, and files directly to PikPak cloud storage via the newly integrated PikPak entry, making cross-platform file management faster and more convenient.\n\nBuilt-in Translator\nCommunicate without language barriers using free, accurate translation across multiple languages — ideal for global conversations.\nEnhanced translation now supports Markdown formatting and richer content rendering, ensuring clearer and more structured message display, along with a free speech-to-text feature for effortless voice input.\n\nEnhanced Search & Navigation\nFind messages faster with Search Assistance, circular scrolling in chat folders, a dedicated Recent Chats folder, and clearer chat lists that now display group sender usernames.\n\nCustomisation & Interface Improvements\nChoose from additional app icons, enjoy a refined text editor positioned below the message input field, and enable the improved call screen for a more intuitive calling experience.\n\nQuick Friend Connections\nAdd friends instantly using QR code scanning, making social connections faster and more convenient.\n\nPerformance & Stability\n\nTurrit is built on the latest Telegram codebase, delivering improved stability, smoother performance, and a more reliable messaging experience across all use cases.\n\nExperience messaging without limits. Stay securely connected with powerful features designed to keep conversations organised, fast, and enjoyable.\n\nIf you have any questions, please contact our support team at support@seastar.im\n\nPrivacy Policy: https://www.iturrit.com/privacy\n\nOfficial Website: https://iturrit.com/",
+      "permissions": {},
+      "privacy_url": null,
+      "is_store": true
+    },
+    "https://github.com/2KGT/repo/releases/download/V419.0.0/Instagram_v419.0.0.ipa": {
+      "bid": "com.burbn.instagram",
+      "ver": "419.0.0",
+      "name": "Instagram",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/cc/2e/a9/cc2ea9a4-1c31-7fda-4ce4-fb67e8bebbc2/Prod-0-0-1x_U007epad-0-1-0-sRGB-85-220.png/512x512bb.jpg",
+      "banner": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/f6/0a/b2/f60ab2ec-7973-ed88-3e6d-633ab70692b5/0x0ss__U002816_U0029.png/392x696bb.jpg",
+      "screenshots": [
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/f6/0a/b2/f60ab2ec-7973-ed88-3e6d-633ab70692b5/0x0ss__U002816_U0029.png/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/0b/e7/9e/0be79e0b-2d3d-8860-9f77-cb7b6ed7d045/0x0ss__U002817_U0029.png/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/1d/c8/74/1dc87423-40bd-dffa-be34-d4ab3f94d5fb/0x0ss__U002818_U0029.png/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/70/ac/d4/70acd493-12c9-f9b0-ce8c-fd52f130c2c4/0x0ss__U002819_U0029.png/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/1f/2f/0e/1f2f0e01-4304-60e2-0c26-7cf2b8a557cf/0x0ss__U002820_U0029.png/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/0b/a4/05/0ba4050f-476a-a8a6-f3ef-955580a4fe46/0x0ss__U002821_U0029.png/392x696bb.jpg"
+      ],
+      "desc": "Thắt chặt tình bạn qua những khoảnh khắc giản đơn. Chia sẻ khoảnh khắc của bạn trên Instagram.\n- Từ Meta\n\nKết nối với bạn bè, tìm những fan khác, cũng như xem mọi người xung quanh bạn đang làm gì và quan tâm đến điều gì. Khám phá sở thích của bạn và đăng những gì đang diễn ra, từ khoảnh khắc hàng ngày cho đến sự kiện nổi bật trong cuộc sống.\n\nChia sẻ hoạt động và đam mê của bạn.\n- Cập nhật tình hình với bạn bè một cách nhanh chóng qua Tin và Ghi chú biến mất sau 24 giờ.\n- Bắt đầu nhóm chat và chia sẻ những khoảnh khắc chân thực với Bạn thân.\n- Chia sẻ kỷ niệm về sự kiện hoặc chuyến đi gần đây trên Bảng feed.\n- Biến cuộc sống của bạn thành phim và khám phá những video ngắn, thú vị trên Instagram thông qua Reels.\n- Tùy chỉnh bài viết với mẫu, nhạc, nhãn dán và bộ lọc độc quyền.\n\nKhám phá sở thích của bạn.\n- Xem video của Người sáng tạo nội dung bạn yêu thích và khám phá nội dung mới phù hợp với sở thích của bạn.\n- Lấy cảm hứng từ ảnh và video của những tài khoản mới trong phần Khám phá.\n- Khám phá thương hiệu và doanh nghiệp nhỏ, cũng như mua sắm sản phẩm phù hợp với phong cách cá nhân.\n\nMột số tính năng của Instagram có thể chưa dùng được ở quốc gia hoặc khu vực của bạn.\n\nĐiều khoản và chính sách - https://help.instagram.com/581066165581870\n\nTìm hiểu về cách chúng tôi giữ an toàn cho cộng đồng trên các công nghệ của Meta, thông qua Trung tâm an toàn của Instagram: https://about.instagram.com/safety",
+      "permissions": {},
+      "privacy_url": null,
+      "is_store": true
+    },
+    "https://github.com/2KGT/repo/releases/download/V21.17.3/YouTube_v21.17.3.ipa": {
+      "bid": "com.google.ios.youtube",
+      "ver": "21.17.3",
+      "name": "YouTube",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/47/ac/dd/47acdd2e-889d-e20a-3390-cd6ee3848e94/logo_youtube_2024_q4_color-0-0-1x_U007emarketing-0-0-0-7-0-0-0-85-220.png/512x512bb.jpg",
+      "banner": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/64/32/6e/64326e8d-c11c-5004-8774-22a58e65d77c/2956dc27-76ae-44db-88ee-325563307da1_iOS-5.5-in_1.jpg/392x696bb.jpg",
+      "screenshots": [
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/64/32/6e/64326e8d-c11c-5004-8774-22a58e65d77c/2956dc27-76ae-44db-88ee-325563307da1_iOS-5.5-in_1.jpg/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/90/8d/51/908d51c0-cacb-b501-2b7a-d449faa10b68/a771768a-e49f-41e0-96ea-2a41962d52fe_iOS-5.5-in_2.jpg/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/ae/4e/2d/ae4e2db1-c52c-dd3b-a788-e13c92bd05a4/dfe3dae6-1e87-43e7-bdf2-8f96ca6295bf_iOS-5.5-in_3.jpg/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/19/1a/45/191a459e-9c2a-bcae-c50e-81e41a878fae/58bb87c0-9848-4beb-b9ac-a94c4806b9ee_iOS-5.5-in_4.jpg/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/b9/3e/80/b93e8005-edcb-4a6b-16b5-5b6eb982bc65/a9f1632f-f3ca-4cfb-bc22-f79a6bfb45a0_iOS-5.5-in_5.jpg/392x696bb.jpg"
+      ],
+      "desc": "Tải ứng dụng YouTube chính thức dành cho iPhone và iPad. Khám phá nội dung mọi người đang xem – từ những video nhạc nổi bật nhất đến nội dung trò chơi, thời trang, làm đẹp, tin tức, giáo dục, cùng nhiều nội dung khác. Đăng ký kênh bạn yêu thích, tạo nội dung của riêng bạn, chia sẻ với bạn bè và xem trên mọi thiết bị.\n\nXem và đăng ký\n● Duyệt xem nội dung đề xuất dành riêng cho bạn trên Trang chủ\n● Nắm bắt thông tin mới nhất từ những kênh bạn yêu thích trong thẻ Kênh đăng ký\n● Tìm các video bạn đã xem, đã thích và lưu để xem sau trong Thư viện\n\nKhám phá các chủ đề khác nhau, nội dung thịnh hành và đang nổi lên (chỉ có tại một số quốc gia)\n● Nắm bắt tin tức các nội dung thịnh hành về âm nhạc, trò chơi, làm đẹp, tin tức, giáo dục và nhiều nội dung khác\n● Khám phá nội dung thịnh hành trên YouTube và khắp thế giới tại trang Khám phá\n● Tìm hiểu về những người sáng tạo, người chơi trò chơi và nghệ sĩ nổi bật đang lên (chỉ có tại một số quốc gia)\n\nKết nối với cộng đồng trên YouTube\n● Theo dõi người sáng tạo yêu thích của bạn thông qua Bài đăng, Câu chuyện, Buổi công chiếu và Sự kiện trực tiếp\n● Tham gia trò chuyện thông qua bình luận và tương tác với người sáng tạo cũng như các thành viên khác trong cộng đồng\n\nTạo nội dung từ thiết bị di động của bạn\n● Đăng hoặc tải video của riêng bạn lên ngay trong ứng dụng\n● Tương tác với khán giả theo thời gian thực thông qua việc phát trực tiếp ngay trong ứng dụng\n\nTìm ra trải nghiệm phù hợp với bạn và gia đình bạn (chỉ có tại một số quốc gia)\n● Mỗi gia đình đều có cách riêng khi xem video trực tuyến. Tìm hiểu về các lựa chọn dành cho bạn: Ứng dụng YouTube Kids hoặc trải nghiệm mới có sự giám sát của cha mẹ trên YouTube tại youtube.com/myfamily\n\nỦng hộ người sáng tạo bạn yêu thích thông qua chương trình hội viên của kênh (chỉ có tại một số quốc gia)\n● Tham gia gói hội viên có tính phí hằng tháng để ủng hộ nỗ lực sáng tạo của các kênh\n● Nhận đặc quyền mà kênh cung cấp và trở thành một phần trong cộng đồng của kênh\n● Xuất hiện nổi bật trong phần bình luận và trò chuyện trực tiếp với huy hiệu hội viên trung thành bên cạnh tên người dùng của bạn\n\nNâng cấp lên gói YouTube Premium (chỉ có tại một số quốc gia)\n● Xem video không có quảng cáo trong khi vẫn dùng các ứng dụng khác hoặc khi màn hình khóa\n● Giúp bạn lưu video để xem khi cần – như khi trên máy bay hoặc trên đường đi làm\n● Nhận lợi ích sử dụng YouTube Music Premium\n\nLưu ý: Nếu bạn đăng ký qua Apple, khoản thanh toán sẽ được tính vào tài khoản App Store khi bạn xác nhận giao dịch mua. Gói đăng ký sẽ tự động gia hạn, trừ phi bạn tắt tính năng tự động gia hạn ít nhất 24 giờ trước khi kỳ đăng ký hiện tại kết thúc. Trong vòng 24 giờ trước khi kỳ đăng ký hiện tại kết thúc, tài khoản sẽ được tính phí gia hạn bằng với mức phí của gói đã chọn. Bạn có thể quản lý các gói đăng ký và tính năng tự động gia hạn bằng cách chuyển đến phần Cài đặt tài khoản sau khi mua.\n\nĐiều khoản của YouTube về dịch vụ có tính phí: https://www.youtube.com/t/terms_paidservice.\nChính sách quyền riêng tư: https://www.google.com/policies/privacy",
+      "permissions": {},
+      "privacy_url": null,
+      "is_store": true
+    },
+    "https://github.com/2KGT/repo/releases/download/V21.16.2/YouTube_21.16.2_ytx.ipa": {
+      "bid": "com.google.ios.youtube",
+      "ver": "21.16.2",
+      "name": "YouTube",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/47/ac/dd/47acdd2e-889d-e20a-3390-cd6ee3848e94/logo_youtube_2024_q4_color-0-0-1x_U007emarketing-0-0-0-7-0-0-0-85-220.png/512x512bb.jpg",
+      "banner": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/64/32/6e/64326e8d-c11c-5004-8774-22a58e65d77c/2956dc27-76ae-44db-88ee-325563307da1_iOS-5.5-in_1.jpg/392x696bb.jpg",
+      "screenshots": [
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/64/32/6e/64326e8d-c11c-5004-8774-22a58e65d77c/2956dc27-76ae-44db-88ee-325563307da1_iOS-5.5-in_1.jpg/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/90/8d/51/908d51c0-cacb-b501-2b7a-d449faa10b68/a771768a-e49f-41e0-96ea-2a41962d52fe_iOS-5.5-in_2.jpg/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/ae/4e/2d/ae4e2db1-c52c-dd3b-a788-e13c92bd05a4/dfe3dae6-1e87-43e7-bdf2-8f96ca6295bf_iOS-5.5-in_3.jpg/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/19/1a/45/191a459e-9c2a-bcae-c50e-81e41a878fae/58bb87c0-9848-4beb-b9ac-a94c4806b9ee_iOS-5.5-in_4.jpg/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/b9/3e/80/b93e8005-edcb-4a6b-16b5-5b6eb982bc65/a9f1632f-f3ca-4cfb-bc22-f79a6bfb45a0_iOS-5.5-in_5.jpg/392x696bb.jpg"
+      ],
+      "desc": "Tải ứng dụng YouTube chính thức dành cho iPhone và iPad. Khám phá nội dung mọi người đang xem – từ những video nhạc nổi bật nhất đến nội dung trò chơi, thời trang, làm đẹp, tin tức, giáo dục, cùng nhiều nội dung khác. Đăng ký kênh bạn yêu thích, tạo nội dung của riêng bạn, chia sẻ với bạn bè và xem trên mọi thiết bị.\n\nXem và đăng ký\n● Duyệt xem nội dung đề xuất dành riêng cho bạn trên Trang chủ\n● Nắm bắt thông tin mới nhất từ những kênh bạn yêu thích trong thẻ Kênh đăng ký\n● Tìm các video bạn đã xem, đã thích và lưu để xem sau trong Thư viện\n\nKhám phá các chủ đề khác nhau, nội dung thịnh hành và đang nổi lên (chỉ có tại một số quốc gia)\n● Nắm bắt tin tức các nội dung thịnh hành về âm nhạc, trò chơi, làm đẹp, tin tức, giáo dục và nhiều nội dung khác\n● Khám phá nội dung thịnh hành trên YouTube và khắp thế giới tại trang Khám phá\n● Tìm hiểu về những người sáng tạo, người chơi trò chơi và nghệ sĩ nổi bật đang lên (chỉ có tại một số quốc gia)\n\nKết nối với cộng đồng trên YouTube\n● Theo dõi người sáng tạo yêu thích của bạn thông qua Bài đăng, Câu chuyện, Buổi công chiếu và Sự kiện trực tiếp\n● Tham gia trò chuyện thông qua bình luận và tương tác với người sáng tạo cũng như các thành viên khác trong cộng đồng\n\nTạo nội dung từ thiết bị di động của bạn\n● Đăng hoặc tải video của riêng bạn lên ngay trong ứng dụng\n● Tương tác với khán giả theo thời gian thực thông qua việc phát trực tiếp ngay trong ứng dụng\n\nTìm ra trải nghiệm phù hợp với bạn và gia đình bạn (chỉ có tại một số quốc gia)\n● Mỗi gia đình đều có cách riêng khi xem video trực tuyến. Tìm hiểu về các lựa chọn dành cho bạn: Ứng dụng YouTube Kids hoặc trải nghiệm mới có sự giám sát của cha mẹ trên YouTube tại youtube.com/myfamily\n\nỦng hộ người sáng tạo bạn yêu thích thông qua chương trình hội viên của kênh (chỉ có tại một số quốc gia)\n● Tham gia gói hội viên có tính phí hằng tháng để ủng hộ nỗ lực sáng tạo của các kênh\n● Nhận đặc quyền mà kênh cung cấp và trở thành một phần trong cộng đồng của kênh\n● Xuất hiện nổi bật trong phần bình luận và trò chuyện trực tiếp với huy hiệu hội viên trung thành bên cạnh tên người dùng của bạn\n\nNâng cấp lên gói YouTube Premium (chỉ có tại một số quốc gia)\n● Xem video không có quảng cáo trong khi vẫn dùng các ứng dụng khác hoặc khi màn hình khóa\n● Giúp bạn lưu video để xem khi cần – như khi trên máy bay hoặc trên đường đi làm\n● Nhận lợi ích sử dụng YouTube Music Premium\n\nLưu ý: Nếu bạn đăng ký qua Apple, khoản thanh toán sẽ được tính vào tài khoản App Store khi bạn xác nhận giao dịch mua. Gói đăng ký sẽ tự động gia hạn, trừ phi bạn tắt tính năng tự động gia hạn ít nhất 24 giờ trước khi kỳ đăng ký hiện tại kết thúc. Trong vòng 24 giờ trước khi kỳ đăng ký hiện tại kết thúc, tài khoản sẽ được tính phí gia hạn bằng với mức phí của gói đã chọn. Bạn có thể quản lý các gói đăng ký và tính năng tự động gia hạn bằng cách chuyển đến phần Cài đặt tài khoản sau khi mua.\n\nĐiều khoản của YouTube về dịch vụ có tính phí: https://www.youtube.com/t/terms_paidservice.\nChính sách quyền riêng tư: https://www.google.com/policies/privacy",
+      "permissions": {},
+      "privacy_url": null,
+      "is_store": true
+    },
+    "https://github.com/2KGT/repo/releases/download/V2.9.18/Stay_v2.9.18.ipa": {
+      "bid": "com.dajiu.stay.pro",
+      "ver": "2.9.18",
+      "name": "Stay",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/32/98/8d/32988da7-0949-788b-592e-3e63b57e77a2/AppIcon-0-0-1x_U007emarketing-0-11-0-85-220.png/512x512bb.jpg",
+      "banner": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/6c/da/3e/6cda3e23-de5b-76e2-21dc-ca1315558b50/a565e7ac-03ee-446f-88c6-abbfeb8a1c67_stay-2.5.8-en1-5.5.png/392x696bb.jpg",
+      "screenshots": [
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/6c/da/3e/6cda3e23-de5b-76e2-21dc-ca1315558b50/a565e7ac-03ee-446f-88c6-abbfeb8a1c67_stay-2.5.8-en1-5.5.png/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/13/3f/ea/133fea82-578f-8ada-bcad-e18d71fa126f/3d2a5f83-b39f-4668-a998-b6f61f873f62_5.5-en-t2.png/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/e7/dd/84/e7dd8429-9450-f41a-3c7e-2b71ebf8a318/dc3e7ddc-c47d-469b-a4f9-928dc04ad537_sceenshot-en-5.5-t3.png/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/d8/0b/03/d80b0321-851f-9801-469b-274445b2b5ee/b23ccce3-2cfc-4df2-a936-9cc3bf4996f8_sceenshot-en-5.5-t5.png/392x696bb.jpg"
+      ],
+      "desc": "# The choice of 2 million Safari users. A Must-Have Extension for Safari. \n\nStay is a powerful extension designed specifically for Safari, focused on enhancing browsing efficiency, flexibility, and cross-device continuity.\n\nStay supports all Apple platforms and offers a one-time payment that covers iPhone, iPad, and Mac devices.\n\nWith Stay installed, what new features can you expect in your Safari browser?\n【Userscripts】\n Give Safari more capabilities. By installing or writing user scripts, Safari can support features such as automatic pagination, immersive translation, redirect blocking, aggregated search, and more.\n【Cross-Device Bookmark Sync】\nEnhance Safari’s bookmark functionality. With Stay’s multi-platform coverage, your bookmarks are no longer limited to the Apple ecosystem and can be synced across devices.\n【Downloads】\nEnhance file downloads in Safari. Downloads are faster, and files can be saved into categorized folders, making it easier to manage downloaded resources.\n【Ad Blocking】\nEnhance Safari’s ad filtering capabilities. Supports AdGuard, uBlock Origin, and AdBlock Plus, compatible with EasyList filtering rules, making your browsing experience cleaner and safer.\n【Dark Mode for Web Pages】\nEnable dark mode for all web pages browsed in Safari.\n\nBy purchasing Stay Pro, you can enjoy the following additional benefits:\n- Supports self-hosted script synchronization\n- Unlimited custom ad-blocking rules\n- Ability to mark ads directly on web pages\n- Download management with privacy mode support\n\nPrivacy policy: https://www.privacypolicyonline.com/live.php?token=ZPXT0Jfv2diYUfbf5ciLDV9oYRgJ6Evc\nTerms of service: https://fastclip.app/policy/terms-stay.htm\n\nVisit our open-source version address at https://github.com/shenruisi/Stay.\nFor any questions, please follow our official Twitter @stayfork to provide feedback.\nJoin our Telegram group at t.me/fastclipchat.",
+      "permissions": {},
+      "privacy_url": null,
+      "is_store": true
+    },
+    "https://github.com/2KGT/repo/releases/download/V2.70.0/BiliBili_2.70.0.ipa": {
+      "bid": "com.bstar.intl",
+      "ver": "2.70.0",
+      "name": "BiliBili",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/e6/06/1d/e6061de0-5181-38bf-d35c-a37de641b65f/AppIcon-inter-0-0-1x_U007epad-0-1-0-85-220.png/512x512bb.jpg",
+      "banner": "https://2kgt.github.io/repo/depictions/images/Kyic_banner.png",
+      "screenshots": [
+        "https://2kgt.github.io/repo/depictions/images/Kyic1.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic2.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic3.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic4.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic5.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic6.png"
+      ],
+      "desc": "Giới thiệu về BiliBili\n\nNền tảng Anime HÀNG ĐẦU ở Đông Nam Á, với hơn 2000 tựa anime được cấp phép, mang đến cho bạn trải nghiệm xem anime tuyệt vời nhất với sự hỗ trợ đa ngôn ngữ. \n\nBiliBili không chỉ có anime—nó là cửa ngõ dẫn bạn đến một cộng đồng thịnh vượng chứa đầy UGC đa dạng, chất lượng cao. Hòa mình vào một thế giới nơi sự sáng tạo và kết nối trở nên sống động!\n\nKhám phá các tính năng cộng đồng và trò chuyện thoại mới\n\nTrải nghiệm một cộng đồng hoàn toàn hấp dẫn, nơi bạn có thể chia sẻ văn bản, hình ảnh, video và tương tác với nội dung bạn yêu thích. Tham gia trò chuyện thoại hoặc tổ chức phòng riêng của bạn, việc kết nối với những người đam mê anime và kết bạn tại đây trở nên dễ dàng hơn bao giờ hết.\n\nKhám phá thể loại giải trí thịnh hành mới- Phim Ngắn \n\nBilibili hân hạnh mang đến cho bạn hàng trăm bộ phim ngắn chất lượng cao – súc tích, đầy cảm xúc và đặc biệt cực kỳ dễ “cày” liên tục. Chỉ trong vài phút cốt truyện đã được truyền tải nhanh chóng, mới mẻ. Bên cạnh kho tàng anime bản quyền đồ sộ, công đồng đang thỏa thích tận hưởng các thể loại video nội dung giải trí đa dạng trên Bilibili. Hãy cùng xem và chia sẻ! \n\n*Bản nếu để nguyên tên phim tiếng Anh\n\nXem ngay các tựa phim ra mắt tháng 4 năm 2026, đang phát trực tuyến!\n\nOne Piece – Arc Elbaph chính thức bắt đầu: Bước vào “Vùng đất của Người Khổng Lồ” và khám phá những bí mật của quốc gia mạnh nhất thế giới.\n\nFarming Life in Another World – Mùa 2: Bộ anime chữa lành không thể bỏ lỡ, tận hưởng cuộc sống làm nông chậm rãi, ấm áp nơi dị giới.\n\nThat Time I Got Reincarnated as a Slime – Mùa 4: Tầm nhìn về sự chung sống giữa con người và quái vật phải đối mặt với những âm mưu ẩn giấu và các xung đột mới.\n\n\nThưởng thức các mục yêu thích vượt thời gian, xem miễn phí một số trong số chúng\n\nOne Piece, Naruto: Shippuden, Hunter x Hunter, BLEACH, Detective Conan, SPY×FAMILY, Jujutsu Kaisen, Black Clover, Oshi No Ko, Dragon Ball Z, Attack on Titan, Demon Slayer: Kimetsu no Yaiba, Blue Lock, Haikyuu! , Tokyo Revengers, The Eminence in Shadow, Solo Leveling, Horimiya, Sword Art Online, Chainsaw Man, WIND BREAKER, Heaven Official's Blessing, Cuộc sống hàng ngày của các Vua bất tử, v.v.",
+      "permissions": {},
+      "privacy_url": null,
+      "is_store": true
+    },
+    "https://github.com/2KGT/repo/releases/download/V2.2.2/Phim.4K_v2.2.2.ipa": {
+      "bid": "xyz.phim4k.ios",
+      "ver": "2.2.2",
+      "name": "Phim.4K",
+      "icon": "https://2kgt.github.io/repo/icons/Phim.4K.png",
+      "banner": "https://2kgt.github.io/repo/depictions/images/Kyic_banner.png",
+      "screenshots": [
+        "https://2kgt.github.io/repo/depictions/images/Kyic1.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic2.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic3.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic4.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic5.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic6.png"
+      ],
+      "desc": "Ứng dụng Phim.4K được phát triển và tối ưu hóa Premium tại Kyic Store.",
+      "permissions": {},
+      "privacy_url": null,
+      "is_store": false
+    },
+    "https://github.com/2KGT/repo/releases/download/V2.1.0/Phim.4K_v2.1.0.ipa": {
+      "bid": "xyz.phim4k.ios",
+      "ver": "2.1.0",
+      "name": "Phim.4K",
+      "icon": "https://2kgt.github.io/repo/icons/Phim.4K.png",
+      "banner": "https://2kgt.github.io/repo/depictions/images/Kyic_banner.png",
+      "screenshots": [
+        "https://2kgt.github.io/repo/depictions/images/Kyic1.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic2.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic3.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic4.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic5.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic6.png"
+      ],
+      "desc": "Ứng dụng Phim.4K được phát triển và tối ưu hóa Premium tại Kyic Store.",
+      "permissions": {},
+      "privacy_url": null,
+      "is_store": false
+    },
+    "https://github.com/2KGT/repo/releases/download/V1.8/MuteOTA_1.8.ipa": {
+      "bid": "com.MuteOTA.hbs",
+      "ver": "1.2",
+      "name": "MuteOTA",
+      "icon": "https://2kgt.github.io/repo/icons/MuteOTA.png",
+      "banner": "https://2kgt.github.io/repo/depictions/images/Kyic_banner.png",
+      "screenshots": [
+        "https://2kgt.github.io/repo/depictions/images/Kyic1.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic2.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic3.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic4.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic5.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic6.png"
+      ],
+      "desc": "Ứng dụng MuteOTA được phát triển và tối ưu hóa Premium tại Kyic Store.",
+      "permissions": {},
+      "privacy_url": null,
+      "is_store": false
+    },
+    "https://github.com/2KGT/repo/releases/download/V1.1.8/UnKeySign_1.1.8.ipa": {
+      "bid": "com.unkeysign.app",
+      "ver": "1.1.8",
+      "name": "UnKeySign",
+      "icon": "https://2kgt.github.io/repo/icons/UnKeySign.png",
+      "banner": "https://2kgt.github.io/repo/depictions/images/Kyic_banner.png",
+      "screenshots": [
+        "https://2kgt.github.io/repo/depictions/images/Kyic1.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic2.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic3.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic4.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic5.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic6.png"
+      ],
+      "desc": "Ứng dụng UnKeySign được phát triển và tối ưu hóa Premium tại Kyic Store.",
+      "permissions": {},
+      "privacy_url": null,
+      "is_store": false
+    },
+    "https://github.com/2KGT/repo/releases/download/V1.1.28/Zebra_1.1.28.ipa": {
+      "bid": "xyz.willy.Zebra",
+      "ver": "1.1.28",
+      "name": "Zebra",
+      "icon": "https://2kgt.github.io/repo/icons/Zebra.png",
+      "banner": "https://2kgt.github.io/repo/depictions/images/Kyic_banner.png",
+      "screenshots": [
+        "https://2kgt.github.io/repo/depictions/images/Kyic1.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic2.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic3.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic4.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic5.png",
+        "https://2kgt.github.io/repo/depictions/images/Kyic6.png"
+      ],
+      "desc": "Ứng dụng Zebra được phát triển và tối ưu hóa Premium tại Kyic Store.",
+      "permissions": {},
+      "privacy_url": null,
+      "is_store": false
+    },
+    "https://github.com/2KGT/repo/releases/download/V.12.6.3/Telegram_12.6.3.ipa": {
+      "bid": "ph.telegra.Telegraph",
+      "ver": "12.6.3",
+      "name": "Telegram",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/57/c0/1b/57c01b2f-70b3-cfee-4cfa-03aac0ea2b8d/Telegram-0-0-1x_U007epad-0-1-0-sRGB-85-220.png/512x512bb.jpg",
+      "banner": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/e6/b1/b9/e6b1b943-d7ea-73cc-69e7-9d9e22a27a5b/0_APP_IPHONE_55_0.png/392x696bb.jpg",
+      "screenshots": [
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/e6/b1/b9/e6b1b943-d7ea-73cc-69e7-9d9e22a27a5b/0_APP_IPHONE_55_0.png/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/61/06/a9/6106a923-72e2-29f9-2a9e-2356912d9995/1_APP_IPHONE_55_1.png/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/86/4f/15/864f15d3-5b7a-71d5-0c46-98ed7d9e656b/2_APP_IPHONE_55_2.png/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/c6/f3/1f/c6f31f4f-a957-3b02-27bb-2d764ccedcb4/3_APP_IPHONE_55_3.png/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/91/5a/77/915a7745-ffaa-a37c-3d26-d35bcb4d9ee3/4_APP_IPHONE_55_4.png/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/99/8f/d7/998fd71b-7856-ee21-4ffb-e61ef9b13c28/5_APP_IPHONE_55_5.png/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/ac/dd/4e/acdd4e22-40ca-5ed9-49d1-39fa3da0d32a/6_APP_IPHONE_55_6.png/392x696bb.jpg"
+      ],
+      "desc": "Pure instant messaging — simple, fast, secure, and synced across all your devices. One of the top 5 most downloaded apps in the world with over 1 billion active users.\n\nFAST: Telegram is the fastest messaging app on the market, connecting people via a unique, distributed network of data centers around the globe.\n\nSYNCED: You can access your messages from all your phones, tablets and computers at once. Telegram apps are standalone, so you don’t need to keep your phone connected. Start typing on one device and finish the message from another. Never lose your data again.\n\nUNLIMITED: You can send media and files, without any limits on their type and size. Your entire chat history will require no disk space on your device, and will be securely stored in the Telegram cloud for as long as you need it. \n\nSECURE: We made it our mission to provide the best security combined with ease of use. Everything on Telegram, including chats, groups, media, etc. is encrypted using a combination of 256-bit symmetric AES encryption, 2048-bit RSA encryption, and Diffie–Hellman secure key exchange. \n\n100% FREE & OPEN: Telegram has a fully documented and free API for developers, open source apps and verifiable builds to prove the app you download is built from the exact same source code that is published. \n\nPOWERFUL: You can create group chats with up to 200,000 members, share large videos, documents of any type (.DOCX, .MP3, .ZIP, etc.) up to 2 GB each, and even set up bots for specific tasks. Telegram is the perfect tool for hosting online communities and coordinating teamwork.\n\nRELIABLE: Built to deliver your messages using as little data as possible, Telegram is the most reliable messaging system ever made. It works even on the weakest mobile connections. \n\nFUN: Telegram has powerful photo and video editing tools, animated stickers and emoji, fully customizable themes to change the appearance of your app, and an open sticker/GIF platform to cater to all your expressive needs.\n\nSIMPLE: While providing an unprecedented array of features, we take great care to keep the interface clean. Telegram is so simple you already know how to use it.\n\nPRIVATE: We take your privacy seriously and will never give any third parties access to your data. You can delete any message you ever sent or received for both sides, at any time and without a trace. Telegram will never use your data to show you ads.\n\nFor those interested in maximum privacy, Telegram offers Secret Chats. Secret Chat messages can be programmed to self-destruct automatically from both participating devices. This way you can send all types of disappearing content — messages, photos, videos, and even files. Secret Chats use End-to-End Encryption to ensure that a message can only be read by its intended recipient.\n\nWe keep expanding the boundaries of what you can do with a messaging app. Don’t wait years for older messengers to catch up with Telegram — join the revolution today.\n\nTerms of Use: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/",
+      "permissions": {},
+      "privacy_url": null,
+      "is_store": true
+    },
+    "https://github.com/2KGT/repo/releases/download/V.1.4.6/Turrit_v1.4.6.ipa": {
+      "bid": "com.seastar.turrit",
+      "ver": "1.4.6",
+      "name": "Turrit",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/98/98/28/989828aa-a470-3852-5607-12112ea09692/Turrit-0-0-1x_U007epad-0-1-0-sRGB-85-220.png/512x512bb.jpg",
+      "banner": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/7d/39/5f/7d395fa6-c795-29af-5c2a-53f2e310e4ea/1242_2208_1.jpg/392x696bb.jpg",
+      "screenshots": [
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/7d/39/5f/7d395fa6-c795-29af-5c2a-53f2e310e4ea/1242_2208_1.jpg/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/67/72/67/6772670f-722c-4219-3353-b172c1e3b052/1242_2208_2.jpg/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/85/06/72/85067294-0992-284c-0b88-ae44c0dda8c1/1242_2208_6-3.jpg/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/6e/82/2c/6e822c39-5993-52e7-761c-0a79a2d23c33/1242_2208_5.jpg/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/5c/ee/3b/5cee3bef-3104-bc8d-c02f-7b6ccbf43643/1242_2208_6-4.jpg/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/0c/18/b4/0c18b4d5-b701-8b66-ac49-5d848396de8f/1242_2208_6.jpg/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/de/44/13/de441378-cec5-e482-99b6-3171c2c4d068/1242_2208_6-1.jpg/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/1a/d4/95/1ad49526-57a6-095e-2a33-46f95b907f3a/1242_2208_6-2.jpg/392x696bb.jpg"
+      ],
+      "desc": "Turrit is a messenger built to deliver a superior messaging experience while maintaining strong security and privacy standards. As an enhanced messaging platform based on the latest Telegram technology, Turrit combines familiar communication features with exclusive upgrades designed to give you more control, efficiency, and flexibility in everyday conversations.\n\nMore than just a messenger, Turrit offers a Plus experience — empowering users with premium tools, refined performance, and smarter message management across chats, groups, and channels.\n\nKey Features\n\nVideo Page\nDiscover a TikTok-style video feed tailored to your interests. Customise video content from your favourite channels and groups, all in one immersive viewing experience.\n\nPremium User Experience & Advanced Management\nEnjoy higher limits, enhanced chat organisation, and powerful tools designed for users who value control and productivity. From smarter chat folders to improved navigation, Turrit helps you manage conversations with ease.\n\nText, Voice & Video Communication\nStay connected through fast and reliable messaging, crystal-clear voice calls, and high-quality video calls — whether you’re chatting one-on-one or in groups.\n\nFast & Reliable File Transfers\nShare documents, photos, and videos effortlessly with accelerated transfer speeds or compressed quality options. Downloads now resume automatically if the app restarts or returns to the foreground, ensuring a smooth experience even on unstable networks.\n\nSmart Chat & Channel Tools\nGain deeper insights and better control over your communities. View approximate group and channel creation dates, jump to the first message, add chats to folders, select all outgoing messages, and even add notes to channels for better context.\n\nEfficient Storage & Media Management\nNew auto-clear cache limits (1GB and 2GB) help you manage storage intelligently, while batch media saving makes organising your files faster than ever.\nSeamlessly save images, videos, and files directly to PikPak cloud storage via the newly integrated PikPak entry, making cross-platform file management faster and more convenient.\n\nBuilt-in Translator\nCommunicate without language barriers using free, accurate translation across multiple languages — ideal for global conversations.\nEnhanced translation now supports Markdown formatting and richer content rendering, ensuring clearer and more structured message display, along with a free speech-to-text feature for effortless voice input.\n\nEnhanced Search & Navigation\nFind messages faster with Search Assistance, circular scrolling in chat folders, a dedicated Recent Chats folder, and clearer chat lists that now display group sender usernames.\n\nCustomisation & Interface Improvements\nChoose from additional app icons, enjoy a refined text editor positioned below the message input field, and enable the improved call screen for a more intuitive calling experience.\n\nQuick Friend Connections\nAdd friends instantly using QR code scanning, making social connections faster and more convenient.\n\nPerformance & Stability\n\nTurrit is built on the latest Telegram codebase, delivering improved stability, smoother performance, and a more reliable messaging experience across all use cases.\n\nExperience messaging without limits. Stay securely connected with powerful features designed to keep conversations organised, fast, and enjoyable.\n\nIf you have any questions, please contact our support team at support@seastar.im\n\nPrivacy Policy: https://www.iturrit.com/privacy\n\nOfficial Website: https://iturrit.com/",
+      "permissions": {},
+      "privacy_url": null,
+      "is_store": true
+    }
+  }
+}

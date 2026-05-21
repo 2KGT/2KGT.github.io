@@ -1,0 +1,116 @@
+{
+  "minVersion": "0.1",
+  "class": "SileoRootDepiction",
+  "headerImage": "https://raw.githubusercontent.com/2KGT/repo/main/depictions/images/Kyic_banner.png",
+  "tintColor": "#848ef9",
+  "tabs": [
+    {
+      "tabname": "Giới Thiệu",
+      "class": "SileoListViewDepiction",
+      "views": [
+        {
+          "class": "SileoMarkdownDepiction",
+          "markdown": "### YouTube Legacy\n\nAttempts to make old YouTube versions work again.\n\nPhát triển bởi **PoomSmart**.",
+          "useBoldText": true
+        },
+        {
+          "class": "SileoScreenshotsDepiction",
+          "screenshots": [
+            {
+              "url": "https://raw.githubusercontent.com/2KGT/repo/main/depictions/images/Kyic1.png",
+              "accessibilityText": "Screenshot"
+            },
+            {
+              "url": "https://raw.githubusercontent.com/2KGT/repo/main/depictions/images/Kyic2.png",
+              "accessibilityText": "Screenshot"
+            },
+            {
+              "url": "https://raw.githubusercontent.com/2KGT/repo/main/depictions/images/Kyic3.png",
+              "accessibilityText": "Screenshot"
+            },
+            {
+              "url": "https://raw.githubusercontent.com/2KGT/repo/main/depictions/images/Kyic4.png",
+              "accessibilityText": "Screenshot"
+            },
+            {
+              "url": "https://raw.githubusercontent.com/2KGT/repo/main/depictions/images/Kyic5.png",
+              "accessibilityText": "Screenshot"
+            },
+            {
+              "url": "https://raw.githubusercontent.com/2KGT/repo/main/depictions/images/Kyic6.png",
+              "accessibilityText": "Screenshot"
+            }
+          ],
+          "itemCornerRadius": 8,
+          "itemSize": "{160, 346}"
+        }
+      ]
+    },
+    {
+      "tabname": "Nhật Ký",
+      "class": "SileoListViewDepiction",
+      "views": [
+        {
+          "class": "SileoMarkdownDepiction",
+          "markdown": "#### Lịch sử cập nhật (Phiên bản 1.9.2)\n\nCập nhật và tối ưu hóa cấu trúc gói cài đặt hệ thống nhằm tương thích tốt nhất với Sileo.",
+          "useBoldText": false
+        },
+        {
+          "class": "SileoSpacerDepiction",
+          "spacing": 15
+        },
+        {
+          "class": "SileoTableLayoutDepiction",
+          "title": "Thông số kỹ thuật",
+          "rows": [
+            [
+              "Nhà phát triển",
+              "PoomSmart"
+            ],
+            [
+              "Phiên bản",
+              "1.9.2"
+            ],
+            [
+              "Định danh",
+              "com.ps.ytlegacy"
+            ],
+            [
+              "Phân mục",
+              "Tweaks"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "tabname": "Hỗ Trợ",
+      "class": "SileoListViewDepiction",
+      "views": [
+        {
+          "class": "SileoMarkdownDepiction",
+          "markdown": "Mọi yêu cầu hỗ trợ hoặc báo lỗi về Tweak này, vui lòng liên hệ trực tiếp qua các kênh chính thức của Kyic Premium Store dưới đây.",
+          "useBoldText": false
+        },
+        {
+          "class": "SileoSpacerDepiction",
+          "spacing": 10
+        },
+        {
+          "class": "SileoHeaderDepiction",
+          "title": "Liên hệ nhà phát triển"
+        },
+        {
+          "class": "SileoControlCenterButtonDepiction",
+          "title": "Ghé thăm GitHub Repo",
+          "action": "https://github.com/2KGT/repo"
+        },
+        {
+          "class": "SileoControlCenterButtonDepiction",
+          "title": "Kênh Hỗ Trợ Kyic",
+          "action": "https://2kgt.github.io/repo/"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+1. Quy tắc đặt tên (Bắt buộc)
+Tên file phải bắt đầu bằng 
+SAFE_NAME (là tên tweak đã loại bỏ dấu ngoặc và khoảng trắng). 
+
+• Icon: Thư mục icons/ (với tên in control)
+Icon: icons/AutoAC.png
+• Banner: depictions/images/AutoAC-banner.png
+• Video: depictions/images/AutoAC.mp4
+• Ảnh chụp màn hình: (Screenshot)
+depictions/images/AutoAC1.png, 
+depictions/images/AutoAC2.png, v.v.
+
+
+
+
+Ví dụ với dự án AutoAC:
+• Banner: AutoAC-banner.png
+• Video: AutoAC.mp4
+• Ảnh chụp màn hình : Phải đánh số thứ tự từ 1 đến 5:
+• AutoAC1.png
+• AutoAC2.png
+• ...

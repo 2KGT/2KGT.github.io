@@ -1,0 +1,85 @@
+name: "Auto Sync Esign & Sileo"
+
+on:
+  push:
+    branches: [main]
+    paths: ['apps/**', 'debs/**', 'icons/**', 'depictions/images/**', 'metadata/**']
+  release:
+    types: [published, created, edited]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "📥 Checkout Repository"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "🐍 Setup Python"
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: "🛠 Cài đặt thư viện & Khởi tạo cấu trúc"
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+          # Khởi tạo đúng chuẩn các thư mục theo sơ đồ của anh
+          mkdir -p apps debs icons depictions/images metadata
+
+      - name: "🚀 Chạy Script Sync (Xử lý Media & Đóng gói Hệ thống)"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 sync.py
+
+      - name: "📤 Commit và Push thay đổi"
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # Chỉ định chuẩn xác các tệp tin cấu hình đầu ra
+          git add apps.json Packages Packages.bz2 metadata/wikiipa.json depictions/*.json
+          
+          if git diff --staged --quiet; then
+            echo "Không có thay đổi nào để commit."
+          else
+            git commit -m "🚀 Auto Sync Repo: $(date +'%d/%m/%Y %H:%M')"
+            git pull --rebase origin main
+            git push origin main
+          fi
+
+      - name: "🤖 Bot Tổng Kết Telegram"
+        if: always()
+        env:
+          TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TO: ${{ secrets.TELEGRAM_TO }}
+        run: |
+          TIME_STR=$(TZ="Asia/Ho_Chi_Minh" date +"%H:%M %A %d/%m/%Y")
+          TIME_STR=$(echo "$TIME_STR" | sed -e 's/Monday/Thứ hai/' -e 's/Tuesday/Thứ ba/' -e 's/Wednesday/Thứ tư/' -e 's/Thursday/Thứ năm/' -e 's/Friday/Thứ sáu/' -e 's/Saturday/Thứ bảy/' -e 's/Sunday/Chủ nhật/')
+
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            TITLE="🔄 <b>ĐỒNG BỘ HỆ THỐNG REPO</b>"
+            STATUS="Bảo trì hoàn tất ♻️"
+          else
+            TITLE="🆙 <b>UPLOAD LÊN HỆ THỐNG REPO</b>"
+            STATUS="Tải lên hệ thống hoàn tất ♻️"
+          fi
+
+          INFO="📱 <b>Apps:</b> <code>${{ env.total_apps }}</code> | size: <code>${{ env.total_apps_size }}</code>"$'\n'
+          INFO+="📦 <b>Tweaks:</b> <code>${{ env.total_tweaks }}</code> | size: <code>${{ env.total_tweaks_size }}</code>"$'\n'
+          INFO+="📊 <b>Status:</b> $STATUS"
+
+          DESC_RAW="Hệ thống Repo\n──────────────────\nDữ liệu đã được kiểm tra và đồng bộ hóa thực tế."
+          DESC_ESCAPED=$(echo -e "$DESC_RAW")
+
+          MSG="${TITLE}\n──────────────────\n${INFO}\n📝 <b>Describe:</b> <blockquote>${DESC_ESCAPED}</blockquote>\n──────────────────\n⏰ <b>Time:</b> <code>$TIME_STR</code>"
+          
+          KEYBOARD=$(jq -nrc --arg u1 "https://2kgt.github.io/repo/" '{inline_keyboard: [[{text: "🌐 Add source", url: $u1}]]}')
+
+          curl -s -X POST "https://api.telegram.org/bot$TOKEN/sendMessage" \
+            -d "chat_id=$TO" -d "parse_mode=HTML" -d "disable_web_page_preview=true" \
+            --data-urlencode "text=$(echo -e "$MSG")" \
+            --data-urlencode "reply_markup=$KEYBOARD"

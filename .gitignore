@@ -1,0 +1,58 @@
+# ==========================================
+# 🛑 BIẾN TẠM & RÁC HỆ THỐNG PYTHON
+# ==========================================
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.Python
+env/
+venv/
+ENV/
+
+# ==========================================
+# 🛑 TỆP TIN TẠM PHÁT SINH KHI QUÉT DEB/IPA
+# ==========================================
+temp_*
+*.tmp
+*.bak
+control.tar*
+data.tar*
+debian-binary
+
+# ==========================================
+# 🛠️ RÁC PHÁT SINH KHI BUILD TWEAK & APP
+# ==========================================
+.theos/
+obj/
+build/
+DerivedData/
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+*.xcworkspace/*
+!*.xcworkspace/contents.xcworkspacedata
+.metadata/
+*.log
+
+# ==========================================
+# 🛑 DỮ LIỆU ĐẶC THÙ CỦA MACOS / WINDOWS
+# ==========================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ==========================================
+# 🛑 GHIM ĐẶC BIỆT CHO REPO ⚠️
+# ==========================================
+!debs/
+!apps/
+!icons/
+!depictions/
+!metadata/
+!src/
+!Packages*
+!apps.json
