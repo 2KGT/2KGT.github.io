@@ -1,4 +1,4 @@
-name: "Auto Sync Esign & Sileo"
+Name: "Auto Sync Feather & Sileo"
 
 on:
   push:
@@ -40,8 +40,8 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           
-          # Chỉ định chuẩn xác các tệp tin cấu hình đầu ra
-          git add apps.json Packages Packages.bz2 metadata/wikiipa.json depictions/*.json
+          # Đã sửa: Quét và gom SẠCH SẼ toàn bộ thay đổi (bao gồm cả Release và sileo.json)
+          git add -A
           
           if git diff --staged --quiet; then
             echo "Không có thay đổi nào để commit."
