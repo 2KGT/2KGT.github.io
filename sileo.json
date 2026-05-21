@@ -1,0 +1,33 @@
+{
+  "minVersion": "0.1",
+  "class": "SileoRootDepiction",
+  "headerImage": "https://raw.githubusercontent.com/2KGT/repo/main/depictions/images/Kyic_banner.png",
+  "tintColor": "#848ef9",
+  "tabs": [
+    {
+      "tabname": "Cửa Hàng",
+      "class": "SileoListViewDepiction",
+      "views": [
+        {
+          "class": "SileoMarkdownDepiction",
+          "markdown": "## Kyic Premium Store ✨\nChào mừng bạn đã đến với kho tiện ích nâng cao hệ thống. Mọi tài nguyên cấu hình đều được đồng bộ tự động hóa an toàn.",
+          "useMargins": true
+        },
+        {
+          "class": "SileoControlCenterButtonDepiction",
+          "title": "ℹ️ Giới thiệu về Kyic Premium",
+          "action": "https://github.com/2KGT/repo/blob/main/README.md"
+        },
+        {
+          "class": "SileoSpacerDepiction",
+          "spacing": 10
+        },
+        {
+          "class": "SileoControlCenterButtonDepiction",
+          "title": "❤️ Tặng Đức ly cà phê (Donate qua Paypal/MoMo)",
+          "action": "https://www.paypal.me/225668"
+        }
+      ]
+    }
+  ]
+}
