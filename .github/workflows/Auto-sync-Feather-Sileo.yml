@@ -1,5 +1,4 @@
-Name: "Auto Sync Feather & Sileo"
-
+name: "Auto Sync Feather & Sileo"
 on:
   push:
     branches: [main]
