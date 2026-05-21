@@ -414,7 +414,7 @@ def generate_sileo_main_repo_json():
                     },
                     {
                         "class": "SileoControlCenterButtonDepiction",
-                        "title": "❤️ Tặng Đức ly cà phê (Donate qua Paypal/MoMo)",
+                        "title": "❤️ Tặng Kyic ly cà phê (Donate qua Paypal/MoMo)",
                         "action": "https://www.paypal.me/225668"
                     }
                 ]
