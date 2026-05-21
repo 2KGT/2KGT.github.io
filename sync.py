@@ -251,7 +251,8 @@ def extract_deb_control_data(path):
     info = {
         "Package": "", "Name": "", "Version": "1.0", 
         "Description": "Một tweak tuyệt vời từ Kyic Store.", 
-        "Author": "Kyic Store", "Section": "Tweaks"
+        "Author": "Kyic Store", "Section": "Tweaks",
+        "Architecture": "iphoneos-arm" # Mặc định nếu file không khai báo
     }
     try:
         with open(path, 'rb') as f:
@@ -268,6 +269,7 @@ def extract_deb_control_data(path):
                         if ':' in line:
                             k, v = line.split(':', 1)
                             k, v = k.strip(), v.strip()
+                            # Lưu tất cả các key bao gồm cả Architecture
                             info[k] = v
             os.remove(tar_file)
     except: pass
@@ -297,9 +299,9 @@ def get_tweak_assets(tweak_name, deb_info):
         
     return {"icon": clean_github_url(icon_url), "banner": clean_github_url(banner_url), "video": clean_github_url(video_url), "screenshots": screens}
 
-# [Task S-3]: Khởi tạo cấu trúc phân tầng JSON kết xuất đồ họa ba tab cho từng Tweak vào thư mục depictions/
-def build_sileo_depiction_json(package_id, tweak_name, version, description, assets, author, deb_info):
-    file_path = os.path.join(DEPICTION_DIR, f"{tweak_name}.json")
+# [Task S-3]: Khởi tạo cấu trúc phân tầng JSON kết xuất đồ họa ba tab (Đặt tên theo file deb để tránh trùng)
+def build_sileo_depiction_json(safe_filename, tweak_name, version, description, assets, author, deb_info):
+    file_path = os.path.join(DEPICTION_DIR, f"{safe_filename}.json")
     changelog_text = deb_info.get('Changes') or deb_info.get('Changelog') or deb_info.get('changes') or "Cập nhật và tối ưu hóa cấu trúc gói cài đặt hệ thống nhằm tương thích tốt nhất với Sileo."
     dev_name = deb_info.get('Developer') or author
     
@@ -315,7 +317,7 @@ def build_sileo_depiction_json(package_id, tweak_name, version, description, ass
                 "views": [
                     {
                         "class": "SileoMarkdownDepiction",
-                        "markdown": f"### {tweak_name}\n\n{description}\n\nPhát triển bởi **{dev_name}**.",
+                        "markdown": f"### {tweak_name}\n\n{description}\n\nKiến trúc: `{deb_info.get('Architecture', 'iphoneos-arm')}`\nPhát triển bởi **{dev_name}**.",
                         "useBoldText": True
                     },
                     {
@@ -345,7 +347,8 @@ def build_sileo_depiction_json(package_id, tweak_name, version, description, ass
                         "rows": [
                             ["Nhà phát triển", dev_name],
                             ["Phiên bản", str(version)],
-                            ["Định danh", package_id],
+                            ["Định danh", deb_info.get('Package', '')],
+                            ["Kiến trúc", deb_info.get('Architecture', 'iphoneos-arm')],
                             ["Phân mục", deb_info.get('Section', 'Tweaks')]
                         ]
                     }
@@ -414,7 +417,7 @@ def generate_sileo_main_repo_json():
                     },
                     {
                         "class": "SileoControlCenterButtonDepiction",
-                        "title": "❤️ Tặng Kyic ly cà phê (Donate qua Paypal/MoMo)",
+                        "title": "❤️ Tặng Đức ly cà phê (Donate qua Paypal/MoMo)",
                         "action": "https://www.paypal.me/225668"
                     }
                 ]
@@ -435,10 +438,17 @@ def run_sileo_engine(release_assets):
                 path = os.path.join("debs", f_name)
                 deb_info = extract_deb_control_data(path)
                 bid, tweak_title, ver, desc, author = deb_info["Package"], deb_info["Name"], deb_info["Version"], deb_info["Description"], deb_info["Author"]
+                arch = deb_info["Architecture"]
                 assets = get_tweak_assets(tweak_title, deb_info)
                 
-                build_sileo_depiction_json(bid, tweak_title, ver, desc, assets, author, deb_info)
-                tweaks_map[bid].append({"name": tweak_title, "ver": str(ver), "bid": bid, "dl": f"{BASE_URL}{path}", "sz": int(os.path.getsize(path)), "desc": desc, "author": author, "icon": assets["icon"]})
+                safe_filename = f_name.rsplit('.', 1)[0]
+                build_sileo_depiction_json(safe_filename, tweak_title, ver, desc, assets, author, deb_info)
+                
+                tweaks_map[bid].append({
+                    "name": tweak_title, "ver": str(ver), "bid": bid, "arch": arch,
+                    "dl": f"{BASE_URL}{path}", "sz": int(os.path.getsize(path)), 
+                    "desc": desc, "author": author, "icon": assets["icon"], "safe_file": safe_filename
+                })
 
     for asset in release_assets:
         f_name = asset["name"]
@@ -449,39 +459,45 @@ def run_sileo_engine(release_assets):
             if os.path.exists(temp_path): os.remove(temp_path)
 
             bid, tweak_title, ver, desc, author = deb_info["Package"], deb_info["Name"], deb_info["Version"], deb_info["Description"], deb_info["Author"]
+            arch = deb_info["Architecture"]
             assets = get_tweak_assets(tweak_title, deb_info)
             
-            build_sileo_depiction_json(bid, tweak_title, ver, desc, assets, author, deb_info)
+            safe_filename = f_name.rsplit('.', 1)[0]
+            build_sileo_depiction_json(safe_filename, tweak_title, ver, desc, assets, author, deb_info)
+            
             if not any(x['dl'] == f_url for x in tweaks_map[bid]):
-                tweaks_map[bid].append({"name": tweak_title, "ver": str(ver), "bid": bid, "dl": f_url, "sz": asset["size"], "desc": desc, "author": author, "icon": assets["icon"]})
+                tweaks_map[bid].append({
+                    "name": tweak_title, "ver": str(ver), "bid": bid, "arch": arch,
+                    "dl": f_url, "sz": asset["size"], 
+                    "desc": desc, "author": author, "icon": assets["icon"], "safe_file": safe_filename
+                })
 
-    # [Task S-6]: Sắp xếp danh sách gói cài đặt theo thứ tự bảng chữ cái alphabet của tên Tweak
+    # [Task S-6]: Sắp xếp danh sách và kết xuất không ghi đè chéo kiến trúc
     final_packages = ""
     sorted_bids = sorted(tweaks_map.keys(), key=lambda b: tweaks_map[b][0]['name'].lower())
     
     for bid in sorted_bids:
         versions = tweaks_map[bid]
+        # Sắp xếp tăng dần theo phiên bản để bản mới nhất nằm dưới cùng theo đúng quy chuẩn APT
         versions.sort(key=lambda x: x['ver']) 
 
         for v_item in versions:
-            original_filename = v_item['name']
-            
             final_packages += f"Package: {bid}\n"
             final_packages += f"Name: {v_item['name']}\n"
             final_packages += f"Version: {v_item['ver']}\n"
-            final_packages += f"Architecture: iphoneos-arm\n"
+            final_packages += f"Architecture: {v_item['arch']}\n" # Ghi kiến trúc thực tế (arm/arm64/arm64e)
             final_packages += f"Filename: {v_item['dl'].replace(BASE_URL, '')}\n"
             final_packages += f"Size: {v_item['sz']}\n"
             final_packages += f"Author: {v_item['author']}\n"
             final_packages += f"Description: {v_item['desc']}\n"
             final_packages += f"Icon: {v_item['icon']}\n"
-            final_packages += f"SileoDepiction: {BASE_URL}{DEPICTION_DIR}/{original_filename}.json\n\n"
+            final_packages += f"SileoDepiction: {BASE_URL}{DEPICTION_DIR}/{v_item['safe_file']}.json\n\n"
 
     # [Task S-7]: Biến dịch và đóng gói toàn bộ thuộc tính kỹ thuật vào tệp phân phối cốt lõi Packages
     with open("Packages", "w", encoding="utf-8") as f: f.write(final_packages)
     
     generate_sileo_main_repo_json()
-    print("✅ Lộ trình Sileo (#S) hoàn tất với bộ cào chuyên sâu!")
+    print("✅ Lộ trình Sileo (#S) hoàn tất với bộ cào chuyên sâu phân tách Kiến trúc!")
 
 # ==========================================================================
 # 📌 KHỐI IV: TIẾN TRÌNH ĐIỀU TỐC TỔNG HỢP GỐC (🟡 #M)
