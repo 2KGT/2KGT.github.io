@@ -28,30 +28,26 @@
           "screenshots": [
             {
               "accessibilityText": "Screenshot0",
-              "url": "https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/images/Kyic.mp4"
-            },
-            {
-              "accessibilityText": "Screenshot1",
               "url": "https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/images/Kyic1.png"
             },
             {
-              "accessibilityText": "Screenshot2",
+              "accessibilityText": "Screenshot1",
               "url": "https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/images/Kyic2.png"
             },
             {
-              "accessibilityText": "Screenshot3",
+              "accessibilityText": "Screenshot2",
               "url": "https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/images/Kyic3.png"
             },
             {
-              "accessibilityText": "Screenshot4",
+              "accessibilityText": "Screenshot3",
               "url": "https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/images/Kyic4.png"
             },
             {
-              "accessibilityText": "Screenshot5",
+              "accessibilityText": "Screenshot4",
               "url": "https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/images/Kyic5.png"
             },
             {
-              "accessibilityText": "Screenshot6",
+              "accessibilityText": "Screenshot5",
               "url": "https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/images/Kyic6.png"
             }
           ],
