@@ -1438,6 +1438,21 @@ Section: Tweaks
 Icon: https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/icons/ytlite.png
 SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/com.dvntm.ytlite_5.2~b3_iphoneos-arm64e.json
 
+Package: com.eevee.youtubefix
+Name: YouTube Fix
+Version: 1.0
+Architecture: iphoneos-arm
+Filename: debs/youtubefix/youtubefix_1.0_arm.deb
+Size: 3340
+MD5sum: d99e00f006098a79723750b6988d6226
+SHA1: f83d4ed4d2aab84a1c9cef1a2f0e1066006ea5ce
+SHA256: 18d40b2c0dd880665b39480eba4f1a21597ba7b6f72bcf4e23e4fcc08429773e
+Author: Eevee
+Description: Fix YouTube images not loading
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/icons/Kyic.png
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/youtubefix_1.0_arm.json
+
 Package: com.ginsu.ytmusicultimate
 Name: YTMusicUltimate
 Version: 2.4.1
@@ -1587,6 +1602,111 @@ Description: Tweak autoac từ Kyic Store.
 Section: Tweaks
 Icon: https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/icons/Kyic.png
 SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/autoac_1.0.7.json
+
+Package: com.ps.noytpremium
+Name: NoYTPremium
+Version: 1.0.7
+Architecture: iphoneos-arm
+Filename: debs/noytpremium/noytpremium_1.0.7_arm.deb
+Size: 2842
+MD5sum: c8822406448994c0a0b1e316501b2da2
+SHA1: bbdd609cd6007ba0cfaa7982821ff4782b6a5843
+SHA256: 3283e35eeed1b8526e389056571a1110dfd0c9541ac29d34b4c495f6b500a934
+Author: PoomSmart
+Description: Removes YouTube Premium upsells.
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/icons/Kyic.png
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/noytpremium_1.0.7_arm.json
+
+Package: com.ps.yougroupsettings
+Name: YouGroupSettings
+Version: 1.0.10
+Architecture: iphoneos-arm
+Filename: debs/yougroupsettings/yougroupsettings_1.0.10-arm.deb
+Size: 5258
+MD5sum: 33ecd42eea00b048350fb95dd371a2e9
+SHA1: 677316ea26a4fa459e4e2e20b78da970258764f8
+SHA256: aafa0091f3c47d1fa3b951873a87f311d133ea911f5f5c50cb9dc6e41af4cd84
+Author: PoomSmart <unicorn03.glimmer@icloud.com>
+Description: Allows tweak-made settings to be grouped and displayed in iOS YouTube app.
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/icons/Kyic.png
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/yougroupsettings_1.0.10-arm.json
+
+Package: com.ps.youmute
+Name: YouMute
+Version: 1.4.0
+Architecture: iphoneos-arm
+Filename: debs/youmute/youmute_1.4.0_arm.deb
+Size: 6198
+MD5sum: 151fc1b208fa9105da9f6d74c0069029
+SHA1: 6501bf2a689b1d75317249dbf676b25bd4ffdc12
+SHA256: 27b098f4ac4da14b8ca719f70eff5432bdd41885160a47e799958577acd744ae
+Author: PoomSmart
+Description: Mutes/unmutes videos in YouTube directly.
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/icons/Kyic.png
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/youmute_1.4.0_arm.json
+
+Package: com.ps.youspeed
+Name: YouSpeed
+Version: 1.6.6
+Architecture: iphoneos-arm
+Filename: debs/youspeed/youspeed_1.6.6_arm.deb
+Size: 12130
+MD5sum: b351b096edbee16abd3382f08bd66bd5
+SHA1: 0d38455c807632e3a43939cce996abad1d5e3f5a
+SHA256: fb6587b7241c02788fbe0eb143cbfb2728183ea42dc3aa666a54eaf04e390da2
+Author: PoomSmart
+Description: Views/changes video speed in iOS YouTube app faster, and more speed options.
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/icons/Kyic.png
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/youspeed_1.6.6_arm.json
+
+Package: com.ps.ytunshorts
+Name: YTUnShorts
+Version: 1.3.1
+Architecture: iphoneos-arm
+Filename: debs/ytunshorts/ytunshorts_1.3.1_arm.deb
+Size: 3272
+MD5sum: 5e24e9313e8a3ed072821a3bc78ce16d
+SHA1: 4dfa72e3cf924c9aad1af3b0d989b6aa4b812ab4
+SHA256: 71e51ac80e9976a1c5338e5e869cd3e02583eb2135607d44c407145a8612e9b6
+Author: PoomSmart
+Description: Removes Shorts from YouTube app's feed.
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/icons/Kyic.png
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/ytunshorts_1.3.1_arm.json
+
+Package: com.ps.ytvideooverlay
+Name: YTVideoOverlay
+Version: 2.3.5
+Architecture: iphoneos-arm
+Filename: debs/ytvideooverlay/ytvideooverlay_2.3.5_arm.deb
+Size: 16312
+MD5sum: 23e3dd7f153f1d4e90d8da2c1baada80
+SHA1: 52396294a57763e3c658649b8bf9cf8097aa2cb0
+SHA256: ca8d34f15b4f7702b254970a41ece76a38e4f3e56261bf4bac3b919de4324344
+Author: PoomSmart
+Description: A helper tweak to add buttons on YouTube video overlay.
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/icons/Kyic.png
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/ytvideooverlay_2.3.5_arm.json
+
+Package: com.ps.ytx
+Name: YouTube X
+Version: 1.7.19
+Architecture: iphoneos-arm
+Filename: debs/YoutubeX/YoutubeX_1.7.19_arm.deb
+Size: 5728
+MD5sum: 1fe505d84bec2e5b24d2bb26e48ac48f
+SHA1: 18ee76c6192cba0e15d11ae97d8db7bc37776f93
+SHA256: 5c4203245b9eafa05fd356f21e7613788146dcad6abcda3ae193b6d1b6cc26a5
+Author: PoomSmart
+Description: A YouTube improvement tweak.
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/icons/Kyic.png
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/YoutubeX_1.7.19_arm.json
 
 Package: dev.water888.youmod
 Name: YouMod
