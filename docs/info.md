@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 31/05/2026 08:01:23 (ICT)*
+⏱️ *Cập nhật tự động lúc: 31/05/2026 09:21:01 (ICT)*
 
 ```text
 🗺️ Root/
@@ -116,8 +116,8 @@
     │   ├── 📂 icons/
     │   │   └── [ 📊 Tóm tắt tài nguyên: 📸 Ảnh JPG: 11 file, 🖼️ Ảnh PNG: 23 file ]
     │   ├── 📂 images/
-    │   │   └── [ 📊 Tóm tắt tài nguyên: 📸 Ảnh JPG: 44 file, 🖼️ Ảnh PNG: 19 file ]
+    │   │   └── [ 📊 Tóm tắt tài nguyên: 📸 Ảnh JPG: 44 file, 🖼️ Ảnh PNG: 14 file ]
     │   └── 📂 metadata/
-    │       └── [ 📊 Tóm tắt tài nguyên: ⚙️ Cấu hình .json: 111 file ]
+    │       └── [ 📊 Tóm tắt tài nguyên: ⚙️ Cấu hình .json: 119 file ]
     └── [ 📊 Tóm tắt tài nguyên: ⚙️ Cấu hình .json: 2 file, 🖼️ Ảnh PNG: 1 file ]
 ```
