@@ -28,7 +28,23 @@
           "screenshots": [
             {
               "accessibilityText": "Screenshot0",
-              "url": "https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/images/Kyic6.png"
+              "url": "https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/images/Kyic1.jpeg"
+            },
+            {
+              "accessibilityText": "Screenshot1",
+              "url": "https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/images/Kyic2.jpeg"
+            },
+            {
+              "accessibilityText": "Screenshot2",
+              "url": "https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/images/Kyic3.jpeg"
+            },
+            {
+              "accessibilityText": "Screenshot3",
+              "url": "https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/images/Kyic4.jpeg"
+            },
+            {
+              "accessibilityText": "Screenshot4",
+              "url": "https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/images/Kyic5.jpeg"
             }
           ],
           "itemSize": "{160, 275.41333333333336}",
