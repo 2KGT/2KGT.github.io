@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 30/05/2026 16:26:12 (ICT)*
+⏱️ *Cập nhật tự động lúc: 31/05/2026 08:01:23 (ICT)*
 
 ```text
 🗺️ Root/
@@ -68,6 +68,8 @@
     │   │   └── 全能签.txt
     │   └── [ 📊 Tóm tắt tài nguyên: 📱 Ứng dụng iOS .ipa: 13 file ]
     ├── 📂 debs/
+    │   ├── 📂 YoutubeX/
+    │   │   └── [ 📊 Tóm tắt tài nguyên: 📦 Gói tinh chỉnh .deb: 1 file ]
     │   ├── 📂 cc18/
     │   │   └── [ 📊 Tóm tắt tài nguyên: 📦 Gói tinh chỉnh .deb: 3 file ]
     │   ├── 📂 ccappicon/
@@ -80,6 +82,8 @@
     │   │   └── [ 📊 Tóm tắt tài nguyên: 📦 Gói tinh chỉnh .deb: 18 file ]
     │   ├── 📂 infuseplus/
     │   │   └── [ 📊 Tóm tắt tài nguyên: 📦 Gói tinh chỉnh .deb: 18 file ]
+    │   ├── 📂 noytpremium/
+    │   │   └── [ 📊 Tóm tắt tài nguyên: 📦 Gói tinh chỉnh .deb: 1 file ]
     │   ├── 📂 oledkeyboard/
     │   │   └── [ 📊 Tóm tắt tài nguyên: 📦 Gói tinh chỉnh .deb: 3 file ]
     │   ├── 📂 orwellvk/
@@ -88,14 +92,26 @@
     │   │   └── [ 📊 Tóm tắt tài nguyên: 📦 Gói tinh chỉnh .deb: 12 file ]
     │   ├── 📂 twlegacy/
     │   │   └── [ 📊 Tóm tắt tài nguyên: 📦 Gói tinh chỉnh .deb: 3 file ]
+    │   ├── 📂 yougroupsettings/
+    │   │   └── [ 📊 Tóm tắt tài nguyên: 📦 Gói tinh chỉnh .deb: 1 file ]
     │   ├── 📂 youmod/
+    │   │   └── [ 📊 Tóm tắt tài nguyên: 📦 Gói tinh chỉnh .deb: 1 file ]
+    │   ├── 📂 youmute/
+    │   │   └── [ 📊 Tóm tắt tài nguyên: 📦 Gói tinh chỉnh .deb: 1 file ]
+    │   ├── 📂 youspeed/
+    │   │   └── [ 📊 Tóm tắt tài nguyên: 📦 Gói tinh chỉnh .deb: 1 file ]
+    │   ├── 📂 youtubefix/
     │   │   └── [ 📊 Tóm tắt tài nguyên: 📦 Gói tinh chỉnh .deb: 1 file ]
     │   ├── 📂 yt-native-share/
     │   │   └── [ 📊 Tóm tắt tài nguyên: 📦 Gói tinh chỉnh .deb: 3 file ]
     │   ├── 📂 ytmu/
     │   │   └── [ 📊 Tóm tắt tài nguyên: 📦 Gói tinh chỉnh .deb: 9 file ]
-    │   └── 📂 ytplus/
-    │       └── [ 📊 Tóm tắt tài nguyên: 📦 Gói tinh chỉnh .deb: 18 file ]
+    │   ├── 📂 ytplus/
+    │   │   └── [ 📊 Tóm tắt tài nguyên: 📦 Gói tinh chỉnh .deb: 18 file ]
+    │   ├── 📂 ytunshorts/
+    │   │   └── [ 📊 Tóm tắt tài nguyên: 📦 Gói tinh chỉnh .deb: 1 file ]
+    │   └── 📂 ytvideooverlay/
+    │       └── [ 📊 Tóm tắt tài nguyên: 📦 Gói tinh chỉnh .deb: 1 file ]
     ├── 📂 depictions/
     │   ├── 📂 icons/
     │   │   └── [ 📊 Tóm tắt tài nguyên: 📸 Ảnh JPG: 11 file, 🖼️ Ảnh PNG: 23 file ]

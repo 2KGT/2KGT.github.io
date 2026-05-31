@@ -3,6 +3,7 @@ Lịch sử cập nhật và nâng cấp mã nguồn hệ thống.
 
 | 🕒 Thời gian | 📝 Nội dung cập nhật | 👤 Người thực hiện |
 | :--- | :--- | :--- |
+| ⏰ 08:01 31/05/2026 | add foder deb | 2K |
 | ⏰ 16:26 30/05/2026 | Delete repo/depictions/images/Kyic.mp4 | 2K |
 | ⏰ 15:52 30/05/2026 | Update sileo_engine.py | 2K |
 | ⏰ 15:40 30/05/2026 | Update sileo_engine.py | 2K |
