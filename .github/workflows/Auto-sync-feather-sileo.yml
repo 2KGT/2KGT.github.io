@@ -1,0 +1,76 @@
+name: "Auto sync feather sileo"
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'repo/apps/**'
+      - 'repo/debs/**'
+      - 'repo/depictions/icons/**'
+      - 'repo/depictions/images/**'
+      - 'repo/depictions/metadata/**'
+  release:
+    types: [published, created, edited]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      
+    steps:
+      - name: "📥 Checkout Repository"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "🐍 Setup Python"
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: "🛠 Cài đặt thư viện & Khởi tạo cấu trúc"
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+          mkdir -p repo/apps repo/debs repo/depictions/icons repo/depictions/images repo/depictions/metadata
+
+      - name: "🚀 Khởi Chạy Bộ Máy Tự Động Hóa (Core Engine)"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          # ÁNH XẠ TELEGRAM: Kết nối biến hệ thống cần với Secrets
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_CHANNEL: ${{ secrets.TELEGRAM_CHANNEL }}
+          TELEGRAM_GROUP: ${{ secrets.TELEGRAM_GROUP }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }} 
+        run: |
+          cd .github/scripts
+          # Khai báo để Python nhận diện được gói module core/ cùng cấp
+          export PYTHONPATH=$PYTHONPATH:$(pwd)
+          # Chạy đầu não duy nhất (đã bao gồm xử lý dữ liệu và gọi AI Gemini)
+          python3 main.py
+
+      - name: "📤 Commit và Push dữ liệu mới"
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # Kiểm tra xem có thay đổi không
+          git add -A
+          if git diff --staged --quiet; then
+            echo "Không có thay đổi dữ liệu nào để commit."
+            exit 0
+          fi
+          
+          # Commit thay đổi
+          git commit -m "🚀 Auto Sync Repo: $(date +'%d/%m/%Y %H:%M')"
+          
+          # Đảm bảo đồng bộ trước khi đẩy
+          # Sử dụng --rebase để giữ lịch sử sạch
+          git pull --rebase origin main
+          
+          # Đẩy trực tiếp từ HEAD vào nhánh main
+          git push origin HEAD:main
