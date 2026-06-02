@@ -68,6 +68,17 @@ def calculate_repo_statistics():
 
     return total_apps, total_apps_size, total_tweaks, total_tweaks_size
 
+# ==========================================
+# CẬP NHẬT THÔNG ĐIỆP COMMIT THÔNG MINH
+# ==========================================
+def save_commit_message(total_apps, total_tweaks):
+    """Ghi thông điệp commit ra file để Workflow sử dụng"""
+    msg = f"🚀 Repo Sync: {total_apps} apps, {total_tweaks} tweaks | $(date +'%d/%m/%Y %H:%M')"
+    try:
+        with open('.commit_msg', 'w', encoding='utf-8') as f:
+            f.write(msg)
+    except Exception as e:
+        print(f"⚠️ Lỗi khi ghi file commit message: {e}")
 
 # ==========================================
 # ĐẦU NÃO ĐIỀU PHỐI CHÍNH (PIPELINE)
@@ -87,13 +98,11 @@ def main():
     # Bước 3: Phân loại dữ liệu và chạy xử lý cho từng đối tượng tương ứng
     logger.info("⚙️ Khâu 3: Phân loại dữ liệu và kích hoạt các lõi Engine...")
     
-    # 3.1 Chuyển dữ liệu IPA sang cho Feather xử lý tạo cấu trúc phẳng
     try:
         feather_engine.run_feather_engine(raw_assets.get("ipa", []), system_db)
     except Exception as e:
         logger.error(f"Lỗi tại Feather Engine: {e}")
         
-    # 3.2 Chuyển dữ liệu DEB sang cho Sileo xử lý tạo Packages/Depictions
     try:
         sileo_engine.run_sileo_engine(raw_assets.get("deb", []), system_db)
     except Exception as e:
@@ -101,6 +110,9 @@ def main():
 
     # Bước 4 & 5: Đưa qua bộ tính toán thống kê và cập nhật bộ đệm JSON cục bộ
     total_apps, total_apps_size, total_tweaks, total_tweaks_size = calculate_repo_statistics()
+    
+    # Lưu thông điệp commit ngay tại đây
+    save_commit_message(total_apps, total_tweaks)
     
     try:
         with open(config.FEATHER_DATABASE, 'w', encoding='utf-8') as f: 
@@ -116,12 +128,12 @@ def main():
         total_apps, total_apps_size, total_tweaks, total_tweaks_size
     )
     
-    # Kết thúc tiến trình, gửi thông báo chốt hạ tới nhóm hỗ trợ Telegram
+    # Kết thúc tiến trình
     print("[SUCCESS] 🏁 Pipeline hoàn thành chu trình xuất sắc!")
     logger.maintenance_heartbeat()
     logger.clear_live_logs()
 
-    # Bắn thông báo cuối cùng lên Telegram kèm nút bấm
+    # Bắn thông báo cuối cùng lên Telegram
     TOKEN = os.getenv("TELEGRAM_TOKEN")
     CHAT_ID = os.getenv("TELEGRAM_CHAT_ID") or os.getenv("TELEGRAM_CHANNEL")
     URL_NGUON = "https://2kgt.github.io/" 
