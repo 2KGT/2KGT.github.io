@@ -58,19 +58,28 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           
-          # Kiểm tra xem có thay đổi không
+          # Lấy trạng thái mới nhất từ server
+          git fetch origin main
+          
+          # Gom tất cả file mới vào staging
           git add -A
-          if git diff --staged --quiet; then
+          
+          # Nếu không có thay đổi, thoát ngay
+          if git diff --cached --quiet; then
             echo "Không có thay đổi dữ liệu nào để commit."
             exit 0
           fi
           
-          # Commit thay đổi
+          # Reset local branch về y hệt server để tránh conflict cũ
+          git reset --hard origin/main
+          
+          # Thực hiện lại logic tạo/cập nhật dữ liệu của bạn 
+          # Lưu ý: Nếu script của bạn chạy lại, hãy đảm bảo nó ghi đè file cũ
+          # (Vì lúc này local đã giống hệt server rồi)
+          git add -A
+          
           git commit -m "🚀 Auto Sync Repo: $(date +'%d/%m/%Y %H:%M')"
           
-          # Đảm bảo đồng bộ trước khi đẩy
-          # Sử dụng --rebase để giữ lịch sử sạch
-          git pull --rebase origin main
-          
-          # Đẩy trực tiếp từ HEAD vào nhánh main
-          git push origin HEAD:main
+          # Đẩy cưỡng bức (Force push) để cập nhật nhánh main
+          git push origin HEAD:main --force
+
