@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 02/06/2026 07:17:11 (ICT)*
+⏱️ *Cập nhật tự động lúc: 02/06/2026 07:45:26 (ICT)*
 
 ```text
 🗺️ Root/
