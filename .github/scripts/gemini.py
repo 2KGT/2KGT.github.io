@@ -100,7 +100,7 @@ def process_and_dispatch_env(system_db, old_apps, old_tweaks, total_apps, total_
         f"⏰ <b>Time</b>: {current_time_str}\n"
         f"📱 <b>Apps</b>: {total_apps} | {total_apps_size}\n"
         f"📦 <b>Tweaks</b>: {total_tweaks} | {total_tweaks_size}\n"
-        f"🏗 <b>Structure</b>: {structure_str}\n"
+        f"🏗 <bMore</b>: {structure_str}\n"
         f"📊 <b>Status</b>: Bảo trì hoàn tất\n"
         f"📝 <b>Describe</b>: {smart_desc}\n"
         f"──────────────────\n"
