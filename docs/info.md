@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 01/06/2026 15:44:12 (ICT)*
+⏱️ *Cập nhật tự động lúc: 02/06/2026 07:09:20 (ICT)*
 
 ```text
 🗺️ Root/
@@ -118,7 +118,7 @@
     │   ├── 📂 images/
     │   │   ├── Kyic.webm
     │   │   ├── Kyic_banner.mov
-    │   │   └── [ 📊 Tóm tắt tài nguyên: 📸 Ảnh JPEG: 5 file, 📸 Ảnh JPG: 44 file, 🖼️ Ảnh PNG: 12 file ]
+    │   │   └── [ 📊 Tóm tắt tài nguyên: 📸 Ảnh JPG: 44 file, 🖼️ Ảnh PNG: 12 file ]
     │   └── 📂 metadata/
     │       └── [ 📊 Tóm tắt tài nguyên: ⚙️ Cấu hình .json: 119 file ]
     └── [ 📊 Tóm tắt tài nguyên: ⚙️ Cấu hình .json: 2 file, 🖼️ Ảnh PNG: 1 file ]
