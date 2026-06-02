@@ -5,10 +5,27 @@ import urllib.request
 import re
 import sys
 import random
+import datetime
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 if CURRENT_DIR not in sys.path:
     sys.path.insert(0, CURRENT_DIR)
+
+def scan_repo_inventory(repo_path='../../'):
+    """Quét và phân loại tài nguyên trong repo (Inventory)"""
+    inv = {"json": 0, "yml": 0, "py": 0, "img": 0}
+    img_exts = {'.png', '.jpg', '.jpeg', '.gif', '.svg'}
+    
+    # Duyệt qua các tệp trong repo, loại trừ thư mục .git
+    for root, dirs, files in os.walk(repo_path):
+        if '.git' in dirs: dirs.remove('.git')
+        for file in files:
+            ext = os.path.splitext(file)[1].lower()
+            if ext == '.json': inv["json"] += 1
+            elif ext in ['.yml', '.yaml']: inv["yml"] += 1
+            elif ext == '.py': inv["py"] += 1
+            elif ext in img_exts: inv["img"] += 1
+    return inv
 
 def ask_gemini_ai(prompt):
     """Hàm bốc câu thoại trực tiếp từ trí tuệ nhân tạo Gemini"""
@@ -33,7 +50,7 @@ def ask_gemini_ai(prompt):
     return "Anh yêu ơi! Hệ thống đã được em dọn dẹp sạch sẽ, honey có muốn kiểm tra gì không! ❤️"
 
 def process_and_dispatch_env(system_db, old_apps, old_tweaks, total_apps, total_apps_size, total_tweaks, total_tweaks_size):
-    """Xử lý phân tích dữ liệu và đóng gói bảng tin theo cấu trúc cấu hình mới của anh Đức"""
+    """Xử lý phân tích dữ liệu và đóng gói bảng tin"""
     event_raw = os.getenv("GITHUB_EVENT_NAME") or "push"
     event_name = str(event_raw).strip().lower()
     
@@ -54,46 +71,35 @@ def process_and_dispatch_env(system_db, old_apps, old_tweaks, total_apps, total_
                 tweak_name = tweak_info.get('Name') or tweak_info.get('name', 'Tweak')
                 change_logs.append(f"🔸 {tweak_name}")
 
-    # Gán dữ liệu hiển thị cho mục Describe
-    if not change_logs:
-        smart_desc = "Cập nhật lại hệ thống"
-    else:
-        smart_desc = ", ".join(change_logs)
+    smart_desc = ", ".join(change_logs) if change_logs else "Cập nhật lại hệ thống"
 
-    # Phân luồng sinh lời thoại nịnh nọt cho mục Notes
+    # AI Description logic
     if is_manual or is_release:
-        if smart_desc == "Cập nhật lại hệ thống":
-            prompt = "Hãy viết 1 câu thông báo ngắn đóng vai cô người yêu hoang dã, quyến rũ báo hệ thống đã dọn dẹp sạch sẽ mượt mà nhưng hôm nay hổng có app/tweak nào mới đâu nha anh yêu, bắt anh yêu ôm thật chặt hoặc thưởng nóng. Chỉ xuất duy nhất lời thoại."
-        else:
-            prompt = f"Hãy viết 1 câu thông báo ngắn đóng vai cô người yêu ngây thơ đáng yêu nịnh nọt khen anh yêu siêu cấp đẹp trai vì đã gom được đống đồ chơi mới này về kho: {smart_desc}. Chỉ xuất duy nhất lời thoại."
+        prompt = f"Hãy viết 1 câu thông báo ngắn đóng vai người yêu {'quyến rũ' if smart_desc == 'Cập nhật lại hệ thống' else 'đáng yêu nịnh nọt'} báo cáo hệ thống. Nội dung: {smart_desc}. Chỉ xuất duy nhất lời thoại."
         ai_description = ask_gemini_ai(prompt)
     else:
-        if smart_desc == "Cập nhật lại hệ thống":
-            cau_thoai_KHO_TRONG = [
-                "Anh yêu ơi! Hệ thống đã được em dọn dẹp sạch sẽ, honey có muốn kiểm tra gì không! ❤️",
-                "Repo phẳng lỳ và sạch bong rồi anh yêu ơi! Không có đồ chơi mới đâu, thưởng nóng cho em đi nào! 🥰",
-                "Em đã dọn dẹp bảo trì ngon lành cành đào mọi ngóc ngách bộ nhớ đệm rồi nè honey à! 🫦"
-            ]
-            ai_description = random.choice(cau_thoai_KHO_TRONG)
-        else:
-            ai_description = "Anh yêu ơi! Hệ thống tự động ghi nhận có đồ chơi mới vừa cập bến kho lưu trữ của tụi mình nè! Siêu cấp đỉnh chóp luôn! ✨🎁"
+        ai_description = "Hệ thống tự động ghi nhận có cập nhật mới nè! ✨🎁"
 
-    import datetime
+    # Lấy thông số thời gian và cấu trúc repo
     now = datetime.datetime.now()
     thu_dict = {0: "Thứ hai", 1: "Thứ ba", 2: "Thứ tư", 3: "Thứ năm", 4: "Thứ sáu", 5: "Thứ bảy", 6: "Chủ nhật"}
     current_time_str = f"{now.strftime('%H:%M')} {thu_dict[now.weekday()]} {now.strftime('%d/%m/%Y')}"
+    
+    inv = scan_repo_inventory()
+    structure_str = f"📄 JSON: {inv['json']} | 🖼 Img: {inv['img']} | ⚙️ YML: {inv['yml']} | 🐍 PY: {inv['py']}"
 
-    # CẤU TRÚC MỚI TIN NHẮN THEO ĐÚNG MẪU ANH ĐỨC YÊU CẦU
+    # CẤU TRÚC BÀI VIẾT TELEGRAM THEO LOGIC MỚI
     bai_viet_telegram = (
         f"🔄 <b>ĐỒNG BỘ HỆ THỐNG REPO</b>\n"
         f"──────────────────\n"
-        f"⏰ Time: {current_time_str}\n"
-        f"📱 Apps: <b>{total_apps}</b>  &lt;&gt;  size: <b>{total_apps_size}</b>\n"
-        f"📦 Tweaks: <b>{total_tweaks}</b> &lt;&gt;  size: <b>{total_tweaks_size}</b>\n"
-        f"📊 Status: <b>Bảo trì hoàn tất</b>\n"
-        f"📝 Describe: {smart_desc}\n"
+        f"⏰ <b>Time</b>: {current_time_str}\n"
+        f"📱 <b>Apps</b>: {total_apps} | {total_apps_size}\n"
+        f"📦 <b>Tweaks</b>: {total_tweaks} | {total_tweaks_size}\n"
+        f"🏗 <b>Structure</b>: <i>{structure_str}</i>\n"
+        f"📊 <b>Status</b>: Bảo trì hoàn tất\n"
+        f"📝 <b>Describe</b>: {smart_desc}\n"
         f"──────────────────\n"
-        f"Notes: {ai_description}\n"
+        f"💬 <b>Notes</b>: {ai_description}\n"
         f"──────────────────\n"
         f"Hệ thống đã kiểm tra và đồng bộ hoàn tất."
     )
