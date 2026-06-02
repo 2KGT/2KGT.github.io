@@ -89,24 +89,18 @@ def process_and_dispatch_env(system_db, old_apps, old_tweaks, total_apps, total_
     structure_str = f"📄 JSON: {inv['json']} | 🖼 Img: {inv['img']} | ⚙️ YML: {inv['yml']} | 🐍 PY: {inv['py']}"
 
     # CẤU TRÚC BÀI VIẾT TELEGRAM
-       # 1. Quét và sắp xếp theo thứ tự A-Z (Img, JSON, PY, YML)
+    # Logic sắp xếp A-Z (Img, JSON, PY, YML)
     inv = scan_repo_inventory()
-    
-    # Sắp xếp theo tên để đảm bảo logic hiển thị A-Z
-    structure_str = (
-        f"   • Img: {inv['img']}  • JSON: {inv['json']}\n"
-        f"   • PY: {inv['py']}  • YML: {inv['yml']}"
-    )
+    structure_str = f"Img: {inv['img']}, JSON: {inv['json']}, PY: {inv['py']}, YML: {inv['yml']}"
 
-    # 2. Cấu trúc bài viết đã tinh gọn, bỏ hết icon thừa
+    # Cấu trúc hiển thị cuối cùng
     bai_viet_telegram = (
         f"🔄 <b>ĐỒNG BỘ HỆ THỐNG REPO</b>\n"
         f"──────────────────\n"
         f"⏰ <b>Time</b>: {current_time_str}\n"
         f"📱 <b>Apps</b>: {total_apps} | {total_apps_size}\n"
         f"📦 <b>Tweaks</b>: {total_tweaks} | {total_tweaks_size}\n"
-        f"🏗 <b>Structure</b>:\n"
-        f"{structure_str}\n"
+        f"🏗 <b>Structure</b>: {structure_str}\n"
         f"📊 <b>Status</b>: Bảo trì hoàn tất\n"
         f"📝 <b>Describe</b>: {smart_desc}\n"
         f"──────────────────\n"
