@@ -28,22 +28,14 @@
           "screenshots": [
             {
               "accessibilityText": "Screenshot0",
-              "url": "https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/images/Kyic1.jpeg"
-            },
-            {
-              "accessibilityText": "Screenshot1",
-              "url": "https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/images/Kyic2.jpeg"
-            },
-            {
-              "accessibilityText": "Screenshot2",
               "url": "https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/images/Kyic3.jpeg"
             },
             {
-              "accessibilityText": "Screenshot3",
+              "accessibilityText": "Screenshot1",
               "url": "https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/images/Kyic4.jpeg"
             },
             {
-              "accessibilityText": "Screenshot4",
+              "accessibilityText": "Screenshot2",
               "url": "https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/images/Kyic5.jpeg"
             }
           ],
