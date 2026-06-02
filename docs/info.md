@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 02/06/2026 07:47:56 (ICT)*
+⏱️ *Cập nhật tự động lúc: 02/06/2026 08:08:53 (ICT)*
 
 ```text
 🗺️ Root/
@@ -12,6 +12,7 @@
 │   │   ├── vi_bug.yml
 │   │   └── vi_feature.yml
 │   ├── 📂 scripts/
+│   │   ├── .commit_msg
 │   │   ├── config.py
 │   │   ├── 📂 core/
 │   │   │   ├── __init__.py
