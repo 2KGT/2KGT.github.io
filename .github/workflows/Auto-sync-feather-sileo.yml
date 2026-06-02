@@ -41,16 +41,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          # ÁNH XẠ TELEGRAM: Kết nối biến hệ thống cần với Secrets
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           TELEGRAM_CHANNEL: ${{ secrets.TELEGRAM_CHANNEL }}
           TELEGRAM_GROUP: ${{ secrets.TELEGRAM_GROUP }}
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }} 
         run: |
+          # Di chuyển vào thư mục script và chạy engine
           cd .github/scripts
-          # Khai báo để Python nhận diện được gói module core/ cùng cấp
           export PYTHONPATH=$PYTHONPATH:$(pwd)
-          # Chạy đầu não duy nhất (đã bao gồm xử lý dữ liệu và gọi AI Gemini)
           python3 main.py
 
       - name: "📤 Commit và Push dữ liệu mới"
@@ -58,28 +56,22 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           
-          # Lấy trạng thái mới nhất từ server
+          # 1. Làm sạch môi trường: Đưa local về đúng trạng thái trên server
           git fetch origin main
+          git reset --hard origin/main
           
-          # Gom tất cả file mới vào staging
+          # 2. Add toàn bộ thay đổi do main.py tạo ra
           git add -A
           
-          # Nếu không có thay đổi, thoát ngay
+          # 3. Kiểm tra thay đổi: Nếu không có gì thay đổi thì dừng lại
           if git diff --cached --quiet; then
             echo "Không có thay đổi dữ liệu nào để commit."
             exit 0
           fi
           
-          # Reset local branch về y hệt server để tránh conflict cũ
-          git reset --hard origin/main
+          # 4. Đọc thông điệp commit đã được main.py tạo sẵn
+          MESSAGE=$(cat .github/scripts/.commit_msg)
           
-          # Thực hiện lại logic tạo/cập nhật dữ liệu của bạn 
-          # Lưu ý: Nếu script của bạn chạy lại, hãy đảm bảo nó ghi đè file cũ
-          # (Vì lúc này local đã giống hệt server rồi)
-          git add -A
-          
-          git commit -m "🚀 Auto Sync Repo: $(date +'%d/%m/%Y %H:%M')"
-          
-          # Đẩy cưỡng bức (Force push) để cập nhật nhánh main
+          # 5. Commit và Push bằng quyền Force
+          git commit -m "$MESSAGE"
           git push origin HEAD:main --force
-
