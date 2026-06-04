@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 04/06/2026 08:17:18 (ICT)*
+⏱️ *Cập nhật tự động lúc: 04/06/2026 08:18:27 (ICT)*
 
 ```text
 🗺️ Root/
@@ -110,7 +110,8 @@
     │   ├── 📂 ytplus/
     │   │   └── [ 📊 Tóm tắt tài nguyên: 📦 Gói tinh chỉnh .deb: 18 file ]
     │   ├── 📂 ytuhd/
-    │   │   └── .gitkeep
+    │   │   ├── .gitkeep
+    │   │   └── [ 📊 Tóm tắt tài nguyên: 📦 Gói tinh chỉnh .deb: 2 file ]
     │   ├── 📂 ytunshorts/
     │   │   └── [ 📊 Tóm tắt tài nguyên: 📦 Gói tinh chỉnh .deb: 1 file ]
     │   └── 📂 ytvideooverlay/
