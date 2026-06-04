@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 04/06/2026 08:18:27 (ICT)*
+⏱️ *Cập nhật tự động lúc: 04/06/2026 09:26:36 (ICT)*
 
 ```text
 🗺️ Root/
@@ -110,7 +110,6 @@
     │   ├── 📂 ytplus/
     │   │   └── [ 📊 Tóm tắt tài nguyên: 📦 Gói tinh chỉnh .deb: 18 file ]
     │   ├── 📂 ytuhd/
-    │   │   ├── .gitkeep
     │   │   └── [ 📊 Tóm tắt tài nguyên: 📦 Gói tinh chỉnh .deb: 2 file ]
     │   ├── 📂 ytunshorts/
     │   │   └── [ 📊 Tóm tắt tài nguyên: 📦 Gói tinh chỉnh .deb: 1 file ]
@@ -125,6 +124,6 @@
     │   │   ├── Kyic_banner.mov
     │   │   └── [ 📊 Tóm tắt tài nguyên: 📸 Ảnh JPEG: 14 file, 📸 Ảnh JPG: 44 file, 🖼️ Ảnh PNG: 12 file ]
     │   └── 📂 metadata/
-    │       └── [ 📊 Tóm tắt tài nguyên: ⚙️ Cấu hình .json: 123 file ]
+    │       └── [ 📊 Tóm tắt tài nguyên: ⚙️ Cấu hình .json: 125 file ]
     └── [ 📊 Tóm tắt tài nguyên: ⚙️ Cấu hình .json: 2 file, 🖼️ Ảnh PNG: 1 file ]
 ```
