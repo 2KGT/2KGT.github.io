@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 06/06/2026 03:10:24 (ICT)*
+⏱️ *Cập nhật tự động lúc: 06/06/2026 03:14:24 (ICT)*
 
 ```text
 🗺️ Root/
@@ -118,9 +118,9 @@
     ├── 📂 depictions/
     │   ├── 📂 default/
     │   │   ├── Kyic_video.mp4
-    │   │   └── [ 📊 Tóm tắt tài nguyên: 📸 Ảnh JPEG: 8 file, 🖼️ Ảnh PNG: 3 file ]
+    │   │   └── [ 📊 Tóm tắt tài nguyên: 📸 Ảnh JPEG: 8 file, 🖼️ Ảnh PNG: 4 file ]
     │   ├── 📂 icons/
-    │   │   └── [ 📊 Tóm tắt tài nguyên: 📸 Ảnh JPG: 13 file, 🖼️ Ảnh PNG: 23 file ]
+    │   │   └── [ 📊 Tóm tắt tài nguyên: 📸 Ảnh JPG: 13 file, 🖼️ Ảnh PNG: 22 file ]
     │   ├── 📂 images/
     │   │   └── [ 📊 Tóm tắt tài nguyên: 📸 Ảnh JPG: 55 file, 🖼️ Ảnh PNG: 9 file ]
     │   └── 📂 metadata/
