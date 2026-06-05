@@ -5,7 +5,7 @@ import logging
 import logger
 import json
 import urllib.request
-import requests  # 🌟 BỔ SUNG: Import để hàm send_final_report không bị crash
+import requests
 import re
 import time
 import datetime
@@ -15,12 +15,18 @@ CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 if CURRENT_DIR not in sys.path:
     sys.path.insert(0, CURRENT_DIR)
 
-def scan_repo_inventory(repo_path='../../'):
-    """Quét và phân loại tài nguyên trong repo"""
+import config
+
+def scan_repo_inventory(repo_path='.'):
+    """Quét và phân loại tài nguyên trực tiếp tại Root của repo trên GitHub Actions"""
     inv = {"json": 0, "yml": 0, "py": 0, "img": 0}
-    img_exts = {'.png', '.jpg', '.jpeg', '.gif', '.svg'}
+    img_exts = {'.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp'}
+    if not os.path.exists(repo_path):
+        return inv
+        
     for root, dirs, files in os.walk(repo_path):
         if '.git' in dirs: dirs.remove('.git')
+        if 'node_modules' in dirs: dirs.remove('node_modules')
         for file in files:
             ext = os.path.splitext(file)[1].lower()
             if ext == '.json': inv["json"] += 1
@@ -52,32 +58,56 @@ def ask_gemini_ai(prompt, retries=2):
             continue
     return "Hệ thống đã đồng bộ hóa thành công ✨"
 
-def process_and_dispatch_env(system_db, old_apps, old_tweaks, total_apps, total_apps_size, total_tweaks, total_tweaks_size):
+def get_file_size_display(file_path):
+    """Tính dung lượng file trả về chuỗi định dạng dễ đọc"""
+    if os.path.exists(file_path):
+        size_bytes = os.path.getsize(file_path)
+        if size_bytes >= 1024 * 1024:
+            return f"{size_bytes / (1024 * 1024):.2f} MB"
+        return f"{size_bytes / 1024:.2f} KB"
+    return "0 KB"
+
+def generate_update_summary(processed_apps, processed_tweaks):
+    """🌟 HÀM ĐỒNG BỘ CHÍNH: Tạo nội dung thông báo tổng hợp dựa trên dữ liệu thực tế từ các Core Engine"""
     event_name = (os.getenv("GITHUB_EVENT_NAME") or "push").lower()
     is_manual = (event_name in ["workflow_dispatch", "release"])
     
-    new_apps = set(system_db.get("apps", {}).keys()) - old_apps
-    new_tweaks = set(system_db.get("tweaks", {}).keys()) - old_tweaks
+    # 1. Đếm số lượng tệp thực tế trong các thư mục đầu vào
+    total_apps = 0
+    if os.path.exists(config.APPS_INPUT_DIR):
+        total_apps = len([f for f in os.listdir(config.APPS_INPUT_DIR) if f.endswith('.ipa')])
+        
+    total_tweaks = 0
+    if os.path.exists(config.DEBS_INPUT_DIR):
+        for root, dirs, files in os.walk(config.DEBS_INPUT_DIR):
+            total_tweaks += len([f for f in files if f.endswith('.deb')])
+
+    # 2. Lấy dung lượng tệp cơ sở dữ liệu đầu ra để báo cáo trạng thái kho
+    apps_json_path = os.path.join(config.REPO_OUTPUT_DIR, 'apps.json')
+    packages_path = os.path.join(config.REPO_OUTPUT_DIR, 'Packages')
     
+    total_apps_size = get_file_size_display(apps_json_path) if total_apps > 0 else "0 MB"
+    total_tweaks_size = get_file_size_display(packages_path) if total_tweaks > 0 else "0 KB"
+
+    # 3. Tổng hợp danh sách thay đổi thực tế vừa quét được
     change_logs = []
-    for url in new_apps:
-        app = system_db["apps"].get(url)
-        if app: change_logs.append(f"🔹 {app.get('name')} (v{app.get('ver')})")
-    for url in new_tweaks:
-        tweak = system_db["tweaks"].get(url)
-        if tweak: change_logs.append(f"🔸 {tweak.get('Name') or tweak.get('name', 'Tweak')}")
+    if processed_apps:
+        for app in processed_apps: change_logs.append(f"🔹 {app}")
+    if processed_tweaks:
+        for tweak in processed_tweaks: change_logs.append(f"🔸 {tweak}")
 
-    smart_desc = ", ".join(change_logs) if change_logs else "Cập nhật lại hệ thống"
+    smart_desc = ", ".join(change_logs) if change_logs else "Tối ưu hóa & Đồng bộ định kỳ"
 
-    # Thời gian và cấu trúc
+    # 4. Tính toán thời gian chạy hệ thống
     now = datetime.datetime.now()
     thu = ["Thứ hai", "Thứ ba", "Thứ tư", "Thứ năm", "Thứ sáu", "Thứ bảy", "Chủ nhật"]
     current_time_str = f"{now.strftime('%H:%M')} {thu[now.weekday()]} {now.strftime('%d/%m/%Y')}"
     
-    inv = scan_repo_inventory()
+    # 5. Quét cấu trúc tài nguyên kho bãi hiện tại
+    inv = scan_repo_inventory('.')
     structure_str = f"IMG: {inv['img']}, JSON: {inv['json']}, PY: {inv['py']}, YML: {inv['yml']}"
     
-    # Logic AI thông minh, không gắn cứng
+    # 6. Gọi AI tạo lời bình luận thông minh ngắn gọn
     event_type = "Manual/Control" if is_manual else "Auto/Monitoring"
     data_metrics = f"Apps: {total_apps}, Tweaks: {total_tweaks}, Structure: {structure_str}"
     
@@ -94,7 +124,7 @@ def process_and_dispatch_env(system_db, old_apps, old_tweaks, total_apps, total_
     
     ai_description = ask_gemini_ai(prompt)
 
-    # Cấu trúc hiển thị Telegram
+    # 7. Xây dựng khung giao diện bài viết Telegram HTML chuẩn chỉnh
     bai_viet_telegram = (
         f"🔄 <b>ĐỒNG BỘ HỆ THỐNG REPO</b>\n"
         f"──────────────────\n"
@@ -109,23 +139,30 @@ def process_and_dispatch_env(system_db, old_apps, old_tweaks, total_apps, total_
         f"──────────────────\n"
     )
 
-    # Giới hạn smart_desc để không làm vỡ khung tin nhắn Telegram
+    # Khống chế độ dài chuỗi describe tránh vỡ khung môi trường GitHub Env
     if len(smart_desc) > 120:
         smart_desc = smart_desc[:117] + "..."
 
-    # Ghi vào GITHUB_ENV
+    # Ghi xuất dự phòng vào GITHUB_ENV
     github_env = os.getenv('GITHUB_ENV')
     if github_env:
-        with open(github_env, 'a', encoding='utf-8') as f:
-            f.write(f"repo_describe<<EOF\n{smart_desc}\nEOF\n")
-            f.write(f"AI_DESC<<EOF\n{ai_description}\nEOF\n")
+        try:
+            with open(github_env, 'a', encoding='utf-8') as f:
+                f.write(f"repo_describe<<EOF\n{smart_desc}\nEOF\n")
+                f.write(f"AI_DESC<<EOF\n{ai_description}\nEOF\n")
+        except Exception as e:
+            print(f"⚠️ Không ghi được vào GITHUB_ENV: {e}")
 
     return bai_viet_telegram
 
-# Hàm gửi tin nhắn độc lập
 def send_final_report(message):
-    token = os.getenv("TELEGRAM_TOKEN")
+    """Hàm gửi tin nhắn độc lập (nếu cần dùng ngoài luồng chính)"""
+    token = os.getenv("TELEGRAM_TOKEN") or os.getenv("TELEGRAM_BOT_TOKEN")
     chat_id = os.getenv("TELEGRAM_CHAT_ID")
+    if not token or not chat_id:
+        print("❌ Thiếu cấu hình Telegram Token hoặc Chat ID.")
+        return
+        
     url = f"https://api.telegram.org/bot{token}/sendMessage"
     payload = {"chat_id": chat_id, "text": message, "parse_mode": "HTML"}
     try:
