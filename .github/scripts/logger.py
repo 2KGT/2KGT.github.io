@@ -45,7 +45,7 @@ def log_step(current_step, status="running", live_log=""):
             _accumulated_logs.pop(0)
 
     # 2. Giao diện Terminal bọc khung siêu sạch
-    lines = ["<code>──────────────────────────────</code>"]
+    lines = ["<code>───────────────────────────────────</code>"]
     
     if _accumulated_logs:
         formatted_lines = []
@@ -59,7 +59,7 @@ def log_step(current_step, status="running", live_log=""):
     else:
         lines.append("<code>⏳ System initializing...</code>")
         
-    lines.append("<code>──────────────────────────────</code>")
+    lines.append("<code>───────────────────────────────────</code>")
     
     # Trạng thái tổng quát dưới cùng khi đang chạy
     if not (current_step == "deploy" and status == "success"):
