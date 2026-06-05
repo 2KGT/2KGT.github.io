@@ -84,13 +84,5 @@ def get_default_assets(asset_name):
     return f"{config.RAW_URL.rstrip('/')}/depictions/default/{asset_name}.png"
 
 def get_default_screens():
-    # Giữ lại logic cũ của bạn để tìm ảnh trong thư mục images nếu cần
-    screens = []
-    if os.path.exists(config.IMG_DIR):
-        all_imgs = sorted(os.listdir(config.IMG_DIR))
-        for f in all_imgs:
-            if f.lower().startswith("kyic") and not any(x in f.lower() for x in ["banner", "logo"]):
-                if any(f.endswith(ext) for ext in ['.png', '.jpg', '.jpeg', '.webp', '.mp4']):
-                    screens.append(f"{config.RAW_URL.rstrip('/')}/{config.IMG_DIR_NAME.strip('/')}/{f}")
-    return screens if screens else [get_default_assets("screenshot")]
-
+    # Bắc cầu trực tiếp sang bộ xử lý mảng ảnh động của config để đồng bộ hệ thống 100%
+    return config.get_default_screenshots()
