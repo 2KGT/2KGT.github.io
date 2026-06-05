@@ -180,7 +180,7 @@ def get_tweak_assets(tweak_name, deb_info):
             matched = next((f for f in local_images if clean_string_for_match(f.rsplit('.', 1)[0]) in [f"{base_variant}_{i}", f"{base_variant}{i}"] and any(f.lower().endswith(e) for e in exts)), None)
             if matched: screens.append(build_asset_url(config.IMG_DIR_NAME, matched))
 
-    # 🌟 Gán tài nguyên fallback chuẩn xác 100% theo hệ thống mới của anh Đức
+    # 🌟 Gán tài nguyên fallback chuẩn xác 100% theo hệ thống mới
     if not icon_url: icon_url = config.SOURCE_LOGO
     if not banner_url: banner_url = config.DEFAULT_BANNER
     if not video_url: video_url = config.DEFAULT_VIDEO
