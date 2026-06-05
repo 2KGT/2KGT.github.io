@@ -3,6 +3,7 @@ Lịch sử cập nhật và nâng cấp mã nguồn hệ thống.
 
 | 🕒 Thời gian | 📝 Nội dung cập nhật | 👤 Người thực hiện |
 | :--- | :--- | :--- |
+| ⏰ 03:10 06/06/2026 | Rename Feather4.png to Feather_4.png | 2K |
 | ⏰ 03:09 06/06/2026 | Rename Feather3.png to Feather_3.png | 2K |
 | ⏰ 03:09 06/06/2026 | Rename Feather2.png to Feather_2.png | 2K |
 | ⏰ 03:08 06/06/2026 | Rename Feather1.png to Feather_1.png | 2K |
