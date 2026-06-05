@@ -3,6 +3,7 @@ Lịch sử cập nhật và nâng cấp mã nguồn hệ thống.
 
 | 🕒 Thời gian | 📝 Nội dung cập nhật | 👤 Người thực hiện |
 | :--- | :--- | :--- |
+| ⏰ 03:08 06/06/2026 | Rename Feather1.png to Feather_1.png | 2K |
 | ⏰ 23:12 05/06/2026 | Update sileo_engine.py | 2K |
 | ⏰ 22:55 05/06/2026 | Update config.py | 2K |
 | ⏰ 22:53 05/06/2026 | Update utils.py | 2K |
