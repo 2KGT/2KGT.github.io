@@ -3,6 +3,7 @@ Lịch sử cập nhật và nâng cấp mã nguồn hệ thống.
 
 | 🕒 Thời gian | 📝 Nội dung cập nhật | 👤 Người thực hiện |
 | :--- | :--- | :--- |
+| ⏰ 22:53 05/06/2026 | Update utils.py | 2K |
 | ⏰ 22:18 05/06/2026 | Delete wikiipa.json | 2K |
 | ⏰ 22:17 05/06/2026 | Update main.py | 2K |
 | ⏰ 22:09 05/06/2026 | Update gemini.py | 2K |
