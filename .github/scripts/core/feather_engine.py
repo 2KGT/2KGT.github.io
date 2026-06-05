@@ -99,9 +99,11 @@ def run_feather_engine(release_assets, feather_db):
         print(f"-> Đang xử lý IPA: {f_name}", flush=True)
         processed_names.append(clean_name)
         
+        # 🌟 Đã sửa: Bốc thêm biến perms từ dữ liệu cũ của cache để tránh lỗi NameError khi bỏ qua giải nén IPA
         if f_url in feather_db["apps"] and feather_db["apps"][f_url].get("size") == curr_size:
             data = feather_db["apps"][f_url]
             bid, ver, min_os, build_ver = data['bid'], data['ver'], data['minOS'], data['buildVersion']
+            perms = data.get('permissions', {})
         else:
             if item["is_cloud"]:
                 temp_path = os.path.join(config.REPO_ROOT, f"temp_{f_name}")
@@ -115,21 +117,21 @@ def run_feather_engine(release_assets, feather_db):
             info = get_itunes_info(bid)
             local = get_local_assets_ipa(clean_name)
             
-            # 🌟 Đã sửa: Gán Icon mặc định trỏ thẳng vào file Kyic.png trong thư mục default
+            # Gán Icon mặc định trỏ thẳng vào file Kyic.png trong thư mục default
             icon = local['icon']
             if not icon and info and info.get('icon'):
                 path = os.path.join(config.ICON_DIR, f"{clean_name}.jpg")
                 if utils.download_resource_to_local(info['icon'], path): icon = build_asset_url(config.ICON_DIR_NAME, f"{clean_name}.jpg")
             if not icon: icon = config.SOURCE_LOGO
             
-            # 🌟 Đã sửa: Gán Banner mặc định trỏ thẳng vào file Kyic_banner.png hình ảnh sạch
+            # Gán Banner mặc định trỏ thẳng vào file Kyic_banner.png hình ảnh sạch
             banner = local['banner']
             if not banner and info and info.get('banner'):
                 path = os.path.join(config.IMG_DIR, f"{clean_name}_banner.jpg")
                 if utils.download_resource_to_local(info['banner'], path): banner = build_asset_url(config.IMG_DIR_NAME, f"{clean_name}_banner.jpg")
             if not banner: banner = config.DEFAULT_BANNER
             
-            # 🌟 Đã sửa: Gọi hàm thông minh get_default_screens() bốc mảng ảnh Kyic_1.jpeg -> Kyic_8.jpeg
+            # Gọi hàm thông minh get_default_screens() bốc mảng ảnh Kyic_1.jpeg -> Kyic_8.jpeg từ config/utils
             screens = local['screenshots']
             if not screens and info and info.get('screenshots'):
                 dl_screens = []
