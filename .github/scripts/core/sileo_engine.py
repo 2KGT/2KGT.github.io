@@ -1,4 +1,4 @@
-# .github/scripts/sileo_engine.py
+# .github/scripts/core/sileo_engine.py
 import os
 import json
 import subprocess
@@ -8,7 +8,9 @@ import sys
 import hashlib
 import re
 import urllib.request
-import logger, logging
+import logging
+import logger
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import config
 from . import utils
@@ -180,7 +182,7 @@ def get_tweak_assets(tweak_name, deb_info):
             matched = next((f for f in local_images if clean_string_for_match(f.rsplit('.', 1)[0]) in [f"{base_variant}_{i}", f"{base_variant}{i}"] and any(f.lower().endswith(e) for e in exts)), None)
             if matched: screens.append(build_asset_url(config.IMG_DIR_NAME, matched))
 
-    # 🌟 Gán tài nguyên fallback chuẩn xác 100% theo hệ thống mới
+    # Gán tài nguyên fallback chuẩn xác 100% theo cấu trúc cục bộ mới
     if not icon_url: icon_url = config.SOURCE_LOGO
     if not banner_url: banner_url = config.DEFAULT_BANNER
     if not video_url: video_url = config.DEFAULT_VIDEO
@@ -257,6 +259,10 @@ def build_sileo_depiction_json(safe_filename, tweak_name, version, description, 
         json.dump(depiction_data, f, indent=2, ensure_ascii=False)
 
 def run_sileo_engine(release_assets, system_db):
+    # 🌟 An toàn: Đảm bảo trường khóa "tweaks" luôn được định hình sẵn trong cache DB phòng lỗi KeyError
+    if "tweaks" not in system_db: 
+        system_db["tweaks"] = {}
+        
     tweaks_map = defaultdict(list)
     processed_safenames = set()
     processed_tweaks_titles = []
