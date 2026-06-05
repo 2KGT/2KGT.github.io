@@ -97,9 +97,6 @@ def main():
     if "apps" not in feather_db: feather_db["apps"] = {}
     if "tweaks" not in sileo_db: sileo_db["tweaks"] = {}
     
-    old_apps = set(feather_db.get("apps", {}).keys())
-    old_tweaks = set(sileo_db.get("tweaks", {}).keys())
-    
     raw_assets = fetch_github.get_release_assets()
     total_ipa = len(raw_assets.get("ipa", []))
     total_deb = len(raw_assets.get("deb", []))
@@ -135,10 +132,13 @@ def main():
     
     # 5. Gửi thông báo tổng kết qua Gemini lên Telegram Channel
     logger.log_step(current_step="deploy", status="running", live_log="🤖 Gửi thông báo phân tích lên Telegram...")
-    combined_db = {"apps": feather_db.get("apps", {}), "tweaks": sileo_db.get("tweaks", {})}
-    msg = gemini.process_and_dispatch_env(combined_db, old_apps, old_tweaks, *stats)
     
-    token, chat_id = os.getenv("TELEGRAM_TOKEN"), (os.getenv("TELEGRAM_CHAT_ID") or os.getenv("TELEGRAM_CHANNEL"))
+    # 🌟 ĐỒNG BỘ TẠI ĐÂY: Gọi đúng hàm mới trong gemini.py và chuyển giao mảng thay đổi thực tế
+    msg = gemini.generate_update_summary(processed_apps, processed_tweaks)
+    
+    token = os.getenv("TELEGRAM_TOKEN") or os.getenv("TELEGRAM_BOT_TOKEN")
+    chat_id = os.getenv("TELEGRAM_CHAT_ID") or os.getenv("TELEGRAM_CHANNEL")
+    
     if token and chat_id:
         try:
             requests.post(f"https://api.telegram.org/bot{token}/sendMessage", json={
