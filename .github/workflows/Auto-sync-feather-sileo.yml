@@ -50,11 +50,9 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }} 
-          PYTHONUNBUFFERED: "1" # Ép Python giải phóng log real-time không giữ lại trong bộ nhớ đệm
         run: |
-          cd .github/scripts
-          export PYTHONPATH=$PYTHONPATH:$(pwd)
-          python3 -u main.py # Thêm tham số -u để chống nghẽn log tuyệt đối
+          # Đứng ở thư mục Gốc để chạy trực tiếp giúp tệp tin config và GITHUB_ENV đồng bộ chuẩn xác
+          python3 .github/scripts/main.py
 
       - name: "📤 Commit và Push dữ liệu mới"
         run: |
@@ -70,11 +68,16 @@ jobs:
             exit 0
           fi
           
-          # Đọc thông điệp commit
-          MESSAGE=$(cat .github/scripts/.commit_msg)
+          # Khởi tạo tin nhắn mặc định nếu tệp log không tồn tại phòng lỗi crash luồng push
+          COMMIT_MSG="🔄 Tối ưu hóa hệ thống & Đồng bộ kho lưu trữ định kỳ"
+          if [ -f ".github/scripts/.commit_msg" ]; then
+            COMMIT_MSG=$(cat .github/scripts/.commit_msg)
+          elif [ -f ".commit_msg" ]; then
+            COMMIT_MSG=$(cat .commit_msg)
+          fi
           
           # Commit thay đổi
-          git commit -m "$MESSAGE"
+          git commit -m "$COMMIT_MSG"
           
           # Pull rebase với xử lý stash để tránh lỗi file lạ
           git pull --rebase origin main || (git stash && git pull --rebase origin main && git stash pop)
