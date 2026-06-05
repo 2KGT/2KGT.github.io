@@ -1,0 +1,110 @@
+{
+  "minVersion": "0.1",
+  "headerImage": "https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/default/Kyic_banner.png",
+  "class": "DepictionTabView",
+  "tintColor": "#F77686",
+  "tabs": [
+    {
+      "class": "DepictionStackView",
+      "tabname": "Details",
+      "views": [
+        {
+          "class": "DepictionSubheaderView",
+          "useBottomMargin": false,
+          "title": "YouMute",
+          "useBoldText": true
+        },
+        {
+          "class": "DepictionMarkdownView",
+          "useSpacing": true,
+          "markdown": "Mutes/unmutes videos in YouTube directly."
+        },
+        {
+          "class": "DepictionSpacerView",
+          "spacing": 8
+        },
+        {
+          "class": "DepictionScreenshotsView",
+          "screenshots": [
+            {
+              "accessibilityText": "Screenshot0",
+              "url": "https://raw.githubusercontent.com/2KGT/repo/main/depictions/default/screenshot.png"
+            }
+          ],
+          "itemSize": "{160, 275.41333333333336}",
+          "itemCornerRadius": 6
+        },
+        {
+          "class": "DepictionSeparatorView"
+        },
+        {
+          "class": "DepictionSpacerView",
+          "spacing": 8
+        },
+        {
+          "class": "DepictionTableTextView",
+          "title": "Developer",
+          "text": "PoomSmart"
+        },
+        {
+          "class": "DepictionTableTextView",
+          "title": "Yêu cầu quyền",
+          "text": "Không yêu cầu quyền đặc biệt"
+        },
+        {
+          "class": "DepictionSpacerView",
+          "spacing": 8
+        }
+      ]
+    },
+    {
+      "class": "DepictionStackView",
+      "tabname": "Changelog",
+      "views": [
+        {
+          "class": "DepictionTableTextView",
+          "title": "Version 1.4.0",
+          "text": "Cập nhật mới nhất"
+        },
+        {
+          "class": "DepictionMarkdownView",
+          "markdown": "- Đồng bộ hóa thành công phiên bản v1.4.0 lên hệ thống Kyic Premium Store.\n- Tối ưu hóa cấu trúc dữ liệu phẳng đám mây kết hợp local."
+        }
+      ]
+    },
+    {
+      "class": "DepictionStackView",
+      "tabname": "Support",
+      "views": [
+        {
+          "class": "DepictionSubheaderView",
+          "title": "KÊNH HỖ TRỢ CHÍNH THỨC",
+          "useBoldText": true
+        },
+        {
+          "class": "DepictionTableButtonView",
+          "title": "📢 Telegram Channel",
+          "action": "https://t.me/+uhoygGN-1Gc4NzZl"
+        },
+        {
+          "class": "DepictionTableButtonView",
+          "title": "💬 Telegram Group",
+          "action": "https://t.me/kyicchat"
+        },
+        {
+          "class": "DepictionTableButtonView",
+          "title": "🎮 Discord Server",
+          "action": "https://discord.gg/qUXBQFYa"
+        },
+        {
+          "class": "DepictionSeparatorView"
+        },
+        {
+          "class": "DepictionTableButtonView",
+          "title": "☕ Ủng hộ qua PayPal",
+          "action": "https://www.paypal.me/225668"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+name: "Auto sync feather sileo"
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'repo/apps/**'
+      - 'repo/debs/**'
+      - 'repo/depictions/**'
+      - '.github/scripts/**'
+  release:
+    types: [published, created, edited]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      
+    steps:
+      - name: "📥 Checkout Repository"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "🐍 Setup Python"
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: "📦 Cache Python dependencies"
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: "🛠 Cài đặt thư viện"
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+          mkdir -p repo/apps repo/debs repo/depictions/icons repo/depictions/images repo/depictions/metadata
+
+      - name: "🚀 Khởi Chạy Tự Động Hóa (Core Engine)"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }} 
+          PYTHONUNBUFFERED: "1" # Ép Python giải phóng log real-time không giữ lại trong bộ nhớ đệm
+        run: |
+          cd .github/scripts
+          export PYTHONPATH=$PYTHONPATH:$(pwd)
+          python3 -u main.py # Thêm tham số -u để chống nghẽn log tuyệt đối
+
+      - name: "📤 Commit và Push dữ liệu mới"
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # Gom tất cả thay đổi, bao gồm cả các file JSON mới tạo
+          git add -A
+          
+          # Kiểm tra nếu không có gì thay đổi thì thoát
+          if git diff --cached --quiet; then
+            echo "Không có thay đổi dữ liệu nào để commit."
+            exit 0
+          fi
+          
+          # Đọc thông điệp commit
+          MESSAGE=$(cat .github/scripts/.commit_msg)
+          
+          # Commit thay đổi
+          git commit -m "$MESSAGE"
+          
+          # Pull rebase với xử lý stash để tránh lỗi file lạ
+          git pull --rebase origin main || (git stash && git pull --rebase origin main && git stash pop)
+          
+          # Push lên server
+          git push origin main
