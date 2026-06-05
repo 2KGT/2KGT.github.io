@@ -1,6 +1,6 @@
 {
   "minVersion": "0.1",
-  "headerImage": "https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/images/ytlite_banner.png",
+  "headerImage": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/ytlite_banner.png",
   "class": "DepictionTabView",
   "tintColor": "#F77686",
   "tabs": [
@@ -28,39 +28,39 @@
           "screenshots": [
             {
               "accessibilityText": "Screenshot0",
-              "url": "https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/images/ytlite1.jpg"
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/ytlite1.jpg"
             },
             {
               "accessibilityText": "Screenshot1",
-              "url": "https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/images/ytlite2.jpg"
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/ytlite2.jpg"
             },
             {
               "accessibilityText": "Screenshot2",
-              "url": "https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/images/ytlite3.jpg"
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/ytlite3.jpg"
             },
             {
               "accessibilityText": "Screenshot3",
-              "url": "https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/images/ytlite4.jpg"
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/ytlite4.jpg"
             },
             {
               "accessibilityText": "Screenshot4",
-              "url": "https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/images/ytlite5.jpg"
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/ytlite5.jpg"
             },
             {
               "accessibilityText": "Screenshot5",
-              "url": "https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/images/ytlite6.jpg"
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/ytlite6.jpg"
             },
             {
               "accessibilityText": "Screenshot6",
-              "url": "https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/images/ytlite7.jpg"
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/ytlite7.jpg"
             },
             {
               "accessibilityText": "Screenshot7",
-              "url": "https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/images/ytlite8.jpg"
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/ytlite8.jpg"
             },
             {
               "accessibilityText": "Screenshot8",
-              "url": "https://raw.githubusercontent.com/2KGT/repo/main/repo/depictions/images/ytlite9.jpg"
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/ytlite9.jpg"
             }
           ],
           "itemSize": "{160, 275.41333333333336}",
