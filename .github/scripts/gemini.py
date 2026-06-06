@@ -41,7 +41,7 @@ def ask_gemini_ai(prompt, retries=2):
     """Hàm lấy câu thoại từ Gemini với cơ chế Retry"""
     gemini_key = os.getenv("GEMINI_API_KEY")
     if not gemini_key:
-        return "Hệ thống hoạt động ổn định, tiến trình tự động hoàn tất ⚙️"
+        return ""
 
     url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={gemini_key}"
     headers = {"Content-Type": "application/json"}
@@ -59,84 +59,75 @@ def ask_gemini_ai(prompt, retries=2):
             print(f"⚠️ Thử lại gọi API Gemini lần {i+1} thất bại: {e}")
             time.sleep(1.5)
             continue
-    return "Hệ thống đã đồng bộ hóa dữ liệu thành công ✨"
+    return ""
 
-def get_file_size_display(file_path):
-    """Tính dung lượng file trả về chuỗi định dạng dễ đọc"""
-    if os.path.exists(file_path):
-        size_bytes = os.path.getsize(file_path)
-        if size_bytes >= 1024 * 1024:
-            return f"{size_bytes / (1024 * 1024):.2f} MB"
-        return f"{size_bytes / 1024:.2f} KB"
-    return "0 KB"
-
-def generate_update_summary(processed_apps, processed_tweaks):
-    """🌟 HÀM ĐỒNG BỘ CHÍNH: Tạo nội dung thông báo tổng hợp"""
+def generate_update_summary(processed_apps, processed_tweaks, stats_data=None):
+    """🌟 HÀM ĐỒNG BỘ CHÍNH: Tạo nội dung thông báo tổng hợp bằng AI"""
     event_name = (os.getenv("GITHUB_EVENT_NAME") or "push").lower()
     is_manual = (event_name in ["workflow_dispatch", "release"])
     
-    # 1. Đếm số lượng tệp thực tế
-    total_apps = 0
-    if os.path.exists(config.APPS_INPUT_DIR):
-        total_apps = len([f for f in os.listdir(config.APPS_INPUT_DIR) if f.endswith('.ipa')])
-        
-    total_tweaks = 0
-    if os.path.exists(config.DEBS_INPUT_DIR):
-        for root, dirs, files in os.walk(config.DEBS_INPUT_DIR):
-            total_tweaks += len([f for f in files if f.endswith('.deb')])
+    # 1. Tiếp nhận số liệu thống kê dung lượng thật từ main.py truyền sang
+    if stats_data and len(stats_data) == 4:
+        total_apps, total_apps_size, total_tweaks, total_tweaks_size = stats_data
+    else:
+        # Cơ chế Fallback dự phòng nếu main.py cũ chưa truyền tham số mới
+        total_apps = len(processed_apps) if processed_apps else 0
+        total_tweaks = len(processed_tweaks) if processed_tweaks else 0
+        total_apps_size = "Đã cập nhật"
+        total_tweaks_size = "Đã cập nhật"
 
-    # 2. Lấy dung lượng tệp cơ sở dữ liệu đầu ra
-    apps_json_path = os.path.join(config.REPO_OUTPUT_DIR, 'apps.json')
-    packages_path = os.path.join(config.REPO_OUTPUT_DIR, 'Packages')
-    
-    total_apps_size = get_file_size_display(apps_json_path) if total_apps > 0 else "0 MB"
-    total_tweaks_size = get_file_size_display(packages_path) if total_tweaks > 0 else "0 KB"
-
-    # 3. Tạo danh sách dạng Text thuần cho AI và GitHub Env
+    # 2. Tạo danh sách text thô gom các app/tweak đã qua xử lý để gửi làm ngữ cảnh cho AI
     raw_logs = []
     if processed_apps:
-        for app in processed_apps: raw_logs.append(f"🔹 {app}")
+        for app in processed_apps: raw_logs.append(f"App: {app}")
     if processed_tweaks:
-        for tweak in processed_tweaks: raw_logs.append(f"🔸 {tweak}")
+        for tweak in processed_tweaks: raw_logs.append(f"Tweak: {tweak}")
+    raw_desc = ", ".join(raw_logs) if raw_logs else "Tối ưu hóa hệ thống & Bảo trì định kỳ"
 
-    raw_desc = ", ".join(raw_logs) if raw_logs else "Tối ưu hóa & Đồng bộ định kỳ"
-
-    # 4. Tính toán thời gian chạy hệ thống (Chuẩn Giờ Việt Nam +7)
+    # 3. Tính toán thời gian chạy hệ thống (Chuẩn Giờ Việt Nam +7)
     now_utc = datetime.datetime.now(datetime.timezone.utc)
     now_ict = now_utc + datetime.timedelta(hours=7)
     thu = ["Thứ hai", "Thứ ba", "Thứ tư", "Thứ năm", "Thứ sáu", "Thứ bảy", "Chủ nhật"]
     current_time_str = f"{now_ict.strftime('%H:%M')} {thu[now_ict.weekday()]} {now_ict.strftime('%d/%m/%Y')}"
     
-    # 5. Quét cấu trúc tài nguyên kho bãi hiện tại
+    # 4. Quét cấu trúc tài nguyên kho bãi hiện tại tại root
     inv = scan_repo_inventory('.')
     structure_str = f"IMG: {inv['img']}, JSON: {inv['json']}, PY: {inv['py']}, YML: {inv['yml']}"
     
-    # 6. Gọi AI tạo lời bình luận
+    # 5. Gọi AI đúc kết mục Describe ngắn và tạo mục Notes độc lập bằng 1 lượt Prompt gom chung
     event_type = "Manual/Control" if is_manual else "Auto/Monitoring"
-    data_metrics = f"Apps: {total_apps}, Tweaks: {total_tweaks}, Structure: {structure_str}"
     
     prompt = f"""
-    Bạn là AI quản trị hệ thống của Kyic.
-    Ngữ cảnh: {event_type} | Thay đổi: {raw_desc} | Dữ liệu: {data_metrics}.
-    Nhiệm vụ:
-    - Nếu Manual: Viết như một chỉ huy, khẳng định sự kiểm soát và tính ổn định.
-    - Nếu Auto: Viết như hệ thống giám sát, nhấn mạnh sự mượt mà và tối ưu.
-    - TUYỆT ĐỐI không dùng câu văn mẫu, không nịnh nọt.
-    - Sử dụng thuật ngữ công nghệ, chuyên nghiệp, súc tích (dưới 30 từ).
-    - Kết thúc bằng 1 icon độc nhất phù hợp. Chỉ trả về lời thoại.
+    Bạn là AI quản trị hệ thống của kho ứng dụng Kyic Store.
+    Ngữ cảnh vận hành: {event_type}
+    Tài nguyên vừa xử lý: {raw_desc}
+    Thống kê tổng: Apps={total_apps}, Tweaks={total_tweaks}, File cấu trúc={structure_str}
+
+    Nhiệm vụ: Tạo ra chính xác 2 đoạn văn bản ngắn phân tách bằng ký tự gạch đứng '|' theo cấu trúc: [Đoạn_Describe] | [Đoạn_Notes]
+
+    Yêu cầu chi tiết:
+    1. [Đoạn_Describe]: Hãy tóm tắt ngắn gọn các app/tweak vừa đổi mới hoặc cập nhật. TUYỆT ĐỐI không liệt kê hàng loạt hay lặp lại. Viết thành một câu tổng hợp mượt mà dưới 2 dòng (Ví dụ: Cập nhật loạt công cụ ký số ESign, Feather mới và đồng bộ các gói tiện ích mod cho YouTube, Facebook).
+    2. [Đoạn_Notes]: Lời bình luận vận hành của AI. Nếu Manual: viết như chỉ huy, khẳng định kiểm soát tốt; Nếu Auto: nhấn mạnh sự mượt mà tối ưu. Ngắn gọn dưới 15 từ, kết thúc bằng đúng 1 emoji phù hợp.
+    3. Trả về định dạng thô thuần túy: Đoạn_Describe | Đoạn_Notes
     """
-    ai_description_raw = ask_gemini_ai(prompt)
+    
+    ai_response = ask_gemini_ai(prompt)
+    
+    # Tách chuỗi kết quả từ AI, nếu lỗi sẽ tự kích hoạt cơ chế an toàn
+    if ai_response and "|" in ai_response:
+        parts = ai_response.split("|")
+        ai_describe = parts[0].strip()
+        ai_notes = parts[1].strip()
+    else:
+        # Phương án dự phòng nếu AI bị nghẽn mạng hoặc trả về sai cấu trúc
+        ai_describe = "Đồng bộ hóa các bản cập nhật mới cho Apps và Tweaks mod hệ thống."
+        ai_notes = "Hệ thống đã đồng bộ hóa dữ liệu thành công ✨"
 
-    # 7. Định dạng an toàn cho nội dung hiển thị Telegram HTML
-    telegram_desc = ", ".join([f"🔹 {escape_html(app)}" for app in processed_apps]) if processed_apps else "Tối ưu hóa &amp; Đồng bộ định kỳ"
-    if processed_tweaks and processed_apps:
-        telegram_desc += ", " + ", ".join([f"🔸 {escape_html(tweak)}" for tweak in processed_tweaks])
-    elif processed_tweaks:
-        telegram_desc = ", ".join([f"🔸 {escape_html(tweak)}" for tweak in processed_tweaks])
+    # 6. Định dạng bảo vệ HTML Telegram
+    telegram_desc = escape_html(ai_describe)
+    telegram_ai_notes = escape_html(ai_notes)
 
-    telegram_ai_notes = escape_html(ai_description_raw)
-
-    # Đóng gói giao diện Telegram HTML công bố ra nhóm chat
+    # Đóng gói giao diện cấu trúc Telegram HTML
     bai_viet_telegram = (
         f"🔄 <b>ĐỒNG BỘ HỆ THỐNG REPO</b>\n"
         f"──────────────────\n"
@@ -151,17 +142,14 @@ def generate_update_summary(processed_apps, processed_tweaks):
         f"──────────────────\n"
     )
 
-    # 8. Xử lý cắt chuỗi text sạch đưa vào GITHUB_ENV
-    github_desc = raw_desc
-    if len(github_desc) > 120:
-        github_desc = github_desc[:117] + "..."
-
+    # 7. Xử lý lưu biến GITHUB_ENV
+    github_desc = raw_desc[:117] + "..." if len(raw_desc) > 120 else raw_desc
     github_env = os.getenv('GITHUB_ENV')
     if github_env:
         try:
             with open(github_env, 'a', encoding='utf-8') as f:
                 f.write(f"repo_describe<<EOF\n{github_desc}\nEOF\n")
-                f.write(f"AI_DESC<<EOF\n{ai_description_raw}\nEOF\n")
+                f.write(f"AI_DESC<<EOF\n{ai_notes}\nEOF\n")
         except Exception as e:
             print(f"⚠️ Không ghi được vào GITHUB_ENV: {e}")
 
@@ -172,7 +160,7 @@ def send_final_report(message):
     token = os.getenv("TELEGRAM_TOKEN") or os.getenv("TELEGRAM_BOT_TOKEN")
     chat_id = os.getenv("TELEGRAM_CHAT_ID")
     if not token or not chat_id:
-        print("❌ Thất bại: Thiếu cấu hình TELEGRAM_TOKEN hoặc TELEGRAM_CHAT_ID trong Secrets!")
+        print("❌ Thất bại: Thiếu cấu hình TELEGRAM_TOKEN!")
         return
         
     url = f"https://api.telegram.org/bot{token}/sendMessage"
@@ -181,8 +169,5 @@ def send_final_report(message):
         res = requests.post(url, json=payload, timeout=12)
         res.raise_for_status()
         print("🚀 [Telegram] Báo cáo tổng hợp đã được gửi thành công.")
-    except requests.exceptions.HTTPError as http_err:
-        print(f"❌ Lỗi HTTP từ Telegram API: {http_err}")
-        print(f"Chi tiết phản hồi từ Telegram: {res.text}")
     except Exception as e:
-        print(f"❌ Lỗi kết nối không xác định khi gửi Telegram: {e}")
+        print(f"❌ Lỗi gửi Telegram độc lập: {e}")
