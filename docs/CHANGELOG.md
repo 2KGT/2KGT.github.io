@@ -3,6 +3,7 @@ Lịch sử cập nhật và nâng cấp mã nguồn hệ thống.
 
 | 🕒 Thời gian | 📝 Nội dung cập nhật | 👤 Người thực hiện |
 | :--- | :--- | :--- |
+| ⏰ 08:33 06/06/2026 | Update config.py | 2K |
 | ⏰ 08:30 06/06/2026 | Update main.py | 2K |
 | ⏰ 08:18 06/06/2026 | Update Auto-sync-feather-sileo.yml | 2K |
 | ⏰ 08:09 06/06/2026 | Update main.py | 2K |
