@@ -6,16 +6,16 @@ import zipfile
 import plistlib
 import urllib.request
 import urllib.parse
-from datetime import datetime
+import datetime
 from collections import defaultdict
 import sys
-import logger
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import config
 from . import utils
 
 def extract_ipa_permissions_and_data(path):
+    """Giải nén tệp IPA tạm thời để bốc tách Info.plist lấy thông tin quyền hạn và Bundle ID"""
     version, bid, min_os, build_ver = "1.0", "com.kyic.unknown", "12.0", "1"
     permissions = {} 
     try:
@@ -36,6 +36,7 @@ def extract_ipa_permissions_and_data(path):
     return str(version), str(bid), permissions, str(min_os), str(build_ver)
 
 def get_itunes_info(bundle_id):
+    """Tra cứu dữ liệu ứng dụng trên App Store Việt Nam theo Bundle ID"""
     if not bundle_id or bundle_id == "com.kyic.unknown": return None
     url = f"https://itunes.apple.com/lookup?bundleId={bundle_id}&country=VN&entity=software&lang=vi_vn"
     try:
@@ -54,6 +55,7 @@ def get_itunes_info(bundle_id):
     return None
 
 def get_local_assets_ipa(name):
+    """Quét và lấy liên kết tài nguyên ảnh cục bộ trong kho bãi nếu có sẵn"""
     exts = ['.png', '.jpg', '.jpeg', '.webp']
     def build_asset_url(dir_name, file_name):
         return f"{config.RAW_URL.rstrip('/')}/{dir_name.strip('/')}/{file_name}"
@@ -76,6 +78,7 @@ def get_local_assets_ipa(name):
     return {"icon": icon_url, "banner": banner_url, "screenshots": screens}
 
 def run_feather_engine(release_assets, feather_db):
+    """🌟 PHÂN HỆ XỬ LÝ CHÍNH: Quét tài nguyên IPA và đóng gói cấu trúc Feather JSON"""
     if "apps" not in feather_db: feather_db["apps"] = {}
     apps_map = defaultdict(list)
     def build_asset_url(dir_name, file_name): return f"{config.RAW_URL.rstrip('/')}/{dir_name.strip('/')}/{file_name}"
@@ -99,7 +102,7 @@ def run_feather_engine(release_assets, feather_db):
         print(f"-> Đang xử lý IPA: {f_name}", flush=True)
         processed_names.append(clean_name)
         
-        # 🌟 Đã sửa: Bốc thêm biến perms từ dữ liệu cũ của cache để tránh lỗi NameError khi bỏ qua giải nén IPA
+        # Đọc dữ liệu từ bộ nhớ đệm cache nếu tệp không có sự thay đổi dung lượng
         if f_url in feather_db["apps"] and feather_db["apps"][f_url].get("size") == curr_size:
             data = feather_db["apps"][f_url]
             bid, ver, min_os, build_ver = data['bid'], data['ver'], data['minOS'], data['buildVersion']
@@ -107,31 +110,32 @@ def run_feather_engine(release_assets, feather_db):
         else:
             if item["is_cloud"]:
                 temp_path = os.path.join(config.REPO_ROOT, f"temp_{f_name}")
-                logger.log_step(current_step="feather", status="running", live_log=f"📸 Đang tải tài nguyên ảnh -> Feather ({clean_name})")
+                print(f"📸 Đang tải và phân tích cấu trúc IPA từ đám mây: {clean_name}", flush=True)
                 urllib.request.urlretrieve(f_url, temp_path)
                 ver, bid, perms, min_os, build_ver = extract_ipa_permissions_and_data(temp_path)
-                os.remove(temp_path)
+                try: os.remove(temp_path)
+                except: pass
             else:
                 ver, bid, perms, min_os, build_ver = extract_ipa_permissions_and_data(item["path"])
             
             info = get_itunes_info(bid)
             local = get_local_assets_ipa(clean_name)
             
-            # Gán Icon mặc định trỏ thẳng vào file Kyic.png trong thư mục default
+            # Đồng bộ cấu hình Icon đại diện
             icon = local['icon']
             if not icon and info and info.get('icon'):
                 path = os.path.join(config.ICON_DIR, f"{clean_name}.jpg")
                 if utils.download_resource_to_local(info['icon'], path): icon = build_asset_url(config.ICON_DIR_NAME, f"{clean_name}.jpg")
             if not icon: icon = config.SOURCE_LOGO
             
-            # Gán Banner mặc định trỏ thẳng vào file Kyic_banner.png hình ảnh sạch
+            # Đồng bộ cấu hình Banner nền quảng bá
             banner = local['banner']
             if not banner and info and info.get('banner'):
                 path = os.path.join(config.IMG_DIR, f"{clean_name}_banner.jpg")
                 if utils.download_resource_to_local(info['banner'], path): banner = build_asset_url(config.IMG_DIR_NAME, f"{clean_name}_banner.jpg")
             if not banner: banner = config.DEFAULT_BANNER
             
-            # Gọi hàm thông minh get_default_screens() bốc mảng ảnh Kyic_1.jpeg -> Kyic_8.jpeg từ config/utils
+            # Đồng bộ mảng hình ảnh mô tả thực tế (Screenshots)
             screens = local['screenshots']
             if not screens and info and info.get('screenshots'):
                 dl_screens = []
@@ -151,13 +155,20 @@ def run_feather_engine(release_assets, feather_db):
         versions = sorted(apps_map[bid], key=lambda x: str(x['ver']), reverse=True)
         latest = versions[0]
         data = feather_db["apps"].get(latest['dl'])
+        
+        # Xử lý thời gian timezone-aware chuẩn ISO an toàn thay thế hàm cũ
+        if latest['date'] != "Local":
+            v_date = latest['date']
+        else:
+            v_date = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
         app_item = {
             "name": str(latest['name']), "bundleIdentifier": str(bid), "developerName": "Kyic Store",
             "subtitle": "Phiên bản Premium", "localizedDescription": utils.smart_truncate_description(data['desc']),
             "iconURL": utils.clean_github_url(data['icon']), "tintColor": "848ef9",
-            "version": str(latest['ver']), "versionDate": latest['date'] if latest['date'] != "Local" else datetime.utcnow().isoformat() + "Z",
+            "version": str(latest['ver']), "versionDate": v_date,
             "size": int(latest['sz']), "downloadURL": str(latest['dl']),
-            "versions": [{"version": v['ver'], "date": v['date'], "size": v['sz'], "downloadURL": v['dl'], "localizedDescription": f"Cập nhật phiên bản Premium v{v['ver']}."} for v in versions],
+            "versions": [{"version": v['ver'], "date": v['date'] if v['date'] != "Local" else v_date, "size": v['sz'], "downloadURL": v['dl'], "localizedDescription": f"Cập nhật phiên bản Premium v{v['ver']}."} for v in versions],
             "screenshotURLs": [utils.clean_github_url(s) for s in data['screenshots']],
             "videoURL": utils.clean_github_url(config.DEFAULT_VIDEO), "appPermissions": utils.format_permissions(data['permissions'])
         }
@@ -165,7 +176,8 @@ def run_feather_engine(release_assets, feather_db):
     
     final_apps.sort(key=lambda x: x['name'].lower())
     
-    today = datetime.now().strftime("%Y-%m-%d")
+    # Cấu hình mục tin tức (News) trên bảng điều khiển Feather
+    today = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d")
     news_list = [
         {"title": "Donate", "identifier": "feather-donate", "caption": "Ủng hộ Kyic Store!", "date": today, "imageURL": utils.clean_github_url(config.NEWS_DONATE_IMAGE), "url": "https://www.paypal.me/225668", "appIdentifier": final_apps[0]['bundleIdentifier'] if final_apps else config.SOURCE_IDENTIFIER},
         {"title": "About", "identifier": "feather-about", "caption": "Chào mừng!", "date": today, "imageURL": utils.clean_github_url(config.NEWS_ABOUT_IMAGE), "url": "https://github.com/2KGT/repo/blob/main/README.md", "appIdentifier": final_apps[0]['bundleIdentifier'] if final_apps else config.SOURCE_IDENTIFIER}
