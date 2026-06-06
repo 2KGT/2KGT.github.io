@@ -8,8 +8,6 @@ import sys
 import hashlib
 import re
 import urllib.request
-import logging
-import logger
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import config
@@ -33,7 +31,7 @@ def calculate_hashes_from_url(url):
             os.remove(temp_path)
         return md5, sha1, sha256
     except Exception as e:
-        print(f"⚠️ Lỗi tính hash file cloud: {e}")
+        print(f"⚠️ Lỗi tính hash file cloud: {e}", flush=True)
         return "0"*32, "0"*40, "0"*64
 
 def extract_deb_control_data(path):
@@ -71,11 +69,9 @@ def extract_deb_control_data(path):
                     current_key = k.strip()
                     info[current_key] = v.strip()
     except subprocess.TimeoutExpired:
-        msg_err = f"⚠️ Treo quá lâu khi đọc: {f_name} (Đã bỏ qua)"
-        print(msg_err)
-        logger.log_step(current_step="sileo", status="running", live_log=msg_err)
+        print(f"⚠️ Treo quá lâu khi đọc: {f_name} (Đã bỏ qua)", flush=True)
     except Exception as e:
-        print(f"❌ Lỗi đọc file .deb bằng dpkg-deb: {e}")
+        print(f"❌ Lỗi đọc file .deb bằng dpkg-deb: {e}", flush=True)
         
     if not info.get("Package"): 
         info["Package"] = f"com.kyic.{f_name.split('_')[0].lower()}"
@@ -120,13 +116,13 @@ def get_tweak_assets(tweak_name, deb_info):
 
     remote_icon = deb_info.get('Icon') or deb_info.get('icon')
     if remote_icon and str(remote_icon).startswith("http"):
-        logger.log_step(current_step="sileo", status="running", live_log=f"📥 Đang tải tài nguyên -> {tweak_name}_icon.jpg")
+        print(f"📥 Đang tải tài nguyên đám mây -> Icon của {tweak_name}", flush=True)
         if utils.download_resource_to_local(remote_icon, os.path.join(config.ICON_DIR, f"{base_variant}.jpg")):
             icon_url = build_asset_url(config.ICON_DIR_NAME, f"{base_variant}.jpg")
 
     remote_banner = deb_info.get('Banner') or deb_info.get('banner')
     if remote_banner and str(remote_banner).startswith("http"):
-        logger.log_step(current_step="sileo", status="running", live_log=f"📥 Đang tải tài nguyên -> {tweak_name}_banner.jpg")
+        print(f"📥 Đang tải tài nguyên đám mây -> Banner của {tweak_name}", flush=True)
         if utils.download_resource_to_local(remote_banner, os.path.join(config.IMG_DIR, f"{base_variant}_banner.jpg")):
             banner_url = build_asset_url(config.IMG_DIR_NAME, f"{base_variant}_banner.jpg")
 
@@ -148,7 +144,7 @@ def get_tweak_assets(tweak_name, deb_info):
         idx = 1
         for scr_url in urls_list:
             if str(scr_url).startswith("http"):
-                logger.log_step(current_step="sileo", status="running", live_log=f"📥 Đang tải tài nguyên -> {tweak_name}_screen_{idx}.jpg")
+                print(f"📥 Đang tải tài nguyên đám mây -> Ảnh mô tả {idx} của {tweak_name}", flush=True)
                 if utils.download_resource_to_local(scr_url, os.path.join(config.IMG_DIR, f"{base_variant}_{idx}.jpg")):
                     screens.append(build_asset_url(config.IMG_DIR_NAME, f"{base_variant}_{idx}.jpg"))
                     idx += 1
@@ -182,7 +178,7 @@ def get_tweak_assets(tweak_name, deb_info):
             matched = next((f for f in local_images if clean_string_for_match(f.rsplit('.', 1)[0]) in [f"{base_variant}_{i}", f"{base_variant}{i}"] and any(f.lower().endswith(e) for e in exts)), None)
             if matched: screens.append(build_asset_url(config.IMG_DIR_NAME, matched))
 
-    # Gán tài nguyên fallback chuẩn xác 100% theo cấu trúc cục bộ mới
+    # Gán tài nguyên mặc định an toàn
     if not icon_url: icon_url = config.SOURCE_LOGO
     if not banner_url: banner_url = config.DEFAULT_BANNER
     if not video_url: video_url = config.DEFAULT_VIDEO
@@ -259,7 +255,7 @@ def build_sileo_depiction_json(safe_filename, tweak_name, version, description, 
         json.dump(depiction_data, f, indent=2, ensure_ascii=False)
 
 def run_sileo_engine(release_assets, system_db):
-    # 🌟 An toàn: Đảm bảo trường khóa "tweaks" luôn được định hình sẵn trong cache DB phòng lỗi KeyError
+    """🌟 PHÂN HỆ XỬ LÝ CHÍNH: Phân tích các gói Tweaks DEB và biên dịch kho dữ liệu Packages cho Sileo"""
     if "tweaks" not in system_db: 
         system_db["tweaks"] = {}
         
@@ -267,7 +263,7 @@ def run_sileo_engine(release_assets, system_db):
     processed_safenames = set()
     processed_tweaks_titles = []
 
-    # Xử lý Cloud
+    # Xử lý các gói nạp từ Đám mây (Cloud)
     deb_cloud_list = release_assets if isinstance(release_assets, list) else []
     for asset in deb_cloud_list:
         f_name = asset.get("name", "")
@@ -294,7 +290,7 @@ def run_sileo_engine(release_assets, system_db):
         build_sileo_depiction_json(safe_filename, tweak_title, ver, deb_info["Description"], assets, deb_info["Author"], deb_info, [])
         tweaks_map[(bid, arch)].append({"name": tweak_title, "ver": str(ver), "bid": bid, "arch": arch, "dl": f_url, "sz": sz, "desc": deb_info["Description"], "author": deb_info["Author"], "icon": assets["icon"], "safe_file": safe_filename, "section": deb_info["Section"], "is_cloud": True, "md5": md5, "sha1": sha1, "sha256": sha256})
 
-    # Xử lý Local
+    # Xử lý các gói lưu trữ cục bộ (Local)
     if os.path.exists(config.DEBS_INPUT_DIR):
         for root, dirs, files in os.walk(config.DEBS_INPUT_DIR):
             for f_name in files:
@@ -323,7 +319,7 @@ def run_sileo_engine(release_assets, system_db):
                     
                     tweaks_map[(deb_info["Package"], deb_info["Architecture"])].append({"name": deb_info["Name"], "ver": deb_info["Version"], "bid": deb_info["Package"], "arch": deb_info["Architecture"], "dl": relative_path, "sz": int(os.path.getsize(path)), "desc": deb_info["Description"], "author": deb_info["Author"], "icon": assets["icon"], "safe_file": safe_filename, "section": deb_info["Section"], "is_cloud": False, "md5": md5, "sha1": sha1, "sha256": sha256})
 
-    # Đồng bộ đầu ra Packages
+    # Ghi nội dung cấu trúc dữ liệu Packages phẳng phẳng
     final_packages = ""
     for key in sorted(tweaks_map.keys()):
         for v_item in tweaks_map[key]:
@@ -332,10 +328,13 @@ def run_sileo_engine(release_assets, system_db):
             
             final_packages += f"Package: {v_item['bid']}\nName: {v_item['name']}\nVersion: {v_item['ver']}\nArchitecture: {v_item['arch']}\nFilename: {v_item['dl']}\nSize: {v_item['sz']}\nMD5sum: {v_item['md5']}\nSHA1: {v_item['sha1']}\nSHA256: {v_item['sha256']}\nAuthor: {v_item['author']}\nDescription: {v_item['desc']}\nSection: {v_item['section']}\nIcon: {v_item['icon']}\nSileoDepiction: {json_depiction_url}\n\n"
 
-    with open(os.path.join(config.REPO_OUTPUT_DIR, "Packages"), "w", encoding="utf-8") as f: f.write(final_packages)
+    with open(os.path.join(config.REPO_OUTPUT_DIR, "Packages"), "w", encoding="utf-8") as f: 
+        f.write(final_packages)
+        
     try:
         with open(os.path.join(config.REPO_OUTPUT_DIR, "Packages"), 'rb') as f_in:
-            with bz2.BZ2File(os.path.join(config.REPO_OUTPUT_DIR, "Packages.bz2"), 'wb') as f_out: f_out.write(f_in.read())
+            with bz2.BZ2File(os.path.join(config.REPO_OUTPUT_DIR, "Packages.bz2"), 'wb') as f_out: 
+                f_out.write(f_in.read())
     except: pass
 
     return processed_tweaks_titles
