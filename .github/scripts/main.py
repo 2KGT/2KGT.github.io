@@ -88,7 +88,6 @@ def save_commit_message(total_apps, total_tweaks):
 
 
 def main():
-    # Mốc khởi tạo hệ thống
     print("🚀 Khởi động Pipeline (Dual-Database Mode)...", flush=True)
     logger.log_step(current_step="start", status="running", live_log="🚀 Khởi chạy Feather và Sileo Engine...")
     
@@ -101,7 +100,6 @@ def main():
     total_ipa = len(raw_assets.get("ipa", []))
     total_deb = len(raw_assets.get("deb", []))
     
-    # Báo cáo số lượng tệp tìm thấy
     logger.log_step(current_step="start", status="running", live_log=f"📊 Tìm thấy {total_ipa} tệp IPA và {total_deb} tệp DEB.")
     time.sleep(0.5)
 
@@ -130,27 +128,32 @@ def main():
     stats = calculate_repo_statistics()
     save_commit_message(stats[0], stats[2])
     
-    # 5. Gửi thông báo tổng kết qua Gemini lên Telegram Channel
+    # 5. Gửi thông báo tổng kết tích hợp AI (Sử dụng danh sách thay đổi thực tế)
     logger.log_step(current_step="deploy", status="running", live_log="🤖 Gửi thông báo phân tích lên Telegram...")
     
-    # 🌟 ĐỒNG BỘ TẠI ĐÂY: Gọi đúng hàm mới trong gemini.py và chuyển giao mảng thay đổi thực tế
+    # Khởi tạo chuỗi giao diện từ bộ máy Gemini
     msg = gemini.generate_update_summary(processed_apps, processed_tweaks)
     
     token = os.getenv("TELEGRAM_TOKEN") or os.getenv("TELEGRAM_BOT_TOKEN")
-    chat_id = os.getenv("TELEGRAM_CHAT_ID") or os.getenv("TELEGRAM_CHANNEL")
+    chat_id = os.getenv("TELEGRAM_CHAT_ID")
     
     if token and chat_id:
+        url = f"https://api.telegram.org/bot{token}/sendMessage"
+        payload = {
+            "chat_id": chat_id, 
+            "text": msg, 
+            "parse_mode": "HTML",
+            "disable_web_page_preview": True,
+            "reply_markup": {"inline_keyboard": [[{"text": "🌐 Thêm Nguồn Kyic", "url": "https://2kgt.github.io/"}]]}
+        }
         try:
-            requests.post(f"https://api.telegram.org/bot{token}/sendMessage", json={
-                "chat_id": chat_id, "text": msg, "parse_mode": "HTML",
-                "disable_web_page_preview": True,
-                "reply_markup": {"inline_keyboard": [[{"text": "🌐 Thêm Nguồn Kyic", "url": "https://2kgt.github.io/"}]]}
-            }, timeout=15)
+            res = requests.post(url, json=payload, timeout=15)
+            res.raise_for_status()
+            print("🚀 [Telegram] Báo cáo tổng hợp đã được gửi thành công.")
         except Exception as e:
-            print(f"Lỗi gửi Telegram thông báo tổng: {e}", flush=True)
+            print(f"❌ Lỗi gửi Telegram thông báo tổng từ main.py: {e}", flush=True)
 
-    # 6. Chốt hạ: Bật trạng thái thành công để Terminal Log tự hủy đếm ngược 9 giây độc lập
-    time.sleep(1.0)
+    # 6. Chốt hạ tiến trình (Hàm logger.log_step giờ đã rỗng nên sẽ pass qua cực an toàn)
     logger.log_step(current_step="deploy", status="success", live_log="🏁 Toàn bộ hệ thống đồng bộ hoàn tất!")
 
 
