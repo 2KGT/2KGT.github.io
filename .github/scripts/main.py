@@ -13,7 +13,6 @@ import json
 import re
 import datetime
 import requests
-import logger
 
 # 3. Import các module cục bộ trong project
 import config
