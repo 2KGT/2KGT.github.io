@@ -84,11 +84,6 @@ def save_commit_message(total_apps, total_tweaks):
     msg = f"🚀 Auto Sync: {total_apps} apps, {total_tweaks} tweaks | {datetime.datetime.now().strftime('%d/%m/%Y %H:%M')}"
     with open(os.path.join(CURRENT_DIR, '.commit_msg'), 'w', encoding='utf-8') as f:
         f.write(msg)
-
-
-def main():
-    print("🚀 Khởi động Pipeline (Dual-Database Mode)...", flush=True)
-    logger.log_step(current_step="start", status="running", live_log="🚀 Khởi chạy Feather và Sileo Engine...")
     
     # 1. Load database và nạp dữ liệu tài nguyên
     feather_db, sileo_db = load_databases()
