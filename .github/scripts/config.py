@@ -1,8 +1,6 @@
 # .github/scripts/config.py
 import os
 import sys
-import logging
-import logger
 
 CURRENT_SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 if "scripts" in CURRENT_SCRIPT_DIR.lower():
