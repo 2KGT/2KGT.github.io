@@ -49,32 +49,46 @@ def save_databases(feather_db, sileo_db):
     safe_write(config.SILEO_DATABASE, sileo_db)
 
 
-def calculate_repo_statistics():
-    """Tính toán tổng số lượng và dung lượng của ứng dụng và tweaks"""
-    apps_json_path = os.path.join(config.REPO_OUTPUT_DIR, 'apps.json')
-    total_apps, total_apps_size = 0, "0 MB"
-    if os.path.exists(apps_json_path):
-        try:
-            with open(apps_json_path, 'r', encoding='utf-8') as f:
-                data = json.load(f).get("apps", [])
-                total_apps = len(data)
-                size = sum(int(app.get("size", 0)) for app in data)
-                total_apps_size = f"{size / (1024 * 1024):.2f} MB"
-        except: pass
+def calculate_repo_statistics(raw_assets):
+    """Tính toán dung lượng thực tế của các file IPA và DEB từ luồng dữ liệu đám mây/cục bộ"""
+    total_apps = 0
+    apps_bytes = 0
+    
+    # 1. Quét tính dung lượng thực tế của file Apps (.ipa đám mây)
+    if isinstance(raw_assets, dict) and "ipa" in raw_assets:
+        for asset in raw_assets["ipa"]:
+            total_apps += 1
+            apps_bytes += int(asset.get("size", 0))
 
-    packages_path = os.path.join(config.REPO_OUTPUT_DIR, "Packages")
-    total_tweaks, total_tweaks_size = 0, "0 MB"
-    if os.path.exists(packages_path):
-        try:
-            with open(packages_path, "r", encoding="utf-8") as f:
-                content = f.read()
-                total_tweaks = content.count("Package:")
-                sizes = re.findall(r'^Size:\s*(\d+)', content, re.MULTILINE)
-                tweak_size = sum(int(s) for s in sizes)
-                total_tweaks_size = f"{tweak_size / (1024 * 1024):.2f} MB"
-        except: pass
+    # 2. Quét tính dung lượng thực tế của file Tweaks (.deb đám mây + cục bộ)
+    total_tweaks = 0
+    tweaks_bytes = 0
+    
+    # Tài nguyên tweak đám mây
+    if isinstance(raw_assets, dict) and "deb" in raw_assets:
+        for asset in raw_assets["deb"]:
+            total_tweaks += 1
+            tweaks_bytes += int(asset.get("size", 0))
             
-    return total_apps, total_apps_size, total_tweaks, total_tweaks_size
+    # Tài nguyên tweak lưu cục bộ (Local folder)
+    if os.path.exists(config.DEBS_INPUT_DIR):
+        for root, dirs, files in os.walk(config.DEBS_INPUT_DIR):
+            for f_name in files:
+                if f_name.endswith(".deb"):
+                    total_tweaks += 1
+                    tweaks_bytes += os.path.getsize(os.path.join(root, f_name))
+
+    # Định dạng chuỗi văn bản dung lượng thông minh
+    def format_size(bytes_size):
+        if bytes_size == 0: 
+            return "0 MB"
+        for unit in ['B', 'KB', 'MB', 'GB']:
+            if bytes_size < 1024.0:
+                return f"{bytes_size:.2f} {unit}"
+            bytes_size /= 1024.0
+        return f"{bytes_size:.2f} GB"
+
+    return total_apps, format_size(apps_bytes), total_tweaks, format_size(tweaks_bytes)
 
 
 def save_commit_message(total_apps, total_tweaks):
@@ -123,14 +137,20 @@ def main():
         print("📦 Không phát hiện Tweak mới cần xử lý bổ sung.", flush=True)
     time.sleep(0.5)
     
-    # 4. Ghi dữ liệu đồng bộ database và tạo tên commit
+    # 4. Ghi dữ liệu đồng bộ database và tạo tên commit (Đã sửa đổi nạp raw_assets)
     save_databases(feather_db, sileo_db)
-    stats = calculate_repo_statistics()
+    stats = calculate_repo_statistics(raw_assets)
     save_commit_message(stats[0], stats[2])
     
     # 5. Biên dịch thông báo tích hợp trí tuệ nhân tạo Gemini và đẩy lên Telegram Channel
     print("🤖 Đang kết nối trí tuệ nhân tạo Gemini dịch thuật và tóm tắt thay đổi...", flush=True)
-    msg_summary = gemini.generate_update_summary(processed_apps, processed_tweaks)
+    
+    # KHỚP LỆNH: Nạp đầy đủ 3 tham số đầu vào bao gồm stats_data cho gemini.py
+    msg_summary = gemini.generate_update_summary(
+        processed_apps=processed_apps,
+        processed_tweaks=processed_tweaks,
+        stats_data=stats
+    )
     
     token = os.getenv("TELEGRAM_TOKEN") or os.getenv("TELEGRAM_BOT_TOKEN")
     chat_id = os.getenv("TELEGRAM_CHAT_ID")
