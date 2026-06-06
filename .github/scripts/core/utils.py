@@ -3,8 +3,8 @@ import re
 import os
 import sys
 import urllib.request
-import logging
 
+# Khắc phục đường dẫn hệ thống để nạp cấu hình chính xác
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 PARENT_DIR = os.path.dirname(os.path.dirname(CURRENT_DIR))
 if PARENT_DIR not in sys.path:
@@ -13,19 +13,22 @@ if PARENT_DIR not in sys.path:
 import config
 
 def clean_text(text):
+    """Làm sạch khoảng trắng thừa trong chuỗi văn bản"""
     if not text: return ""
     return re.sub(r'\s+', ' ', str(text)).strip()
 
 def smart_truncate_description(text, max_chars=None):
+    """Xử lý mô tả ứng dụng thông minh, gán văn bản mặc định nếu dữ liệu rỗng hoặc sai font"""
     if not text:
-        return "Ứng dụng Premium phiên bản ổn định, mượt mà, mở khóa đầy đủ tính năng cao cấp từ Kyic Store."
+        return "Ứng dụng Premium phiên bản ổn định, mượt mờ, mở khóa đầy đủ tính năng cao cấp từ Kyic Store."
     clean = re.sub(r'[\r\n\t]+', ' ', str(text))
     clean = re.sub(r'\s+', ' ', clean).strip()
     if len(clean) < 10 or "từ Kyic Store" in clean or "cung cấp bởi" in clean:
-        return "Ứng dụng Premium phiên bản ổn định, mượt mà, mở khóa đầy đủ tính năng cao cấp từ Kyic Store."
+        return "Ứng dụng Premium phiên bản ổn định, mượt mờ, mở khóa đầy đủ tính năng cao cấp từ Kyic Store."
     return clean
 
 def format_permissions(raw_data):
+    """Phân tích cấu trúc quyền hạn (Permissions) an toàn từ file cấu hình của App"""
     formatted_dict = {}
     if not raw_data: return formatted_dict
     try:
@@ -49,10 +52,11 @@ def format_permissions(raw_data):
                         display_name = config.PERM_MAPPING.get(clean_item, clean_item)
                         formatted_dict[display_name] = f"Ứng dụng yêu cầu quyền truy cập {display_name}."
     except Exception as e:
-        print(f"⚠️ Lỗi parse permissions: {e}")
+        print(f"⚠️ Lỗi xử lý cấu trúc quyền hạn: {e}", flush=True)
     return formatted_dict
 
 def clean_github_url(url):
+    """Chuyển đổi các liên kết GitHub Blob thông thường sang định dạng liên kết tải tệp thô (Raw URL)"""
     if not url or not isinstance(url, str): return ""
     if "github.com" in url and "/blob/" in url:
         url = url.split("?")[0].replace("github.com", "raw.githubusercontent.com").replace("/blob/", "/")
@@ -61,28 +65,38 @@ def clean_github_url(url):
     return url
 
 def download_resource_to_local(url, target_path):
-    if not url or not isinstance(url, str) or not url.startswith("http"): return False
+    """Tải tài nguyên từ xa về máy ảo lưu trữ có xử lý tệp tạm độc lập để tránh lỗi hỏng file"""
+    if not url or not isinstance(url, str) or not url.startswith("http"): 
+        return False
     
     os.makedirs(os.path.dirname(target_path), exist_ok=True)
     temp_path = target_path + ".tmp"
     
     try:
-        print(f"📥 Đang tải tài nguyên -> {os.path.basename(target_path)}")
-        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15'})
-        with urllib.request.urlopen(req, timeout=20) as response:
+        print(f"📥 Đang tải: {os.path.basename(target_path)}", flush=True)
+        req = urllib.request.Request(
+            url, 
+            headers={'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15'}
+        )
+        with urllib.request.urlopen(req, timeout=15) as response:
             with open(temp_path, 'wb') as f:
                 f.write(response.read())
-        os.replace(temp_path, target_path)
-        return True
+        
+        # Di chuyển và đổi tên tệp tạm sang tệp chính thức an toàn
+        if os.path.exists(temp_path):
+            os.replace(temp_path, target_path)
+            return True
     except Exception as e:
-        if os.path.exists(temp_path): os.remove(temp_path)
-        print(f"⚠️ Không thể tải file {url}. Lỗi: {e}")
-        return False
+        if os.path.exists(temp_path): 
+            try: os.remove(temp_path)
+            except: pass
+        print(f"❌ Thất bại khi tải file {os.path.basename(target_path)}: {e}", flush=True)
+    return False
 
 def get_default_assets(asset_name):
-    # Trỏ đúng về đường dẫn thư mục depictions/default/
+    """Trỏ đúng về đường dẫn thư mục tài nguyên gốc depictions/default/"""
     return f"{config.RAW_URL.rstrip('/')}/depictions/default/{asset_name}.png"
 
 def get_default_screens():
-    # Bắc cầu trực tiếp sang bộ xử lý mảng ảnh động của config để đồng bộ hệ thống 100%
+    """Bắc cầu dữ liệu trực tiếp sang bộ xử lý mảng ảnh chụp màn hình của tệp config chính"""
     return config.get_default_screenshots()
