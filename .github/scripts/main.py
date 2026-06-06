@@ -50,35 +50,52 @@ def save_databases(feather_db, sileo_db):
 
 
 def calculate_repo_statistics(raw_assets):
-    """Tính toán dung lượng thực tế của các file IPA và DEB từ luồng dữ liệu đám mây/cục bộ"""
+    """Tính toán số lượng (BundleID) và tổng dung lượng tất cả tệp tin phân tích từ apps.json và Packages"""
     total_apps = 0
     apps_bytes = 0
-    
-    # 1. Quét tính dung lượng thực tế của file Apps (.ipa đám mây)
-    if isinstance(raw_assets, dict) and "ipa" in raw_assets:
-        for asset in raw_assets["ipa"]:
-            total_apps += 1
-            apps_bytes += int(asset.get("size", 0))
-
-    # 2. Quét tính dung lượng thực tế của file Tweaks (.deb đám mây + cục bộ)
     total_tweaks = 0
     tweaks_bytes = 0
     
-    # Tài nguyên tweak đám mây
-    if isinstance(raw_assets, dict) and "deb" in raw_assets:
-        for asset in raw_assets["deb"]:
-            total_tweaks += 1
-            tweaks_bytes += int(asset.get("size", 0))
-            
-    # Tài nguyên tweak lưu cục bộ (Local folder)
-    if os.path.exists(config.DEBS_INPUT_DIR):
-        for root, dirs, files in os.walk(config.DEBS_INPUT_DIR):
-            for f_name in files:
-                if f_name.endswith(".deb"):
-                    total_tweaks += 1
-                    tweaks_bytes += os.path.getsize(os.path.join(root, f_name))
+    # 1. Thống kê Apps từ file cấu trúc dữ liệu apps.json
+    apps_json_path = os.path.join(config.REPO_OUTPUT_DIR, 'apps.json')
+    if os.path.exists(apps_json_path):
+        try:
+            with open(apps_json_path, 'r', encoding='utf-8') as f:
+                apps_data = json.load(f).get("apps", [])
+                total_apps = len(apps_data)  # Đếm số lượng ứng dụng độc nhất (Bundle ID)
+                
+                # Duyệt sâu tính tổng dung lượng toàn bộ file ipa thành phần
+                for app in apps_data:
+                    # Hỗ trợ cả 2 schema phổ biến của Feather (mảng versions hoặc mảng files)
+                    ipa_files = app.get("versions", []) or app.get("files", [])
+                    
+                    if isinstance(ipa_files, list) and len(ipa_files) > 0:
+                        for ipa in ipa_files:
+                            apps_bytes += int(ipa.get("size", 0))
+                    else:
+                        # Fallback nếu cấu trúc object phẳng không chia mảng phiên bản
+                        apps_bytes += int(app.get("size", 0))
+        except Exception as e:
+            print(f"⚠️ Lỗi phân tích cú pháp apps.json: {e}", flush=True)
 
-    # Định dạng chuỗi văn bản dung lượng thông minh
+    # 2. Thống kê Tweaks từ file cấu trúc phẳng Packages
+    packages_path = os.path.join(config.REPO_OUTPUT_DIR, "Packages")
+    if os.path.exists(packages_path):
+        try:
+            with open(packages_path, "r", encoding="utf-8") as f:
+                content = f.read()
+                
+                # Đếm số lượng chuỗi 'Package:' định danh gói độc nhất
+                total_tweaks = content.count("Package:")
+                
+                # Regex quét tìm và cộng dồn tất cả các dòng trường Size của từng file .deb thành phần
+                sizes = re.findall(r'^Size:\s*(\d+)', content, re.MULTILINE)
+                for size_str in sizes:
+                    tweaks_bytes += int(size_str)
+        except Exception as e:
+            print(f"⚠️ Lỗi phân tích cú pháp tệp Packages: {e}", flush=True)
+
+    # Định dạng chuỗi văn bản hiển thị dung lượng (B -> KB -> MB -> GB)
     def format_size(bytes_size):
         if bytes_size == 0: 
             return "0 MB"
