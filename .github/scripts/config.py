@@ -59,10 +59,6 @@ PERM_MAPPING = {
     "NSLocalNetworkUsageDescription": "Mạng cục bộ"
 }
 
-# --- Cấu hình logger hệ thống Python ---
-logging.basicConfig(level=logging.INFO)
-sys_logger = logging.getLogger(__name__)
-
 # --- Hàm thông minh tự động quét hoặc sinh chuỗi ảnh chụp màn hình mặc định ---
 def get_default_screenshots():
     """
