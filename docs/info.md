@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 06/06/2026 09:31:11 (ICT)*
+⏱️ *Cập nhật tự động lúc: 06/06/2026 14:17:11 (ICT)*
 
 ```text
 🗺️ Root/
@@ -121,7 +121,15 @@
     │   ├── 📂 icons/
     │   │   └── [ 📊 Tóm tắt tài nguyên: 📸 Ảnh JPG: 13 file, 🖼️ Ảnh PNG: 22 file ]
     │   ├── 📂 images/
-    │   │   └── [ 📊 Tóm tắt tài nguyên: 📸 Ảnh JPG: 55 file, 🖼️ Ảnh PNG: 9 file ]
+    │   │   ├── Turrit_1.webp
+    │   │   ├── Turrit_2.webp
+    │   │   ├── Turrit_3.webp
+    │   │   ├── Turrit_4.webp
+    │   │   ├── Turrit_5.webp
+    │   │   ├── Turrit_6.webp
+    │   │   ├── Turrit_7.webp
+    │   │   ├── Turrit_8.webp
+    │   │   └── [ 📊 Tóm tắt tài nguyên: 📸 Ảnh JPG: 55 file, 🖼️ Ảnh PNG: 12 file ]
     │   └── 📂 metadata/
     │       └── [ 📊 Tóm tắt tài nguyên: ⚙️ Cấu hình .json: 126 file ]
     └── [ 📊 Tóm tắt tài nguyên: ⚙️ Cấu hình .json: 2 file, 🖼️ Ảnh PNG: 1 file ]
