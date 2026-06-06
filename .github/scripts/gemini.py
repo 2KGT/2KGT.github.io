@@ -21,20 +21,25 @@ def escape_html(text):
     return str(text).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 def scan_repo_inventory(repo_path='.'):
-    """Quét và phân loại tài nguyên tại Root của repo"""
+    """Quét sạch tài nguyên kho bãi, cho phép đi sâu vào các folder hệ thống như .github"""
     inv = {"json": 0, "yml": 0, "py": 0, "img": 0}
     img_exts = {'.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp'}
     if not os.path.exists(repo_path):
         return inv
         
     for root, dirs, files in os.walk(repo_path):
-        dirs[:] = [d for d in dirs if d not in ('.git', 'node_modules', '.github')]
+        # Chỉ loại bỏ .git lịch sử và node_modules để giữ hiệu năng, cho phép quét .github
+        dirs[:] = [d for d in dirs if d not in ('.git', 'node_modules')]
         for file in files:
             ext = os.path.splitext(file)[1].lower()
-            if ext == '.json': inv["json"] += 1
-            elif ext in ('.yml', '.yaml'): inv["yml"] += 1
-            elif ext == '.py': inv["py"] += 1
-            elif ext in img_exts: inv["img"] += 1
+            if ext == '.json': 
+                inv["json"] += 1
+            elif ext in ('.yml', '.yaml'): 
+                inv["yml"] += 1
+            elif ext == '.py': 
+                inv["py"] += 1
+            elif ext in img_exts: 
+                inv["img"] += 1
     return inv
 
 def ask_gemini_ai(prompt, retries=2):
@@ -66,17 +71,16 @@ def generate_update_summary(processed_apps, processed_tweaks, stats_data=None):
     event_name = (os.getenv("GITHUB_EVENT_NAME") or "push").lower()
     is_manual = (event_name in ["workflow_dispatch", "release"])
     
-    # 1. Tiếp nhận số liệu thống kê dung lượng thật từ main.py truyền sang
+    # 1. Tiếp nhận số liệu thống kê chuẩn xác từ main.py truyền sang
     if stats_data and len(stats_data) == 4:
         total_apps, total_apps_size, total_tweaks, total_tweaks_size = stats_data
     else:
-        # Cơ chế Fallback dự phòng nếu main.py cũ chưa truyền tham số mới
         total_apps = len(processed_apps) if processed_apps else 0
         total_tweaks = len(processed_tweaks) if processed_tweaks else 0
         total_apps_size = "Đã cập nhật"
         total_tweaks_size = "Đã cập nhật"
 
-    # 2. Tạo danh sách text thô gom các app/tweak đã qua xử lý để gửi làm ngữ cảnh cho AI
+    # 2. Tạo danh sách text thô gom các ứng dụng/tiện ích đổi mới làm ngữ cảnh cho AI
     raw_logs = []
     if processed_apps:
         for app in processed_apps: raw_logs.append(f"App: {app}")
@@ -90,44 +94,43 @@ def generate_update_summary(processed_apps, processed_tweaks, stats_data=None):
     thu = ["Thứ hai", "Thứ ba", "Thứ tư", "Thứ năm", "Thứ sáu", "Thứ bảy", "Chủ nhật"]
     current_time_str = f"{now_ict.strftime('%H:%M')} {thu[now_ict.weekday()]} {now_ict.strftime('%d/%m/%Y')}"
     
-    # 4. Quét cấu trúc tài nguyên kho bãi hiện tại tại root
+    # 4. Quét cấu trúc tài nguyên thực tế tại kho bãi (Bao gồm .github)
     inv = scan_repo_inventory('.')
     structure_str = f"IMG: {inv['img']}, JSON: {inv['json']}, PY: {inv['py']}, YML: {inv['yml']}"
     
-    # 5. Gọi AI đúc kết mục Describe ngắn và tạo mục Notes độc lập bằng 1 lượt Prompt gom chung
-    event_type = "Manual/Control" if is_manual else "Auto/Monitoring"
+    # 5. Gọi AI đúc kết cấu trúc chuỗi kết quả
+    event_type = "Hành động thủ công (Chỉ huy)" if is_manual else "Hệ thống tự động (Giám sát)"
     
     prompt = f"""
-    Bạn là AI quản trị hệ thống của kho ứng dụng Kyic Store.
+    Bạn là AI quản trị cao cấp của kho ứng dụng Kyic Store.
     Ngữ cảnh vận hành: {event_type}
-    Tài nguyên vừa xử lý: {raw_desc}
-    Thống kê tổng: Apps={total_apps}, Tweaks={total_tweaks}, File cấu trúc={structure_str}
+    Tài nguyên vừa thay đổi: {raw_desc}
+    Thống kê kho bãi hiện tại: Apps={total_apps}, Tweaks={total_tweaks}, Cấu trúc file={structure_str}
 
-    Nhiệm vụ: Tạo ra chính xác 2 đoạn văn bản ngắn phân tách bằng ký tự gạch đứng '|' theo cấu trúc: [Đoạn_Describe] | [Đoạn_Notes]
+    Nhiệm vụ: Tạo ra đúng 2 đoạn văn bản ngắn, NGĂN CÁCH BIỂU DIỄN BẰNG KÝ TỰ GẠCH ĐỨNG '|' theo cấu trúc: [Đoạn_Describe] | [Đoạn_Notes]
 
-    Yêu cầu chi tiết:
-    1. [Đoạn_Describe]: Hãy tóm tắt ngắn gọn các app/tweak vừa đổi mới hoặc cập nhật. TUYỆT ĐỐI không liệt kê hàng loạt hay lặp lại. Viết thành một câu tổng hợp mượt mà dưới 2 dòng (Ví dụ: Cập nhật loạt công cụ ký số ESign, Feather mới và đồng bộ các gói tiện ích mod cho YouTube, Facebook).
-    2. [Đoạn_Notes]: Lời bình luận vận hành của AI. Nếu Manual: viết như chỉ huy, khẳng định kiểm soát tốt; Nếu Auto: nhấn mạnh sự mượt mà tối ưu. Ngắn gọn dưới 15 từ, kết thúc bằng đúng 1 emoji phù hợp.
-    3. Trả về định dạng thô thuần túy: Đoạn_Describe | Đoạn_Notes
+    Yêu cầu nghiêm ngặt:
+    1. [Đoạn_Describe]: Viết một câu tóm tắt tổng hợp các app/tweak vừa đổi mới hoặc nâng cấp bản vá một cách mượt mà. TUYỆT ĐỐI không liệt kê danh sách, không lặp lại từ ngữ, ngắn gọn dưới 2 dòng. (Ví dụ: Cập nhật loạt công cụ ký số ESign, GBox và đồng bộ các gói tiện ích mod nâng cấp cho YouTube, Facebook).
+    2. [Đoạn_Notes]: Nhận xét vận hành ngắn dưới 15 từ. Nếu thủ công: khẳng định quyền kiểm soát hệ thống; Nếu tự động: nhấn mạnh tiến trình mượt mà tối ưu. Cuối câu kết thúc bằng đúng 1 emoji phù hợp.
+    3. Phản hồi xuất ra phải tuân thủ nghiêm ngặt định dạng thô phân tách bằng dấu gạch đứng, không chứa các ký tự định dạng markdown bọc ngoài: Đoạn_Describe | Đoạn_Notes
     """
     
     ai_response = ask_gemini_ai(prompt)
     
-    # Tách chuỗi kết quả từ AI, nếu lỗi sẽ tự kích hoạt cơ chế an toàn
+    # Tách chuỗi kết quả phân tách, xử lý chống lỗi dữ liệu trả về vỡ định dạng
     if ai_response and "|" in ai_response:
         parts = ai_response.split("|")
         ai_describe = parts[0].strip()
         ai_notes = parts[1].strip()
     else:
-        # Phương án dự phòng nếu AI bị nghẽn mạng hoặc trả về sai cấu trúc
-        ai_describe = "Đồng bộ hóa các bản cập nhật mới cho Apps và Tweaks mod hệ thống."
+        ai_describe = "Đồng bộ hóa thành công các bản cập nhật mới cho kho ứng dụng và tiện ích mod hệ thống."
         ai_notes = "Hệ thống đã đồng bộ hóa dữ liệu thành công ✨"
 
     # 6. Định dạng bảo vệ HTML Telegram
     telegram_desc = escape_html(ai_describe)
     telegram_ai_notes = escape_html(ai_notes)
 
-    # Đóng gói giao diện cấu trúc Telegram HTML
+    # Đóng gói giao diện cấu trúc báo cáo Telegram HTML công bố
     bai_viet_telegram = (
         f"🔄 <b>ĐỒNG BỘ HỆ THỐNG REPO</b>\n"
         f"──────────────────\n"
@@ -142,7 +145,7 @@ def generate_update_summary(processed_apps, processed_tweaks, stats_data=None):
         f"──────────────────\n"
     )
 
-    # 7. Xử lý lưu biến GITHUB_ENV
+    # 7. Xử lý đẩy dữ liệu sạch ra GITHUB_ENV
     github_desc = raw_desc[:117] + "..." if len(raw_desc) > 120 else raw_desc
     github_env = os.getenv('GITHUB_ENV')
     if github_env:
@@ -164,7 +167,7 @@ def send_final_report(message):
         return
         
     url = f"https://api.telegram.org/bot{token}/sendMessage"
-    payload = {"chat_id": chat_id, "text": message, "parse_mode": "HTML"}
+    payload = {"chat_id": chat_id, "text": message, "parse_mode": "HTML", "disable_web_page_preview": True}
     try:
         res = requests.post(url, json=payload, timeout=12)
         res.raise_for_status()
