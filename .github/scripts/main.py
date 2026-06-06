@@ -2,19 +2,16 @@
 import os
 import sys
 import time
-
-# 1. Khắc phục đường dẫn gốc TRƯỚC khi import các module khác
-CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-if CURRENT_DIR not in sys.path:
-    sys.path.insert(0, CURRENT_DIR)
-
-# 2. Import các thư viện hệ thống
 import json
 import re
 import datetime
 import requests
 
-# 3. Import các module cục bộ trong project
+# Khắc phục đường dẫn gốc trước khi nạp các module nội bộ
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+if CURRENT_DIR not in sys.path:
+    sys.path.insert(0, CURRENT_DIR)
+
 import config
 import gemini
 import fetch_github
@@ -22,21 +19,21 @@ from core import feather_engine, sileo_engine
 
 
 def load_databases():
-    """Nạp riêng biệt wikiipa.json và wikideb.json"""
+    """Nạp dữ liệu bộ nhớ đệm wikiipa.json và wikideb.json độc lập"""
     def read_db(path):
         if os.path.exists(path):
             try:
                 with open(path, 'r', encoding='utf-8') as f:
                     return json.load(f)
             except Exception as e:
-                print(f"Lỗi đọc database {path}: {e}", flush=True)
+                print(f"⚠️ Lỗi đọc database {path}: {e}", flush=True)
         return {}
 
     return read_db(config.FEATHER_DATABASE), read_db(config.SILEO_DATABASE)
 
 
 def save_databases(feather_db, sileo_db):
-    """Ghi riêng biệt vào 2 file DB an toàn"""
+    """Ghi đè dữ liệu cấu trúc vào 2 tệp DB thông qua file tạm an toàn"""
     def safe_write(path, data):
         tmp_path = f"{path}.tmp"
         try:
@@ -44,7 +41,7 @@ def save_databases(feather_db, sileo_db):
                 json.dump(data, f, indent=2, ensure_ascii=False)
             os.replace(tmp_path, path)
         except Exception as e:
-            print(f"Lỗi ghi database {path}: {e}", flush=True)
+            print(f"❌ Lỗi ghi database {path}: {e}", flush=True)
             if os.path.exists(tmp_path):
                 os.remove(tmp_path)
 
@@ -53,7 +50,7 @@ def save_databases(feather_db, sileo_db):
 
 
 def calculate_repo_statistics():
-    """Tính toán thống kê từ apps.json và Packages"""
+    """Tính toán tổng số lượng và dung lượng của ứng dụng và tweaks"""
     apps_json_path = os.path.join(config.REPO_OUTPUT_DIR, 'apps.json')
     total_apps, total_apps_size = 0, "0 MB"
     if os.path.exists(apps_json_path):
@@ -81,11 +78,22 @@ def calculate_repo_statistics():
 
 
 def save_commit_message(total_apps, total_tweaks):
+    """Lưu thông điệp đẩy lên Git ra ngoài thư mục gốc để né trigger path lặp vô tận"""
     msg = f"🚀 Auto Sync: {total_apps} apps, {total_tweaks} tweaks | {datetime.datetime.now().strftime('%d/%m/%Y %H:%M')}"
-    with open(os.path.join(CURRENT_DIR, '.commit_msg'), 'w', encoding='utf-8') as f:
-        f.write(msg)
+    commit_file_path = os.path.join(config.REPO_ROOT, '.commit_msg')
+    try:
+        with open(commit_file_path, 'w', encoding='utf-8') as f:
+            f.write(msg)
+        print(f"📝 Đã tạo file commit_msg: {msg}", flush=True)
+    except Exception as e:
+        print(f"⚠️ Không thể lưu file commit_msg: {e}", flush=True)
+
+
+def main():
+    """🌟 PHÂN HỆ ĐIỀU PHỐI CHÍNH (Core Automation Engine)"""
+    print("🎬 Khởi chạy hệ thống tự động hóa Kyic Premium Store...", flush=True)
     
-    # 1. Load database và nạp dữ liệu tài nguyên
+    # 1. Khởi tạo bộ nhớ đệm database và quét file trên GitHub Releases
     feather_db, sileo_db = load_databases()
     if "apps" not in feather_db: feather_db["apps"] = {}
     if "tweaks" not in sileo_db: sileo_db["tweaks"] = {}
@@ -94,39 +102,35 @@ def save_commit_message(total_apps, total_tweaks):
     total_ipa = len(raw_assets.get("ipa", []))
     total_deb = len(raw_assets.get("deb", []))
     
-    logger.log_step(current_step="start", status="running", live_log=f"📊 Tìm thấy {total_ipa} tệp IPA và {total_deb} tệp DEB.")
+    print(f"📊 Hệ thống quét đám mây: Tìm thấy {total_ipa} tệp IPA và {total_deb} tệp DEB.", flush=True)
     time.sleep(0.5)
 
-    # 2. Chạy phân hệ Feather Engine (Xử lý Apps)
-    logger.log_step(current_step="feather", status="running", live_log="📂 Đang xử lý tài nguyên cho Feather...")
+    # 2. Xử lý luồng dữ liệu IPA (Feather Engine)
+    print("📂 Đang nạp phân hệ Feather Engine...", flush=True)
     processed_apps = feather_engine.run_feather_engine(raw_assets.get("ipa", []), feather_db)
     if processed_apps:
-        apps_str = ", ".join(processed_apps)
-        logger.log_step(current_step="feather", status="running", live_log=f"📱 Đã xử lý Apps: {apps_str}")
+        print(f"📱 Hoàn tất xử lý Apps: {', '.join(processed_apps)}", flush=True)
     else:
-        logger.log_step(current_step="feather", status="running", live_log="📱 Không có App mới cần xử lý.")
+        print("📱 Không phát hiện App mới cần xử lý bổ sung.", flush=True)
     time.sleep(0.5)
     
-    # 3. Chạy phân hệ Sileo Engine (Xử lý Tweaks)
-    logger.log_step(current_step="sileo", status="running", live_log="⚙️ Đang xử lý tài nguyên cho Sileo...")
+    # 3. Xử lý luồng dữ liệu DEB (Sileo Engine)
+    print("⚙️ Đang nạp phân hệ Sileo Engine...", flush=True)
     processed_tweaks = sileo_engine.run_sileo_engine(raw_assets.get("deb", []), sileo_db)
     if processed_tweaks:
-        tweaks_str = ", ".join(processed_tweaks)
-        logger.log_step(current_step="sileo", status="running", live_log=f"📦 Đã xử lý Tweaks: {tweaks_str}")
+        print(f"📦 Hoàn tất xử lý Tweaks: {', '.join(processed_tweaks)}", flush=True)
     else:
-        logger.log_step(current_step="sileo", status="running", live_log="📦 Không có Tweak mới cần xử lý.")
+        print("📦 Không phát hiện Tweak mới cần xử lý bổ sung.", flush=True)
     time.sleep(0.5)
     
-    # 4. Lưu lại dữ liệu cấu trúc
+    # 4. Ghi dữ liệu đồng bộ database và tạo tên commit
     save_databases(feather_db, sileo_db)
     stats = calculate_repo_statistics()
     save_commit_message(stats[0], stats[2])
     
-    # 5. Gửi thông báo tổng kết tích hợp AI (Sử dụng danh sách thay đổi thực tế)
-    logger.log_step(current_step="deploy", status="running", live_log="🤖 Gửi thông báo phân tích lên Telegram...")
-    
-    # Khởi tạo chuỗi giao diện từ bộ máy Gemini
-    msg = gemini.generate_update_summary(processed_apps, processed_tweaks)
+    # 5. Biên dịch thông báo tích hợp trí tuệ nhân tạo Gemini và đẩy lên Telegram Channel
+    print("🤖 Đang kết nối trí tuệ nhân tạo Gemini dịch thuật và tóm tắt thay đổi...", flush=True)
+    msg_summary = gemini.generate_update_summary(processed_apps, processed_tweaks)
     
     token = os.getenv("TELEGRAM_TOKEN") or os.getenv("TELEGRAM_BOT_TOKEN")
     chat_id = os.getenv("TELEGRAM_CHAT_ID")
@@ -135,20 +139,23 @@ def save_commit_message(total_apps, total_tweaks):
         url = f"https://api.telegram.org/bot{token}/sendMessage"
         payload = {
             "chat_id": chat_id, 
-            "text": msg, 
+            "text": msg_summary, 
             "parse_mode": "HTML",
             "disable_web_page_preview": True,
-            "reply_markup": {"inline_keyboard": [[{"text": "🌐 Thêm Nguồn Kyic", "url": "https://2kgt.github.io/"}]]}
+            "reply_markup": {
+                "inline_keyboard": [[{"text": "🌐 Thêm Nguồn Kyic Store", "url": "https://2kgt.github.io/"}]]
+            }
         }
         try:
             res = requests.post(url, json=payload, timeout=15)
             res.raise_for_status()
-            print("🚀 [Telegram] Báo cáo tổng hợp đã được gửi thành công.")
+            print("🚀 [Telegram] Gửi tin nhắn thông báo cập nhật thành công.", flush=True)
         except Exception as e:
-            print(f"❌ Lỗi gửi Telegram thông báo tổng từ main.py: {e}", flush=True)
+            print(f"❌ Lỗi gửi báo cáo Telegram: {e}", flush=True)
+    else:
+        print("⚠️ Bỏ qua gửi Telegram: Thiếu cấu hình TELEGRAM_TOKEN hoặc TELEGRAM_CHAT_ID.", flush=True)
 
-    # 6. Chốt hạ tiến trình (Hàm logger.log_step giờ đã rỗng nên sẽ pass qua cực an toàn)
-    logger.log_step(current_step="deploy", status="success", live_log="🏁 Toàn bộ hệ thống đồng bộ hoàn tất!")
+    print("🏁 [SUCCESS] Toàn bộ quy trình đồng bộ kho ứng dụng đã hoàn thành!", flush=True)
 
 
 if __name__ == "__main__":
