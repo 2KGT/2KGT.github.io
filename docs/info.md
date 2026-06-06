@@ -1,8 +1,9 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 06/06/2026 08:44:45 (ICT)*
+⏱️ *Cập nhật tự động lúc: 06/06/2026 08:51:12 (ICT)*
 
 ```text
 🗺️ Root/
+├── .commit_msg
 ├── .gitattributes
 ├── 📂 .github/
 │   ├── 📂 ISSUE_TEMPLATE/
@@ -12,7 +13,6 @@
 │   │   ├── vi_bug.yml
 │   │   └── vi_feature.yml
 │   ├── 📂 scripts/
-│   │   ├── .commit_msg
 │   │   ├── config.py
 │   │   ├── 📂 core/
 │   │   │   ├── __init__.py
