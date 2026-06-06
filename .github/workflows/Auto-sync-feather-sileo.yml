@@ -23,6 +23,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          # Sử dụng GITHUB_TOKEN có sẵn với quyền Write đã khai báo ở trên
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: "🐍 Setup Python"
@@ -42,6 +43,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install requests
+          # Khởi tạo sẵn cấu trúc thư mục lưu trữ phẳng
           mkdir -p repo/apps repo/debs repo/depictions/icons repo/depictions/images repo/depictions/metadata
 
       - name: "🚀 Khởi Chạy Tự Động Hóa (Core Engine)"
@@ -50,10 +52,9 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }} 
-          PYTHONUNBUFFERED: "1" # Ép Python giải phóng log real-time không giữ lại trong bộ nhớ đệm
-          PYTHONPATH: "${{ github.workspace }}/.github/scripts" # Định nghĩa cấu trúc nạp module từ gốc
+          PYTHONUNBUFFERED: "1" 
+          PYTHONPATH: "${{ github.workspace }}/.github/scripts" 
         run: |
-          # Đứng ở thư mục Gốc để chạy trực tiếp giúp tệp tin config và GITHUB_ENV đồng bộ chuẩn xác
           python3 .github/scripts/main.py
 
       - name: "📤 Commit và Push dữ liệu mới"
@@ -61,28 +62,29 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           
-          # Gom tất cả thay đổi, bao gồm cả các file JSON mới tạo
+          # Đánh dấu bỏ qua tệp tin commit tạm thời để không làm kích hoạt bộ lọc paths lặp vô hạn
           git add -A
           
-          # Kiểm tra nếu không có gì thay đổi thì thoát
+          # Kiểm tra xem có dữ liệu thực tế nào thay đổi không (ví dụ apps.json hoặc Packages)
           if git diff --cached --quiet; then
             echo "Không có thay đổi dữ liệu nào để commit."
             exit 0
           fi
           
-          # Khởi tạo tin nhắn mặc định nếu tệp log không tồn tại phòng lỗi crash luồng push
+          # Thiết lập tin nhắn mặc định bảo vệ luồng push
           COMMIT_MSG="🔄 Tối ưu hóa hệ thống & Đồng bộ kho lưu trữ định kỳ"
-          if [ -f ".github/scripts/.commit_msg" ]; then
-            COMMIT_MSG=$(cat .github/scripts/.commit_msg)
-          elif [ -f ".commit_msg" ]; then
+          
+          # Ưu tiên bốc file từ thư mục gốc trước để tránh lặp vô hạn chu kỳ trigger .github/scripts/
+          if [ -f ".commit_msg" ]; then
             COMMIT_MSG=$(cat .commit_msg)
+          elif [ -f ".github/scripts/.commit_msg" ]; then
+            COMMIT_MSG=$(cat ".github/scripts/.commit_msg")
           fi
           
-          # Commit thay đổi
           git commit -m "$COMMIT_MSG"
           
-          # Pull rebase với xử lý stash để tránh lỗi file lạ
+          # Đồng bộ hóa dữ liệu từ xa về trước khi đẩy lên nhằm loại bỏ xung đột
           git pull --rebase origin main || (git stash && git pull --rebase origin main && git stash pop)
           
-          # Push lên server
+          # Đẩy thẳng dữ liệu lên nhánh chính
           git push origin main
