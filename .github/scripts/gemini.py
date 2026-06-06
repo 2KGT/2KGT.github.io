@@ -18,7 +18,7 @@ def escape_html(text):
     """Bảo vệ các ký tự đặc biệt, tránh làm vỡ định dạng HTML của Telegram"""
     if not text:
         return ""
-    return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    return str(text).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 def scan_repo_inventory(repo_path='.'):
     """Quét và phân loại tài nguyên tại Root của repo"""
@@ -28,7 +28,6 @@ def scan_repo_inventory(repo_path='.'):
         return inv
         
     for root, dirs, files in os.walk(repo_path):
-        # Tối ưu hóa: Bỏ qua các thư mục hệ thống ngay từ vòng lặp duyệt để tăng tốc
         dirs[:] = [d for d in dirs if d not in ('.git', 'node_modules', '.github')]
         for file in files:
             ext = os.path.splitext(file)[1].lower()
@@ -55,7 +54,6 @@ def ask_gemini_ai(prompt, retries=2):
                 if response.status == 200:
                     result = json.loads(response.read().decode('utf-8'))
                     ai_text = result['candidates'][0]['content']['parts'][0]['text'].strip()
-                    # Loại bỏ các dấu nháy thừa ở đầu/cuối chuỗi do AI phản hồi
                     return re.sub(r'^[`"\']+|[`"\']+$', '', ai_text).strip()
         except Exception as e:
             print(f"⚠️ Thử lại gọi API Gemini lần {i+1} thất bại: {e}")
@@ -94,17 +92,17 @@ def generate_update_summary(processed_apps, processed_tweaks):
     total_apps_size = get_file_size_display(apps_json_path) if total_apps > 0 else "0 MB"
     total_tweaks_size = get_file_size_display(packages_path) if total_tweaks > 0 else "0 KB"
 
-    # 3. Tổng hợp danh sách thay đổi thực tế (Cần Escape HTML để tránh lỗi Telegram hiển thị)
-    change_logs = []
+    # 3. Tạo danh sách dạng Text thuần cho AI và GitHub Env
+    raw_logs = []
     if processed_apps:
-        for app in processed_apps: change_logs.append(f"🔹 {escape_html(app)}")
+        for app in processed_apps: raw_logs.append(f"🔹 {app}")
     if processed_tweaks:
-        for tweak in processed_tweaks: change_logs.append(f"🔸 {escape_html(tweak)}")
+        for tweak in processed_tweaks: raw_logs.append(f"🔸 {tweak}")
 
-    smart_desc = ", ".join(change_logs) if change_logs else "Tối ưu hóa &amp; Đồng bộ định kỳ"
+    raw_desc = ", ".join(raw_logs) if raw_logs else "Tối ưu hóa & Đồng bộ định kỳ"
 
-    # 4. Tính toán thời gian chạy hệ thống (Fix lệch múi giờ +7 từ UTC của GitHub)
-    now_utc = datetime.datetime.utcnow()
+    # 4. Tính toán thời gian chạy hệ thống (Chuẩn Giờ Việt Nam +7)
+    now_utc = datetime.datetime.now(datetime.timezone.utc)
     now_ict = now_utc + datetime.timedelta(hours=7)
     thu = ["Thứ hai", "Thứ ba", "Thứ tư", "Thứ năm", "Thứ sáu", "Thứ bảy", "Chủ nhật"]
     current_time_str = f"{now_ict.strftime('%H:%M')} {thu[now_ict.weekday()]} {now_ict.strftime('%d/%m/%Y')}"
@@ -113,13 +111,13 @@ def generate_update_summary(processed_apps, processed_tweaks):
     inv = scan_repo_inventory('.')
     structure_str = f"IMG: {inv['img']}, JSON: {inv['json']}, PY: {inv['py']}, YML: {inv['yml']}"
     
-    # 6. Gọi AI tạo lời bình luận thông minh ngắn gọn
+    # 6. Gọi AI tạo lời bình luận
     event_type = "Manual/Control" if is_manual else "Auto/Monitoring"
     data_metrics = f"Apps: {total_apps}, Tweaks: {total_tweaks}, Structure: {structure_str}"
     
     prompt = f"""
     Bạn là AI quản trị hệ thống của Kyic.
-    Ngữ cảnh: {event_type} | Thay đổi: {smart_desc} | Dữ liệu: {data_metrics}.
+    Ngữ cảnh: {event_type} | Thay đổi: {raw_desc} | Dữ liệu: {data_metrics}.
     Nhiệm vụ:
     - Nếu Manual: Viết như một chỉ huy, khẳng định sự kiểm soát và tính ổn định.
     - Nếu Auto: Viết như hệ thống giám sát, nhấn mạnh sự mượt mà và tối ưu.
@@ -127,10 +125,18 @@ def generate_update_summary(processed_apps, processed_tweaks):
     - Sử dụng thuật ngữ công nghệ, chuyên nghiệp, súc tích (dưới 30 từ).
     - Kết thúc bằng 1 icon độc nhất phù hợp. Chỉ trả về lời thoại.
     """
-    
-    ai_description = escape_html(ask_gemini_ai(prompt))
+    ai_description_raw = ask_gemini_ai(prompt)
 
-    # 7. Xây dựng khung giao diện bài viết Telegram HTML chuẩn chỉnh
+    # 7. Định dạng an toàn cho nội dung hiển thị Telegram HTML
+    telegram_desc = ", ".join([f"🔹 {escape_html(app)}" for app in processed_apps]) if processed_apps else "Tối ưu hóa &amp; Đồng bộ định kỳ"
+    if processed_tweaks and processed_apps:
+        telegram_desc += ", " + ", ".join([f"🔸 {escape_html(tweak)}" for tweak in processed_tweaks])
+    elif processed_tweaks:
+        telegram_desc = ", ".join([f"🔸 {escape_html(tweak)}" for tweak in processed_tweaks])
+
+    telegram_ai_notes = escape_html(ai_description_raw)
+
+    # Đóng gói giao diện Telegram HTML công bố ra nhóm chat
     bai_viet_telegram = (
         f"🔄 <b>ĐỒNG BỘ HỆ THỐNG REPO</b>\n"
         f"──────────────────\n"
@@ -139,31 +145,30 @@ def generate_update_summary(processed_apps, processed_tweaks):
         f"📦 <b>Tweaks</b>: {total_tweaks} | {total_tweaks_size}\n"
         f"🏗 <b>More</b>: {structure_str}\n"
         f"📊 <b>Status</b>: Bảo trì hoàn tất\n"
-        f"📝 <b>Describe</b>: {smart_desc}\n"
+        f"📝 <b>Describe</b>: {telegram_desc}\n"
         f"──────────────────\n"
-        f"<b>Notes</b>: {ai_description}\n"
+        f"<b>Notes</b>: {telegram_ai_notes}\n"
         f"──────────────────\n"
     )
 
-    # Khống chế độ dài chuỗi describe phục vụ ghi xuất GitHub Actions Env (Không làm ảnh hưởng telegram)
-    github_desc = smart_desc
+    # 8. Xử lý cắt chuỗi text sạch đưa vào GITHUB_ENV
+    github_desc = raw_desc
     if len(github_desc) > 120:
         github_desc = github_desc[:117] + "..."
 
-    # Ghi xuất dự phòng vào GITHUB_ENV
     github_env = os.getenv('GITHUB_ENV')
     if github_env:
         try:
             with open(github_env, 'a', encoding='utf-8') as f:
                 f.write(f"repo_describe<<EOF\n{github_desc}\nEOF\n")
-                f.write(f"AI_DESC<<EOF\n{ai_description}\nEOF\n")
+                f.write(f"AI_DESC<<EOF\n{ai_description_raw}\nEOF\n")
         except Exception as e:
             print(f"⚠️ Không ghi được vào GITHUB_ENV: {e}")
 
     return bai_viet_telegram
 
 def send_final_report(message):
-    """Hàm gửi tin nhắn độc lập lên Telegram bằng thư viện requests có xử lý ngoại lệ nghiêm ngặt"""
+    """Hàm gửi tin nhắn độc lập lên Telegram thông qua requests"""
     token = os.getenv("TELEGRAM_TOKEN") or os.getenv("TELEGRAM_BOT_TOKEN")
     chat_id = os.getenv("TELEGRAM_CHAT_ID")
     if not token or not chat_id:
@@ -174,13 +179,10 @@ def send_final_report(message):
     payload = {"chat_id": chat_id, "text": message, "parse_mode": "HTML"}
     try:
         res = requests.post(url, json=payload, timeout=12)
-        # Ép buộc ném ra ngoại lệ nếu HTTP Status Code >= 400
         res.raise_for_status()
         print("🚀 [Telegram] Báo cáo tổng hợp đã được gửi thành công.")
     except requests.exceptions.HTTPError as http_err:
         print(f"❌ Lỗi HTTP từ Telegram API: {http_err}")
-        if res.status_code == 400:
-            print("👉 Gợi ý: Kiểm tra lại cú pháp thẻ HTML hoặc các ký tự đặc biệt chưa được đóng.")
         print(f"Chi tiết phản hồi từ Telegram: {res.text}")
     except Exception as e:
         print(f"❌ Lỗi kết nối không xác định khi gửi Telegram: {e}")
