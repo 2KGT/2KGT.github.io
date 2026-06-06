@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 06/06/2026 07:44:32 (ICT)*
+⏱️ *Cập nhật tự động lúc: 06/06/2026 07:52:33 (ICT)*
 
 ```text
 🗺️ Root/
@@ -21,7 +21,6 @@
 │   │   │   └── utils.py
 │   │   ├── fetch_github.py
 │   │   ├── gemini.py
-│   │   ├── logger.py
 │   │   ├── main.py
 │   │   └── sync.py
 │   └── 📂 workflows/
