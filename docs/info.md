@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 09/06/2026 10:02:07 (ICT)*
+⏱️ *Cập nhật tự động lúc: 09/06/2026 13:53:58 (ICT)*
 
 ```text
 🗺️ Root/
@@ -49,6 +49,7 @@
     ├── README.md
     ├── Release
     ├── 📂 apps/
+    │   ├── LCSign_1.0.0ipa
     │   ├── 📂 desc/
     │   │   ├── BiliBili.txt
     │   │   ├── ESign.txt
@@ -66,7 +67,7 @@
     │   │   ├── YouTube.txt
     │   │   ├── Zebra.txt
     │   │   └── 全能签.txt
-    │   └── [ 📊 Tóm tắt tài nguyên: 📱 Ứng dụng iOS .ipa: 13 file ]
+    │   └── [ 📊 Tóm tắt tài nguyên: 📱 Ứng dụng iOS .ipa: 12 file ]
     ├── 📂 debs/
     │   ├── 📂 YoutubeX/
     │   │   └── [ 📊 Tóm tắt tài nguyên: 📦 Gói tinh chỉnh .deb: 1 file ]

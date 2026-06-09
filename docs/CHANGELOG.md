@@ -3,6 +3,7 @@ Lịch sử cập nhật và nâng cấp mã nguồn hệ thống.
 
 | 🕒 Thời gian | 📝 Nội dung cập nhật | 👤 Người thực hiện |
 | :--- | :--- | :--- |
+| ⏰ 13:53 09/06/2026 | Rename LCSign_1.0.ipa to LCSign_1.0.0ipa | 2K |
 | ⏰ 10:02 09/06/2026 | Update Auto-sync-feather-sileo.yml | 2K |
 | ⏰ 09:52 09/06/2026 | Update Auto-sync-feather-sileo.yml | 2K |
 | ⏰ 09:44 09/06/2026 | Update Auto-sync-feather-sileo.yml | 2K |
