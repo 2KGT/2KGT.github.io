@@ -1,0 +1,5 @@
+Ứng dụng ký chứng chỉ nâng cao cho file ipa (apps)
+
+---
+
+Cập nhật phiên bản mới nhất.
