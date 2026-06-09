@@ -62,19 +62,15 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           
-          # Đánh dấu bỏ qua tệp tin commit tạm thời để không làm kích hoạt bộ lọc paths lặp vô hạn
           git add -A
           
-          # Kiểm tra xem có dữ liệu thực tế nào thay đổi không (ví dụ apps.json hoặc Packages)
           if git diff --cached --quiet; then
             echo "Không có thay đổi dữ liệu nào để commit."
             exit 0
           fi
           
-          # Thiết lập tin nhắn mặc định bảo vệ luồng push
+          # Lấy nội dung commit message
           COMMIT_MSG="🔄 Tối ưu hóa hệ thống & Đồng bộ kho lưu trữ định kỳ"
-          
-          # Ưu tiên bốc file từ thư mục gốc trước để tránh lặp vô hạn chu kỳ trigger .github/scripts/
           if [ -f ".commit_msg" ]; then
             COMMIT_MSG=$(cat .commit_msg)
           elif [ -f ".github/scripts/.commit_msg" ]; then
@@ -83,8 +79,9 @@ jobs:
           
           git commit -m "$COMMIT_MSG"
           
-          # Đồng bộ hóa dữ liệu từ xa về trước khi đẩy lên nhằm loại bỏ xung đột
-          git pull --rebase origin main || (git stash && git pull --rebase origin main && git stash pop)
+          # Cập nhật lại nhánh main từ server trước khi đẩy (tránh lỗi conflict)
+          git fetch origin main
+          git rebase origin/main
           
-          # Đẩy thẳng dữ liệu lên nhánh chính
-          git push origin main
+          # Đẩy bằng HTTPS token và chỉ định rõ refspec
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
