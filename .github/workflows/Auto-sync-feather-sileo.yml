@@ -67,7 +67,6 @@ jobs:
             exit 0
           fi
           
-          # Lấy thông điệp commit
           COMMIT_MSG="🔄 Tối ưu hóa hệ thống & Đồng bộ kho lưu trữ định kỳ [skip ci]"
           if [ -f ".commit_msg" ]; then
             COMMIT_MSG="$(cat .commit_msg) [skip ci]"
@@ -77,10 +76,9 @@ jobs:
           
           git commit -m "$COMMIT_MSG"
           
-          # Đồng bộ với server
+          # 1. Fetch và Rebase để lấy các thay đổi mới nhất từ server
           git fetch origin main
           git rebase origin/main
           
-          # DÒNG NÀY LÀ QUAN TRỌNG NHẤT:
-          # Thay vì 'git push origin main', hãy dùng lệnh này:
+          # 2. Đẩy lên bằng Refspec HEAD:main (Đây là dòng sửa lỗi chính)
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
