@@ -16,14 +16,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: write # Cần thiết để có quyền push
       
     steps:
       - name: "📥 Checkout Repository"
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-          # Sử dụng GITHUB_TOKEN có sẵn với quyền Write đã khai báo ở trên
+          fetch-depth: 0 # Quan trọng: lấy toàn bộ lịch sử commit
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: "🐍 Setup Python"
@@ -43,7 +42,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install requests
-          # Khởi tạo sẵn cấu trúc thư mục lưu trữ phẳng
           mkdir -p repo/apps repo/debs repo/depictions/icons repo/depictions/images repo/depictions/metadata
 
       - name: "🚀 Khởi Chạy Tự Động Hóa (Core Engine)"
@@ -69,19 +67,19 @@ jobs:
             exit 0
           fi
           
-          # Lấy nội dung commit message
-          COMMIT_MSG="🔄 Tối ưu hóa hệ thống & Đồng bộ kho lưu trữ định kỳ"
+          # Lấy tin nhắn commit, thêm [skip ci] để tránh chạy lại workflow vô hạn
+          COMMIT_MSG="🔄 Tối ưu hóa hệ thống & Đồng bộ kho lưu trữ định kỳ [skip ci]"
           if [ -f ".commit_msg" ]; then
-            COMMIT_MSG=$(cat .commit_msg)
+            COMMIT_MSG="$(cat .commit_msg) [skip ci]"
           elif [ -f ".github/scripts/.commit_msg" ]; then
-            COMMIT_MSG=$(cat ".github/scripts/.commit_msg")
+            COMMIT_MSG="$(cat .github/scripts/.commit_msg) [skip ci]"
           fi
           
           git commit -m "$COMMIT_MSG"
           
-          # Cập nhật lại nhánh main từ server trước khi đẩy (tránh lỗi conflict)
+          # Đảm bảo đồng bộ với server trước khi đẩy
           git fetch origin main
           git rebase origin/main
           
-          # Đẩy bằng HTTPS token và chỉ định rõ refspec
+          # Đẩy bằng Refspec để tránh lỗi detached head
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
