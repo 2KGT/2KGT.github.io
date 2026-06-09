@@ -110,7 +110,7 @@ def generate_update_summary(processed_apps, processed_tweaks, stats_data=None):
     Nhiệm vụ: Tạo ra đúng 2 đoạn văn bản ngắn, NGĂN CÁCH BIỂU DIỄN BẰNG KÝ TỰ GẠCH ĐỨNG '|' theo cấu trúc: [Đoạn_Describe] | [Đoạn_Notes]
 
     Yêu cầu nghiêm ngặt:
-    1. [Đoạn_Describe]: Viết một câu tóm tắt tổng hợp các app/tweak vừa đổi mới hoặc nâng cấp bản vá một cách mượt mà. TUYỆT ĐỐI không liệt kê danh sách, không lặp lại từ ngữ, ngắn gọn dưới 2 dòng. (Ví dụ: Cập nhật loạt công cụ ký số ESign, GBox và đồng bộ các gói tiện ích mod nâng cấp cho YouTube, Facebook).
+    1. [Đoạn_Describe]: Viết một câu tóm tắt tổng hợp các app/tweak vừa đổi mới hoặc nâng cấp bản vá một cách mượt mà. TUYỆT ĐỐI không liệt kê danh sách, không lặp lại từ ngữ, ngắn gọn dưới 2 dòng. (Ví dụ: Cập nhật loạt công cụ ký số ESign, GBox và đồng bộ các gói mod tiện ích nâng cấp cho YouTube, Facebook).
     2. [Đoạn_Notes]: Nhận xét vận hành ngắn dưới 15 từ. Nếu thủ công: khẳng định quyền kiểm soát hệ thống; Nếu tự động: nhấn mạnh tiến trình mượt mà tối ưu. Cuối câu kết thúc bằng đúng 1 emoji phù hợp.
     3. Phản hồi xuất ra phải tuân thủ nghiêm ngặt định dạng thô phân tách bằng dấu gạch đứng, không chứa các ký tự định dạng markdown bọc ngoài: Đoạn_Describe | Đoạn_Notes
     """
@@ -123,7 +123,7 @@ def generate_update_summary(processed_apps, processed_tweaks, stats_data=None):
         ai_describe = parts[0].strip()
         ai_notes = parts[1].strip()
     else:
-        ai_describe = "Đồng bộ hóa thành công các bản cập nhật mới cho kho ứng dụng và tiện ích mod hệ thống."
+        ai_describe = "Đồng bộ hóa thành công các bản cập nhật mới cho kho ứng dụng và mod tiện ích hệ thống."
         ai_notes = "Hệ thống đã đồng bộ hóa dữ liệu thành công ✨"
 
     # 6. Định dạng bảo vệ HTML Telegram
