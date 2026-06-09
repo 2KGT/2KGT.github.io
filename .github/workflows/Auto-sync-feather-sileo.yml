@@ -67,19 +67,20 @@ jobs:
             exit 0
           fi
           
-          # Lấy tin nhắn commit, thêm [skip ci] để tránh chạy lại workflow vô hạn
+          # Lấy thông điệp commit
           COMMIT_MSG="🔄 Tối ưu hóa hệ thống & Đồng bộ kho lưu trữ định kỳ [skip ci]"
           if [ -f ".commit_msg" ]; then
             COMMIT_MSG="$(cat .commit_msg) [skip ci]"
           elif [ -f ".github/scripts/.commit_msg" ]; then
-            COMMIT_MSG="$(cat .github/scripts/.commit_msg) [skip ci]"
+            COMMIT_MSG="$(cat ".github/scripts/.commit_msg") [skip ci]"
           fi
           
           git commit -m "$COMMIT_MSG"
           
-          # Đảm bảo đồng bộ với server trước khi đẩy
+          # Đồng bộ với server
           git fetch origin main
           git rebase origin/main
           
-          # Đẩy bằng Refspec để tránh lỗi detached head
+          # DÒNG NÀY LÀ QUAN TRỌNG NHẤT:
+          # Thay vì 'git push origin main', hãy dùng lệnh này:
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
