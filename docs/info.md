@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 09/06/2026 14:35:59 (ICT)*
+⏱️ *Cập nhật tự động lúc: 10/06/2026 05:57:24 (ICT)*
 
 ```text
 🗺️ Root/
@@ -119,7 +119,7 @@
     │   │   ├── Kyic_video.mp4
     │   │   └── [ 📊 Tóm tắt tài nguyên: 📸 Ảnh JPEG: 8 file, 🖼️ Ảnh PNG: 4 file ]
     │   ├── 📂 icons/
-    │   │   └── [ 📊 Tóm tắt tài nguyên: 📸 Ảnh JPG: 13 file, 🖼️ Ảnh PNG: 22 file ]
+    │   │   └── [ 📊 Tóm tắt tài nguyên: 📸 Ảnh JPG: 14 file, 🖼️ Ảnh PNG: 22 file ]
     │   ├── 📂 images/
     │   │   ├── Turrit_1.webp
     │   │   ├── Turrit_2.webp
@@ -129,7 +129,7 @@
     │   │   ├── Turrit_6.webp
     │   │   ├── Turrit_7.webp
     │   │   ├── Turrit_8.webp
-    │   │   └── [ 📊 Tóm tắt tài nguyên: 📸 Ảnh JPG: 55 file, 🖼️ Ảnh PNG: 12 file ]
+    │   │   └── [ 📊 Tóm tắt tài nguyên: 📸 Ảnh JPG: 63 file, 🖼️ Ảnh PNG: 12 file ]
     │   └── 📂 metadata/
     │       └── [ 📊 Tóm tắt tài nguyên: ⚙️ Cấu hình .json: 126 file ]
     └── [ 📊 Tóm tắt tài nguyên: ⚙️ Cấu hình .json: 2 file, 🖼️ Ảnh PNG: 1 file ]
