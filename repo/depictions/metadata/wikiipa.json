@@ -857,6 +857,39 @@
       },
       "minOS": "13.0",
       "buildVersion": "10264"
+    },
+    "https://github.com/2KGT/2KGT.github.io/releases/download/v433.0.0/Instagram_v433.0.0-0843.ipa": {
+      "bid": "com.burbn.instagram",
+      "ver": "433.0.0",
+      "name": "Instagram",
+      "size": 301610576,
+      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/Instagram.png",
+      "banner": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Instagram_banner.jpg",
+      "screenshots": [
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Instagram_1.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Instagram_2.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Instagram_3.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Instagram_4.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Instagram_5.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Instagram_6.jpg"
+      ],
+      "desc": "Thắt chặt tình bạn qua những khoảnh khắc giản đơn. Chia sẻ khoảnh khắc của bạn trên Instagram.\n- Từ Meta\n\nKết nối với bạn bè, tìm những fan khác, cũng như xem mọi người xung quanh bạn đang làm gì và quan tâm đến điều gì. Khám phá sở thích của bạn và đăng những gì đang diễn ra, từ khoảnh khắc hàng ngày cho đến sự kiện nổi bật trong cuộc sống.\n\nChia sẻ hoạt động và đam mê của bạn.\n- Cập nhật tình hình với bạn bè một cách nhanh chóng qua Tin và Ghi chú biến mất sau 24 giờ.\n- Bắt đầu nhóm chat và chia sẻ những khoảnh khắc chân thực với Bạn thân.\n- Chia sẻ kỷ niệm về sự kiện hoặc chuyến đi gần đây trên Bảng feed.\n- Biến cuộc sống của bạn thành phim và khám phá những video ngắn, thú vị trên Instagram thông qua Reels.\n- Tùy chỉnh bài viết với mẫu, nhạc, nhãn dán và bộ lọc độc quyền.\n\nKhám phá sở thích của bạn.\n- Xem video của Người sáng tạo nội dung bạn yêu thích và khám phá nội dung mới phù hợp với sở thích của bạn.\n- Lấy cảm hứng từ ảnh và video của những tài khoản mới trong phần Khám phá.\n- Khám phá thương hiệu và doanh nghiệp nhỏ, cũng như mua sắm sản phẩm phù hợp với phong cách cá nhân.\n\nMột số tính năng của Instagram có thể chưa dùng được ở quốc gia hoặc khu vực của bạn.\n\nĐiều khoản và chính sách - https://help.instagram.com/581066165581870\n\nTìm hiểu về cách chúng tôi giữ an toàn cho cộng đồng trên các công nghệ của Meta, thông qua Trung tâm an toàn của Instagram: https://about.instagram.com/safety",
+      "permissions": {
+        "Máy ảnh": "Instagram uses your device's camera to do things like help you take photos, record videos and use effects.",
+        "Micro": "Instagram uses your device's microphone to do things like help you record videos and preview audio effects.",
+        "Thư viện ảnh": "Instagram uses access to your camera roll to do things like help you share photos and videos to Instagram, apply effects and suggest photos and videos to share.",
+        "Ghi vào Thư viện ảnh": "This lets you save photos and videos to your Camera Roll.",
+        "Vị trí khi dùng ứng dụng": "Instagram uses this to make some features work, personalize content and help people find places. You can change your preferences at any time in your device settings.",
+        "Vị trí mọi lúc": "Instagram uses this to make some features work, personalize content and help people find places. You can change your preferences at any time in your device settings.",
+        "Danh bạ": "Instagram will use your contacts to suggest people and things you care about, and offer a better service. Your contacts will be periodically synced and securely stored on Instagram’s servers.",
+        "Lịch": "This will let Instagram sync events to your calendar.",
+        "Kết nối Bluetooth": "This allows your phone to find and connect to the glasses using a Bluetooth connection.",
+        "Face ID / Touch ID": "Enable Face ID for quick and secure authentication on Instagram.",
+        "Theo dõi quảng cáo": "This helps Instagram personalize ads we show you.",
+        "Mạng cục bộ": "Used to discover and connect to compatible streaming devices on your Wi-Fi network."
+      },
+      "minOS": "16.3",
+      "buildVersion": "989803374"
     }
   }
 }
