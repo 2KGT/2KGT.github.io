@@ -3,6 +3,7 @@ Lịch sử cập nhật và nâng cấp mã nguồn hệ thống.
 
 | 🕒 Thời gian | 📝 Nội dung cập nhật | 👤 Người thực hiện |
 | :--- | :--- | :--- |
+| ⏰ 13:36 10/06/2026 | Delete repo/debs/youpip/.gitkeep | 2K |
 | ⏰ 13:35 10/06/2026 | Create .gitkeep | 2K |
 | ⏰ 05:57 10/06/2026 | Update gemini.py | 2K |
 | ⏰ 14:35 09/06/2026 | Delete repo/apps/LCSign_1.0.6.ipa | 2K |
