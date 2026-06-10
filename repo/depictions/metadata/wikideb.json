@@ -1726,6 +1726,40 @@
       "Maintainer": "Tonwalter888",
       "Depends": "mobilesubstrate (>= 0.9.5000), firmware (>= 14.0)",
       "Installed-Size": "1248"
+    },
+    "https://2kgt.github.io/repo/debs/youpip/com.ps.youpip_1.12.12_iphoneos-arm.deb": {
+      "Package": "com.ps.youpip",
+      "Name": "YouPiP",
+      "Version": "1.12.12",
+      "Description": "Enables native PiP in iOS YouTube app.",
+      "Author": "PoomSmart",
+      "Section": "Tweaks",
+      "Architecture": "iphoneos-arm",
+      "Depends": "mobilesubstrate, com.ps.ytvideooverlay (>= 2.0.0), firmware (>= 11.0), firmware (>= 14.0) | gsc.ipad | com.ps.forceinpicture (>= 1.0.1)",
+      "Maintainer": "PoomSmart",
+      "Replaces": "com.spicat.youpip",
+      "Provides": "com.spicat.youpip",
+      "Conflicts": "com.spicat.youpip",
+      "Depiction": "https://poomsmart.github.io/repo/depictions/youpip.html",
+      "SileoDepiction": "https://poomsmart.github.io/repo/sileodepictions/youpip.json",
+      "Installed-Size": "196"
+    },
+    "https://2kgt.github.io/repo/debs/youpip/com.ps.youpip_1.12.12_iphoneos-arm64.deb": {
+      "Package": "com.ps.youpip",
+      "Name": "YouPiP",
+      "Version": "1.12.12",
+      "Description": "Enables native PiP in iOS YouTube app.",
+      "Author": "PoomSmart",
+      "Section": "Tweaks",
+      "Architecture": "iphoneos-arm64",
+      "Depends": "mobilesubstrate, com.ps.ytvideooverlay (>= 2.0.0), firmware (>= 11.0), firmware (>= 14.0) | gsc.ipad | com.ps.forceinpicture (>= 1.0.1)",
+      "Maintainer": "PoomSmart",
+      "Replaces": "com.spicat.youpip",
+      "Provides": "com.spicat.youpip",
+      "Conflicts": "com.spicat.youpip",
+      "Depiction": "https://poomsmart.github.io/repo/depictions/youpip.html",
+      "SileoDepiction": "https://poomsmart.github.io/repo/sileodepictions/youpip.json",
+      "Installed-Size": "212"
     }
   }
 }
