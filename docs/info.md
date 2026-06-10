@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 10/06/2026 13:38:01 (ICT)*
+⏱️ *Cập nhật tự động lúc: 10/06/2026 13:42:57 (ICT)*
 
 ```text
 🗺️ Root/
@@ -99,7 +99,7 @@
     │   ├── 📂 youmute/
     │   │   └── [ 📊 Tóm tắt tài nguyên: 📦 Gói tinh chỉnh .deb: 1 file ]
     │   ├── 📂 youpip/
-    │   │   └── .gitkeep
+    │   │   └── [ 📊 Tóm tắt tài nguyên: 📦 Gói tinh chỉnh .deb: 2 file ]
     │   ├── 📂 youspeed/
     │   │   └── [ 📊 Tóm tắt tài nguyên: 📦 Gói tinh chỉnh .deb: 3 file ]
     │   ├── 📂 youtubefix/
