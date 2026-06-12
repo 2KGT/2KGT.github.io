@@ -1119,6 +1119,44 @@
       },
       "minOS": "13.0",
       "buildVersion": "33159"
+    },
+    "https://github.com/2KGT/2KGT.github.io/releases/download/v551.1.0/Facebook_551.1.0.ipa": {
+      "bid": "com.facebook.Facebook",
+      "ver": "551.1.0",
+      "name": "Facebook",
+      "size": 211086086,
+      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/Facebook.png",
+      "banner": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Facebook_banner.jpg",
+      "screenshots": [
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Facebook_1.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Facebook_2.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Facebook_3.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Facebook_4.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Facebook_5.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Facebook_6.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Facebook_7.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Facebook_8.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Facebook_9.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Facebook_10.jpg"
+      ],
+      "desc": "Nơi người thật thổi bùng sự hiếu kỳ trong bạn. Dù bạn đang bán đồ cũ, hiển thị thước phim cho nhóm người muốn xem hay chia sẻ tiếng cười qua những hình ảnh vui nhộn do AI tạo mới, Facebook đều có thể hỗ trợ bạn thực hiện theo cách độc đáo mà không mạng xã hội nào khác làm được.\n\nKhám phá và mở rộng sở thích: \n* Hỏi Meta AI để tìm kiếm chủ đề bạn quan tâm và nhận ngay các kết quả giàu tính tương tác hơn so với văn bản thuần túy.\n* Mua sắm trên Marketplace để \"săn\" khuyến mãi và những món đồ quý ít người biết nhằm nuôi dưỡng sở thích của bạn\n* Tùy chỉnh Bảng feed cho phù hợp với riêng bạn để xem thêm những gì bạn thích và ẩn bớt những gì bạn không thích\n* Khám phá thước phim và video để xem hướng dẫn cách làm hoặc giải trí nhanh\n\nKết nối với mọi người và cộng đồng:\n* Tham gia các nhóm để học hỏi bí quyết từ người thật, việc thật\n* Bật tính năng chia sẻ lên Instagram để tiết kiệm thời gian\n* Bài viết liên quan đến thông điệp riêng tư mà chỉ bạn tốt mãi mãi mới xem được hoặc xu hướng trên Reels mà mọi người đang xôn xao bàn tán\n\nChia sẻ thế giới của bạn:\n* Dùng AI tạo sinh để mang lại tiếng cười cho bạn bè qua những hình ảnh tùy chỉnh hay đơn thuần là nhận sự trợ giúp để viết bài\n* Tùy chỉnh trang cá nhân để chọn cách bạn hiện diện và đối tượng xem được bài viết của bạn\n* Dễ dàng tạo thước phim từ các mẫu thịnh hành hoặc khoe tài sáng tạo của bạn qua bộ công cụ chỉnh sửa đầy đủ\n* Lưu giữ những khoảnh khắc nhanh chóng qua tin\n\nĐiều khoản &amp; chính sách: https://www.facebook.com/policies_center\nTìm hiểu về cách chúng tôi giữ an toàn cho cộng đồng trên các công nghệ của Meta, thông qua Trung tâm an toàn của Meta: https://about.meta.com/actions/safety",
+      "permissions": {
+        "Máy ảnh": "Facebook uses access to your camera to do things like help you take and share photos, record videos, and use visual effects.\n\nYou can always change this in your device settings.",
+        "Micro": "Facebook uses access to your microphone to do things like help you record audio, identify songs, search with your voice and use audio effects.\n\nYou can always change this in your device settings.",
+        "Thư viện ảnh": "Facebook uses access to your photos to do things like help you share and apply visual effects to your photos and videos, and to suggest photos and videos to share.",
+        "Ghi vào Thư viện ảnh": "Facebook uses access to your photos to do things like help you save images to your device, share and apply visual effects to your photos and videos, and to suggest photos and videos to share.",
+        "Vị trí khi dùng ứng dụng": "Facebook uses this to provide more relevant and personalized experiences, like helping you check-in, find local events and get better ads.",
+        "Vị trí mọi lúc": "Facebook uses this to provide more relevant and personalized experiences, like helping you check-in, find local events and get better ads.",
+        "Danh bạ": "Allowing access to your address book helps you see the contacts you can choose to add and helps us provide a better service.",
+        "Lịch": "This will let Facebook sync events you're hosting or attending to your calendar.",
+        "Kết nối Bluetooth": "Facebook uses Bluetooth so you can do things like find and connect to devices and cast videos to TV.",
+        "Thiết bị ngoại vi Bluetooth": "Facebook uses Bluetooth so you can do things like find and connect to devices and cast videos to TV.",
+        "Face ID / Touch ID": "Enable Face ID for quick and secure authentication on Facebook.",
+        "Theo dõi quảng cáo": "This helps Facebook personalize ads we show you.",
+        "Mạng cục bộ": "Facebook uses your local network so you can do things like find and connect to devices and cast videos to TV."
+      },
+      "minOS": "15.1",
+      "buildVersion": "899660416"
     }
   }
 }
