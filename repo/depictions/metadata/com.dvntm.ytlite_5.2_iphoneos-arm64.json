@@ -1,0 +1,142 @@
+{
+  "minVersion": "0.1",
+  "headerImage": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/ytlite_banner.png",
+  "class": "DepictionTabView",
+  "tintColor": "#F77686",
+  "tabs": [
+    {
+      "class": "DepictionStackView",
+      "tabname": "Details",
+      "views": [
+        {
+          "class": "DepictionSubheaderView",
+          "useBottomMargin": false,
+          "title": "YTLite",
+          "useBoldText": true
+        },
+        {
+          "class": "DepictionMarkdownView",
+          "useSpacing": true,
+          "markdown": "Lightweight YouTube Enhancer"
+        },
+        {
+          "class": "DepictionSpacerView",
+          "spacing": 8
+        },
+        {
+          "class": "DepictionScreenshotsView",
+          "screenshots": [
+            {
+              "accessibilityText": "Screenshot0",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/ytlite1.jpg"
+            },
+            {
+              "accessibilityText": "Screenshot1",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/ytlite2.jpg"
+            },
+            {
+              "accessibilityText": "Screenshot2",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/ytlite3.jpg"
+            },
+            {
+              "accessibilityText": "Screenshot3",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/ytlite4.jpg"
+            },
+            {
+              "accessibilityText": "Screenshot4",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/ytlite5.jpg"
+            },
+            {
+              "accessibilityText": "Screenshot5",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/ytlite6.jpg"
+            },
+            {
+              "accessibilityText": "Screenshot6",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/ytlite7.jpg"
+            },
+            {
+              "accessibilityText": "Screenshot7",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/ytlite8.jpg"
+            },
+            {
+              "accessibilityText": "Screenshot8",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/ytlite9.jpg"
+            }
+          ],
+          "itemSize": "{160, 275.41333333333336}",
+          "itemCornerRadius": 6
+        },
+        {
+          "class": "DepictionSeparatorView"
+        },
+        {
+          "class": "DepictionSpacerView",
+          "spacing": 8
+        },
+        {
+          "class": "DepictionTableTextView",
+          "title": "Developer",
+          "text": "dvntm"
+        },
+        {
+          "class": "DepictionTableTextView",
+          "title": "Yêu cầu quyền",
+          "text": "Không yêu cầu quyền đặc biệt"
+        },
+        {
+          "class": "DepictionSpacerView",
+          "spacing": 8
+        }
+      ]
+    },
+    {
+      "class": "DepictionStackView",
+      "tabname": "Changelog",
+      "views": [
+        {
+          "class": "DepictionTableTextView",
+          "title": "Version 5.2",
+          "text": "Cập nhật mới nhất"
+        },
+        {
+          "class": "DepictionMarkdownView",
+          "markdown": "- Đồng bộ hóa thành công phiên bản v5.2 lên hệ thống Kyic Premium Store.\n- Tối ưu hóa cấu trúc dữ liệu phẳng đám mây kết hợp local."
+        }
+      ]
+    },
+    {
+      "class": "DepictionStackView",
+      "tabname": "Support",
+      "views": [
+        {
+          "class": "DepictionSubheaderView",
+          "title": "KÊNH HỖ TRỢ CHÍNH THỨC",
+          "useBoldText": true
+        },
+        {
+          "class": "DepictionTableButtonView",
+          "title": "📢 Telegram Channel",
+          "action": "https://t.me/+uhoygGN-1Gc4NzZl"
+        },
+        {
+          "class": "DepictionTableButtonView",
+          "title": "💬 Telegram Group",
+          "action": "https://t.me/kyicchat"
+        },
+        {
+          "class": "DepictionTableButtonView",
+          "title": "🎮 Discord Server",
+          "action": "https://discord.gg/qUXBQFYa"
+        },
+        {
+          "class": "DepictionSeparatorView"
+        },
+        {
+          "class": "DepictionTableButtonView",
+          "title": "☕ Ủng hộ qua PayPal",
+          "action": "https://www.paypal.me/225668"
+        }
+      ]
+    }
+  ]
+}

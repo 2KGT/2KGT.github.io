@@ -1,0 +1,84 @@
+name: "Auto sync feather sileo"
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'repo/apps/**'
+      - 'repo/debs/**'
+      - 'repo/depictions/**'
+      - '.github/scripts/**'
+  release:
+    types: [published, created, edited]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Cần thiết để có quyền push
+      
+    steps:
+      - name: "📥 Checkout Repository"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Quan trọng: lấy toàn bộ lịch sử commit
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "🐍 Setup Python"
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: "📦 Cache Python dependencies"
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: "🛠 Cài đặt thư viện"
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+          mkdir -p repo/apps repo/debs repo/depictions/icons repo/depictions/images repo/depictions/metadata
+
+      - name: "🚀 Khởi Chạy Tự Động Hóa (Core Engine)"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }} 
+          PYTHONUNBUFFERED: "1" 
+          PYTHONPATH: "${{ github.workspace }}/.github/scripts" 
+        run: |
+          python3 .github/scripts/main.py
+
+      - name: "📤 Commit và Push dữ liệu mới"
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          git add -A
+          
+          if git diff --cached --quiet; then
+            echo "Không có thay đổi dữ liệu nào để commit."
+            exit 0
+          fi
+          
+          COMMIT_MSG="🔄 Tối ưu hóa hệ thống & Đồng bộ kho lưu trữ định kỳ [skip ci]"
+          if [ -f ".commit_msg" ]; then
+            COMMIT_MSG="$(cat .commit_msg) [skip ci]"
+          elif [ -f ".github/scripts/.commit_msg" ]; then
+            COMMIT_MSG="$(cat ".github/scripts/.commit_msg") [skip ci]"
+          fi
+          
+          git commit -m "$COMMIT_MSG"
+          
+          # 1. Fetch và Rebase để lấy các thay đổi mới nhất từ server
+          git fetch origin main
+          git rebase origin/main
+          
+          # 2. Đẩy lên bằng Refspec HEAD:main (Đây là dòng sửa lỗi chính)
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
