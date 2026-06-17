@@ -1,0 +1,92 @@
+name: "Auto sync feather sileo"
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'repo/apps/**'
+      - 'repo/debs/**'
+      - 'repo/depictions/**'
+      - '.github/scripts/**'
+  release:
+    types: [published, created, edited]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: "📥 Checkout Repository"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "🐍 Setup Python"
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: "📦 Cache Python dependencies"
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          # FIX: Dùng key cố định vì đã bỏ requests, không còn requirements.txt
+          key: ${{ runner.os }}-pip-stdlib-v1
+
+      - name: "🛠 Chuẩn bị thư mục"
+        run: |
+          # FIX: Bỏ pip install requests — đã thay bằng urllib thuần trong tất cả script
+          # Chỉ tạo thư mục cần thiết; repo/apps/desc tự tạo bởi config.py khi chạy
+          mkdir -p \
+            repo/apps \
+            repo/debs \
+            repo/depictions/icons \
+            repo/depictions/images \
+            repo/depictions/metadata \
+            repo/depictions/default
+
+      - name: "🚀 Khởi Chạy Tự Động Hóa (Core Engine)"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          PYTHONUNBUFFERED: "1"
+          PYTHONPATH: "${{ github.workspace }}/.github/scripts"
+        run: |
+          python3 .github/scripts/main.py
+
+      - name: "📤 Commit và Push dữ liệu mới"
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          git add -A
+
+          # Thoát sớm nếu không có thay đổi
+          if git diff --cached --quiet; then
+            echo "✅ Không có thay đổi dữ liệu nào để commit."
+            exit 0
+          fi
+
+          # Đọc commit message từ file nếu có
+          COMMIT_MSG="🔄 Tối ưu hóa hệ thống & Đồng bộ kho lưu trữ định kỳ [skip ci]"
+          if [ -f ".commit_msg" ]; then
+            COMMIT_MSG="$(cat .commit_msg) [skip ci]"
+          fi
+
+          git commit -m "$COMMIT_MSG"
+
+          # FIX: Dùng pull --rebase thay vì fetch + rebase thủ công
+          # Tránh trường hợp rebase thất bại không được xử lý
+          git pull --rebase origin main
+
+          # FIX: Dùng GITHUB_TOKEN qua env thay vì nhúng token trực tiếp vào URL
+          # Tránh lộ token trong log của Actions
+          git push origin HEAD:main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

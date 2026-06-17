@@ -1,0 +1,888 @@
+Package: com.choco.tgextra
+Name: TGExtra
+Version: 1.7.6
+Architecture: iphoneos-arm
+Filename: debs/TGExtra/com.choco.tgextra_227_1.7.6_iphoneos-arm.deb
+Size: 635558
+MD5sum: 7b0f3ba66c3f05c7cd6a68738ec89987
+SHA1: d875e6e8dc9aaa9cea0e92e11e395b0aa67e4e70
+SHA256: 5ca8cd182562e6e6ca7eb4cb4dc61c155b46c29bfc0933e34063cde31b72ffe7
+Author: choco
+Description: An simple Tweak For Telegram iOS
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic.png
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/TGExtra/com.choco.tgextra_227_1.7.6_iphoneos-arm.json
+
+Package: com.choco.tgextra
+Name: TGExtra
+Version: 1.7.6
+Architecture: iphoneos-arm64
+Filename: debs/TGExtra/com.choco.tgextra_227_1.7.6_iphoneos-arm64.deb
+Size: 631066
+MD5sum: ca5aba8773894b3ac2fafdcc514adf41
+SHA1: 2897eb2a8b034c36fb650d64b26e395068e2cf42
+SHA256: c80b3e6764bb04de2721ce8da42fe8f6ae4feb80cf448d549472e1495a97e172
+Author: choco
+Description: An simple Tweak For Telegram iOS
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic.png
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/TGExtra/com.choco.tgextra_227_1.7.6_iphoneos-arm64.json
+
+Package: com.choco.tgextra
+Name: TGExtra
+Version: 1.7.6
+Architecture: iphoneos-arm64e
+Filename: debs/TGExtra/com.choco.tgextra_227_1.7.6_iphoneos-arm64e.deb
+Size: 633724
+MD5sum: 45aa3796960a9113bf4fbe0ee9b741b8
+SHA1: c40eb97ac615647420e46066b20ce4296983ae8c
+SHA256: 3fc81e4353737728cacc1b3192c3b659723b632b851f2d3ddcc49b9f301bc78d
+Author: choco
+Description: An simple Tweak For Telegram iOS
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic.png
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/TGExtra/com.choco.tgextra_227_1.7.6_iphoneos-arm64e.json
+
+Package: com.dvntm.cc18
+Name: CC18
+Version: 0.0.3
+Architecture: iphoneos-arm
+Filename: debs/cc18/com.dvntm.cc18_0.0.3_iphoneos-arm.deb
+Size: 4408
+MD5sum: 50327f6133ba1f1837f3aa4052878a24
+SHA1: 6da5f2f5b4aef49acbffb1e707eaaa89ea50fa26
+SHA256: 630f3c1148cb2f42ebd1daa198fb34e42681d1e15deebeecd947fd0934b7810f
+Author: dvntm
+Description: Round CC modules replication, like in iOS 18
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/cc18.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/cc18/com.dvntm.cc18_0.0.3_iphoneos-arm.json
+
+Package: com.dvntm.cc18
+Name: CC18
+Version: 0.0.3
+Architecture: iphoneos-arm64
+Filename: debs/cc18/com.dvntm.cc18_0.0.3_iphoneos-arm64.deb
+Size: 4494
+MD5sum: 61c606586a407d92d328fdca914676c5
+SHA1: a0c862e7c99d82e1d8d9083ca1fc2fb803f925c0
+SHA256: 67c03afc0a875f2eb3685e70b7fe54cb6dabdbd2813201693ddfef7ab88bcc67
+Author: dvntm
+Description: Round CC modules replication, like in iOS 18
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/cc18.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/cc18/com.dvntm.cc18_0.0.3_iphoneos-arm64.json
+
+Package: com.dvntm.cc18
+Name: CC18
+Version: 0.0.3
+Architecture: iphoneos-arm64e
+Filename: debs/cc18/com.dvntm.cc18_0.0.3_iphoneos-arm64e.deb
+Size: 4414
+MD5sum: aa6ca7d2ae575b7c73e76606faf1d7d1
+SHA1: 62897f278010f963fb6c43985650cf6c86e7f946
+SHA256: ab021d689f4874c2c64a5586a57a7f3cb07b322cbd61d7fbd144acd15ae8aa61
+Author: dvntm
+Description: Round CC modules replication, like in iOS 18
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/cc18.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/cc18/com.dvntm.cc18_0.0.3_iphoneos-arm64e.json
+
+Package: com.dvntm.ccappicon
+Name: CCAppIcon
+Version: 0.0.1
+Architecture: iphoneos-arm
+Filename: debs/ccappicon/com.dvntm.ccappicon_0.0.1_iphoneos-arm.deb
+Size: 3060
+MD5sum: a910db857bc1c8575d0dea34dffcd64f
+SHA1: b99c929b90c81e72ebd0353d1b9149624d293142
+SHA256: 2cee269f2a54ff9542f5c3dcc4756abfbc4e8f56b0756ff8eec11e5ed74d5448
+Author: dvntm
+Description: No app icon in Now Playing and Control Center artworks
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/ccappicon.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/ccappicon/com.dvntm.ccappicon_0.0.1_iphoneos-arm.json
+
+Package: com.dvntm.ccappicon
+Name: CCAppIcon
+Version: 0.0.1
+Architecture: iphoneos-arm64
+Filename: debs/ccappicon/com.dvntm.ccappicon_0.0.1_iphoneos-arm64.deb
+Size: 3136
+MD5sum: b2d26b472c48385d86144087966fc4ae
+SHA1: 9f5ff4a9a5218ea9ccf147e89578d1c54e79c652
+SHA256: e24e4de9416ae090b68964ddea47f20c360403432ed6a99a056c12193fb80629
+Author: dvntm
+Description: No app icon in Now Playing and Control Center artworks
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/ccappicon.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/ccappicon/com.dvntm.ccappicon_0.0.1_iphoneos-arm64.json
+
+Package: com.dvntm.ccappicon
+Name: CCAppIcon
+Version: 0.0.1
+Architecture: iphoneos-arm64e
+Filename: debs/ccappicon/com.dvntm.ccappicon_0.0.1_iphoneos-arm64e.deb
+Size: 3068
+MD5sum: 4efac06aa82633133f05df53f0123980
+SHA1: 8b18479053dee4af8f654eab3b6eba51f610fbd7
+SHA256: d2f40cc576fb2f341c6d71924f9e4c364f8cc38cba7b4e73406738c2fb59ac22
+Author: dvntm
+Description: No app icon in Now Playing and Control Center artworks
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/ccappicon.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/ccappicon/com.dvntm.ccappicon_0.0.1_iphoneos-arm64e.json
+
+Package: com.dvntm.fastlock
+Name: FastLock
+Version: 1.0.1
+Architecture: iphoneos-arm
+Filename: debs/fastlock/com.dvntm.fastlock_1.0.1_iphoneos-arm.deb
+Size: 383176
+MD5sum: b044c81225c306f4a672521c1eb51c45
+SHA1: b4ebb0bc1d4624d1146b0c15066c05da7b48763d
+SHA256: 3d392e7c4dda213b49cdfda910c740b8948904d748a0fea3288b3e8d2384a8a1
+Author: dvntm
+Description: Lock your screen using gestures on SpringBoard
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/fastlock.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/fastlock/com.dvntm.fastlock_1.0.1_iphoneos-arm.json
+
+Package: com.dvntm.fastlock
+Name: FastLock
+Version: 1.0.1
+Architecture: iphoneos-arm64
+Filename: debs/fastlock/com.dvntm.fastlock_1.0.1_iphoneos-arm64.deb
+Size: 383248
+MD5sum: 4396999a95d1093c5823c5918b8dafdb
+SHA1: 7f53a46730316a0d19630ed51c69aea912dbd19f
+SHA256: 459069e839cc7d95b3c3fe665d0613e13bd209577b76bfbe7f75cdb0c73d8f6e
+Author: dvntm
+Description: Lock your screen using gestures on SpringBoard
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/fastlock.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/fastlock/com.dvntm.fastlock_1.0.1_iphoneos-arm64.json
+
+Package: com.dvntm.fastlock
+Name: FastLock
+Version: 1.0.1
+Architecture: iphoneos-arm64e
+Filename: debs/fastlock/com.dvntm.fastlock_1.0.1_iphoneos-arm64e.deb
+Size: 381912
+MD5sum: c43981bb510e7d963aeec41bb350dd08
+SHA1: b063759cc1747aba75dfff82df159027ab6cc573
+SHA256: 3a6c0f022c8b0ce8ebd101fa2cc8a49194623b5980cdda24f8ac670c84398006
+Author: dvntm
+Description: Lock your screen using gestures on SpringBoard
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/fastlock.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/fastlock/com.dvntm.fastlock_1.0.1_iphoneos-arm64e.json
+
+Package: com.dvntm.flow
+Name: Flow for Messenger
+Version: 1.0
+Architecture: iphoneos-arm
+Filename: debs/flow/com.dvntm.flow_1.0_iphoneos-arm.deb
+Size: 228538
+MD5sum: 72962d7f19ddff4e60814a54490c1d86
+SHA1: b398f1be3cb22c81e5e325b2e40e2aa07c640924
+SHA256: c80a1a540cc9382636da60014babe7087bb47a6a435f94f7b9d714109e8c2bab
+Author: dvntm, nowesr1
+Description: A lightweight Messenger enhancer
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/flow.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/flow/com.dvntm.flow_1.0_iphoneos-arm.json
+
+Package: com.dvntm.flow
+Name: Flow for Messenger
+Version: 1.0
+Architecture: iphoneos-arm64
+Filename: debs/flow/com.dvntm.flow_1.0_iphoneos-arm64.deb
+Size: 228568
+MD5sum: 244193e84937b8f34d08aef785d088e5
+SHA1: f843c1c4f73d303a936c471b7ec27acf0198ed3a
+SHA256: c85718f1b8d78683e577a5b4b2b1ae36d6fd4362f0d7b9d8512781be55e7da97
+Author: dvntm, nowesr1
+Description: A lightweight Messenger enhancer
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/flow.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/flow/com.dvntm.flow_1.0_iphoneos-arm64.json
+
+Package: com.dvntm.flow
+Name: Flow for Messenger
+Version: 1.0
+Architecture: iphoneos-arm64e
+Filename: debs/flow/com.dvntm.flow_1.0_iphoneos-arm64e.deb
+Size: 228062
+MD5sum: c249a6b9be75ca83dde644867ccd1272
+SHA1: 51dfeb6f1b8c0f3a6469a641a44244ff6e839fb6
+SHA256: 53b3afbd891ecd26a835279dad665d5b481c66183c3244aec97daa7a07d3120e
+Author: dvntm, nowesr1
+Description: A lightweight Messenger enhancer
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/flow.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/flow/com.dvntm.flow_1.0_iphoneos-arm64e.json
+
+Package: com.dvntm.glow
+Name: Glow for Facebook
+Version: 1.3.1
+Architecture: iphoneos-arm
+Filename: debs/glow/com.dvntm.glow_1.3.1_iphoneos-arm.deb
+Size: 6902718
+MD5sum: 8f3108265d6a593ecd2bbf6bb89867af
+SHA1: 90e5d1d2a3c54c285b3b66c59fd9aa8535471f85
+SHA256: 5ef3af7d5291b13cf012ecb0bffa9b7723d437a6590466b5da2ea67feb0f39b4
+Author: dvntm, nowesr1
+Description: Cleaner. Smarter. Yours.
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/glow.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/glow/com.dvntm.glow_1.3.1_iphoneos-arm.json
+
+Package: com.dvntm.glow
+Name: Glow for Facebook
+Version: 1.3.1
+Architecture: iphoneos-arm64
+Filename: debs/glow/com.dvntm.glow_1.3.1_iphoneos-arm64.deb
+Size: 6899448
+MD5sum: 58ac723243034e2ec7697e0b72691e2b
+SHA1: 9ea93812cfa5f350f8a8accc61887b817e4f793e
+SHA256: c4e64385bdf471e74d3d65edf6e982bf3ac5613246f4368f90a3b262f1222847
+Author: dvntm, nowesr1
+Description: Cleaner. Smarter. Yours.
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/glow.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/glow/com.dvntm.glow_1.3.1_iphoneos-arm64.json
+
+Package: com.dvntm.glow
+Name: Glow for Facebook
+Version: 1.3.1
+Architecture: iphoneos-arm64e
+Filename: debs/glow/com.dvntm.glow_1.3.1_iphoneos-arm64e.deb
+Size: 6905238
+MD5sum: 53e19f26b40d19db5c2615f498faf28f
+SHA1: 211588f61b244c77aee0af464c4b775f9e151813
+SHA256: 38c62b68d1147e93f24f30c9d0e1e12afc795788e6f57024dcf8a9800034db3a
+Author: dvntm, nowesr1
+Description: Cleaner. Smarter. Yours.
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/glow.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/glow/com.dvntm.glow_1.3.1_iphoneos-arm64e.json
+
+Package: com.dvntm.infuseplus
+Name: Infuse Plus
+Version: 2.5
+Architecture: iphoneos-arm
+Filename: debs/infuseplus/com.dvntm.infuseplus_2.5_iphoneos-arm.deb
+Size: 454810
+MD5sum: 2da1349e2ccbb9fc1f5faedbb9499713
+SHA1: db1e7d55a807fa87fa5861aa94efedce3b9c3c0a
+SHA256: 185552adcbc53ce1d12b14164e19a962f7b1a64a64be9cc9b46f2a3dcf42a65f
+Author: dvntm
+Description: Enhancer for Infuse app
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/infuseplus.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/infuseplus/com.dvntm.infuseplus_2.5_iphoneos-arm.json
+
+Package: com.dvntm.infuseplus
+Name: Infuse Plus
+Version: 2.5
+Architecture: iphoneos-arm64
+Filename: debs/infuseplus/com.dvntm.infuseplus_2.5_iphoneos-arm64.deb
+Size: 455058
+MD5sum: 42702d3fd7c22a5f0eef82445922b81c
+SHA1: cc87be8bfb1ef883134f29cb4bc8fb3d30b84c0c
+SHA256: 5c5f07a441c1a8f1bdb8aba0828d62e95bc4639bf791490057eaa941c0644396
+Author: dvntm
+Description: Enhancer for Infuse app
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/infuseplus.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/infuseplus/com.dvntm.infuseplus_2.5_iphoneos-arm64.json
+
+Package: com.dvntm.infuseplus
+Name: Infuse Plus
+Version: 2.5
+Architecture: iphoneos-arm64e
+Filename: debs/infuseplus/com.dvntm.infuseplus_2.5_iphoneos-arm64e.deb
+Size: 454554
+MD5sum: cf6cdf7eda758f57e94554e698d48fc0
+SHA1: 2d44a428def56600906172ac8151d067d362bdad
+SHA256: 859df14faaca69a2ed480c8a6c164eda3e96212d41245fa580c8b4441b535449
+Author: dvntm
+Description: Enhancer for Infuse app
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/infuseplus.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/infuseplus/com.dvntm.infuseplus_2.5_iphoneos-arm64e.json
+
+Package: com.dvntm.oledkeyboard
+Name: OledKeyboard
+Version: 0.0.3
+Architecture: iphoneos-arm
+Filename: debs/oledkeyboard/com.dvntm.oledkeyboard_0.0.3_iphoneos-arm.deb
+Size: 4598
+MD5sum: 6aa42d3efda2bd357af550e3b1679bc0
+SHA1: 7863d1c38310dd2e7f2f971e73b719dbac383f28
+SHA256: b9b36e2698899b5e3b7aa2edd273263448a526f2a075bcd45ea19568c6684b4a
+Author: dvntm
+Description: OLED Dark Mode for iOS System Keyboard
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/oledkeyboard.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/oledkeyboard/com.dvntm.oledkeyboard_0.0.3_iphoneos-arm.json
+
+Package: com.dvntm.oledkeyboard
+Name: OledKeyboard
+Version: 0.0.3
+Architecture: iphoneos-arm64
+Filename: debs/oledkeyboard/com.dvntm.oledkeyboard_0.0.3_iphoneos-arm64.deb
+Size: 4686
+MD5sum: d5968de83a0ca009e37e5f6278080a02
+SHA1: f8a84ec76b7960e69361c88c9149e1036aa6ba47
+SHA256: c410e0680f67cf4da7cc8acd27f0d8449dc262fe3a87a4fef42a4dea5654cceb
+Author: dvntm
+Description: OLED Dark Mode for iOS System Keyboard
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/oledkeyboard.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/oledkeyboard/com.dvntm.oledkeyboard_0.0.3_iphoneos-arm64.json
+
+Package: com.dvntm.oledkeyboard
+Name: OledKeyboard
+Version: 0.0.3
+Architecture: iphoneos-arm64e
+Filename: debs/oledkeyboard/com.dvntm.oledkeyboard_0.0.3_iphoneos-arm64e.deb
+Size: 4610
+MD5sum: b60abc51ab994dfd7d361458cfc88264
+SHA1: 8ff871793cdff1285cde2601b8b2cfa2b9fe0e7b
+SHA256: aa3bc82bfb7ca2d871ed8bc51b5e44af6dfe5e9471d42f913f88ce27dd19dcfa
+Author: dvntm
+Description: OLED Dark Mode for iOS System Keyboard
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/oledkeyboard.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/oledkeyboard/com.dvntm.oledkeyboard_0.0.3_iphoneos-arm64e.json
+
+Package: com.dvntm.ovk
+Name: OrwellVK
+Version: 1.2
+Architecture: iphoneos-arm
+Filename: debs/orwellvk/com.dvntm.ovk_1.2_iphoneos-arm.deb
+Size: 10264266
+MD5sum: a87eb192a394d89b2d2d9a783bc70280
+SHA1: 174aede35470b7c97261b629b932a62f0a12f727
+SHA256: 54651876583f5546ae97e772cff4002b0ea50c5d1882895778a43578b00b7f4a
+Author: dvntm
+Description: A subtle shift from the familiar
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/orwellvk.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/orwellvk/com.dvntm.ovk_1.2_iphoneos-arm.json
+
+Package: com.dvntm.ovk
+Name: OrwellVK
+Version: 1.2
+Architecture: iphoneos-arm64
+Filename: debs/orwellvk/com.dvntm.ovk_1.2_iphoneos-arm64.deb
+Size: 10269210
+MD5sum: c9ee236c71e02cb92d906150a42a026a
+SHA1: b84045899a35f9a8ef70fa55f9208a69290188f6
+SHA256: 519bc3a0a117d004858d3bc12d86662ff217a6ff6048130cae60872f04e08691
+Author: dvntm
+Description: A subtle shift from the familiar
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/orwellvk.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/orwellvk/com.dvntm.ovk_1.2_iphoneos-arm64.json
+
+Package: com.dvntm.ovk
+Name: OrwellVK
+Version: 1.2
+Architecture: iphoneos-arm64e
+Filename: debs/orwellvk/com.dvntm.ovk_1.2_iphoneos-arm64e.deb
+Size: 10259520
+MD5sum: c3246fbd5003498189f3f9ef985d3f4d
+SHA1: e10e9481e42b4778ddf36a4f649e042e2f70d980
+SHA256: 6a33dae7ada265c72b3af00172294ffcfd7d4a876b9b0d7c0e15c6a2b3711f81
+Author: dvntm
+Description: A subtle shift from the familiar
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/orwellvk.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/orwellvk/com.dvntm.ovk_1.2_iphoneos-arm64e.json
+
+Package: com.dvntm.tweach
+Name: Tweach
+Version: 2.3.3
+Architecture: iphoneos-arm
+Filename: debs/tweach/com.dvntm.tweach_2.3.3_iphoneos-arm.deb
+Size: 7296114
+MD5sum: c37d6cde46b1012a8773a68eb1af016f
+SHA1: 97be0f06b1259757a5ab3e653f125d1c36a18651
+SHA256: 4074f5129b536fa51d6f154d1caff7fcebf5084e2bc0c89d85da0dc89df8b4c5
+Author: dvntm
+Description: Download your favorite clips, VODs and Live Streams with Tweach!
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/tweach.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/tweach/com.dvntm.tweach_2.3.3_iphoneos-arm.json
+
+Package: com.dvntm.tweach
+Name: Tweach
+Version: 2.3.3
+Architecture: iphoneos-arm64
+Filename: debs/tweach/com.dvntm.tweach_2.3.3_iphoneos-arm64.deb
+Size: 7295338
+MD5sum: 6a2beeb5193d6e600579d8a4e78d1572
+SHA1: 923210417175e55f28db811018597bf1854962d7
+SHA256: 17205f326a1382b3cf175049470a9fe3637a0255c5869b60ead4cfb1fa15f09d
+Author: dvntm
+Description: Download your favorite clips, VODs and Live Streams with Tweach!
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/tweach.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/tweach/com.dvntm.tweach_2.3.3_iphoneos-arm64.json
+
+Package: com.dvntm.tweach
+Name: Tweach
+Version: 2.3.3
+Architecture: iphoneos-arm64e
+Filename: debs/tweach/com.dvntm.tweach_2.3.3_iphoneos-arm64e.deb
+Size: 7298768
+MD5sum: 23f7eb8527be3343ce3d102df32420ca
+SHA1: b6a09d5649daec770f20ee60b95293e064a159e5
+SHA256: 3e3e7493a5bfec108c14ff2d6cbc1dbb8e642aff83969939cfd185c529308241
+Author: dvntm
+Description: Download your favorite clips, VODs and Live Streams with Tweach!
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/tweach.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/tweach/com.dvntm.tweach_2.3.3_iphoneos-arm64e.json
+
+Package: com.dvntm.twlegacy
+Name: NoItsNotTimeToUpdate
+Version: 0.0.1
+Architecture: iphoneos-arm
+Filename: debs/twlegacy/com.dvntm.twlegacy_0.0.1_iphoneos-arm.deb
+Size: 5960
+MD5sum: c9d062e641b696604dee935281529c8f
+SHA1: e065f47641f0a5b4bea9ef1e4692046f14110f37
+SHA256: 8f5343c817acf3bb26cf3f0606c1acd85f6271779a82285212d1213762b924c9
+Author: dvntm
+Description: An awesome MobileSubstrate tweak!
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/twlegacy.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/twlegacy/com.dvntm.twlegacy_0.0.1_iphoneos-arm.json
+
+Package: com.dvntm.twlegacy
+Name: NoItsNotTimeToUpdate
+Version: 0.0.1
+Architecture: iphoneos-arm64
+Filename: debs/twlegacy/com.dvntm.twlegacy_0.0.1_iphoneos-arm64.deb
+Size: 6036
+MD5sum: 04beac79eda9095e7d7d6bbf60850dee
+SHA1: 36a92a1b6974505a52008788f2bae34eee5840ef
+SHA256: 10058405e9db27a13a3561a2e1154e33d561aa70d2b10213022cfed266211939
+Author: dvntm
+Description: An awesome MobileSubstrate tweak!
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/twlegacy.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/twlegacy/com.dvntm.twlegacy_0.0.1_iphoneos-arm64.json
+
+Package: com.dvntm.twlegacy
+Name: NoItsNotTimeToUpdate
+Version: 0.0.1
+Architecture: iphoneos-arm64e
+Filename: debs/twlegacy/com.dvntm.twlegacy_0.0.1_iphoneos-arm64e.deb
+Size: 6018
+MD5sum: f1e0336e1348f202fb4ee1199e4cc236
+SHA1: 7fba9d824bbddc91c31d64d78764f86f957ab9fd
+SHA256: 5aad476a34976623801835367036c63ca26e1467ca61c2bbdc0f80b3c6240b2b
+Author: dvntm
+Description: An awesome MobileSubstrate tweak!
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/twlegacy.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/twlegacy/com.dvntm.twlegacy_0.0.1_iphoneos-arm64e.json
+
+Package: com.dvntm.ytlite
+Name: YTLite
+Version: 5.2.1
+Architecture: iphoneos-arm
+Filename: debs/ytplus/com.dvntm.ytlite_5.2.1_iphoneos-arm.deb
+Size: 7420522
+MD5sum: ffba73f062577070050fc20e6844fd70
+SHA1: 1ac014831f89c19abf364c2c76c4c36c5e87029d
+SHA256: fe634567474704eea699d81c36b8af59575882deaad30f3e8bd4898b5019ef70
+Author: dvntm
+Description: Lightweight YouTube Enhancer
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/ytplus.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/ytplus/com.dvntm.ytlite_5.2.1_iphoneos-arm.json
+
+Package: com.dvntm.ytlite
+Name: YTLite
+Version: 5.2.1
+Architecture: iphoneos-arm64
+Filename: debs/ytplus/com.dvntm.ytlite_5.2.1_iphoneos-arm64.deb
+Size: 7432926
+MD5sum: 5ca2ad541bcc8d2f312816b880222b4b
+SHA1: bd5be80f8f23d261b8022f856df6733589f9c8fd
+SHA256: 8e4c575bf3648e1dd37d29367148521d1f5bd46f2c3b2e7db9ef2584124f3fac
+Author: dvntm
+Description: Lightweight YouTube Enhancer
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/ytplus.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/ytplus/com.dvntm.ytlite_5.2.1_iphoneos-arm64.json
+
+Package: com.dvntm.ytlite
+Name: YTLite
+Version: 5.2.1
+Architecture: iphoneos-arm64e
+Filename: debs/ytplus/com.dvntm.ytlite_5.2.1_iphoneos-arm64e.deb
+Size: 7410936
+MD5sum: e36c555233b7cd65e0bb112d3935c49e
+SHA1: 623e4db2e44fb3d1d9d475d600f4c78d34ff91a0
+SHA256: c3a12613e7b81607a76c8064dbe27d2bb53c82d08428a85b4e2d37ad7de6c3ca
+Author: dvntm
+Description: Lightweight YouTube Enhancer
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/ytplus.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/ytplus/com.dvntm.ytlite_5.2.1_iphoneos-arm64e.json
+
+Package: com.eevee.youtubefix
+Name: YouTube Fix
+Version: 1.0
+Architecture: iphoneos-arm
+Filename: debs/youtubefix/youtubefix_1.0_arm.deb
+Size: 3340
+MD5sum: d99e00f006098a79723750b6988d6226
+SHA1: f83d4ed4d2aab84a1c9cef1a2f0e1066006ea5ce
+SHA256: 18d40b2c0dd880665b39480eba4f1a21597ba7b6f72bcf4e23e4fcc08429773e
+Author: Eevee
+Description: Fix YouTube images not loading
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic.png
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/youtubefix/youtubefix_1.0_arm.json
+
+Package: com.ginsu.ytmusicultimate
+Name: YTMusicUltimate
+Version: 2.4.1
+Architecture: iphoneos-arm
+Filename: debs/ytmu/com.ginsu.ytmusicultimate_2.4.1_iphoneos-arm.deb
+Size: 6576778
+MD5sum: c1a0a00cfc98361c7b61d312a09193e5
+SHA1: a567aa3d17eb35e562f1599ec27a320b235c3cd0
+SHA256: 692ca452d618d7664d0986ffdd04484a07524a5068eb0e0f21b813a4efa515a3
+Author: dayanch96 & ginsu
+Description: YouTube Music Premium
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/ytmu.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/ytmu/com.ginsu.ytmusicultimate_2.4.1_iphoneos-arm.json
+
+Package: com.ginsu.ytmusicultimate
+Name: YTMusicUltimate
+Version: 2.4.1
+Architecture: iphoneos-arm64
+Filename: debs/ytmu/com.ginsu.ytmusicultimate_2.4.1_iphoneos-arm64.deb
+Size: 6566710
+MD5sum: 25acbe5dd2e0d161e88975b369c44725
+SHA1: 9911729edb671e0aeb466c8ba4438e3cfb46e2b5
+SHA256: 8bf33b555569c4998e5de7e104995c3d95a801171d42e2cc3be5815275b71be9
+Author: dayanch96 & ginsu
+Description: YouTube Music Premium
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/ytmu.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/ytmu/com.ginsu.ytmusicultimate_2.4.1_iphoneos-arm64.json
+
+Package: com.ginsu.ytmusicultimate
+Name: YTMusicUltimate
+Version: 2.4.1
+Architecture: iphoneos-arm64e
+Filename: debs/ytmu/com.ginsu.ytmusicultimate_2.4.1_iphoneos-arm64e.deb
+Size: 6572062
+MD5sum: 1359292410d2fc2a622dd6dfd39b1934
+SHA1: 68d1a86d608218a59484aad9c0c273c5c9bec191
+SHA256: f53220edcf618a500e376a7f8200199ee5e69d6e9cb9cd145bfd9ceafd199c18
+Author: dayanch96 & ginsu
+Description: YouTube Music Premium
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/ytmu.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/ytmu/com.ginsu.ytmusicultimate_2.4.1_iphoneos-arm64e.json
+
+Package: com.kyic.com.w3ltyyy.lead
+Name: com.w3ltyyy.lead
+Version: 1.0
+Architecture: iphoneos-arm
+Filename: debs/Lead/com.w3ltyyy.lead_1.3.4_iphoneos-arm.deb
+Size: 2
+MD5sum: 81051bcc2cf1bedf378224b0a93e2877
+SHA1: ba8ab5a0280b953aa97435ff8946cbcbb2755a27
+SHA256: 7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6
+Author: Kyic Store
+Description: Một tweak tuyệt vời từ Kyic Store.
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic.png
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/Lead/com.w3ltyyy.lead_1.3.4_iphoneos-arm.json
+
+Package: com.ps.noytpremium
+Name: NoYTPremium
+Version: 1.0.7
+Architecture: iphoneos-arm
+Filename: debs/noytpremium/noytpremium_1.0.7_arm.deb
+Size: 2842
+MD5sum: c8822406448994c0a0b1e316501b2da2
+SHA1: bbdd609cd6007ba0cfaa7982821ff4782b6a5843
+SHA256: 3283e35eeed1b8526e389056571a1110dfd0c9541ac29d34b4c495f6b500a934
+Author: PoomSmart
+Description: Removes YouTube Premium upsells.
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic.png
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/noytpremium/noytpremium_1.0.7_arm.json
+
+Package: com.ps.yougroupsettings
+Name: YouGroupSettings
+Version: 1.0.10
+Architecture: iphoneos-arm
+Filename: debs/yougroupsettings/yougroupsettings_1.0.10-arm.deb
+Size: 5258
+MD5sum: 33ecd42eea00b048350fb95dd371a2e9
+SHA1: 677316ea26a4fa459e4e2e20b78da970258764f8
+SHA256: aafa0091f3c47d1fa3b951873a87f311d133ea911f5f5c50cb9dc6e41af4cd84
+Author: PoomSmart <unicorn03.glimmer@icloud.com>
+Description: Allows tweak-made settings to be grouped and displayed in iOS YouTube app.
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/yougroupsettings.jpg
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/yougroupsettings/yougroupsettings_1.0.10-arm.json
+
+Package: com.ps.youmute
+Name: YouMute
+Version: 1.4.0
+Architecture: iphoneos-arm
+Filename: debs/youmute/youmute_1.4.0_arm.deb
+Size: 6198
+MD5sum: 151fc1b208fa9105da9f6d74c0069029
+SHA1: 6501bf2a689b1d75317249dbf676b25bd4ffdc12
+SHA256: 27b098f4ac4da14b8ca719f70eff5432bdd41885160a47e799958577acd744ae
+Author: PoomSmart
+Description: Mutes/unmutes videos in YouTube directly.
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic.png
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/youmute/youmute_1.4.0_arm.json
+
+Package: com.ps.youpip
+Name: YouPiP
+Version: 1.12.12
+Architecture: iphoneos-arm
+Filename: debs/youpip/com.ps.youpip_1.12.12_iphoneos-arm.deb
+Size: 25610
+MD5sum: f7627588305b4195d49d370dbc637c18
+SHA1: e0290d93abf37063fcfed7b01ba690291cca7d40
+SHA256: dca34d1bcc5484076836d0d4cbc4e62a6892febf130fadb6ab92f31ce60f59cd
+Author: PoomSmart
+Description: Enables native PiP in iOS YouTube app.
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic.png
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/youpip/com.ps.youpip_1.12.12_iphoneos-arm.json
+
+Package: com.ps.youpip
+Name: YouPiP
+Version: 1.12.12
+Architecture: iphoneos-arm64
+Filename: debs/youpip/com.ps.youpip_1.12.12_iphoneos-arm64.deb
+Size: 25332
+MD5sum: 01030e87dfc9750bebe3a1cc9fd3ef0a
+SHA1: 46f81c9f852cefe3a852871b74b78f8a07725328
+SHA256: 5ddfc7281e7022d093a170977a27fb05dd809d608eaa1802f0cadc41fdd36362
+Author: PoomSmart
+Description: Enables native PiP in iOS YouTube app.
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic.png
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/youpip/com.ps.youpip_1.12.12_iphoneos-arm64.json
+
+Package: com.ps.youspeed
+Name: YouSpeed
+Version: 1.7.1
+Architecture: iphoneos-arm
+Filename: debs/youspeed/com.ps.youspeed_1.7.1_iphoneos-arm.deb
+Size: 12926
+MD5sum: b2185156a23f2711c7b518ae25f63c23
+SHA1: 7f3c0c8271b4ae156d37cb2591a4148d8afedc2b
+SHA256: 3d438736e8963acd6779bf913a21dcb53c132cb73c2d7af2e7521647769619db
+Author: PoomSmart
+Description: Views/changes video speed in iOS YouTube app faster, and more speed options.
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic.png
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/youspeed/com.ps.youspeed_1.7.1_iphoneos-arm.json
+
+Package: com.ps.youspeed
+Name: YouSpeed
+Version: 1.7.1
+Architecture: iphoneos-arm64
+Filename: debs/youspeed/com.ps.youspeed_1.7.1_iphoneos-arm64.deb
+Size: 12772
+MD5sum: 3c85ac758a3ae19aad2270be16813bf3
+SHA1: 26d843645cca516f11b2e0b52690e2002152ebee
+SHA256: 5e6f9cfc9bdbcf363485bab468ac9831806e2ff63e9344d8b49d7585b40ea7ae
+Author: PoomSmart
+Description: Views/changes video speed in iOS YouTube app faster, and more speed options.
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic.png
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/youspeed/com.ps.youspeed_1.7.1_iphoneos-arm64.json
+
+Package: com.ps.ytuhd
+Name: YTUHD
+Version: 2.6.0
+Architecture: iphoneos-arm
+Filename: debs/ytuhd/com.ps.ytuhd_2.6.0_iphoneos-arm.deb
+Size: 391984
+MD5sum: 65c31f7000a574d2c54fb06b5907b0c2
+SHA1: 07d271204713e726113b7f83027b48165b835dc5
+SHA256: 861302bfc5a141ee42840e6da96b44b00906fcd6bc009e4f4750482521bc5208
+Author: PoomSmart
+Description: Unlocks 1440p and 2160p resolutions in iOS YouTube app.
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic.png
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/ytuhd/com.ps.ytuhd_2.6.0_iphoneos-arm.json
+
+Package: com.ps.ytuhd
+Name: YTUHD
+Version: 2.6.0
+Architecture: iphoneos-arm64
+Filename: debs/ytuhd/com.ps.ytuhd_2.6.0_iphoneos-arm64.deb
+Size: 391502
+MD5sum: 7c94d1bbc97365a2a22c3b0baf13f940
+SHA1: 4abac92408431d598b296925317342b8fd3e74b4
+SHA256: 2bfa2e1e8ad4a8923bc4acc68365d332cbf899a1e204f321f7fd159a0c7eb159
+Author: PoomSmart
+Description: Unlocks 1440p and 2160p resolutions in iOS YouTube app.
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic.png
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/ytuhd/com.ps.ytuhd_2.6.0_iphoneos-arm64.json
+
+Package: com.ps.ytunshorts
+Name: YTUnShorts
+Version: 1.3.1
+Architecture: iphoneos-arm
+Filename: debs/ytunshorts/ytunshorts_1.3.1_arm.deb
+Size: 3272
+MD5sum: 5e24e9313e8a3ed072821a3bc78ce16d
+SHA1: 4dfa72e3cf924c9aad1af3b0d989b6aa4b812ab4
+SHA256: 71e51ac80e9976a1c5338e5e869cd3e02583eb2135607d44c407145a8612e9b6
+Author: PoomSmart
+Description: Removes Shorts from YouTube app's feed.
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic.png
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/ytunshorts/ytunshorts_1.3.1_arm.json
+
+Package: com.ps.ytvideooverlay
+Name: YTVideoOverlay
+Version: 2.3.6
+Architecture: iphoneos-arm
+Filename: debs/ytvideooverlay/com.ps.ytvideooverlay_2.3.6_iphoneos-arm.deb
+Size: 16436
+MD5sum: 3d62c63e035c685467c93fc66f01110a
+SHA1: 4db70b952be80fe67e137ec3695adcf55a48a773
+SHA256: 9a830457264f1c2dd69fda82aba4e9aa1f36e162675c95e2bda1ffdfb86459ff
+Author: PoomSmart
+Description: A helper tweak to add buttons on YouTube video overlay.
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic.png
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/ytvideooverlay/com.ps.ytvideooverlay_2.3.6_iphoneos-arm.json
+
+Package: com.ps.ytvideooverlay
+Name: YTVideoOverlay
+Version: 2.3.6
+Architecture: iphoneos-arm64
+Filename: debs/ytvideooverlay/com.ps.ytvideooverlay_2.3.6_iphoneos-arm64.deb
+Size: 16298
+MD5sum: 6401964614b67367b717d5cd0cea0ef4
+SHA1: 6231ca6740ec94ea7d1dae4ded67d3670047ada3
+SHA256: 62669b1ef952503104151f3ca2369642c8c5729214de8ab7d1a37341d43f2514
+Author: PoomSmart
+Description: A helper tweak to add buttons on YouTube video overlay.
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic.png
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/ytvideooverlay/com.ps.ytvideooverlay_2.3.6_iphoneos-arm64.json
+
+Package: com.ps.ytx
+Name: YouTube X
+Version: 1.7.19
+Architecture: iphoneos-arm
+Filename: debs/YoutubeX/YoutubeX_1.7.19_arm.deb
+Size: 5728
+MD5sum: 1fe505d84bec2e5b24d2bb26e48ac48f
+SHA1: 18ee76c6192cba0e15d11ae97d8db7bc37776f93
+SHA256: 5c4203245b9eafa05fd356f21e7613788146dcad6abcda3ae193b6d1b6cc26a5
+Author: PoomSmart
+Description: A YouTube improvement tweak.
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic.png
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/YoutubeX/YoutubeX_1.7.19_arm.json
+
+Package: com.w3ltyyy.lead
+Name: Lead
+Version: 1.4.2
+Architecture: iphoneos-arm
+Filename: debs/Lead/com.w3ltyyy.lead_1.4.2_iphoneos-arm.deb
+Size: 4163898
+MD5sum: 8e87d9730a4d64ed22036c551f1b88b8
+SHA1: b3e4ad3701c4936aa0ea883692377ad7df568504
+SHA256: befc1402dc51994d594f5940289723f38906ff58c8b397da0f8f8ded782dc8e5
+Author: w3ltyyy
+Description: The best Tweak For Telegram iOS
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic.png
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/Lead/com.w3ltyyy.lead_1.4.2_iphoneos-arm.json
+
+Package: dev.water888.youmod
+Name: YouMod
+Version: 1.3.0
+Architecture: iphoneos-arm
+Filename: debs/youmod/dev.water888.youmod_1.3.0_iphoneos-arm.deb
+Size: 162996
+MD5sum: e8bfaa79a0217c160831fb510036a88e
+SHA1: 0766d92950bbf46eea62da5c2236c8984fb7bace
+SHA256: 59979900e77dbfe916972be6f20ace79fe50449bcf34b97694e3c278558f671d
+Author: Tonwalter888
+Description: A lightweight YouTube enhancer
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic.png
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/youmod/dev.water888.youmod_1.3.0_iphoneos-arm.json
+
+Package: me.jkhsjdhjs.youtube-native-share
+Name: YouTube Native Share
+Version: 0.2.7
+Architecture: iphoneos-arm
+Filename: debs/yt-native-share/me.jkhsjdhjs.youtube-native-share_0.2.7_iphoneos-arm.deb
+Size: 10080
+MD5sum: 7d92c843f7ab48004cc4c24d9e9cfdc2
+SHA1: c7e2eddd787deda5e24e0c2f5b5d81b311c87291
+SHA256: c5441d49ce78459f927c464a2405d408280e213a2706eb4afd74f6fb1dd0a80c
+Author: jkhsjdhjs
+Description: Bypass YouTubes own share sheet and use the system activity view instead.
+Avoids requesting a source identifier (si) with your data and sharing it with other people.
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic.png
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/yt-native-share/me.jkhsjdhjs.youtube-native-share_0.2.7_iphoneos-arm.json
+
+Package: me.jkhsjdhjs.youtube-native-share
+Name: YouTube Native Share
+Version: 0.2.7
+Architecture: iphoneos-arm64
+Filename: debs/yt-native-share/me.jkhsjdhjs.youtube-native-share_0.2.7_iphoneos-arm64.deb
+Size: 5114
+MD5sum: 629bb2a2fed34fce96de67e117646736
+SHA1: c6e05246c87024cc639cb6b56791b99ad7448c09
+SHA256: b5ee58951b6273d9c9c1c8168a6b508d10e4e0106b334d1d5f692d3bc91764d1
+Author: jkhsjdhjs
+Description: Bypass YouTubes own share sheet and use the system activity view instead.
+Avoids requesting a source identifier (si) with your data and sharing it with other people.
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic.png
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/yt-native-share/me.jkhsjdhjs.youtube-native-share_0.2.7_iphoneos-arm64.json
+
+Package: me.jkhsjdhjs.youtube-native-share
+Name: YouTube Native Share
+Version: 0.2.7
+Architecture: iphoneos-arm64e
+Filename: debs/yt-native-share/me.jkhsjdhjs.youtube-native-share_0.2.7_iphoneos-arm64e.deb
+Size: 5042
+MD5sum: b9002e950b4dd84d5ef384ea5923e264
+SHA1: afe44ee218bf0afde283325c37114faac94104fb
+SHA256: 32eaac704876db448dc72679c423e0ed786db4a77e764e3a891a9e6cb81b07b1
+Author: jkhsjdhjs
+Description: Bypass YouTubes own share sheet and use the system activity view instead.
+Avoids requesting a source identifier (si) with your data and sharing it with other people.
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic.png
+SileoDepiction: https://2kgt.github.io/repo/depictions/metadata/tweaks/yt-native-share/me.jkhsjdhjs.youtube-native-share_0.2.7_iphoneos-arm64e.json
+
