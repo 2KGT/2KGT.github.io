@@ -891,6 +891,30 @@
       },
       "minOS": "13.0",
       "buildVersion": "10264"
+    },
+    "https://github.com/2KGT/2KGT.github.io/releases/download/v1.1.6/LCSign_1.1.6.ipa": {
+      "bid": "com.huami.LoadController",
+      "ver": "1.1.6",
+      "name": "LCSign",
+      "size": 37839083,
+      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/LCSign.png",
+      "banner": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_banner.png",
+      "screenshots": [
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_1.jpeg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_2.jpeg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_3.jpeg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_4.jpeg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_5.jpeg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_6.jpeg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_7.jpeg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_8.jpeg"
+      ],
+      "desc": "Ứng dụng LCSign từ Kyic Store.",
+      "permissions": {
+        "Thư viện ảnh": "选择图片并裁切后用作应用图标。"
+      },
+      "minOS": "15.0",
+      "buildVersion": "1.1.6"
     }
   }
 }
