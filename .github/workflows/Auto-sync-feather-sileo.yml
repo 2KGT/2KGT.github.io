@@ -37,7 +37,7 @@ jobs:
           # FIX: Dùng key cố định vì đã bỏ requests, không còn requirements.txt
           key: ${{ runner.os }}-pip-stdlib-v1
 
-      - name: "🛠 Chuẩn bị thư mục"
+      - name: "🗂️ Sẵn sàng khởi tạo thư mục"
         run: |
           # FIX: Bỏ pip install requests — đã thay bằng urllib thuần trong tất cả script
           # Chỉ tạo thư mục cần thiết; repo/apps/desc tự tạo bởi config.py khi chạy
@@ -49,7 +49,7 @@ jobs:
             repo/depictions/metadata \
             repo/depictions/default
 
-      - name: "🚀 Khởi Chạy Tự Động Hóa (Core Engine)"
+      - name: "🚀 Khởi chạy tự động hóa (Core Engine)"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
