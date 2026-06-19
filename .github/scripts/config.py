@@ -38,7 +38,7 @@ DEBS_INPUT_DIR = os.path.join(REPO_ROOT, "repo/debs")
 DYLIBS_INPUT_DIR = os.path.join(REPO_ROOT, "repo/dylibs")
 REPO_OUTPUT_DIR = os.path.join(REPO_ROOT, "repo")
 
-# --- Vùng lưu trữ "trí nhớ" (Wiki Data) ---
+# --- Vùng lưu trữ "trí nhớ đầu vào" (Wiki Data) ---
 # Cấu trúc: Gom wiki file database wiki/
 # main(root)/repo/depictions/metadata/wiki/
 WIKI_DIR = os.path.join(DEPICTION_DIR, "wiki")
@@ -46,7 +46,7 @@ FEATHER_DATABASE = os.path.join(WIKI_DIR, "wikiapps.json")
 SILEO_DATABASE = os.path.join(WIKI_DIR, "wikidebs.json")
 DYLIBS_DATABASE = os.path.join(WIKI_DIR, "wikidylibs.json")
 
-# --- Vùng xắp xếp lưu trữ "Sản phẩm đầu cuối"
+# --- Vùng xắp xếp lưu trữ từ wiki thành "Sản phẩm cuối"
 # Nơi các app Sileo/Feather đọc vào
 APPS_JSON_PATH = os.path.join(REPO_ROOT, "repo/apps.json")
 SILEO_JSON_PATH = os.path.join(REPO_ROOT, "repo/sileo.json")
