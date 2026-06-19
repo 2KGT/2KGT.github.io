@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Apps - Kyic Premium Store</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --bg: #0a1428;
+            --card: #1c1c2e;
+            --text: #ffffff;
+            --text-secondary: #8e8e93;
+            --tint: #848ef9;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI", sans-serif;
+            background: linear-gradient(135deg, var(--bg), #1e3a8a);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ──────────────────────────── HEADER ──────────────────────────── */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(20px);
+            background: rgba(28, 28, 46, 0.7);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 16px;
+        }
+
+        .header-content {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            font-size: 1.1em;
+            font-weight: 700;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .icon-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border);
+            color: var(--text);
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            transition: all 0.2s;
+        }
+
+        .icon-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.05);
+        }
+
+        /* ──────────────────────────── TABS ──────────────────────────── */
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+
+        .tabs-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 10px 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--text);
+            border-color: var(--tint);
+        }
+
+        .tab-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* ──────────────────────────── SEARCH ──────────────────────────── */
+        .search-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-box input {
+            background: transparent;
+            border: none;
+            color: var(--text);
+            width: 100%;
+            outline: none;
+            font-size: 1em;
+        }
+
+        .search-box input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        /* ──────────────────────────── LIST ──────────────────────────── */
+        .list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .item-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            object-fit: cover;
+            flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .item-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .item-name {
+            font-weight: 600;
+            font-size: 1em;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .item-id {
+            font-size: 0.85em;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .item-version {
+            font-size: 0.8em;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        .item-action {
+            background: var(--tint);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.9em;
+            white-space: nowrap;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .item-action:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+        }
+
+        /* ──────────────────────────── MODAL ──────────────────────────── */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1c1c2e, #252540);
+            border: 1px solid var(--border);
+            border-radius: 24px 24px 0 0;
+            padding: 24px;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .modal-header {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+            align-items: flex-start;
+        }
+
+        .modal-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .modal-title-block {
+            flex: 1;
+        }
+
+        .modal-name {
+            font-size: 1.4em;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .modal-id {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+
+        .modal-version {
+            color: var(--tint);
+            font-size: 0.95em;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border);
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            color: var(--text);
+        }
+
+        /* ──────────────────────────── SCREENSHOTS ──────────────────────────── */
+        .screenshots {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+            padding-bottom: 8px;
+        }
+
+        .screenshot {
+            width: 80px;
+            height: 140px;
+            border-radius: 12px;
+            object-fit: cover;
+            flex-shrink: 0;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            transition: transform 0.2s;
+        }
+
+        .screenshot:hover {
+            transform: scale(1.05);
+        }
+
+        /* ──────────────────────────── DETAILS ──────────────────────────── */
+        .detail-section {
+            margin-bottom: 16px;
+        }
+
+        .detail-section-title {
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .detail-section-content {
+            color: var(--text);
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .version-history {
+            max-height: 200px;
+            overflow-y: auto;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            padding: 12px;
+        }
+
+        .version-item {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9em;
+        }
+
+        .version-item:last-child {
+            border-bottom: none;
+        }
+
+        .version-num {
+            font-weight: 600;
+            color: var(--tint);
+            margin-bottom: 4px;
+        }
+
+        .version-note {
+            color: var(--text-secondary);
+            font-size: 0.85em;
+        }
+
+        .permissions-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .permission-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 0.85em;
+            color: var(--text-secondary);
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .action-btn {
+            background: var(--tint);
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            opacity: 0.9;
+        }
+
+        .action-btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        /* ──────────────────────────── LOADING ──────────────────────────── */
+        .loading {
+            text-align: center;
+            color: var(--text-secondary);
+            padding: 40px 20px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--tint);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ──────────────────────────── RESPONSIVE ──────────────────────────── */
+        @media (max-width: 480px) {
+            .container { padding: 12px; }
+            .modal-content { padding: 16px; }
+            .modal-icon { width: 64px; height: 64px; }
+            .modal-name { font-size: 1.2em; }
+            .permissions-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <div class="header-content">
+        <div class="header-title">← Apps</div>
+        <div class="header-actions">
+            <button class="icon-btn" onclick="goHome()">🏠</button>
+            <button class="icon-btn" onclick="toggleSettings()">⚙️</button>
+        </div>
+    </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="container">
+    <!-- TABS -->
+    <div class="tabs-header">
+        <button class="tab-btn active" onclick="switchTab('apps')">📱 Apps</button>
+        <button class="tab-btn " onclick="switchTab('tweaks')">🔧 Tweaks</button>
+        <button class="tab-btn " onclick="switchTab('dylibs')">📚 Dylibs</button>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="search-box">
+        <span>🔍</span>
+        <input type="text" id="searchInput" placeholder="Tìm kiếm..." onkeyup="filterList()">
+    </div>
+
+    <!-- LIST -->
+    <div id="list" class="list">
+        <div class="loading">
+            <div class="spinner"></div>
+            <p>Đang tải dữ liệu...</p>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL DETAIL -->
+<div id="modal" class="modal" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <button class="modal-close" onclick="closeModal()">✕</button>
+        
+        <div class="modal-header">
+            <img id="modalIcon" class="modal-icon" src="" alt="Icon">
+            <div class="modal-title-block">
+                <div class="modal-name" id="modalName"></div>
+                <div class="modal-id" id="modalId"></div>
+                <div class="modal-version" id="modalVersion"></div>
+            </div>
+        </div>
+
+        <!-- Screenshots -->
+        <div id="screenshotsSection" class="detail-section" style="display:none;">
+            <div class="detail-section-title">📸 Ảnh chụp màn hình</div>
+            <div class="screenshots" id="screenshots"></div>
+        </div>
+
+        <!-- Description -->
+        <div id="descSection" class="detail-section" style="display:none;">
+            <div class="detail-section-title">📝 Mô tả</div>
+            <div class="detail-section-content" id="modalDesc"></div>
+        </div>
+
+        <!-- Version History -->
+        <div id="historySection" class="detail-section" style="display:none;">
+            <div class="detail-section-title">📋 Lịch sử phiên bản</div>
+            <div class="version-history" id="versionHistory"></div>
+        </div>
+
+        <!-- Permissions -->
+        <div id="permSection" class="detail-section" style="display:none;">
+            <div class="detail-section-title">🔐 Quyền hạn</div>
+            <div class="permissions-grid" id="permissions"></div>
+        </div>
+
+        <!-- Info -->
+        <div class="detail-section">
+            <div class="detail-section-title">ℹ️ Thông tin</div>
+            <div class="detail-section-content">
+                <div style="margin-bottom: 8px;">
+                    <strong>Phiên bản:</strong> <span id="infoVersion"></span>
+                </div>
+                <div style="margin-bottom: 8px;">
+                    <strong>Tác giả:</strong> <span id="infoAuthor"></span>
+                </div>
+                <div>
+                    <strong>Kích thước:</strong> <span id="infoSize"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="action-buttons">
+            <button class="action-btn" onclick="downloadItem()">Tải xuống</button>
+            <button class="action-btn secondary" onclick="copyLink()">Sao chép link</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ────────────────────────────────────────────────
+    // DATA MANAGEMENT & UTILITIES
+    // ────────────────────────────────────────────────
+    
+    let allData = {};
+    let filteredData = {};
+    let currentTab = 'apps';
+    let currentItem = null;
+
+    function formatSize(bytes) {
+        if (bytes === 0) return '0 B';
+        const k = 1024;
+        const sizes = ['B', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return (bytes / Math.pow(k, i)).toFixed(2) + ' ' + sizes[i];
+    }
+
+    function switchTab(tab) {
+        currentTab = tab;
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+        filterList();
+    }
+
+    function filterList() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        const items = allData[currentTab] || [];
+        
+        filteredData[currentTab] = items.filter(item =>
+            (item.name || '').toLowerCase().includes(query) ||
+            (item.bundle || item.bid || '').toLowerCase().includes(query)
+        );
+        
+        renderList();
+    }
+
+    function renderList() {
+        const items = filteredData[currentTab] || [];
+        const html = items.map((item, idx) => `
+            <div class="item" onclick="openModal(${idx})">
+                <img class="item-icon" src="${item.icon || 'https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic.png'}" alt="${item.name}" onerror="this.src='https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic.png'">
+                <div class="item-info">
+                    <div class="item-name">${item.name || 'Unknown'}</div>
+                    <div class="item-id">${item.bundle || item.bid || 'N/A'}</div>
+                    <div class="item-version">v${item.version || item.ver || '1.0'}</div>
+                </div>
+                <button class="item-action" onclick="event.stopPropagation(); downloadItem(${idx})">Nhận</button>
+            </div>
+        `).join('');
+        
+        document.getElementById('list').innerHTML = html || '<p style="text-align:center; color: var(--text-secondary);">Không tìm thấy kết quả</p>';
+    }
+
+    function openModal(idx) {
+        currentItem = filteredData[currentTab][idx];
+        if (!currentItem) return;
+
+        document.getElementById('modalIcon').src = currentItem.icon || 'https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic.png';
+        document.getElementById('modalIcon').onerror = function() { this.src = 'https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic.png'; };
+        document.getElementById('modalName').textContent = currentItem.name || 'Unknown';
+        document.getElementById('modalId').textContent = currentItem.bundle || currentItem.bid || 'N/A';
+        document.getElementById('modalVersion').textContent = 'v' + (currentItem.version || currentItem.ver || '1.0');
+        document.getElementById('infoVersion').textContent = currentItem.version || currentItem.ver || '1.0';
+        document.getElementById('infoAuthor').textContent = currentItem.author || 'Kyic Store';
+        document.getElementById('infoSize').textContent = formatSize(currentItem.size || 0);
+
+        // Description
+        if (currentItem.desc || currentItem.description) {
+            document.getElementById('descSection').style.display = 'block';
+            document.getElementById('modalDesc').textContent = currentItem.desc || currentItem.description;
+        } else {
+            document.getElementById('descSection').style.display = 'none';
+        }
+
+        // Screenshots
+        const screenshots = currentItem.screenshots || [];
+        if (screenshots.length > 0) {
+            document.getElementById('screenshotsSection').style.display = 'block';
+            document.getElementById('screenshots').innerHTML = screenshots.map(s => 
+                `<img class="screenshot" src="${s}" alt="Screenshot" onerror="this.style.display='none'">`
+            ).join('');
+        } else {
+            document.getElementById('screenshotsSection').style.display = 'none';
+        }
+
+        // Version History
+        const versions = currentItem.versions || [];
+        if (versions.length > 0) {
+            document.getElementById('historySection').style.display = 'block';
+            document.getElementById('versionHistory').innerHTML = versions.map(v => `
+                <div class="version-item">
+                    <div class="version-num">v${v.version || v.ver}</div>
+                    <div class="version-note">${v.localizedDescription || v.note || 'Cập nhật'}</div>
+                </div>
+            `).join('');
+        } else {
+            document.getElementById('historySection').style.display = 'none';
+        }
+
+        // Permissions
+        const perms = currentItem.appPermissions || currentItem.permissions || {};
+        const permKeys = Object.keys(perms);
+        if (permKeys.length > 0) {
+            document.getElementById('permSection').style.display = 'block';
+            document.getElementById('permissions').innerHTML = permKeys.map(k => 
+                `<div class="permission-item">${k}</div>`
+            ).join('');
+        } else {
+            document.getElementById('permSection').style.display = 'none';
+        }
+
+        document.getElementById('modal').classList.add('active');
+    }
+
+    function closeModal(e) {
+        if (e && e.target.id !== 'modal') return;
+        document.getElementById('modal').classList.remove('active');
+        currentItem = null;
+    }
+
+    function downloadItem(idx) {
+        if (!currentItem) currentItem = filteredData[currentTab][idx];
+        if (!currentItem) return;
+        
+        const url = currentItem.downloadURL || currentItem.dl;
+        if (url) {
+            window.location.href = url;
+        } else {
+            alert('Không tìm thấy link tải về');
+        }
+    }
+
+    function copyLink() {
+        if (!currentItem) return;
+        const url = currentItem.downloadURL || currentItem.dl;
+        if (url) {
+            navigator.clipboard.writeText(url).then(() => {
+                alert('✅ Đã sao chép link!');
+            }).catch(() => {
+                alert('❌ Sao chép thất bại');
+            });
+        }
+    }
+
+    function goHome() {
+        window.location.href = './index.html';
+    }
+
+    function toggleSettings() {
+        alert('⚙️ Cài đặt (sẽ cập nhật)');
+    }
+
+    // ────────────────────────────────────────────────
+    // LOAD DATA
+    // ────────────────────────────────────────────────
+    
+    async function loadData() {
+        try {
+            const res = await fetch('apps.json');
+            const data = await res.json();
+            
+            // Normalize data structure
+            if (data.apps) {
+                allData.apps = Array.isArray(data.apps) ? data.apps : Object.values(data.apps);
+            }
+            if (data.tweaks) {
+                allData.tweaks = Array.isArray(data.tweaks) ? data.tweaks : Object.values(data.tweaks);
+            }
+            if (data.dylibs) {
+                allData.dylibs = Array.isArray(data.dylibs) ? data.dylibs : Object.values(data.dylibs);
+            }
+            
+            filteredData = JSON.parse(JSON.stringify(allData));
+            renderList();
+        } catch (e) {
+            document.getElementById('list').innerHTML = '<p style="color: red;">❌ Lỗi tải dữ liệu: ' + e.message + '</p>';
+        }
+    }
+
+    // Initial load
+    loadData();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,140 @@
+name: Auto sync generate info
+
+on:
+  push:
+    branches:
+      - main # Hoặc master
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Generate Custom Tree and Changelog Table
+        run: |
+          mkdir -p docs
+          
+          # ==========================================
+          # 1. SCRIPT PYTHON: CÂY THƯ MỤC CHỈ GIỮ ICON CHO THƯ MỤC
+          # ==========================================
+          cat << 'EOF' > generate_tree.py
+          import os
+          import datetime
+
+          SUMMARY_EXTENSIONS = {
+              '.png': '🖼️ Ảnh PNG',
+              '.jpg': '📸 Ảnh JPG',
+              '.jpeg': '📸 Ảnh JPEG',
+              '.svg': '🎨 Đồ họa SVG',
+              '.deb': '📦 Gói tinh chỉnh .deb',
+              '.ipa': '📱 Ứng dụng iOS .ipa',
+              '.json': '⚙️ Cấu hình .json'
+          }
+
+          def generate_smart_tree(dir_path, prefix=""):
+              try:
+                  entries = sorted(os.listdir(dir_path))
+              except PermissionError:
+                  return ""
+              
+              if ".git" in entries:
+                  entries.remove(".git")
+                  
+              lines = []
+              files_to_summarize = {} 
+              items_to_show = []      
+
+              for entry in entries:
+                  full_path = os.path.join(dir_path, entry)
+                  if os.path.isdir(full_path):
+                      items_to_show.append((entry, True))
+                  else:
+                      _, ext = os.path.splitext(entry.lower())
+                      if ext in SUMMARY_EXTENSIONS:
+                          files_to_summarize[ext] = files_to_summarize.get(ext, 0) + 1
+                      else:
+                          items_to_show.append((entry, False))
+
+              summary_parts = []
+              for ext, count in sorted(files_to_summarize.items()):
+                  summary_parts.append(f"{SUMMARY_EXTENSIONS[ext]}: {count} file")
+              
+              count = len(items_to_show)
+              for i, (item, is_dir) in enumerate(items_to_show):
+                  is_last_item = (i == count - 1) and (not summary_parts)
+                  connector = "└── " if is_last_item else "├── "
+                  
+                  if is_dir:
+                      lines.append(f"{prefix}{connector}📂 {item}/")
+                      new_prefix = prefix + ("    " if is_last_item else "│   ")
+                      lines.append(generate_smart_tree(os.path.join(dir_path, item), new_prefix))
+                  else:
+                      lines.append(f"{prefix}{connector}{item}")
+                      
+              if summary_parts:
+                  connector = "└── "
+                  summary_str = f"[ 📊 Tóm tắt tài nguyên: {', '.join(summary_parts)} ]"
+                  lines.append(f"{prefix}{connector}{summary_str}")
+
+              return "\n".join([l for l in lines if l.strip()])
+
+          tree_content = generate_smart_tree(".")
+          with open("docs/info.md", "w", encoding="utf-8") as f:
+              ict_time = datetime.datetime.utcnow() + datetime.timedelta(hours=7)
+              time_str = ict_time.strftime("%d/%m/%Y %H:%M:%S")
+              
+              f.write("# 📂 CẤU TRÚC HỆ THỐNG\n")
+              f.write(f"⏱️ *Cập nhật tự động lúc: {time_str} (ICT)*\n\n")
+              f.write("```text\n🗺️ Root/\n")
+              f.write(tree_content)
+              f.write("\n```\n")
+          EOF
+
+          python generate_tree.py
+          rm generate_tree.py
+
+          # ==========================================
+          # 2. CẬP NHẬT CHANGELOG.MD (Ghi đè cấu trúc bảng chuẩn mới)
+          # ==========================================
+          COMMIT_MSG=$(git log -1 --pretty=format:"%s")
+          COMMIT_AUTHOR=$(git log -1 --pretty=format:"%an")
+          COMMIT_TIME=$(date --date='7 hours' +'%H:%M %d/%m/%Y')
+          
+          # ĐỊNH DẠNG MỚI CHUẨN AN TOÀN:
+          # Kiểm tra nếu file chưa có cấu trúc bảng (chứa ký tự '|'), ta reset lại file sạch sẽ
+          if [ ! -f docs/CHANGELOG.md ] || ! grep -q "|" docs/CHANGELOG.md; then
+            echo "# 📜 NHẬT KÝ THAY ĐỔI" > docs/CHANGELOG.md
+            echo "Lịch sử cập nhật và nâng cấp mã nguồn hệ thống." >> docs/CHANGELOG.md
+            echo -e "\n| 🕒 Thời gian | 📝 Nội dung cập nhật | 👤 Người thực hiện |" >> docs/CHANGELOG.md
+            echo "| :--- | :--- | :--- |" >> docs/CHANGELOG.md
+          fi
+          
+          NEW_ROW="| ⏰ $COMMIT_TIME | $COMMIT_MSG | $COMMIT_AUTHOR |"
+          
+          # SỬ DỤNG SED THÔNG MINH: Chèn ngay bên dưới dòng kẻ định dạng bảng '| :--- |'
+          sed -i '/| :--- | :--- | :--- |/a '"$NEW_ROW"'' docs/CHANGELOG.md
+
+      - name: Commit and Push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add docs/info.md docs/CHANGELOG.md
+          
+          if ! git diff --cached --quiet; then
+            git commit -m "docs: sửa lỗi vỡ định dạng bảng changelog [skip ci]"
+            git push
+          else
+            echo "Không có thay đổi."
+          fi
+
