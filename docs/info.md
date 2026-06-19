@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 06:06:59 (ICT)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 06:26:46 (ICT)*
 
 ```text
 🗺️ Root/
@@ -47,7 +47,6 @@
     │   │   └── .gitkeep
     │   └── 📂 Zebra/
     │       └── .gitkeep
-    ├── apps.html
     ├── 📂 debs/
     │   ├── 📂 Lead/
     │   │   ├── .gitkeep
