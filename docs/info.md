@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 19/06/2026 08:15:38 (ICT)*
+⏱️ *Cập nhật tự động lúc: 19/06/2026 08:26:40 (ICT)*
 
 ```text
 🗺️ Root/
@@ -269,7 +269,7 @@
     │       │   └── 📂 ytvideooverlay/
     │       │       └── [ 📊 Tóm tắt tài nguyên: ⚙️ Cấu hình .json: 3 file ]
     │       └── 📂 wiki/
-    │           └── [ 📊 Tóm tắt tài nguyên: ⚙️ Cấu hình .json: 3 file ]
+    │           └── [ 📊 Tóm tắt tài nguyên: ⚙️ Cấu hình .json: 4 file ]
     ├── 📂 dylibs/
     │   └── .gitkeep
     ├── dylibs.html

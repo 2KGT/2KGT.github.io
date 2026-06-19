@@ -3,6 +3,7 @@ Lịch sử cập nhật và nâng cấp mã nguồn hệ thống.
 
 | 🕒 Thời gian | 📝 Nội dung cập nhật | 👤 Người thực hiện |
 | :--- | :--- | :--- |
+| ⏰ 08:26 19/06/2026 | Update config.py | 2K |
 | ⏰ 08:15 19/06/2026 | Delete wikidylibs_web.json | 2K |
 | ⏰ 07:02 19/06/2026 | Delete repo/depictions/metadata/wiki directory | 2K |
 | ⏰ 07:00 19/06/2026 | Update views.py | 2K |
