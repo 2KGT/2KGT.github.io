@@ -1,0 +1,209 @@
+name: Auto sync generate info
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+# Tránh 2 lần chạy đè lên nhau (vd: push liên tiếp) gây lỗi push bị reject
+concurrency:
+  group: auto-sync-generate-info
+  cancel-in-progress: false
+
+permissions:
+  contents: write   # bắt buộc để job có thể git push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Generate Custom Tree and Changelog Table
+        id: generate_tree
+        run: |
+          set -e
+          mkdir -p docs
+
+          # ==========================================
+          # 1. SCRIPT PYTHON: CÂY THƯ MỤC
+          # ==========================================
+          cat << 'EOF' > generate_tree.py
+          import os
+          import datetime
+
+          SUMMARY_EXTENSIONS = {
+              '.png': '🖼️ Ảnh PNG',
+              '.jpg': '📸 Ảnh JPG',
+              '.jpeg': '📸 Ảnh JPEG',
+              '.svg': '🎨 Đồ họa SVG',
+              '.deb': '📦 Gói tinh chỉnh .deb',
+              '.ipa': '📱 Ứng dụng iOS .ipa',
+              '.json': '⚙️ Cấu hình .json'
+          }
+
+          # Loại các thư mục sinh ra bởi chính workflow này / không liên quan
+          EXCLUDE_DIRS = {'.git', '.github', 'docs', 'node_modules', '.venv', '__pycache__'}
+
+          def generate_smart_tree(dir_path, prefix=""):
+              try:
+                  entries = sorted(os.listdir(dir_path))
+              except PermissionError:
+                  return ""
+
+              entries = [e for e in entries if e not in EXCLUDE_DIRS]
+
+              lines = []
+              files_to_summarize = {}
+              items_to_show = []
+
+              for entry in entries:
+                  full_path = os.path.join(dir_path, entry)
+                  if os.path.isdir(full_path):
+                      items_to_show.append((entry, True))
+                  else:
+                      _, ext = os.path.splitext(entry.lower())
+                      if ext in SUMMARY_EXTENSIONS:
+                          files_to_summarize[ext] = files_to_summarize.get(ext, 0) + 1
+                      else:
+                          items_to_show.append((entry, False))
+
+              summary_parts = []
+              for ext, count in sorted(files_to_summarize.items()):
+                  summary_parts.append(f"{SUMMARY_EXTENSIONS[ext]}: {count} file")
+
+              count = len(items_to_show)
+              for i, (item, is_dir) in enumerate(items_to_show):
+                  is_last_item = (i == count - 1) and (not summary_parts)
+                  connector = "└── " if is_last_item else "├── "
+
+                  if is_dir:
+                      lines.append(f"{prefix}{connector}📂 {item}/")
+                      new_prefix = prefix + ("    " if is_last_item else "│   ")
+                      subtree = generate_smart_tree(os.path.join(dir_path, item), new_prefix)
+                      if subtree:
+                          lines.append(subtree)
+                  else:
+                      lines.append(f"{prefix}{connector}{item}")
+
+              if summary_parts:
+                  connector = "└── "
+                  summary_str = f"[ 📊 Tóm tắt tài nguyên: {', '.join(summary_parts)} ]"
+                  lines.append(f"{prefix}{connector}{summary_str}")
+
+              return "\n".join([l for l in lines if l.strip()])
+
+          tree_content = generate_smart_tree(".")
+          with open("docs/info.md", "w", encoding="utf-8") as f:
+              ict_time = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=7)
+              time_str = ict_time.strftime("%d/%m/%Y %H:%M:%S")
+
+              f.write("# 📂 CẤU TRÚC HỆ THỐNG\n")
+              f.write(f"⏱️ *Cập nhật tự động lúc: {time_str} (ICT)*\n\n")
+              f.write("```text\n🗺️ Root/\n")
+              f.write(tree_content)
+              f.write("\n```\n")
+          EOF
+
+          python generate_tree.py
+          rm generate_tree.py
+
+          # ==========================================
+          # 2. SCRIPT PYTHON: CHANGELOG CARDS
+          # ==========================================
+          cat << 'EOF' > generate_changelog.py
+          import subprocess, datetime
+
+          def run(cmd):
+              return subprocess.run(cmd, shell=True, capture_output=True, text=True).stdout.strip()
+
+          EMPTY_TREE = "4b825dc642cb6eb9a060e54bf8d69288fbee4904"
+
+          prev = run("git rev-parse HEAD~1 2>/dev/null")
+          if not prev:
+              prev = EMPTY_TREE  # commit đầu tiên của repo: so sánh với cây rỗng
+
+          curr = run("git rev-parse HEAD")
+          author = run("git log -1 --pretty=format:'%an'")
+          msg = run("git log -1 --pretty=format:'%s'").replace("|", "\\|")
+          diffs = run(f"git diff --name-status -M \"{prev}\" \"{curr}\" -- . ':!docs' ':!.github'")
+
+          lines = [l for l in diffs.splitlines() if l.strip()]
+          actions_count = {"A": 0, "M": 0, "D": 0}
+          for line in lines:
+              code = line.split("\t")[0][0]
+              if code in actions_count:
+                  actions_count[code] += 1
+
+          ACTIONS = {"A": "✨ Thêm mới", "M": "✏️ Sửa đổi", "D": "🗑️ Xoá"}
+          cards = []
+          for line in lines:
+              parts = line.split("\t")
+              action_code = parts[0][0]
+              fname = parts[1] if len(parts) < 3 else f"{parts[1]} → {parts[2]}"
+
+              cards.append(f"""
+          ### 🗓️ {datetime.datetime.now().strftime("%H:%M:%S | %d/%m/%Y")}
+          **📄 Target:** `{fname}`
+          **🛠 Action:** {ACTIONS.get(action_code, "❓ Khác")}
+          **👤 Author:** {author}
+          **💬 Message:** *{msg}* **📊 Status:** ✅ Ổn định
+          > **🔍 Detail:** Không có bất thường. Thay đổi đã được ghi nhận vào hệ thống.
+
+          ---
+          """)
+
+          with open("temp_log.md", "w", encoding="utf-8") as f:
+              f.write(f"### 📊 Tổng kết phiên làm việc\n- **Tổng thay đổi:** {len(lines)} files\n- **Chi tiết:** {actions_count['A']} Thêm | {actions_count['M']} Sửa | {actions_count['D']} Xoá\n\n")
+              f.write("\n".join(cards))
+          EOF
+
+          python generate_changelog.py
+          rm generate_changelog.py
+
+          # ==========================================
+          # 3. GHI VÀO docs/CHANGELOG.md
+          # ==========================================
+          if [ ! -f docs/CHANGELOG.md ]; then
+            {
+              echo "#🔰CHANGELOG SYSTEM🔰"
+              echo "![Status](https://img.shields.io/badge/System-Operational-success?style=for-the-badge)"
+              echo ""
+              echo "> *Hệ thống ghi nhận thay đổi tự động từ GitHub Actions.*"
+              echo ""
+            } > docs/CHANGELOG.md
+          fi
+
+          if [ -f temp_log.md ]; then
+            sed -i '5r temp_log.md' docs/CHANGELOG.md
+            rm temp_log.md
+          fi
+
+      - name: Commit and Push
+        if: steps.generate_tree.outcome == 'success'
+        run: |
+          set -e
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          [ -f docs/info.md ] && git add docs/info.md
+          [ -f docs/CHANGELOG.md ] && git add docs/CHANGELOG.md
+
+          if ! git diff --cached --quiet; then
+            git commit -m "docs: cập nhật hệ thống [skip ci]"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push
+          else
+            echo "Không có thay đổi để commit."
+          fi

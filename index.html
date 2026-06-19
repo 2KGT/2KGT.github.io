@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kyic Repository</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a1428, #1e3a8a);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .container {
+            text-align: center;
+            padding: 80px 20px 60px;
+            position: relative;
+            z-index: 2;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        img {
+            width: 128px;
+            height: 128px;
+            border-radius: 28px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+        }
+
+        h1 { 
+            font-size: 2.7em; 
+            margin-bottom: 12px; 
+            text-shadow: 0 4px 20px rgba(0,0,0,0.5); 
+        }
+        p { 
+            font-size: 1.2em; 
+            opacity: 0.92; 
+            margin-bottom: 45px; 
+        }
+
+        /* TABS SECTION */
+        .tabs-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+
+        .tabs-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0;
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 16px 12px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            position: relative;
+        }
+
+        .tab-btn:hover {
+            color: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .tab-btn.active {
+            color: white;
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            border-radius: 2px 2px 0 0;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+            animation: fadeIn 0.3s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tab-item {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .tab-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .tab-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .tab-item-info {
+            text-align: left;
+            flex: 1;
+        }
+
+        .tab-item-info h3 {
+            font-size: 1em;
+            margin-bottom: 3px;
+            font-weight: 600;
+        }
+
+        .tab-item-info p {
+            font-size: 0.85em;
+            opacity: 0.75;
+            margin: 0;
+        }
+
+        .tab-item-action {
+            font-size: 1.3em;
+            opacity: 0.7;
+        }
+
+        .info {
+            margin-top: 30px;
+            font-size: 0.9em;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        /* Hiệu ứng thời tiết */
+        .particle {
+            position: fixed;
+            font-size: 20px;
+            pointer-events: none;
+            z-index: 1;
+            animation: fall linear infinite;
+            user-select: none;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(120vh) rotate(360deg); }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 2em; }
+            p { font-size: 1em; }
+            .container { padding: 60px 16px 50px; }
+            
+            .tab-btn {
+                font-size: 0.8em;
+                padding: 14px 8px;
+            }
+            
+            .tab-item {
+                padding: 14px;
+            }
+            
+            .tab-item-info h3 {
+                font-size: 0.95em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <img src="https://2kgt.github.io/repo/depictions/icons/Kyic-hello.png" alt="Kyic Repository">
+
+        <h1>Kyic Repository</h1>
+        <p>Repo cung cấp tweak & IPA chất lượng cao cho iOS</p>
+
+        <!-- TABS SECTION — 3 tabs: IPA, DEB, DYLIB -->
+        <div class="tabs-container">
+            <div class="tabs-header">
+                <button class="tab-btn active" onclick="switchTab(event, 'ipa')">
+                    📱 IPA
+                </button>
+                <button class="tab-btn" onclick="switchTab(event, 'deb')">
+                    🔧 DEB
+                </button>
+                <button class="tab-btn" onclick="switchTab(event, 'dylib')">
+                    📚 DYLIB
+                </button>
+            </div>
+
+            <!-- IPA TAB (A-Z: Add → Open → View) -->
+            <div id="ipa" class="tab-content active">
+                <!-- 1. Add to Feather (Copy Link) -->
+                <div class="tab-item" onclick="copyText('https://2kgt.github.io/repo/apps.json')">
+                    <div class="tab-item-info">
+                        <h3>📋 Add to Feather</h3>
+                        <p>Sao chép source link</p>
+                    </div>
+                    <div class="tab-item-action">📋</div>
+                </div>
+                <!-- 2. Open to Feather (Deep Link) -->
+                <div class="tab-item" onclick="openApp('feather')">
+                    <div class="tab-item-info">
+                        <h3>🚀 Open to Feather</h3>
+                        <p>Mở trong ứng dụng Feather</p>
+                    </div>
+                    <div class="tab-item-action">📲</div>
+                </div>
+                <!-- 3. View All Apps (HTML) -->
+                <div class="tab-item" onclick="navigate('./repo/apps.html')">
+                    <div class="tab-item-info">
+                        <h3>📱 View All Apps</h3>
+                        <p>Danh sách đầy đủ các IPA</p>
+                    </div>
+                    <div class="tab-item-action">→</div>
+                </div>
+            </div>
+
+            <!-- DEB TAB (A-Z: Add → Open → View) -->
+            <div id="deb" class="tab-content">
+                <!-- 1. Add to Sileo (Copy Link) -->
+                <div class="tab-item" onclick="copyText('https://2kgt.github.io/repo/')">
+                    <div class="tab-item-info">
+                        <h3>📋 Add to Sileo</h3>
+                        <p>Sao chép source link</p>
+                    </div>
+                    <div class="tab-item-action">📋</div>
+                </div>
+                <!-- 2. Open to Sileo (Deep Link) -->
+                <div class="tab-item" onclick="openApp('sileo')">
+                    <div class="tab-item-info">
+                        <h3>🚀 Open to Sileo</h3>
+                        <p>Mở trong ứng dụng Sileo</p>
+                    </div>
+                    <div class="tab-item-action">📲</div>
+                </div>
+                <!-- 3. View All Tweaks (HTML) -->
+                <div class="tab-item" onclick="navigate('./repo/tweaks.html')">
+                    <div class="tab-item-info">
+                        <h3>🔧 View All Tweaks</h3>
+                        <p>Danh sách đầy đủ các DEB</p>
+                    </div>
+                    <div class="tab-item-action">→</div>
+                </div>
+            </div>
+
+            <!-- DYLIB TAB (A-Z: Add → Open → View) -->
+            <div id="dylib" class="tab-content">
+                <!-- 1. Add to Developer (Copy Link) -->
+                <div class="tab-item" onclick="copyText('https://2kgt.github.io/repo/dylibs.json')">
+                    <div class="tab-item-info">
+                        <h3>📋 Add to Developer</h3>
+                        <p>Sao chép source link</p>
+                    </div>
+                    <div class="tab-item-action">📋</div>
+                </div>
+                <!-- 2. Open to Developer (Deep Link) -->
+                <div class="tab-item" onclick="openApp('developer')">
+                    <div class="tab-item-info">
+                        <h3>🚀 Open to Developer</h3>
+                        <p>Mở trong ứng dụng Developer</p>
+                    </div>
+                    <div class="tab-item-action">📲</div>
+                </div>
+                <!-- 3. View All Dylibs (HTML) -->
+                <div class="tab-item" onclick="navigate('./repo/dylibs.html')">
+                    <div class="tab-item-info">
+                        <h3>📚 View All Dylibs</h3>
+                        <p>Danh sách đầy đủ các DYLIB</p>
+                    </div>
+                    <div class="tab-item-action">→</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info">
+            📍 Hanoi, Vietnam<br><br>
+            Nhấn nút để sao chép hoặc xem danh sách
+        </div>
+    </div>
+
+
+<p align="center">
+  <b>──⋆⋅☆⋅⋆જ⁀➴ₖ🦎ᵢ꜀︵✰⋆⋅☆⋅⋆──</b>
+</p>
+<p align="center">
+  Made with ❤️ by <b>Kyic</b>
+</p>
+
+
+
+    <script>
+        function createParticle() {
+            const emojis = ['🍂', '❄️', '🌿', '✨', '☀️', '🌸'];
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.top = '-30px';
+            particle.style.animationDuration = (Math.random() * 12 + 8) + 's';
+            particle.style.opacity = Math.random() * 0.7 + 0.4;
+            particle.style.fontSize = (Math.random() * 12 + 18) + 'px';
+            
+            document.body.appendChild(particle);
+            setTimeout(() => particle.remove(), 20000);
+        }
+
+        setInterval(createParticle, 280);
+        document.addEventListener('touchstart', () => {
+            for (let i = 0; i < 6; i++) {
+                setTimeout(createParticle, i * 80);
+            }
+        });
+
+        function switchTab(event, tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            document.getElementById(tabName).classList.add('active');
+            event.target.closest('.tab-btn').classList.add('active');
+        }
+
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert("✅ Đã copy thành công!");
+            }).catch(() => {
+                alert("❌ Copy không thành công.\n\n" + text);
+            });
+        }
+
+        function navigate(url) {
+            window.location.href = url;
+        }
+
+        function openApp(appType) {
+            const schemes = {
+                feather: 'feather://add-source?url=https://2kgt.github.io/repo/apps.json',
+                sileo: 'sileo://source/https://2kgt.github.io/repo/',
+                developer: 'developer://add-source?url=https://2kgt.github.io/repo/dylibs.json'
+            };
+            
+            if (schemes[appType]) {
+                window.location.href = schemes[appType];
+                setTimeout(() => {
+                    alert("Nếu ứng dụng không mở, vui lòng cài đặt ứng dụng trước.");
+                }, 1500);
+            }
+        }
+    </script>
+</body>
+</html>
