@@ -177,7 +177,7 @@ jobs:
           # ==========================================
           if [ ! -f docs/CHANGELOG.md ]; then
             {
-              echo "#🔰CHANGELOG SYSTEM🔰"
+              echo "#🔰CHANGELOG SYSTEM"
               echo "![Status](https://img.shields.io/badge/System-Operational-success?style=for-the-badge)"
               echo ""
               echo "> *Hệ thống ghi nhận thay đổi tự động từ GitHub Actions.*"
