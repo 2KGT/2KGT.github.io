@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 08:36:43 (ICT)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 09:30:31 (ICT)*
 
 ```text
 🗺️ Root/
@@ -243,8 +243,6 @@
     │   ├── .gitkeep
     │   └── 📂 Lead/
     │       └── .gitkeep
-    ├── dylibs.html
     ├── index.html
-    ├── tweaks.html
     └── [ 📊 Tóm tắt tài nguyên: ⚙️ Cấu hình .json: 3 file, 🖼️ Ảnh PNG: 1 file ]
 ```
