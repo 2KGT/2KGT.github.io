@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 16:54:44 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 16:54:53 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -331,7 +331,7 @@
     ├── 📂 depictions/
     │   ├── 📂 default/
     │   ├── 📂 icons/
-    │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 14 file, 🖼️ Ảnh PNG: 18 file ]
+    │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 14 file, 🖼️ Ảnh PNG: 14 file ]
     │   ├── 📂 images/
     │   │   ├── 📂 AutoAC/
     │   │   │   ├── .gitkeep
@@ -412,12 +412,10 @@
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 10 file ]
     │           ├── 📂 YoutubeX/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
-    │           ├── 📂 cc18/
-    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
     │           ├── 📂 fastlock/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 9 file ]
     │           ├── 📂 flow/
-    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │           ├── 📂 glow/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 18 file ]
     │           ├── 📂 infuseplus/
