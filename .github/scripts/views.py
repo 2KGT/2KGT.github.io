@@ -47,6 +47,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             padding-bottom: env(safe-area-inset-bottom, 0);
             padding-left: env(safe-area-inset-left, 0);
             padding-right: env(safe-area-inset-right, 0);
+            display: flex;
+            flex-direction: column;
         }}
 
         /* ─────────────────────────── LIGHT MODE ─────────────────────────── */
@@ -214,8 +216,12 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         /* ─────────────────────────── CONTAINER ─────────────────────────── */
         .container {{
             max-width: 500px;
+            width: 100%;
             margin: 0 auto;
             padding: 0 16px 16px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }}
 
         /* Khoảng đệm cố định để item đầu list không bị nav-shell (fixed) che */
@@ -283,7 +289,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }}
 
         /* ─────────────────────────── LIST ─────────────────────────── */
-        .list {{ display: flex; flex-direction: column; gap: 12px; min-height: 200px; }}
+        .list {{ display: flex; flex-direction: column; gap: 12px; min-height: 200px; flex-shrink: 0; }}
 
         .item {{
             background: rgba(255, 255, 255, 0.05);
@@ -350,6 +356,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             flex-wrap: wrap;
             margin-top: 20px;
             padding-top: 6px;
+            flex-shrink: 0;
         }}
 
         .page-btn {{
@@ -395,8 +402,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         /* ─────────────────────────── FOOTER ─────────────────────────── */
         .repo-footer {{
             text-align: center;
-            margin-top: 28px;
-            padding: 0 12px;
+            margin-top: auto;
+            padding: 28px 12px 0;
+            flex-shrink: 0;
         }}
 
         .repo-footer p {{
@@ -1830,17 +1838,20 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     }}
 
     // ════════════════════════════════════════════════════════════
-    // NAV SHELL: chỉ hiện khi người dùng chủ động cuộn về đầu trang.
-    // Mọi cuộn khác (lên/xuống/đứng yên giữa trang) đều giữ ẩn — tăng diện
-    // tích đọc, ẩn không vì lý do nào khác ngoài việc đã ở đầu trang.
+    // NAV SHELL: hiện ngay khi người dùng bắt đầu kéo xuống (xem lại phía
+    // trên) dù chỉ một chút, ở bất kỳ đâu trên trang — không cần kéo hết về
+    // đầu. Ẩn ngay khi kéo lên (xem tiếp nội dung dưới). Không có auto-show
+    // theo thời gian/đứng yên — nav chỉ phản hồi trực tiếp theo thao tác.
     // ════════════════════════════════════════════════════════════
     (function setupNavAutoHide() {{
         const navShell = document.getElementById('navShell');
         if (!navShell) return;
 
+        let lastScrollY = window.scrollY;
         let isHidden = false;
         let ticking = false;
         const TOP_THRESHOLD = 12;
+        const SHOW_DELTA = 4;
 
         function setNavHidden(hidden) {{
             if (isHidden === hidden) return;
@@ -1850,7 +1861,17 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
         function onScroll() {{
             const currentY = Math.max(0, window.scrollY);
-            setNavHidden(currentY > TOP_THRESHOLD);
+            const delta = currentY - lastScrollY;
+
+            if (currentY <= TOP_THRESHOLD) {{
+                setNavHidden(false);
+            }} else if (delta <= -SHOW_DELTA) {{
+                setNavHidden(false);
+            }} else if (delta > 0) {{
+                setNavHidden(true);
+            }}
+
+            lastScrollY = currentY;
             ticking = false;
         }}
 
