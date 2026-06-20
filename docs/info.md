@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 17:00:48 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 17:00:57 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -354,7 +354,7 @@
     │   │   ├── 📂 Telegram/
     │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 7 file ]
     │   │   ├── 📂 Turrit/
-    │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 6 file ]
+    │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 5 file ]
     │   │   ├── 📂 YouTube/
     │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 2 file ]
     │   │   └── 📂 ytplus/
@@ -405,7 +405,7 @@
     │       │           └── v1.1.28.txt
     │       └── 📂 tweaks/
     │           ├── 📂 Lead/
-    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 10 file ]
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 9 file ]
     │           ├── 📂 glow/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 18 file ]
     │           ├── 📂 infuseplus/
