@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 15:12:21 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 15:13:22 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -24,7 +24,8 @@
 │   │   ├── gemini.py
 │   │   ├── github.py
 │   │   ├── logs.py
-│   │   └── main.py
+│   │   ├── main.py
+│   │   └── views.py
 │   └── 📂 workflows/
 │       ├── Auto-sync-feather-sileo.yml
 │       ├── Auto-sync-generate-info.yml
