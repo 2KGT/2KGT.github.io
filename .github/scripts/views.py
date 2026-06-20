@@ -1,5 +1,22 @@
 # .github/scripts/views.py
 #!/usr/bin/env python3
+"""
+Views.py v4 — AppStore-style HTML generator (đồng bộ apps/tweaks/dylibs)
+
+FIXES V4 (theo feedback ảnh screenshot + yêu cầu chi tiết):
+1. ✅ PAGE_SIZE: 15 → 10 items/trang
+2. ✅ Header mới: 🏠 🌐 🌓 ⚙️ (hàng trên), KHÔNG auto-hide (luôn sticky)
+3. ✅ Dark/Light mode toggle 🌓 (localStorage, mặc định theo device)
+4. ✅ Language toggle 🌐 (VI/EN, mặc định VI)
+5. ✅ Sửa background iOS glassmorphism (xoá gradient xanh lỗi)
+6. ✅ Sửa lỗi Apps: đảm bảo liệt kê đầy đủ phiên bản
+7. ✅ Đổi sections:
+   - ✨ Phiên bản (chọn để tải) — accordion thu gọn
+   - 📝 Mô tả — accordion thu gọn
+   - 📋 Lịch sử phiên bản — accordion thu gọn, changelog chi tiết
+   - 🔐 Quyền hạn — accordion thu gọn
+8. ✅ Thêm "Thể loại" vào ℹ️ Thông tin (Apps-ios-ipa, Tweaks-arm64-deb, v.v.)
+"""
 import os
 import json
 import time
@@ -69,17 +86,19 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             max-width: 500px;
             width: calc(100% - 20px);
             padding: 0;
-            backdrop-filter: blur(26px) saturate(180%);
-            -webkit-backdrop-filter: blur(26px) saturate(180%);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
             background: rgba(28, 28, 46, 0.55);
             border: 1px solid rgba(255, 255, 255, 0.18);
             border-radius: 26px;
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.08);
             transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease;
+            will-change: transform;
+            transform: translateZ(0);
         }}
 
         .nav-shell.nav-hidden {{
-            transform: translateY(-130%);
+            transform: translateY(-130%) translateZ(0);
             opacity: 0;
         }}
 
@@ -210,11 +229,12 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         .nav-spacer {{
             height: 186px;
             flex-shrink: 0;
-            transition: height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }}
 
-        /* Khi nav-shell ẩn đi lúc cuộn xuống, thu nhỏ khoảng đệm lại để không lộ
-           mảng trống lớn phía trên list — chỉ chừa khoảng cách an toàn nhỏ. */
+        /* Khi nav-shell ẩn đi lúc cuộn xuống, thu khoảng đệm lại ngay lập tức
+           (không transition) để tránh cộng dồn việc tính layout vào main thread
+           trong lúc đang cuộn — đây là nguyên nhân chính gây giật/lag khi scroll.
+           Nav-shell tự nó đã có animation mượt nên spacer không cần animate theo. */
         .nav-spacer.collapsed {{
             height: 18px;
         }}
@@ -762,27 +782,29 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
         .settings-panel {{
             position: fixed;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            width: 78%;
-            max-width: 320px;
-            background: rgba(28, 28, 46, 0.78);
+            top: max(16px, env(safe-area-inset-top, 16px));
+            right: 12px;
+            max-height: calc(100vh - 32px);
+            width: 72%;
+            max-width: 280px;
+            background: rgba(28, 28, 46, 0.82);
             backdrop-filter: blur(30px) saturate(180%);
             -webkit-backdrop-filter: blur(30px) saturate(180%);
-            border-left: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: -8px 0 40px rgba(0, 0, 0, 0.35);
-            transform: translateX(100%);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 28px;
+            box-shadow: 0 14px 50px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            transform: translateX(calc(100% + 24px));
             transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 301;
             display: flex;
             flex-direction: column;
-            padding: env(safe-area-inset-top, 20px) 0 20px;
+            padding: 6px 0 10px;
+            overflow: hidden;
         }}
 
         html[data-theme="light"] .settings-panel {{
-            background: rgba(255, 255, 255, 0.82);
-            border-left: 1px solid rgba(0, 0, 0, 0.06);
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid rgba(0, 0, 0, 0.07);
         }}
 
         .settings-panel.active {{
@@ -793,12 +815,12 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 18px 18px 14px;
+            padding: 14px 16px 12px;
             border-bottom: 1px solid var(--border);
         }}
 
         .settings-header h3 {{
-            font-size: 1.05em;
+            font-size: 0.98em;
             font-weight: 700;
         }}
 
@@ -806,10 +828,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid var(--border);
             color: var(--text);
-            width: 32px; height: 32px;
-            border-radius: 10px;
+            width: 28px; height: 28px;
+            border-radius: 9px;
             cursor: pointer;
-            font-size: 1em;
+            font-size: 0.9em;
         }}
 
         html[data-theme="light"] .settings-close {{
@@ -819,19 +841,19 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         .settings-list {{
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            padding: 16px 14px;
+            gap: 8px;
+            padding: 12px 10px;
             overflow-y: auto;
         }}
 
         .settings-item {{
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
             background: rgba(255, 255, 255, 0.06);
             border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 14px 16px;
+            border-radius: 15px;
+            padding: 11px 13px;
             cursor: pointer;
             transition: all 0.2s;
             text-decoration: none;
@@ -852,8 +874,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }}
 
         .settings-item-icon {{
-            font-size: 1.3em;
-            width: 28px;
+            font-size: 1.15em;
+            width: 24px;
             text-align: center;
             flex-shrink: 0;
         }}
@@ -861,18 +883,22 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         .settings-item-text {{
             display: flex;
             flex-direction: column;
-            gap: 2px;
+            gap: 1px;
             flex: 1;
+            min-width: 0;
         }}
 
         .settings-item-title {{
             font-weight: 600;
-            font-size: 0.95em;
+            font-size: 0.88em;
         }}
 
         .settings-item-sub {{
-            font-size: 0.78em;
+            font-size: 0.72em;
             color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }}
 
         @media (max-width: 480px) {{
@@ -1762,26 +1788,41 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         const navShell = document.getElementById('navShell');
         const navSpacer = document.querySelector('.nav-spacer');
         if (!navShell) return;
+
         let lastScrollY = window.scrollY;
+        let accumulatedDelta = 0;
+        let isHidden = false;
         let ticking = false;
+        const THRESHOLD = 24; // px tích luỹ cần vượt qua mới đổi trạng thái — tránh dao động mỗi frame
 
         function setNavHidden(hidden) {{
+            if (isHidden === hidden) return; // không đổi gì thì không đụng tới DOM/class
+            isHidden = hidden;
             navShell.classList.toggle('nav-hidden', hidden);
-            // Đồng bộ khoảng đệm đầu list với trạng thái nav, tránh để lại
-            // mảng trống lớn phía trên item đầu tiên khi nav đã ẩn đi.
             if (navSpacer) navSpacer.classList.toggle('collapsed', hidden);
         }}
 
         function onScroll() {{
-            const currentY = window.scrollY;
+            const currentY = Math.max(0, window.scrollY);
             const delta = currentY - lastScrollY;
 
             if (currentY <= 12) {{
                 setNavHidden(false);
-            }} else if (delta > 6) {{
-                setNavHidden(true);
-            }} else if (delta < -6) {{
-                setNavHidden(false);
+                accumulatedDelta = 0;
+            }} else {{
+                // Tích luỹ độ dịch chuyển theo cùng hướng; đổi hướng thì reset lại
+                if ((delta > 0 && accumulatedDelta < 0) || (delta < 0 && accumulatedDelta > 0)) {{
+                    accumulatedDelta = 0;
+                }}
+                accumulatedDelta += delta;
+
+                if (accumulatedDelta > THRESHOLD) {{
+                    setNavHidden(true);
+                    accumulatedDelta = 0;
+                }} else if (accumulatedDelta < -THRESHOLD) {{
+                    setNavHidden(false);
+                    accumulatedDelta = 0;
+                }}
             }}
 
             lastScrollY = currentY;
