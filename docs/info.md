@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 18:24:18 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 18:24:29 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -256,8 +256,7 @@
     │       ├── 📂 AutoAC/
     │       │   └── .gitkeep
     │       ├── 📂 AutoAC 2/
-    │       │   ├── .gitkeep
-    │       │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 1 file ]
+    │       │   └── .gitkeep
     │       ├── 📂 DLiPA/
     │       │   ├── .gitkeep
     │       │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 5 file ]
@@ -343,7 +342,7 @@
     │   ├── 📂 icons/
     │   ├── 📂 images/
     │   │   ├── 📂 AutoAC/
-    │   │   │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 2 file ]
+    │   │   │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 3 file ]
     │   │   ├── 📂 DLiPA/
     │   │   │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 2 file ]
     │   │   ├── 📂 Feather/
