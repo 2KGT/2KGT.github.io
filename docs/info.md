@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 18:24:07 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 18:24:18 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -255,13 +255,17 @@
     │   └── 📂 images/
     │       ├── 📂 AutoAC/
     │       │   └── .gitkeep
+    │       ├── 📂 AutoAC 2/
+    │       │   ├── .gitkeep
+    │       │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 1 file ]
     │       ├── 📂 DLiPA/
     │       │   ├── .gitkeep
     │       │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 5 file ]
     │       ├── 📂 Facebook/
     │       │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 11 file ]
     │       ├── 📂 Feather/
-    │       │   └── .gitkeep
+    │       │   ├── .gitkeep
+    │       │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 3 file ]
     │       ├── 📂 Instagram/
     │       │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 7 file ]
     │       ├── 📂 Lead/
@@ -339,12 +343,11 @@
     │   ├── 📂 icons/
     │   ├── 📂 images/
     │   │   ├── 📂 AutoAC/
-    │   │   │   ├── .gitkeep
-    │   │   │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 3 file ]
+    │   │   │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 2 file ]
     │   │   ├── 📂 DLiPA/
     │   │   │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 2 file ]
     │   │   ├── 📂 Feather/
-    │   │   │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 4 file ]
+    │   │   │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 2 file ]
     │   │   ├── 📂 Lead/
     │   │   │   ├── .gitkeep
     │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 1 file ]
