@@ -34,8 +34,8 @@ MAX_VISIBLE_ROWS = 12  # số file hiện trực tiếp trước khi gói vào <
 CAUSE_RULES = [
     (("repo/apps/",), "Cập nhật danh sách ứng dụng"),
     (("repo/debs/", ".deb"), "Cập nhật gói .deb"),
-    (("repo/depictions/icons/", ".png", ".jpg", ".jpeg", ".svg"), "Cập nhật hình ảnh / icon"),
-    (("repo/depictions/",), "Cập nhật mô tả ứng dụng (depiction)"),
+    (("repo/data/icons/", ".png", ".jpg", ".jpeg", ".svg"), "Cập nhật hình ảnh / icon"),
+    (("repo/data/",), "Cập nhật mô tả ứng dụng (depiction)"),
     ((".py",), "Cập nhật logic script tự động hoá"),
     ((".html",), "Sinh lại trang web (views)"),
     ((".json",), "Cập nhật cấu hình"),
