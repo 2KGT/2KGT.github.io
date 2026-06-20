@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 16:54:57 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 16:55:14 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -331,7 +331,7 @@
     ├── 📂 depictions/
     │   ├── 📂 default/
     │   ├── 📂 icons/
-    │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 14 file, 🖼️ Ảnh PNG: 14 file ]
+    │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 14 file, 🖼️ Ảnh PNG: 11 file ]
     │   ├── 📂 images/
     │   │   ├── 📂 AutoAC/
     │   │   │   ├── .gitkeep
@@ -412,12 +412,8 @@
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 10 file ]
     │           ├── 📂 YoutubeX/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
-    │           ├── 📂 cc18/
-    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 2 file ]
     │           ├── 📂 fastlock/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 9 file ]
-    │           ├── 📂 flow/
-    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │           ├── 📂 glow/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 18 file ]
     │           ├── 📂 infuseplus/
@@ -432,16 +428,12 @@
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 12 file ]
     │           ├── 📂 twlegacy/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
-    │           ├── 📂 yougroupsettings/
-    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │           ├── 📂 youmod/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │           ├── 📂 youmute/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │           ├── 📂 youpip/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 2 file ]
-    │           ├── 📂 youspeed/
-    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
     │           ├── 📂 ytmu/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 9 file ]
     │           ├── 📂 ytplus/
