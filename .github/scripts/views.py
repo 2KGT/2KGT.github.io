@@ -752,7 +752,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     <div class="nav-inner">
         <!-- HEADER TOP ROW -->
         <div class="header-row">
-            <div style="width: 36px;"></div>
             <div class="header-actions">
                 <button class="icon-btn" onclick="location.href='./index.html'" title="Trang chủ">🏠</button>
                 <button class="icon-btn" onclick="toggleLanguage()" title="Ngôn ngữ (VI/EN)">🌐</button>
@@ -990,6 +989,15 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         event.stopPropagation();
         const dropdown = document.getElementById('settingsDropdown');
         dropdown.classList.toggle('active');
+        
+        // Position dropdown below nav shell
+        if (dropdown.classList.contains('active')) {{
+            const navShell = document.getElementById('navShell');
+            if (navShell) {{
+                const navHeight = navShell.offsetHeight;
+                dropdown.style.top = (navHeight + 8) + 'px';
+            }}
+        }}
     }}
 
     document.addEventListener('click', (e) => {{
