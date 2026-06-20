@@ -45,6 +45,14 @@
             {
               "accessibilityText": "Screenshot4",
               "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/ytplus/ytplus_6.jpg"
+            },
+            {
+              "accessibilityText": "Screenshot5",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/ytplus/ytplus_7.jpg"
+            },
+            {
+              "accessibilityText": "Screenshot6",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/ytplus/ytplus_9.jpg"
             }
           ],
           "itemSize": "{160, 275.41333333333336}",
