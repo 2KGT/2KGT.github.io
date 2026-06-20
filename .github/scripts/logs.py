@@ -248,7 +248,6 @@ SUMMARY_EXTENSIONS = {
     '.deb': '📦 Package .deb',
     '.ipa': '📱 Apps iOS .ipa',
     '.json': '⚙️ Config .json'
-    '.txt': '📝 Notes .txt'
 }
 
 EXCLUDE_DIRS = {'.git', 'docs', 'node_modules', '.venv', '__pycache__'}
