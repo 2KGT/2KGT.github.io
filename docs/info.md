@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 17:01:09 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 17:01:11 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -344,7 +344,7 @@
     │   │   │   ├── .gitkeep
     │   │   │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 4 file ]
     │   │   ├── 📂 Instagram/
-    │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 4 file ]
+    │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 3 file ]
     │   │   ├── 📂 Lead/
     │   │   │   ├── .gitkeep
     │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 1 file ]
