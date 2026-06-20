@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 18:20:34 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 18:23:19 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -255,12 +255,15 @@
     │   └── 📂 images/
     │       ├── 📂 AutoAC/
     │       │   └── .gitkeep
+    │       ├── 📂 DLiPA/
+    │       │   └── .gitkeep
     │       ├── 📂 Facebook/
     │       │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 11 file ]
     │       ├── 📂 Instagram/
     │       │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 7 file ]
     │       ├── 📂 Lead/
-    │       │   └── .gitkeep
+    │       │   ├── .gitkeep
+    │       │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 1 file ]
     │       ├── 📂 Stay/
     │       │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 5 file ]
     │       ├── 📂 Telegram/
@@ -336,7 +339,6 @@
     │   │   │   ├── .gitkeep
     │   │   │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 3 file ]
     │   │   ├── 📂 DLiPA/
-    │   │   │   ├── .gitkeep
     │   │   │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 5 file ]
     │   │   ├── 📂 Feather/
     │   │   │   ├── .gitkeep
