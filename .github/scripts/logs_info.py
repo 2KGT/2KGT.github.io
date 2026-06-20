@@ -93,11 +93,19 @@ def update_changelog():
     with open(log_path, 'w', encoding='utf-8') as f: f.write(final_content)
 
 if __name__ == "__main__":
-    # 1. Info
-    tree = generate_smart_tree(".")
-    time_str = (datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=7)).strftime("%d/%m/%Y %H:%M:%S")
-    with open("docs/info.md", "w", encoding="utf-8") as f:
-        f.write(f"# 📂 CẤU TRÚC HỆ THỐNG\n⏱️ *Cập nhật: {time_str} (ICT)*\n\n```text\n🗺️ Root/\n{tree}\n```\n")
+    # Đảm bảo thư mục docs luôn tồn tại trước khi ghi file
+    os.makedirs("docs", exist_ok=True)
     
-    # 2. Changelog
+    # 1. Tạo info.md
+    tree = generate_smart_tree(".") # Gọi hàm tạo cây của bạn
+    time_str = (datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=7)).strftime("%d/%m/%Y %H:%M:%S")
+    
+    with open("docs/info.md", "w", encoding="utf-8") as f:
+        f.write("# 📂 CẤU TRÚC HỆ THỐNG\n")
+        f.write(f"⏱️ *Cập nhật tự động lúc: {time_str} (ICT)*\n\n")
+        f.write("```text\n🗺️ Root/\n")
+        f.write(tree)
+        f.write("\n```\n")
+    
+    # 2. Tạo/Cập nhật changelog
     update_changelog()
