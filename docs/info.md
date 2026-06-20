@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 16:54:07 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 16:54:08 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -408,61 +408,59 @@
     │       │       │   └── v21.24.3.txt
     │       │       └── 📂 Zebra/
     │       │           └── v1.1.28.txt
-    │       ├── 📂 tweaks/
-    │       │   ├── 📂 Lead/
-    │       │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 10 file ]
-    │       │   ├── 📂 TGExtra/
-    │       │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
-    │       │   ├── 📂 YoutubeX/
-    │       │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
-    │       │   ├── 📂 cc18/
-    │       │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
-    │       │   ├── 📂 ccappicon/
-    │       │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
-    │       │   ├── 📂 fastlock/
-    │       │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 9 file ]
-    │       │   ├── 📂 flow/
-    │       │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
-    │       │   ├── 📂 glow/
-    │       │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 18 file ]
-    │       │   ├── 📂 infuseplus/
-    │       │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 18 file ]
-    │       │   ├── 📂 noytpremium/
-    │       │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
-    │       │   ├── 📂 oledkeyboard/
-    │       │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
-    │       │   ├── 📂 orwellvk/
-    │       │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 6 file ]
-    │       │   ├── 📂 tweach/
-    │       │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 12 file ]
-    │       │   ├── 📂 twlegacy/
-    │       │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
-    │       │   ├── 📂 yougroupsettings/
-    │       │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
-    │       │   ├── 📂 youmod/
-    │       │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
-    │       │   ├── 📂 youmute/
-    │       │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
-    │       │   ├── 📂 youpip/
-    │       │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 2 file ]
-    │       │   ├── 📂 youspeed/
-    │       │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
-    │       │   ├── 📂 youtubefix/
-    │       │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
-    │       │   ├── 📂 yt-native-share/
-    │       │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
-    │       │   ├── 📂 ytmu/
-    │       │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 9 file ]
-    │       │   ├── 📂 ytplus/
-    │       │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 18 file ]
-    │       │   ├── 📂 ytuhd/
-    │       │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 2 file ]
-    │       │   ├── 📂 ytunshorts/
-    │       │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
-    │       │   └── 📂 ytvideooverlay/
-    │       │       └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
-    │       └── 📂 wiki/
-    │           └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
+    │       └── 📂 tweaks/
+    │           ├── 📂 Lead/
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 10 file ]
+    │           ├── 📂 TGExtra/
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
+    │           ├── 📂 YoutubeX/
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
+    │           ├── 📂 cc18/
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
+    │           ├── 📂 ccappicon/
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
+    │           ├── 📂 fastlock/
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 9 file ]
+    │           ├── 📂 flow/
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
+    │           ├── 📂 glow/
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 18 file ]
+    │           ├── 📂 infuseplus/
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 18 file ]
+    │           ├── 📂 noytpremium/
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
+    │           ├── 📂 oledkeyboard/
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
+    │           ├── 📂 orwellvk/
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 6 file ]
+    │           ├── 📂 tweach/
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 12 file ]
+    │           ├── 📂 twlegacy/
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
+    │           ├── 📂 yougroupsettings/
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
+    │           ├── 📂 youmod/
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
+    │           ├── 📂 youmute/
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
+    │           ├── 📂 youpip/
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 2 file ]
+    │           ├── 📂 youspeed/
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
+    │           ├── 📂 youtubefix/
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
+    │           ├── 📂 yt-native-share/
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
+    │           ├── 📂 ytmu/
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 9 file ]
+    │           ├── 📂 ytplus/
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 18 file ]
+    │           ├── 📂 ytuhd/
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 2 file ]
+    │           ├── 📂 ytunshorts/
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
+    │           └── 📂 ytvideooverlay/
+    │               └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
     ├── 📂 dylibs/
     │   ├── .gitkeep
     │   └── 📂 Lead/
