@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 17:00:29 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 17:00:36 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -348,17 +348,15 @@
     │   │   ├── 📂 Lead/
     │   │   │   ├── .gitkeep
     │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 1 file ]
-    │   │   ├── 📂 Stay/
-    │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 2 file ]
     │   │   ├── 📂 TGEXtra/
     │   │   │   ├── .gitkeep
     │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 1 file ]
     │   │   ├── 📂 Telegram/
-    │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 9 file ]
+    │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 8 file ]
     │   │   ├── 📂 Turrit/
-    │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 11 file ]
+    │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 8 file ]
     │   │   ├── 📂 YouTube/
-    │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 3 file ]
+    │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 2 file ]
     │   │   └── 📂 ytplus/
     │   │       └── [ 📊 Số lượng: 📸 Ảnh JPG: 3 file ]
     │   └── 📂 metadata/
@@ -413,7 +411,7 @@
     │           ├── 📂 infuseplus/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 18 file ]
     │           ├── 📂 tweach/
-    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 12 file ]
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 11 file ]
     │           ├── 📂 youmod/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │           ├── 📂 ytmu/
