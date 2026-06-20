@@ -51,7 +51,7 @@ TINT_COLOR = "848ef9"
 
 ICON_DIR_NAME = "repo/data/icons"
 IMG_DIR_NAME = "repo/data/images"
-DEPICTION_DIR_NAME = "repo/data/metadata"
+DEPICTION_DIR_NAME = "repo/data"
 DEFAULT_DIR_NAME = "repo/data/default"
 
 ICON_DIR = os.path.join(REPO_ROOT, ICON_DIR_NAME)
@@ -67,7 +67,7 @@ REPO_OUTPUT_DIR = os.path.join(REPO_ROOT, "repo")
 
 # --- Vùng lưu trữ "trí nhớ đầu vào" (Wiki Data) ---
 # Cấu trúc: Gom wiki file database wiki/
-# main(root)/repo/data/metadata/wiki/
+# main(root)/repo/data/wiki/
 WIKI_DIR = os.path.join(DEPICTION_DIR, "wiki")
 FEATHER_DATABASE = os.path.join(WIKI_DIR, "wikiapps.json")
 SILEO_DATABASE = os.path.join(WIKI_DIR, "wikidebs.json")
@@ -79,9 +79,9 @@ APPS_JSON_PATH = os.path.join(REPO_ROOT, "repo/apps.json")
 SILEO_JSON_PATH = os.path.join(REPO_ROOT, "repo/sileo.json")
 DYLIBS_JSON_PATH = os.path.join(REPO_ROOT, "repo/dylibs.json")
 
-# FIX: Chuyển desc vào gom cùng cụm data/metadata/ cho nhất quán
-# Cấu trúc: main(root)/repo/data/metadata/desc/apps/<AppName>/v1.0.txt
-# Cấu trúc: main(root)/repo/data/metadata/desc/tweaks/<TweakName>/v1.0.txt
+# FIX: Chuyển desc vào gom cùng cụm data/ cho nhất quán
+# Cấu trúc: main(root)/repo/data/desc/apps/<AppName>/v1.0.txt
+# Cấu trúc: main(root)/repo/data/desc/tweaks/<TweakName>/v1.0.txt
 DESC_DIR = os.path.join(DEPICTION_DIR, "desc", "apps")
 TWEAK_DESC_DIR = os.path.join(DEPICTION_DIR, "desc", "tweaks")
 
@@ -151,12 +151,12 @@ def get_depiction_path_by_filename(section, tweak_name, safe_filename):
     safe_filename (tweak_ver_arch) làm tên file JSON — KHÔNG dùng chung
     1 file cho mọi version/arch để tránh xung đột đè dữ liệu.
 
-    Cấu trúc: repo/data/metadata/<section>/<tweak_name>/<tweak_ver_arch>.json
+    Cấu trúc: repo/data/<section>/<tweak_name>/<tweak_ver_arch>.json
     Ví dụ:
-      repo/data/metadata/tweaks/glow/glow_1.3.1_iphoneos-arm.json
-      repo/data/metadata/tweaks/glow/glow_1.3.1_iphoneos-arm64.json
-      repo/data/metadata/tweaks/glow/glow_1.3.1_iphoneos-arm64e.json
-      repo/data/metadata/tweaks/glow/glow_1.3.0_iphoneos-arm.json  (version cũ vẫn giữ riêng)
+      repo/data/tweaks/glow/glow_1.3.1_iphoneos-arm.json
+      repo/data/tweaks/glow/glow_1.3.1_iphoneos-arm64.json
+      repo/data/tweaks/glow/glow_1.3.1_iphoneos-arm64e.json
+      repo/data/tweaks/glow/glow_1.3.0_iphoneos-arm.json  (version cũ vẫn giữ riêng)
 
     ⭐ Lý do tách theo version+arch (không gộp theo bundle_id):
     - Mỗi .deb (arm/arm64/arm64e) build JSON độc lập, không ghi đè lẫn nhau
@@ -215,8 +215,8 @@ def get_optimized_tweak_description(tweak_name, version):
     2. File default.txt (mô tả mặc định)
     3. Chuỗi mặc định từ control data
     
-    Cấu trúc: repo/data/metadata/desc/tweaks/<TweakName>/v<version>.txt
-    Ví dụ: repo/data/metadata/desc/tweaks/cc18/v0.0.3.txt
+    Cấu trúc: repo/data/desc/tweaks/<TweakName>/v<version>.txt
+    Ví dụ: repo/data/desc/tweaks/cc18/v0.0.3.txt
     """
     tweak_desc_dir = os.path.join(TWEAK_DESC_DIR, tweak_name)
     os.makedirs(tweak_desc_dir, exist_ok=True)
@@ -251,7 +251,7 @@ def get_tweak_changelog_history(tweak_name, current_version, limit=10):
     depiction JSON — người dùng vẫn thấy đầy đủ "có gì mới" qua từng version.
 
     Đọc tất cả file v<version>.txt đã từng được tạo trong:
-    repo/data/metadata/desc/tweaks/<TweakName>/
+    repo/data/desc/tweaks/<TweakName>/
     Sort giảm dần theo version số (mới nhất trước), giới hạn `limit` bản
     gần nhất để tránh markdown quá dài.
 
