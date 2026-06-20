@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 15:17:43 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 15:18:17 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -77,7 +77,7 @@
     │   ├── 📂 default/
     │   │   └── [ 📊 Số lượng: 📸 Ảnh JPEG: 1 file ]
     │   ├── 📂 icons/
-    │   │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 1 file ]
+    │   │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 2 file ]
     │   ├── 📂 images/
     │   │   ├── 📂 AutoAC/
     │   │   │   └── .gitkeep
@@ -85,7 +85,9 @@
     │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 1 file ]
     │   │   ├── 📂 Lead/
     │   │   │   └── .gitkeep
-    │   │   └── 📂 YouTube/
+    │   │   ├── 📂 YouTube/
+    │   │   │   └── .gitkeep
+    │   │   └── 📂 ytplus/
     │   │       └── .gitkeep
     │   └── 📂 metadata/
     │       ├── 📂 desc/
@@ -93,7 +95,13 @@
     │       │       └── 📂 UnKeySign/
     │       │           └── v1.1.8.txt
     │       └── 📂 tweaks/
+    │           ├── 📂 Lead/
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
+    │           ├── 📂 ccappicon/
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │           ├── 📂 fastlock/
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
+    │           ├── 📂 infuseplus/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │           └── 📂 orwellvk/
     │               └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
