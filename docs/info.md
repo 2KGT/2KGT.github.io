@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 17:07:54 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 17:07:55 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -352,9 +352,6 @@
     │   └── 📂 metadata/
     │       └── 📂 desc/
     │           └── 📂 apps/
-    │               ├── 📂 LCSign/
-    │               │   ├── v1.1.6.txt
-    │               │   └── v1.1.txt
     │               ├── 📂 SPAMSMS/
     │               │   └── v1.0.0.txt
     │               └── 📂 UnKeySign/
