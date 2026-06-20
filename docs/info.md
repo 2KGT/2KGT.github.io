@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 16:56:49 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 16:56:51 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -331,7 +331,7 @@
     ├── 📂 depictions/
     │   ├── 📂 default/
     │   ├── 📂 icons/
-    │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 6 file, 🖼️ Ảnh PNG: 1 file ]
+    │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 8 file, 🖼️ Ảnh PNG: 1 file ]
     │   ├── 📂 images/
     │   │   ├── 📂 AutoAC/
     │   │   │   ├── .gitkeep
@@ -419,7 +419,7 @@
     │           ├── 📂 youmod/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │           ├── 📂 ytmu/
-    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 2 file ]
     │           ├── 📂 ytplus/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 17 file ]
     │           └── 📂 ytuhd/
