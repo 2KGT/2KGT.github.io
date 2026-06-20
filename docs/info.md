@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 18:25:14 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 18:25:38 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -257,7 +257,7 @@
     │       │   └── .gitkeep
     │       ├── 📂 AutoAC 2/
     │       │   ├── .gitkeep
-    │       │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 2 file ]
+    │       │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 3 file ]
     │       ├── 📂 DLiPA/
     │       │   ├── .gitkeep
     │       │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 5 file ]
@@ -274,7 +274,8 @@
     │       ├── 📂 Stay/
     │       │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 5 file ]
     │       ├── 📂 TGEXtra/
-    │       │   └── .gitkeep
+    │       │   ├── .gitkeep
+    │       │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 1 file ]
     │       ├── 📂 Telegram/
     │       │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 8 file ]
     │       ├── 📂 Turrit/
@@ -344,16 +345,12 @@
     │   ├── 📂 default/
     │   ├── 📂 icons/
     │   ├── 📂 images/
-    │   │   ├── 📂 AutoAC/
-    │   │   │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 1 file ]
     │   │   ├── 📂 DLiPA/
     │   │   │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 2 file ]
     │   │   ├── 📂 Feather/
     │   │   │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 1 file ]
-    │   │   ├── 📂 Lead/
-    │   │   │   ├── .gitkeep
-    │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 1 file ]
-    │   │   └── 📂 TGEXtra/
+    │   │   └── 📂 Lead/
+    │   │       ├── .gitkeep
     │   │       └── [ 📊 Số lượng: 📸 Ảnh JPG: 1 file ]
     │   └── 📂 metadata/
     ├── 📂 dylibs/
