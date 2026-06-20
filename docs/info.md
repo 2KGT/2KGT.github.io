@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 16:57:05 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 16:57:12 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -331,6 +331,7 @@
     ├── 📂 depictions/
     │   ├── 📂 default/
     │   ├── 📂 icons/
+    │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 5 file, 🖼️ Ảnh PNG: 1 file ]
     │   ├── 📂 images/
     │   │   ├── 📂 AutoAC/
     │   │   │   ├── .gitkeep
