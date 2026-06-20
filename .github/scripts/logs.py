@@ -1,27 +1,21 @@
-"""
-Script tổng hợp cho workflow "Auto sync feather sileo".
-
-Thứ tự chạy (quan trọng):
-  1) generate_changelog()  -> ghi docs/CHANGELOG.md trước
-  2) generate_tree()       -> ghi docs/info.md sau, để cây thư mục
-                               phản ánh đúng luôn cả CHANGELOG.md vừa cập nhật
-
-Lý do thứ tự này:
-- Script này chạy SAU khi main.py / views.py đã sửa file nhưng TRƯỚC khi
-  commit, nên generate_changelog() phải đọc thay đổi từ WORKING TREE hiện
-  tại (git status), KHÔNG đọc từ git diff HEAD~1 HEAD — vì những thay đổi
-  đó chưa hề được commit, `HEAD~1 HEAD` chỉ thấy lịch sử commit cũ.
-- generate_tree() liệt kê toàn bộ cấu trúc thư mục hiện tại, nên chạy sau
-  cùng để info.md là bản chụp mới nhất, bao gồm cả CHANGELOG.md đã cập nhật.
-"""
 
 import os
 import subprocess
 import datetime
 
+try:
+    from zoneinfo import ZoneInfo
+    HANOI_TZ = ZoneInfo("Asia/Ho_Chi_Minh")
+except Exception:
+    HANOI_TZ = datetime.timezone(datetime.timedelta(hours=7))  # fallback nếu thiếu tzdata
+
+
+def now_hanoi():
+    return datetime.datetime.now(HANOI_TZ)
+
 
 # ==========================================
-# PHẦN 1: SINH CHANGELOG (bảng dọc 2 cột, gộp theo lần chạy)
+# PHẦN 1: SINH CHANGELOG (bảng dọc 2 cột, gọn cho màn hình điện thoại)
 # ==========================================
 
 ACTION_LABELS = {
@@ -32,10 +26,21 @@ ACTION_LABELS = {
     "?": "✨ Thêm",  # untracked file mới = coi như Thêm
 }
 
-# Thứ tự ưu tiên hiển thị từng nhóm hành động trong 1 lần chạy
 ACTION_ORDER = ["A", "M", "D", "R", "?"]
 
 MAX_VISIBLE_ROWS = 12  # số file hiện trực tiếp trước khi gói vào <details> để cuộn
+
+# Suy luận "Nguyên nhân" theo phần mở rộng / thư mục bị động tới
+CAUSE_RULES = [
+    (("repo/apps/",), "Cập nhật danh sách ứng dụng"),
+    (("repo/debs/", ".deb"), "Cập nhật gói .deb"),
+    (("repo/depictions/icons/", ".png", ".jpg", ".jpeg", ".svg"), "Cập nhật hình ảnh / icon"),
+    (("repo/depictions/",), "Cập nhật mô tả ứng dụng (depiction)"),
+    ((".py",), "Cập nhật logic script tự động hoá"),
+    ((".html",), "Sinh lại trang web (views)"),
+    ((".json",), "Cập nhật cấu hình"),
+    ((".yml", ".yaml"), "Cập nhật workflow CI/CD"),
+]
 
 
 def run(cmd):
@@ -67,11 +72,9 @@ def collect_working_tree_changes():
         status = line[:2]
         path = line[3:]
 
-        # Bỏ dấu ngoặc kép nếu git bọc path có ký tự đặc biệt
         if path.startswith('"') and path.endswith('"'):
             path = path[1:-1]
 
-        # Xác định mã hành động ưu tiên: D (xoá) > R (đổi tên) > A (mới) > M (sửa) > ? (untracked)
         if "D" in status:
             code = "D"
         elif "R" in status:
@@ -91,52 +94,108 @@ def collect_working_tree_changes():
     return grouped
 
 
+def guess_cause(all_paths, trigger_event, commit_msg):
+    """
+    Suy luận nguyên nhân thay đổi, kết hợp 3 nguồn:
+    1. Loại sự kiện kích hoạt workflow (push / release / workflow_dispatch)
+    2. Loại file/thư mục bị động tới nhiều nhất
+    3. Nội dung commit message (nếu đủ rõ nghĩa, ưu tiên hiển thị kèm)
+    """
+    trigger_map = {
+        "push": "Hệ thống tự động kích hoạt khi có push lên nhánh main",
+        "release": "Hệ thống tự động kích hoạt khi có release mới (published/created/edited)",
+        "workflow_dispatch": "Được kích hoạt thủ công (workflow_dispatch)",
+        "schedule": "Hệ thống tự động chạy theo lịch định kỳ",
+    }
+    trigger_text = trigger_map.get(trigger_event, "Hệ thống tự động đồng bộ theo workflow CI/CD")
+
+    # Đếm match theo CAUSE_RULES để tìm nguyên nhân kỹ thuật nổi bật nhất
+    rule_hits = {}
+    for path in all_paths:
+        low = path.lower()
+        for keys, label in CAUSE_RULES:
+            if any(k in low for k in keys):
+                rule_hits[label] = rule_hits.get(label, 0) + 1
+                break  # mỗi file chỉ tính 1 lý do nổi bật nhất
+
+    if rule_hits:
+        top_label = max(rule_hits, key=rule_hits.get)
+        technical_text = top_label
+    else:
+        technical_text = "Cập nhật dữ liệu kho lưu trữ"
+
+    parts = [trigger_text, technical_text]
+    if commit_msg and commit_msg != "(không có commit message)":
+        parts.append(f"Commit: {commit_msg}")
+
+    return " · ".join(parts)
+
+
+def guess_result():
+    """
+    Cột "Kết quả": chỉ phản ánh trạng thái KỸ THUẬT, lấy từ biến môi trường
+    do workflow YAML truyền vào (kết quả của các step trước đó).
+    Không tự suy đoán tích cực/tiêu cực về mặt nội dung.
+    """
+    main_status = os.environ.get("MAIN_STATUS", "success")
+    views_status = os.environ.get("VIEWS_STATUS", "success")
+
+    failed_steps = []
+    if main_status not in ("success", ""):
+        failed_steps.append("Core Engine")
+    if views_status not in ("success", ""):
+        failed_steps.append("Generate Views")
+
+    if failed_steps:
+        return f"⚠️ Có lỗi ở bước: {', '.join(failed_steps)}"
+    return "✅ Hoàn tất"
+
+
 def build_changelog_entry():
-    """Xây 1 block changelog (bảng dọc 2 cột) cho lần chạy hiện tại."""
+    """Xây 1 block changelog (bảng dọc 2 cột, gọn cho điện thoại) cho lần chạy hiện tại."""
     grouped = collect_working_tree_changes()
     if not grouped:
         return None
 
     author = run("git log -1 --pretty=format:'%an'") or "GitHub Action"
     msg = run("git log -1 --pretty=format:'%s'").replace("\n", " ").strip() or "(không có commit message)"
-    if len(msg) > 80:
-        msg = msg[:77] + "..."
+    if len(msg) > 70:
+        msg = msg[:67] + "..."
 
-    ict_now = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=7)
-    time_str = ict_now.strftime("%d/%m/%Y %H:%M:%S")
+    time_str = now_hanoi().strftime("%d/%m/%Y %H:%M")
 
     total_files = sum(len(v) for v in grouped.values())
+    all_paths = [p for files in grouped.values() for p in files]
+    trigger_event = os.environ.get("GITHUB_EVENT_NAME", "")
 
     lines = []
-    lines.append("| 🏷️ Tiêu đề | 📋 Thay đổi |")
+    lines.append("| Tiêu đề | Nội dung |")
     lines.append("|---|---|")
-
-    summary_bits = ", ".join(
-        f"{ACTION_LABELS[c]}: {len(grouped[c])}" for c in ACTION_ORDER if c in grouped
-    )
-    lines.append(f"| ⏱️ Thời gian | {time_str} (ICT) |")
+    lines.append(f"| ⏱️ Thời gian | {time_str} |")
     lines.append(f"| 👤 Tác giả | {author} |")
     lines.append(f"| 💬 Commit | {msg} |")
-    lines.append(f"| 📊 Tổng quan | {total_files} file thay đổi — {summary_bits} |")
+    lines.append(f"| 📊 Tổng quan | {total_files} file thay đổi |")
 
-    # Chi tiết từng nhóm hành động, dùng <details> để cuộn gọn trên điện thoại
+    # Các thay đổi: gộp tất cả nhóm hành động vào 1 ô duy nhất, mỗi nhóm 1 dòng
+    change_blocks = []
     for code in ACTION_ORDER:
         if code not in grouped:
             continue
         label = ACTION_LABELS[code]
         files = grouped[code]
-
         file_list_html = "<br>".join(f"`{f}`" for f in files)
 
         if len(files) > MAX_VISIBLE_ROWS:
-            detail_cell = (
-                f"<details><summary>{label} — {len(files)} file (bấm để xem đầy đủ)</summary><br>"
-                f"{file_list_html}</details>"
+            block = (
+                f"<details><summary>{label} ({len(files)})</summary><br>{file_list_html}</details>"
             )
         else:
-            detail_cell = f"{label} — {len(files)} file<br>{file_list_html}"
+            block = f"{label} ({len(files)})<br>{file_list_html}"
+        change_blocks.append(block)
 
-        lines.append(f"| {label} | {detail_cell} |")
+    lines.append(f"| 🛠️ Các thay đổi | {'<br>'.join(change_blocks)} |")
+    lines.append(f"| ❓ Nguyên nhân | {guess_cause(all_paths, trigger_event, msg)} |")
+    lines.append(f"| 🎯 Kết quả | {guess_result()} |")
 
     return "\n".join(lines)
 
@@ -144,9 +203,8 @@ def build_changelog_entry():
 def write_changelog(entry):
     """Tạo docs/CHANGELOG.md nếu chưa có, rồi chèn block mới ngay dưới marker, mới nhất ở trên cùng."""
     header = (
-        "# 🔰 CHANGELOG SYSTEM 🔰\n\n"
-        "> *Hệ thống ghi nhận thay đổi tự động từ GitHub Actions. "
-        "Mỗi lần chạy là một bảng riêng, mới nhất nằm trên cùng.*\n\n"
+        "# 🏛 Core System Changelog\n\n"
+        "> *Ghi nhận thay đổi tự động. Mới nhất ở trên cùng.*\n\n"
         "<!-- CHANGELOG_ENTRIES -->\n"
     )
 
@@ -192,7 +250,6 @@ SUMMARY_EXTENSIONS = {
     '.json': '⚙️ Cấu hình .json'
 }
 
-# Loại các thư mục sinh ra bởi chính workflow này / không liên quan
 EXCLUDE_DIRS = {'.git', '.github', 'docs', 'node_modules', '.venv', '__pycache__'}
 
 
@@ -248,11 +305,10 @@ def generate_smart_tree(dir_path, prefix=""):
 def generate_tree():
     tree_content = generate_smart_tree(".")
     with open("docs/info.md", "w", encoding="utf-8") as f:
-        ict_time = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=7)
-        time_str = ict_time.strftime("%d/%m/%Y %H:%M:%S")
+        time_str = now_hanoi().strftime("%d/%m/%Y %H:%M:%S")
 
         f.write("# 📂 CẤU TRÚC HỆ THỐNG\n")
-        f.write(f"⏱️ *Cập nhật tự động lúc: {time_str} (ICT)*\n\n")
+        f.write(f"⏱️ *Cập nhật tự động lúc: {time_str} (Giờ Hà Nội)*\n\n")
         f.write("```text\n🗺️ Root/\n")
         f.write(tree_content)
         f.write("\n```\n")
