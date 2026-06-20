@@ -1,22 +1,5 @@
 # .github/scripts/views.py
 #!/usr/bin/env python3
-"""
-Views.py v4 — AppStore-style HTML generator (đồng bộ apps/tweaks/dylibs)
-
-FIXES V4 (theo feedback ảnh screenshot + yêu cầu chi tiết):
-1. ✅ PAGE_SIZE: 15 → 10 items/trang
-2. ✅ Header mới: 🏠 🌐 🌓 ⚙️ (hàng trên), KHÔNG auto-hide (luôn sticky)
-3. ✅ Dark/Light mode toggle 🌓 (localStorage, mặc định theo device)
-4. ✅ Language toggle 🌐 (VI/EN, mặc định VI)
-5. ✅ Sửa background iOS glassmorphism (xoá gradient xanh lỗi)
-6. ✅ Sửa lỗi Apps: đảm bảo liệt kê đầy đủ phiên bản
-7. ✅ Đổi sections:
-   - ✨ Phiên bản (chọn để tải) — accordion thu gọn
-   - 📝 Mô tả — accordion thu gọn
-   - 📋 Lịch sử phiên bản — accordion thu gọn, changelog chi tiết
-   - 🔐 Quyền hạn — accordion thu gọn
-8. ✅ Thêm "Thể loại" vào ℹ️ Thông tin (Apps-ios-ipa, Tweaks-arm64-deb, v.v.)
-"""
 import os
 import json
 import time
@@ -227,6 +210,13 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         .nav-spacer {{
             height: 186px;
             flex-shrink: 0;
+            transition: height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }}
+
+        /* Khi nav-shell ẩn đi lúc cuộn xuống, thu nhỏ khoảng đệm lại để không lộ
+           mảng trống lớn phía trên list — chỉ chừa khoảng cách an toàn nhỏ. */
+        .nav-spacer.collapsed {{
+            height: 18px;
         }}
 
         /* ─────────────────────────── SEARCH ─────────────────────────── */
@@ -255,6 +245,36 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }}
 
         .search-box input::placeholder {{ color: var(--text-secondary); }}
+
+        .search-clear {{
+            background: rgba(255, 255, 255, 0.12);
+            border: none;
+            color: var(--text-secondary);
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            cursor: pointer;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.72em;
+            line-height: 1;
+            transition: all 0.15s;
+        }}
+
+        html[data-theme="light"] .search-clear {{
+            background: rgba(0, 0, 0, 0.1);
+        }}
+
+        .search-clear:active {{
+            background: rgba(255, 255, 255, 0.22);
+            transform: scale(0.9);
+        }}
+
+        html[data-theme="light"] .search-clear:active {{
+            background: rgba(0, 0, 0, 0.18);
+        }}
 
         /* ─────────────────────────── LIST ─────────────────────────── */
         .list {{ display: flex; flex-direction: column; gap: 12px; min-height: 200px; }}
@@ -887,6 +907,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         <div class="search-box">
             <span>🔍</span>
             <input type="text" id="searchInput" placeholder="Tìm kiếm..." oninput="onSearchInput()">
+            <button class="search-clear" id="searchClear" onclick="clearSearch()" title="Xoá" style="display:none;">✕</button>
         </div>
     </div>
 </div>
@@ -1309,13 +1330,73 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     // ════════════════════════════════════════════════════════════
     function onSearchInput() {{
         currentPage = 0;
+        const clearBtn = document.getElementById('searchClear');
+        const hasText = (document.getElementById('searchInput').value || '').length > 0;
+        if (clearBtn) clearBtn.style.display = hasText ? 'flex' : 'none';
         renderList();
     }}
 
+    function clearSearch() {{
+        const input = document.getElementById('searchInput');
+        input.value = '';
+        input.focus();
+        document.getElementById('searchClear').style.display = 'none';
+        currentPage = 0;
+        renderList();
+    }}
+
+    // Khoảng cách Levenshtein — dùng để chấm điểm "gần đúng" cho tìm kiếm mờ (fuzzy)
+    function levenshtein(a, b) {{
+        if (a === b) return 0;
+        if (!a.length) return b.length;
+        if (!b.length) return a.length;
+        const prev = new Array(b.length + 1);
+        const curr = new Array(b.length + 1);
+        for (let j = 0; j <= b.length; j++) prev[j] = j;
+        for (let i = 1; i <= a.length; i++) {{
+            curr[0] = i;
+            for (let j = 1; j <= b.length; j++) {{
+                const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+                curr[j] = Math.min(curr[j - 1] + 1, prev[j] + 1, prev[j - 1] + cost);
+            }}
+            for (let j = 0; j <= b.length; j++) prev[j] = curr[j];
+        }}
+        return prev[b.length];
+    }}
+
+    // Kiểm tra "gần đúng": khớp chuỗi con (ưu tiên cao) hoặc khoảng cách Levenshtein
+    // trên từng từ đủ nhỏ so với độ dài từ (cho phép gõ sai vài ký tự / thiếu dấu).
+    function fuzzyMatch(text, query) {{
+        if (!query) return true;
+        text = text.toLowerCase();
+        query = query.toLowerCase().trim();
+        if (!query) return true;
+
+        if (text.includes(query)) return true;
+
+        const words = text.split(/\\s+/);
+        const threshold = query.length <= 4 ? 1 : (query.length <= 8 ? 2 : 3);
+
+        for (const w of words) {{
+            if (w.startsWith(query.slice(0, Math.max(1, query.length - threshold)))) return true;
+            if (levenshtein(w, query) <= threshold) return true;
+        }}
+
+        // So khớp cả câu rút gọn (bỏ khoảng trắng) cho trường hợp gõ liền không dấu cách
+        const compact = text.replace(/\\s+/g, '');
+        if (compact.includes(query.replace(/\\s+/g, ''))) return true;
+
+        return false;
+    }}
+
     function applyFilter() {{
-        const query = (document.getElementById('searchInput').value || '').toLowerCase();
+        const query = (document.getElementById('searchInput').value || '').trim();
+        if (!query) {{
+            filteredItems = groupedItems;
+            return;
+        }}
         filteredItems = groupedItems.filter(g =>
-            g.name.toLowerCase().includes(query) || g.bundle.toLowerCase().includes(query)
+            fuzzyMatch(g.name || '', query) || fuzzyMatch(g.bundle || '', query)
         );
     }}
 
@@ -1679,20 +1760,28 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     // ════════════════════════════════════════════════════════════
     (function setupNavAutoHide() {{
         const navShell = document.getElementById('navShell');
+        const navSpacer = document.querySelector('.nav-spacer');
         if (!navShell) return;
         let lastScrollY = window.scrollY;
         let ticking = false;
+
+        function setNavHidden(hidden) {{
+            navShell.classList.toggle('nav-hidden', hidden);
+            // Đồng bộ khoảng đệm đầu list với trạng thái nav, tránh để lại
+            // mảng trống lớn phía trên item đầu tiên khi nav đã ẩn đi.
+            if (navSpacer) navSpacer.classList.toggle('collapsed', hidden);
+        }}
 
         function onScroll() {{
             const currentY = window.scrollY;
             const delta = currentY - lastScrollY;
 
             if (currentY <= 12) {{
-                navShell.classList.remove('nav-hidden');
+                setNavHidden(false);
             }} else if (delta > 6) {{
-                navShell.classList.add('nav-hidden');
+                setNavHidden(true);
             }} else if (delta < -6) {{
-                navShell.classList.remove('nav-hidden');
+                setNavHidden(false);
             }}
 
             lastScrollY = currentY;
