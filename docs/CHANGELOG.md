@@ -5,3 +5,4 @@
 | 🗓️ Thời gian | 📄 Tệp | 🛠️ Hành động | 👤 Tác giả | 💬 Commit | 📊 |
 |---|---|---|---|---|---|
 <!-- CHANGELOG_ROWS -->
+| 20/06 08:36 | `repo/apps.html` | 🗑️ Xoá | 2K | Modified by App SourceFiles | ✅ |
