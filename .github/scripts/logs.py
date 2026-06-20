@@ -1,4 +1,4 @@
-
+# 
 import os
 import subprocess
 import datetime
@@ -171,10 +171,10 @@ def build_changelog_entry():
     lines = []
     lines.append("| Tiêu đề | Nội dung |")
     lines.append("|---|---|")
-    lines.append(f"| ⏱️ Thời gian | {time_str} |")
-    lines.append(f"| 👤 Tác giả | {author} |")
+    lines.append(f"| ⏱️ Time | {time_str} |")
+    lines.append(f"| 👤 Author | {author} |")
     lines.append(f"| 💬 Commit | {msg} |")
-    lines.append(f"| 📊 Tổng quan | {total_files} file thay đổi |")
+    lines.append(f"| 📊 Overview | {total_files} file thay đổi |")
 
     # Các thay đổi: gộp tất cả nhóm hành động vào 1 ô duy nhất, mỗi nhóm 1 dòng
     change_blocks = []
@@ -244,14 +244,14 @@ SUMMARY_EXTENSIONS = {
     '.png': '🖼️ Ảnh PNG',
     '.jpg': '📸 Ảnh JPG',
     '.jpeg': '📸 Ảnh JPEG',
-    '.svg': '🎨 Đồ họa SVG',
-    '.deb': '📦 Tweak .deb',
-    '.ipa': '📱 App iOS .ipa',
+    '.svg': '🎨 Graphics SVG',
+    '.deb': '📦 Package .deb',
+    '.ipa': '📱 Apps iOS .ipa',
     '.json': '⚙️ Config .json'
     '.txt': '📝 Notes .txt'
 }
 
-EXCLUDE_DIRS = {'.git', '.github', 'docs', 'node_modules', '.venv', '__pycache__'}
+EXCLUDE_DIRS = {'.git', 'docs', 'node_modules', '.venv', '__pycache__'}
 
 
 def generate_smart_tree(dir_path, prefix=""):
