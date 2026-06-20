@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 16:38:51 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 16:39:44 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -76,7 +76,7 @@
     ├── 📂 data/
     │   ├── 📂 default/
     │   │   ├── Kyic_video.mp4
-    │   │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 2 file ]
+    │   │   └── [ 📊 Số lượng: 📸 Ảnh JPEG: 3 file, 🖼️ Ảnh PNG: 3 file ]
     │   ├── 📂 desc/
     │   │   ├── 📂 apps/
     │   │   │   ├── 📂 BiliBili/
@@ -329,7 +329,7 @@
     │       └── [ 📊 Số lượng: 📦 Package .deb: 3 file ]
     ├── 📂 depictions/
     │   ├── 📂 default/
-    │   │   └── [ 📊 Số lượng: 📸 Ảnh JPEG: 8 file, 🖼️ Ảnh PNG: 3 file ]
+    │   │   └── [ 📊 Số lượng: 📸 Ảnh JPEG: 5 file, 🖼️ Ảnh PNG: 2 file ]
     │   ├── 📂 icons/
     │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 14 file, 🖼️ Ảnh PNG: 21 file ]
     │   ├── 📂 images/
