@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 17:07:24 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 17:07:31 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -352,12 +352,6 @@
     │   └── 📂 metadata/
     │       └── 📂 desc/
     │           └── 📂 apps/
-    │               ├── 📂 BiliBili/
-    │               │   └── v2.70.0.txt
-    │               ├── 📂 Facebook/
-    │               │   ├── v538.1.0.txt
-    │               │   ├── v551.1.0.txt
-    │               │   └── v565.0.0.txt
     │               ├── 📂 Instagram/
     │               │   ├── v419.0.0.txt
     │               │   └── v433.0.0.txt
