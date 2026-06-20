@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 16:39:49 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 16:51:18 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -75,8 +75,9 @@
     ├── apps.html
     ├── 📂 data/
     │   ├── 📂 default/
+    │   │   ├── .gitkeep
     │   │   ├── Kyic_video.mp4
-    │   │   └── [ 📊 Số lượng: 📸 Ảnh JPEG: 6 file, 🖼️ Ảnh PNG: 3 file ]
+    │   │   └── [ 📊 Số lượng: 📸 Ảnh JPEG: 8 file, 🖼️ Ảnh PNG: 4 file ]
     │   ├── 📂 desc/
     │   │   ├── 📂 apps/
     │   │   │   ├── 📂 BiliBili/
@@ -250,7 +251,7 @@
     │   │   └── 📂 wiki/
     │   │       └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
     │   ├── 📂 icons/
-    │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 17 file, 🖼️ Ảnh PNG: 3 file ]
+    │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 18 file, 🖼️ Ảnh PNG: 21 file ]
     │   └── 📂 images/
     │       ├── 📂 AutoAC/
     │       │   └── .gitkeep
@@ -270,8 +271,7 @@
     │       │   ├── .gitkeep
     │       │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 6 file ]
     │       └── 📂 ytplus/
-    │           ├── .gitkeep
-    │           └── [ 📊 Số lượng: 📸 Ảnh JPG: 2 file ]
+    │           └── .gitkeep
     ├── 📂 debs/
     │   ├── 📂 Lead/
     │   │   ├── .gitkeep
@@ -362,7 +362,6 @@
     │   │   │   ├── .gitkeep
     │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 6 file ]
     │   │   └── 📂 ytplus/
-    │   │       ├── .gitkeep
     │   │       └── [ 📊 Số lượng: 📸 Ảnh JPG: 8 file, 🖼️ Ảnh PNG: 1 file ]
     │   └── 📂 metadata/
     │       ├── 📂 desc/
