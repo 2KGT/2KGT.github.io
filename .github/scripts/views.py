@@ -333,7 +333,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.15s;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }}
 
         html[data-theme="light"] .page-btn {{
@@ -371,6 +371,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
         .modal-content {{
             position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             background: linear-gradient(135deg, #1a1a2e, #252540);
             border: 1px solid var(--border);
             border-radius: 24px 24px 0 0;
@@ -558,7 +559,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         .detail-section-body {{
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.25s ease;
+            transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             padding: 0 14px;
         }}
 
@@ -588,14 +589,14 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             margin-bottom: 4px;
             font-size: 0.9em;
             cursor: pointer;
-            transition: all 0.15s;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 8px;
         }}
 
-        .version-item:active {{ background: rgba(255, 255, 255, 0.06); }}
+        .version-item:active {{ background: rgba(255, 255, 255, 0.06); transform: scale(0.98); box-shadow: 0 4px 12px rgba(132, 142, 249, 0.2); }}
 
         html[data-theme="light"] .version-item:active {{ background: rgba(0, 0, 0, 0.06); }}
 
@@ -666,7 +667,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         .action-btn {{
             flex: 1; background: var(--tint); color: white; border: none;
             padding: 14px 16px; border-radius: 14px; font-weight: 700;
-            cursor: pointer; font-size: 1em; transition: all 0.15s;
+            cursor: pointer; font-size: 1em; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }}
 
         .action-btn:active {{ transform: scale(0.97); opacity: 0.9; }}
@@ -806,14 +807,14 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 <div class="screenshots" id="screenshots"></div>
             </div>
 
-            <!-- ✨ Phiên bản — chọn để tải -->
-            <div id="versionSelectSection" class="detail-section" style="display:none;">
-                <div class="detail-section-header" onclick="toggleSection('versionSelectSection')">
-                    <div class="detail-section-title">✨ Phiên bản — chọn để tải</div>
+            <!-- ✨ Phiên bản -->
+            <div id="versionSection" class="detail-section" style="display:none;">
+                <div class="detail-section-header" onclick="toggleSection('versionSection')">
+                    <div class="detail-section-title">✨ Phiên bản</div>
                     <div class="detail-section-toggle">🔽</div>
                 </div>
                 <div class="detail-section-body">
-                    <div class="version-history" id="versionSelectList"></div>
+                    <div class="version-history" id="versionList"></div>
                 </div>
             </div>
 
@@ -828,17 +829,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 </div>
             </div>
 
-            <!-- 📋 Lịch sử phiên bản -->
-            <div id="historySection" class="detail-section">
-                <div class="detail-section-header" onclick="toggleSection('historySection')">
-                    <div class="detail-section-title">📋 Lịch sử phiên bản</div>
-                    <div class="detail-section-toggle">🔽</div>
-                </div>
-                <div class="detail-section-body">
-                    <div class="version-history" id="versionHistory"></div>
-                </div>
-            </div>
-
+            
             <!-- 🔐 Quyền hạn -->
             <div id="permSection" class="detail-section" style="display:none;">
                 <div class="detail-section-header" onclick="toggleSection('permSection')">
@@ -1227,18 +1218,16 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }}
 
         // ✨ Phiên bản — version selector
-        const versionSelectSection = document.getElementById('versionSelectSection');
+        const versionSection = document.getElementById('versionSection');
         if (currentGroup.versions && currentGroup.versions.length > 0) {{
-            versionSelectSection.style.display = 'block';
-            versionSelectSection.classList.remove('open');
-            renderVersionSelectList();
+            versionSection.style.display = 'block';
+            versionSection.classList.remove('open');
+            renderVersionList();
         }} else {{
-            versionSelectSection.style.display = 'none';
+            versionSection.style.display = 'none';
         }}
 
-        // 📋 Lịch sử phiên bản
-        document.getElementById('historySection').classList.remove('open');
-        renderVersionHistory();
+
 
         // Screenshots
         if (currentGroup.screenshots && currentGroup.screenshots.length > 0) {{
@@ -1273,7 +1262,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         document.getElementById('modal').classList.add('active');
     }}
 
-    function renderVersionSelectList() {{
+    function renderVersionList() {{
         const html = currentGroup.versions.map((v, i) => {{
             const label = 'v' + v.version + (v.arch ? ' (' + v.arch + ')' : '');
             const dateTag = v.date ? ' · ' + v.date : '';
@@ -1287,32 +1276,17 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 </div>
             `;
         }}).join('');
-        document.getElementById('versionSelectList').innerHTML = html ||
+        document.getElementById('versionList').innerHTML = html ||
             '<div style="padding:12px; color:var(--text-secondary); font-size:0.9em;">Chưa có dữ liệu phiên bản</div>';
     }}
 
-    function renderVersionHistory() {{
-        const html = currentGroup.versions.map((v, i) => {{
-            const label = 'v' + v.version + (v.arch ? ' (' + v.arch + ')' : '');
-            const dateTag = v.date ? ' · ' + v.date : '';
-            return `
-                <div class="version-item" style="cursor:default;">
-                    <div class="version-item-left">
-                        <div class="version-num">${{label}}${{dateTag}}</div>
-                        <div class="version-note">${{v.note || 'Không có thông tin thay đổi'}}</div>
-                    </div>
-                </div>
-            `;
-        }}).join('');
-        document.getElementById('versionHistory').innerHTML = html ||
-            '<div style="padding:12px; color:var(--text-secondary); font-size:0.9em;">Chưa có lịch sử phiên bản</div>';
-    }}
+    }
 
     function selectVersion(i) {{
         if (!currentGroup || !currentGroup.versions[i]) return;
         selectedVersionIdx = i;
 
-        const items = document.querySelectorAll('#versionSelectList .version-item');
+        const items = document.querySelectorAll('#versionList .version-item');
         items.forEach((el, idx) => {{
             el.classList.toggle('selected', idx === i);
         }});
