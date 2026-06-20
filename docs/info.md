@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 16:54:17 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 16:54:26 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -330,7 +330,7 @@
     │       └── [ 📊 Số lượng: 📦 Package .deb: 3 file ]
     ├── 📂 depictions/
     │   ├── 📂 default/
-    │   │   └── [ 📊 Số lượng: 📸 Ảnh JPEG: 4 file, 🖼️ Ảnh PNG: 1 file ]
+    │   │   └── [ 📊 Số lượng: 📸 Ảnh JPEG: 1 file, 🖼️ Ảnh PNG: 1 file ]
     │   ├── 📂 icons/
     │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 14 file, 🖼️ Ảnh PNG: 21 file ]
     │   ├── 📂 images/
@@ -452,7 +452,7 @@
     │           ├── 📂 ytuhd/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 2 file ]
     │           └── 📂 ytvideooverlay/
-    │               └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
+    │               └── [ 📊 Số lượng: ⚙️ Config .json: 2 file ]
     ├── 📂 dylibs/
     │   ├── .gitkeep
     │   └── 📂 Lead/
