@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 17:07:58 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 17:08:45 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -350,14 +350,6 @@
     │   │   └── 📂 ytplus/
     │   │       └── [ 📊 Số lượng: 📸 Ảnh JPG: 3 file ]
     │   └── 📂 metadata/
-    │       └── 📂 desc/
-    │           └── 📂 apps/
-    │               ├── 📂 LCSign/
-    │               │   └── v1.1.txt
-    │               ├── 📂 SPAMSMS/
-    │               │   └── v1.0.0.txt
-    │               └── 📂 UnKeySign/
-    │                   └── v1.1.8.txt
     ├── 📂 dylibs/
     │   ├── .gitkeep
     │   └── 📂 Lead/
