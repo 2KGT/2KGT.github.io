@@ -806,7 +806,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 </div>
 
 <!-- MODAL -->
-<div id="modal" class="modal" onclick="closeModal(event)">
+<div id="modal" class="modal" onclick="if(event.target.id==='modal') closeModal(event)">
     <div class="modal-content" onclick="event.stopPropagation()">
 
         <div class="modal-fixed-header">
@@ -1292,7 +1292,11 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         const scrollBody = document.querySelector('.modal-scroll-body');
         if (scrollBody) scrollBody.scrollTop = 0;
 
-        document.getElementById('modal').classList.add('active');
+        const modal = document.getElementById('modal');
+        if (modal) {
+            modal.classList.add('active');
+            modal.style.display = 'flex';
+        }
     }}
 
     function renderVersionList() {{
