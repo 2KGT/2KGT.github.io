@@ -1,0 +1,1492 @@
+# .github/scripts/views.py
+#!/usr/bin/env python3
+"""
+Views.py v4 — AppStore-style HTML generator (đồng bộ apps/tweaks/dylibs)
+
+FIXES V4 (theo feedback ảnh screenshot + yêu cầu chi tiết):
+1. ✅ PAGE_SIZE: 15 → 10 items/trang
+2. ✅ Header mới: 🏠 🌐 🌓 ⚙️ (hàng trên), KHÔNG auto-hide (luôn sticky)
+3. ✅ Dark/Light mode toggle 🌓 (localStorage, mặc định theo device)
+4. ✅ Language toggle 🌐 (VI/EN, mặc định VI)
+5. ✅ Sửa background iOS glassmorphism (xoá gradient xanh lỗi)
+6. ✅ Sửa lỗi Apps: đảm bảo liệt kê đầy đủ phiên bản
+7. ✅ Đổi sections:
+   - ✨ Phiên bản (chọn để tải) — accordion thu gọn
+   - 📝 Mô tả — accordion thu gọn
+   - 📋 Lịch sử phiên bản — accordion thu gọn, changelog chi tiết
+   - 🔐 Quyền hạn — accordion thu gọn
+8. ✅ Thêm "Thể loại" vào ℹ️ Thông tin (Apps-ios-ipa, Tweaks-arm64-deb, v.v.)
+"""
+import os
+import json
+import time
+import datetime
+import inspect
+import config
+
+# config.safe_write_file("repo/apps.json", json_data)  # Removed — undefined json_data
+
+# ────────────────────────────────────────────────────────
+# HTML TEMPLATE v4
+# ────────────────────────────────────────────────────────
+HTML_TEMPLATE = """<!DOCTYPE html>
+<html lang="vi" data-lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>{title} - {repo_name}</title>
+    <style>
+        * {{ margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }}
+
+        :root {{
+            --bg: #0f0f1e;
+            --card: #1a1a2e;
+            --text: #ffffff;
+            --text-secondary: #8e8e93;
+            --tint: #{tint};
+            --border: rgba(255, 255, 255, 0.1);
+        }}
+
+        /* ─────────────────────────── DARK MODE (DEFAULT) ─────────────────────────── */
+        html {{
+            color-scheme: dark;
+        }}
+
+        body {{
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI", sans-serif;
+            background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #0f0f1e 100%);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }}
+
+        /* ─────────────────────────── LIGHT MODE ─────────────────────────── */
+        html[data-theme="light"] {{
+            --bg: #f5f5f7;
+            --card: #ffffff;
+            --text: #000000;
+            --text-secondary: #86868b;
+            --border: rgba(0, 0, 0, 0.08);
+            color-scheme: light;
+        }}
+
+        html[data-theme="light"] body {{
+            background: linear-gradient(135deg, #f5f5f7 0%, #ffffff 50%, #f0f0f2 100%);
+        }}
+
+        /* ─────────────────────────── NAV SHELL (HEADER) ─────────────────────────── 
+           FIX: 🏠 🌐 🌓 ⚙️ hàng trên, iOS glassmorphism, LUÔN STICKY (không auto-hide)   */
+        .nav-shell {{
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            padding: 0;
+            backdrop-filter: blur(26px);
+            background: rgba(28, 28, 46, 0.4);
+            border-bottom: 1px solid var(--border);
+        }}
+
+        html[data-theme="light"] .nav-shell {{
+            background: rgba(255, 255, 255, 0.5);
+        }}
+
+        .nav-inner {{
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 0 12px;
+        }}
+
+        .header-row {{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 50px;
+            padding: 0 4px;
+        }}
+
+        .header-actions {{
+            display: flex;
+            gap: 6px;
+        }}
+
+        .icon-btn {{
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border);
+            color: var(--text);
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1em;
+            transition: all 0.2s;
+        }}
+
+        html[data-theme="light"] .icon-btn {{
+            background: rgba(0, 0, 0, 0.05);
+        }}
+
+        .icon-btn:active {{
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(0.93);
+        }}
+
+        html[data-theme="light"] .icon-btn:active {{
+            background: rgba(0, 0, 0, 0.12);
+        }}
+
+        /* ─────────────────────────── TABS ─────────────────────────── */
+        .tabs-header {{
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            padding: 0 4px 10px;
+        }}
+
+        .tab-btn {{
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 10px 6px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.86em;
+            transition: all 0.2s;
+            text-align: center;
+        }}
+
+        html[data-theme="light"] .tab-btn {{
+            background: rgba(0, 0, 0, 0.03);
+        }}
+
+        .tab-btn.active {{
+            background: rgba(132, 142, 249, 0.2);
+            color: var(--text);
+            border-color: var(--tint);
+        }}
+
+        html[data-theme="light"] .tab-btn.active {{
+            background: rgba(132, 142, 249, 0.15);
+        }}
+
+        .tab-btn:active {{
+            transform: scale(0.97);
+        }}
+
+        /* ─────────────────────────── CONTAINER ─────────────────────────── */
+        .container {{
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 16px;
+        }}
+
+        /* ─────────────────────────── SEARCH ─────────────────────────── */
+        .search-box {{
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }}
+
+        html[data-theme="light"] .search-box {{
+            background: rgba(0, 0, 0, 0.04);
+        }}
+
+        .search-box input {{
+            background: transparent;
+            border: none;
+            color: var(--text);
+            width: 100%;
+            outline: none;
+            font-size: 1em;
+        }}
+
+        .search-box input::placeholder {{ color: var(--text-secondary); }}
+
+        /* ─────────────────────────── LIST ─────────────────────────── */
+        .list {{ display: flex; flex-direction: column; gap: 12px; min-height: 200px; }}
+
+        .item {{
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }}
+
+        html[data-theme="light"] .item {{
+            background: rgba(0, 0, 0, 0.04);
+        }}
+
+        .item:active {{ background: rgba(255, 255, 255, 0.1); transform: scale(0.99); }}
+
+        .item-icon {{
+            width: 56px; height: 56px; border-radius: 12px;
+            object-fit: cover; flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.05);
+        }}
+
+        .item-info {{ flex: 1; min-width: 0; }}
+
+        .item-name {{
+            font-weight: 600; font-size: 1em; margin-bottom: 4px;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }}
+
+        .item-id {{
+            font-size: 0.85em; color: var(--text-secondary);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }}
+
+        .item-version {{ font-size: 0.8em; color: var(--text-secondary); margin-top: 2px; }}
+
+        .item-action {{
+            background: var(--tint); color: white; border: none;
+            padding: 9px 20px; border-radius: 20px; font-weight: 600;
+            cursor: pointer; font-size: 0.9em; white-space: nowrap;
+            transition: all 0.2s; flex-shrink: 0;
+        }}
+
+        .item-action:active {{ transform: scale(0.93); opacity: 0.85; }}
+
+        .item-action.loading {{ opacity: 0.6; pointer-events: none; }}
+
+        /* ─────────────────────────── PAGINATION ─────────────────────────── */
+        .pagination {{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            padding-top: 6px;
+        }}
+
+        .page-btn {{
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--text);
+            min-width: 38px;
+            height: 38px;
+            padding: 0 6px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+        }}
+
+        html[data-theme="light"] .page-btn {{
+            background: rgba(0, 0, 0, 0.04);
+        }}
+
+        .page-btn.active {{
+            background: rgba(132, 142, 249, 0.25);
+            border-color: var(--tint);
+        }}
+
+        .page-btn:disabled {{
+            opacity: 0.35;
+            pointer-events: none;
+        }}
+
+        .page-btn:active {{ transform: scale(0.92); }}
+
+        .page-info {{
+            width: 100%;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.8em;
+            margin-top: 8px;
+        }}
+
+        /* ─────────────────────────── MODAL ─────────────────────────── */
+        .modal {{
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            padding: 0;
+        }}
+
+        .modal.active {{ display: flex; align-items: flex-end; }}
+
+        .modal-content {{
+            position: relative;
+            background: linear-gradient(135deg, #1a1a2e, #252540);
+            border: 1px solid var(--border);
+            border-radius: 24px 24px 0 0;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            max-height: 88vh;
+            display: flex;
+            flex-direction: column;
+            animation: slideUp 0.25s ease;
+            overflow: hidden;
+        }}
+
+        html[data-theme="light"] .modal-content {{
+            background: linear-gradient(135deg, #ffffff, #f9f9fb);
+        }}
+
+        @keyframes slideUp {{
+            from {{ transform: translateY(100%); }}
+            to {{ transform: translateY(0); }}
+        }}
+
+        /* Header CỐ ĐỊNH — không cuộn theo nội dung */
+        .modal-fixed-header {{
+            position: sticky;
+            top: 0;
+            z-index: 5;
+            background: linear-gradient(135deg, #1a1a2e, #252540);
+            padding: 18px 20px 14px;
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }}
+
+        html[data-theme="light"] .modal-fixed-header {{
+            background: linear-gradient(135deg, #ffffff, #f9f9fb);
+        }}
+
+        .modal-scroll-body {{
+            overflow-y: auto;
+            padding: 18px 20px 20px;
+            flex: 1;
+        }}
+
+        .modal-header {{
+            display: flex; gap: 16px;
+            align-items: flex-start; padding-right: 40px;
+        }}
+
+        .modal-icon {{ width: 76px; height: 76px; border-radius: 18px; object-fit: cover; flex-shrink: 0; }}
+
+        .modal-title-block {{ flex: 1; min-width: 0; }}
+
+        .modal-name {{
+            font-size: 1.3em; font-weight: 700; margin-bottom: 4px;
+            overflow-wrap: break-word;
+        }}
+
+        .modal-id {{ color: var(--text-secondary); font-size: 0.88em; margin-bottom: 6px; word-break: break-all; }}
+
+        .modal-version {{ color: var(--tint); font-size: 0.95em; font-weight: 600; }}
+
+        /* X giờ neo theo modal-fixed-header (luôn đứng yên) */
+        .modal-close {{
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid var(--border);
+            width: 34px; height: 34px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3em; color: var(--text);
+            z-index: 6;
+        }}
+
+        html[data-theme="light"] .modal-close {{
+            background: rgba(0, 0, 0, 0.08);
+        }}
+
+        .modal-close:active {{ background: rgba(255, 255, 255, 0.25); }}
+
+        /* ─────────────────────────── SCREENSHOTS ─────────────────────────── */
+        .screenshots {{ display: flex; gap: 10px; overflow-x: auto; margin-bottom: 4px; padding-bottom: 6px; scroll-snap-type: x proximity; }}
+
+        .screenshot {{
+            width: 140px; height: 248px; border-radius: 14px; object-fit: cover;
+            flex-shrink: 0; border: 1px solid var(--border);
+            cursor: pointer; transition: transform 0.15s;
+            scroll-snap-align: start;
+        }}
+
+        .screenshot:active {{ transform: scale(0.96); }}
+
+        /* LIGHTBOX */
+        .lightbox {{
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.92);
+            z-index: 300;
+            align-items: center;
+            justify-content: center;
+            touch-action: pan-y;
+        }}
+
+        .lightbox.active {{ display: flex; }}
+
+        .lightbox-img {{
+            max-width: 92vw;
+            max-height: 80vh;
+            border-radius: 14px;
+            object-fit: contain;
+            user-select: none;
+            -webkit-user-drag: none;
+        }}
+
+        .lightbox-close {{
+            position: absolute; top: 18px; right: 18px;
+            width: 40px; height: 40px; border-radius: 12px;
+            background: rgba(255,255,255,0.12); border: 1px solid var(--border);
+            color: var(--text); font-size: 1.3em;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+        }}
+
+        .lightbox-nav {{
+            position: absolute; top: 50%; transform: translateY(-50%);
+            width: 44px; height: 44px; border-radius: 50%;
+            background: rgba(255,255,255,0.12); border: 1px solid var(--border);
+            color: var(--text); font-size: 1.3em;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+        }}
+
+        .lightbox-prev {{ left: 14px; }}
+        .lightbox-next {{ right: 14px; }}
+
+        .lightbox-counter {{
+            position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);
+            color: var(--text-secondary); font-size: 0.85em;
+            background: rgba(255,255,255,0.08); padding: 5px 12px; border-radius: 20px;
+        }}
+
+        /* ─────────────────────────── ACCORDION SECTIONS ─────────────────────────── */
+        .detail-section {{
+            margin-top: 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+        }}
+
+        html[data-theme="light"] .detail-section {{
+            background: rgba(0, 0, 0, 0.03);
+        }}
+
+        .detail-section-header {{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 13px 14px;
+            cursor: pointer;
+            user-select: none;
+        }}
+
+        .detail-section-title {{
+            font-weight: 600; color: var(--text); font-size: 0.92em;
+            display: flex; align-items: center; gap: 8px;
+        }}
+
+        .detail-section-toggle {{
+            font-size: 0.85em;
+            color: var(--text-secondary);
+            width: 26px; height: 26px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.06);
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            transition: transform 0.2s;
+        }}
+
+        html[data-theme="light"] .detail-section-toggle {{
+            background: rgba(0, 0, 0, 0.06);
+        }}
+
+        .detail-section-body {{
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.25s ease;
+            padding: 0 14px;
+        }}
+
+        .detail-section.open .detail-section-body {{
+            max-height: 1000px;
+            padding: 0 14px 14px;
+        }}
+
+        .detail-section.open .detail-section-toggle {{ transform: rotate(180deg); }}
+
+        .detail-section-content {{ color: var(--text); font-size: 0.93em; line-height: 1.55; }}
+
+        /* Version list bên trong accordion */
+        .version-history {{
+            max-height: 260px; overflow-y: auto;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px; padding: 4px;
+        }}
+
+        html[data-theme="light"] .version-history {{
+            background: rgba(0, 0, 0, 0.02);
+        }}
+
+        .version-item {{
+            padding: 11px 12px;
+            border: 1.5px solid transparent;
+            border-radius: 10px;
+            margin-bottom: 4px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+        }}
+
+        .version-item:active {{ background: rgba(255, 255, 255, 0.06); }}
+
+        html[data-theme="light"] .version-item:active {{ background: rgba(0, 0, 0, 0.06); }}
+
+        .version-item.selected {{
+            border-color: var(--tint);
+            background: rgba(132, 142, 249, 0.12);
+        }}
+
+        .version-item-left {{ flex: 1; min-width: 0; }}
+
+        .version-num {{ font-weight: 600; color: var(--tint); margin-bottom: 2px; }}
+
+        .version-note {{
+            color: var(--text-secondary); font-size: 0.85em;
+            overflow: hidden; text-overflow: ellipsis;
+            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+        }}
+
+        .version-check {{
+            font-size: 1.1em; color: var(--tint);
+            opacity: 0; transition: opacity 0.15s; flex-shrink: 0;
+        }}
+
+        .version-item.selected .version-check {{ opacity: 1; }}
+
+        .permissions-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }}
+
+        .permission-item {{
+            background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border);
+            border-radius: 8px; padding: 10px; font-size: 0.85em; color: var(--text-secondary);
+        }}
+
+        html[data-theme="light"] .permission-item {{
+            background: rgba(0, 0, 0, 0.04);
+        }}
+
+        /* Khối thông tin phiên bản đang chọn — luôn hiện, không thu gọn */
+        .info-box {{
+            margin-top: 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 13px 14px;
+        }}
+
+        html[data-theme="light"] .info-box {{
+            background: rgba(0, 0, 0, 0.03);
+        }}
+
+        .info-row {{ margin-bottom: 6px; }}
+        .info-row:last-child {{ margin-bottom: 0; }}
+
+        .info-label {{ font-weight: 600; font-size: 0.85em; color: var(--text-secondary); }}
+
+        .info-value {{ color: var(--text); font-size: 0.9em; }}
+
+        /* ─────────────────────────── ACTION BAR ─────────────────────────── */
+        .action-buttons {{
+            display: flex; gap: 10px; margin-top: 16px;
+            position: sticky; bottom: -1px;
+            background: linear-gradient(to top, #1a1a2e 75%, transparent);
+            padding: 10px 0 2px;
+        }}
+
+        html[data-theme="light"] .action-buttons {{
+            background: linear-gradient(to top, #f9f9fb 75%, transparent);
+        }}
+
+        .action-btn {{
+            flex: 1; background: var(--tint); color: white; border: none;
+            padding: 14px 16px; border-radius: 14px; font-weight: 700;
+            cursor: pointer; font-size: 1em; transition: all 0.15s;
+        }}
+
+        .action-btn:active {{ transform: scale(0.97); opacity: 0.9; }}
+
+        .action-btn.loading {{ opacity: 0.6; pointer-events: none; }}
+
+        .action-btn-icon {{
+            width: 50px; flex: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text); border: 1px solid var(--border);
+            border-radius: 14px; font-size: 1.2em; cursor: pointer;
+        }}
+
+        html[data-theme="light"] .action-btn-icon {{
+            background: rgba(0, 0, 0, 0.05);
+        }}
+
+        .action-btn-icon:active {{ background: rgba(255, 255, 255, 0.2); }}
+
+        /* ─────────────────────────── LOADING / EMPTY ─────────────────────────── */
+        .loading, .empty-state {{ text-align: center; color: var(--text-secondary); padding: 50px 20px; }}
+
+        .spinner {{
+            width: 38px; height: 38px; border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--tint); border-radius: 50%;
+            animation: spin 0.9s linear infinite; margin: 0 auto 18px;
+        }}
+
+        html[data-theme="light"] .spinner {{
+            border-color: rgba(0, 0, 0, 0.1);
+            border-top-color: var(--tint);
+        }}
+
+        @keyframes spin {{ to {{ transform: rotate(360deg); }} }}
+
+        .toast {{
+            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+            background: rgba(28,28,46,0.95); border: 1px solid var(--border);
+            padding: 12px 20px; border-radius: 12px; font-size: 0.9em;
+            z-index: 200; opacity: 0; transition: opacity 0.25s; pointer-events: none;
+            max-width: 86vw; text-align: center;
+        }}
+
+        html[data-theme="light"] .toast {{
+            background: rgba(255,255,255,0.95);
+        }}
+
+        .toast.show {{ opacity: 1; }}
+
+        @media (max-width: 480px) {{
+            .container {{ padding: 12px; }}
+            .modal-icon {{ width: 64px; height: 64px; }}
+            .modal-name {{ font-size: 1.15em; }}
+            .permissions-grid {{ grid-template-columns: 1fr; }}
+            .screenshot {{ width: 120px; height: 213px; }}
+        }}
+    </style>
+</head>
+<body>
+
+<!-- NAV SHELL — 🏠 🌐 🌓 ⚙️ hàng trên, iOS glassmorphism, LUÔN STICKY -->
+<div class="nav-shell" id="navShell">
+    <div class="nav-inner">
+        <!-- HEADER TOP ROW -->
+        <div class="header-row">
+            <div style="width: 36px;"></div><!-- Placeholder để căn giữa -->
+            <div class="header-actions">
+                <button class="icon-btn" onclick="location.href='./index.html'" title="Trang chủ">🏠</button>
+                <button class="icon-btn" onclick="toggleLanguage()" title="Ngôn ngữ (VI/EN)">🌐</button>
+                <button class="icon-btn" onclick="toggleDarkMode()" title="Chế độ sáng/tối">🌓</button>
+                <button class="icon-btn" onclick="toggleSettings()" title="Cài đặt">⚙️</button>
+            </div>
+        </div>
+
+        <!-- TABS -->
+        <div class="tabs-header">
+            <button class="tab-btn {active_apps}" onclick="location.href='apps.html'">📱 Apps</button>
+            <button class="tab-btn {active_tweaks}" onclick="location.href='tweaks.html'">🔧 Tweaks</button>
+            <button class="tab-btn {active_dylibs}" onclick="location.href='dylibs.html'">📚 Dylibs</button>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="search-box">
+        <span>🔍</span>
+        <input type="text" id="searchInput" placeholder="Tìm kiếm..." oninput="onSearchInput()">
+    </div>
+
+    <div id="list" class="list">
+        <div class="loading">
+            <div class="spinner"></div>
+            <p>Đang tải dữ liệu...</p>
+        </div>
+    </div>
+
+    <!-- Pagination: ◀️ 0️⃣...9️⃣ ▶️ -->
+    <div class="pagination" id="pagination" style="display:none;"></div>
+</div>
+
+<!-- MODAL -->
+<div id="modal" class="modal" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+
+        <!-- Header CỐ ĐỊNH -->
+        <div class="modal-fixed-header">
+            <button class="modal-close" onclick="closeModal()">✕</button>
+            <div class="modal-header">
+                <img id="modalIcon" class="modal-icon" src="" alt="Icon">
+                <div class="modal-title-block">
+                    <div class="modal-name" id="modalName"></div>
+                    <div class="modal-id" id="modalId"></div>
+                    <div class="modal-version" id="modalVersion"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-scroll-body">
+
+            <!-- Screenshots -->
+            <div id="screenshotsSection" style="display:none;">
+                <div class="detail-section-title" style="margin-bottom:8px;">📸 Ảnh chụp màn hình</div>
+                <div class="screenshots" id="screenshots"></div>
+            </div>
+
+            <!-- ✨ Phiên bản — chọn để tải (accordion, mặc định đóng) -->
+            <div id="versionSelectSection" class="detail-section" style="display:none;">
+                <div class="detail-section-header" onclick="toggleSection('versionSelectSection')">
+                    <div class="detail-section-title">✨ Phiên bản — chọn để tải</div>
+                    <div class="detail-section-toggle">🔽</div>
+                </div>
+                <div class="detail-section-body">
+                    <div class="version-history" id="versionSelectList"></div>
+                </div>
+            </div>
+
+            <!-- 📝 Mô tả (accordion, mặc định đóng) -->
+            <div id="descSection" class="detail-section" style="display:none;">
+                <div class="detail-section-header" onclick="toggleSection('descSection')">
+                    <div class="detail-section-title">📝 Mô tả</div>
+                    <div class="detail-section-toggle">🔽</div>
+                </div>
+                <div class="detail-section-body">
+                    <div class="detail-section-content" id="modalDesc"></div>
+                </div>
+            </div>
+
+            <!-- 📋 Lịch sử phiên bản (accordion, mặc định đóng, changelog chi tiết) -->
+            <div id="historySection" class="detail-section">
+                <div class="detail-section-header" onclick="toggleSection('historySection')">
+                    <div class="detail-section-title">📋 Lịch sử phiên bản</div>
+                    <div class="detail-section-toggle">🔽</div>
+                </div>
+                <div class="detail-section-body">
+                    <div class="version-history" id="versionHistory"></div>
+                </div>
+            </div>
+
+            <!-- 🔐 Quyền hạn (accordion, mặc định đóng) -->
+            <div id="permSection" class="detail-section" style="display:none;">
+                <div class="detail-section-header" onclick="toggleSection('permSection')">
+                    <div class="detail-section-title">🔐 Quyền hạn</div>
+                    <div class="detail-section-toggle">🔽</div>
+                </div>
+                <div class="detail-section-body">
+                    <div class="permissions-grid" id="permissions"></div>
+                </div>
+            </div>
+
+            <!-- ℹ️ Thông tin phiên bản đang chọn (luôn hiện, không thu gọn) — BỔ SUNG THÊM THỂ LOẠI -->
+            <div class="info-box">
+                <div class="detail-section-title" style="margin-bottom:10px;">ℹ️ Thông tin phiên bản đang chọn</div>
+                <div class="detail-section-content">
+                    <div class="info-row">
+                        <div class="info-label">Phiên bản:</div>
+                        <div class="info-value" id="infoVersion">—</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Thể loại:</div>
+                        <div class="info-value" id="infoCategory">—</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Tác giả:</div>
+                        <div class="info-value" id="infoAuthor">—</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Kích thước:</div>
+                        <div class="info-value" id="infoSize">—</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="action-btn" id="downloadBtn" onclick="downloadSelected()">⬇️ Tải xuống</button>
+                <button class="action-btn-icon" onclick="copySelected()" title="Sao chép link">📋</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" class="lightbox" onclick="lightboxBackdropClick(event)">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <button class="lightbox-nav lightbox-prev" onclick="lightboxNav(-1, event)">‹</button>
+    <img id="lightboxImg" class="lightbox-img" src="" alt="Screenshot" onclick="event.stopPropagation()">
+    <button class="lightbox-nav lightbox-next" onclick="lightboxNav(1, event)">›</button>
+    <div class="lightbox-counter" id="lightboxCounter"></div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+    // ════════════════════════════════════════════════════════════
+    // I18N & THEME SETUP
+    // ════════════════════════════════════════════════════════════
+    const I18N = {{
+        vi: {{
+            "loading": "Đang tải dữ liệu...",
+            "no_results": "😕 Không tìm thấy kết quả",
+            "no_data": "📭 Chưa có dữ liệu",
+            "error": "❌ Lỗi tải dữ liệu: ",
+            "page": "Trang",
+            "results": "kết quả",
+            "no_version": "❌ Không có phiên bản nào để tải",
+            "no_link": "❌ Không tìm thấy link tải về",
+            "no_results_copy": "❌ Không có link để sao chép",
+            "download_start": "⏳ Đang tải...",
+            "download_success": "✅ Đang tải xuống...",
+            "download_fallback": "⚠️ Đang mở link tải (chế độ dự phòng)",
+            "copy_success": "✅ Đã sao chép link!",
+            "copy_error": "❌ Sao chép thất bại",
+            "settings": "⚙️ Cài đặt (sẽ cập nhật sau)"
+        }},
+        en: {{
+            "loading": "Loading data...",
+            "no_results": "😕 No results found",
+            "no_data": "📭 No data",
+            "error": "❌ Error loading data: ",
+            "page": "Page",
+            "results": "results",
+            "no_version": "❌ No version to download",
+            "no_link": "❌ No download link found",
+            "no_results_copy": "❌ No link to copy",
+            "download_start": "⏳ Downloading...",
+            "download_success": "✅ Downloading...",
+            "download_fallback": "⚠️ Opening link (fallback mode)",
+            "copy_success": "✅ Link copied!",
+            "copy_error": "❌ Copy failed",
+            "settings": "⚙️ Settings (coming soon)"
+        }}
+    }};
+
+    function getLang() {{
+        return document.documentElement.getAttribute('data-lang') || 'vi';
+    }}
+
+    function t(key) {{
+        const lang = getLang();
+        return (I18N[lang] || I18N.vi)[key] || key;
+    }}
+
+    function toggleLanguage() {{
+        const current = getLang();
+        const next = current === 'vi' ? 'en' : 'vi';
+        document.documentElement.setAttribute('data-lang', next);
+        document.documentElement.lang = next;
+        localStorage.setItem('lang', next);
+        location.reload();
+    }}
+
+    function initTheme() {{
+        const saved = localStorage.getItem('darkMode');
+        if (saved !== null) {{
+            const isDark = saved === 'true';
+            document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+        }} else {{
+            // Mặc định theo hệ thống
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+        }}
+    }}
+
+    function toggleDarkMode() {{
+        const current = document.documentElement.getAttribute('data-theme') || 'dark';
+        const next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('darkMode', next === 'dark');
+    }}
+
+    function toggleSettings() {{
+        showToast(t('settings'));
+    }}
+
+    // ════════════════════════════════════════════════════════════
+    // STATE & CONSTANTS
+    // ════════════════════════════════════════════════════════════
+    let rawItems = [];
+    let groupedItems = [];
+    let filteredItems = [];
+    let currentGroup = null;
+    let selectedVersionIdx = 0;
+
+    const PAGE_SIZE = 10;  // FIX: 15 → 10
+    let currentPage = 0;
+
+    let lightboxList = [];
+    let lightboxIdx = 0;
+
+    const DEFAULT_ICON = '{default_icon}';
+    const DATA_KEY = '{data_key}';
+    const REPO_TYPE = '{repo_type}';  // "apps", "tweaks", "dylibs"
+
+    const DIGIT_EMOJI = ['0️⃣','1️⃣','2️⃣','3️⃣','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣'];
+
+    // ════════════════════════════════════════════════════════════
+    // UTILITIES
+    // ════════════════════════════════════════════════════════════
+    function formatSize(bytes) {{
+        if (!bytes || bytes <= 0) return 'Không rõ';
+        const k = 1024;
+        const sizes = ['B', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return (bytes / Math.pow(k, i)).toFixed(2) + ' ' + sizes[i];
+    }}
+
+    function showToast(msg) {{
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 2200);
+    }}
+
+    function toggleSection(sectionId) {{
+        const el = document.getElementById(sectionId);
+        if (el) el.classList.toggle('open');
+    }}
+
+    function parseVersion(v) {{
+        return String(v || '0').split(/[.\\-_]/).map(x => parseInt(x) || 0);
+    }}
+
+    function compareVersions(a, b) {{
+        const pa = parseVersion(a), pb = parseVersion(b);
+        const len = Math.max(pa.length, pb.length);
+        for (let i = 0; i < len; i++) {{
+            const diff = (pb[i] || 0) - (pa[i] || 0);
+            if (diff !== 0) return diff;
+        }}
+        return 0;
+    }}
+
+    // ════════════════════════════════════════════════════════════
+    // GROUPING & UNIVERSAL BUNDLING
+    // ════════════════════════════════════════════════════════════
+    function groupByBundle(items) {{
+        const map = new Map();
+
+        items.forEach(raw => {{
+            const bundleKey = raw.bundle || raw.bundleIdentifier || raw.bid ||
+                               raw.Package || raw.package || raw.id || raw.name;
+            if (!bundleKey) return;
+
+            if (!map.has(bundleKey)) {{
+                map.set(bundleKey, {{
+                    name: raw.name || raw.Name || 'Unknown',
+                    bundle: bundleKey,
+                    icon: raw.icon || raw.iconURL || raw.Icon || DEFAULT_ICON,
+                    desc: raw.desc || raw.description || raw.localizedDescription || raw.Description || '',
+                    author: raw.author || raw.Author || 'Kyic Store',
+                    screenshots: raw.screenshots || raw.screenshotURLs || [],
+                    permissions: raw.appPermissions || raw.permissions || {{}},
+                    versions: []
+                }});
+            }}
+
+            const group = map.get(bundleKey);
+            const curDesc = raw.desc || raw.description || raw.localizedDescription || '';
+            if (curDesc.length > (group.desc || '').length) {{
+                group.desc = curDesc;
+                group.icon = raw.icon || raw.iconURL || raw.Icon || group.icon;
+            }}
+            if ((raw.screenshots || raw.screenshotURLs || []).length > group.screenshots.length) {{
+                group.screenshots = raw.screenshots || raw.screenshotURLs || [];
+            }}
+
+            const arch = raw.architecture || raw.Architecture || raw.arch || '';
+            const ver = raw.version || raw.Version || raw.ver || '1.0';
+            const dlUrl = raw.downloadURL || raw.dl || raw.url || raw.download || raw.downloadUrl || '';
+
+            const exists = group.versions.find(v => v.version === ver && v.arch === arch && v.downloadURL === dlUrl);
+            if (!exists) {{
+                group.versions.push({{
+                    version: ver,
+                    arch: arch,
+                    size: raw.size || 0,
+                    downloadURL: dlUrl,
+                    filename: raw.filename || raw.name || '',
+                    date: raw.date || raw.releaseDate || raw.pubDate || '',
+                    note: raw.changelog || raw.releaseNotes || raw.body || curDesc || ''
+                }});
+            }}
+        }});
+
+        const result = Array.from(map.values());
+        result.forEach(g => {{
+            g.versions.sort((a, b) => compareVersions(a.version, b.version) || a.arch.localeCompare(b.arch));
+        }});
+        result.sort((a, b) => a.name.localeCompare(b.name));
+        return result;
+    }}
+
+    // ════════════════════════════════════════════════════════════
+    // GETTYPE CATEGORY — Thể loại cho info-box
+    // VD: Apps-ios-ipa, Tweaks-arm64-deb, Dylibs-arm64-dylib
+    // ════════════════════════════════════════════════════════════
+    function getCategory(group, version) {{
+        const repoType = REPO_TYPE || 'apps';
+        const arch = version?.arch || 'unknown';
+        let ext = 'unknown';
+
+        if (repoType === 'apps') ext = 'ipa';
+        else if (repoType === 'tweaks') ext = 'deb';
+        else if (repoType === 'dylibs') ext = 'dylib';
+
+        return repoType.charAt(0).toUpperCase() + repoType.slice(1) + '-' + (arch || 'universal') + '-' + ext;
+    }}
+
+    // ════════════════════════════════════════════════════════════
+    // SEARCH & PAGINATION
+    // ════════════════════════════════════════════════════════════
+    function onSearchInput() {{
+        currentPage = 0;
+        renderList();
+    }}
+
+    function applyFilter() {{
+        const query = (document.getElementById('searchInput').value || '').toLowerCase();
+        filteredItems = groupedItems.filter(g =>
+            g.name.toLowerCase().includes(query) || g.bundle.toLowerCase().includes(query)
+        );
+    }}
+
+    function totalPages() {{
+        return Math.max(1, Math.ceil(filteredItems.length / PAGE_SIZE));
+    }}
+
+    // ════════════════════════════════════════════════════════════
+    // RENDER LIST
+    // ════════════════════════════════════════════════════════════
+    function renderList() {{
+        applyFilter();
+
+        if (filteredItems.length === 0) {{
+            document.getElementById('list').innerHTML =
+                '<div class="empty-state">' + t('no_results') + '</div>';
+            document.getElementById('pagination').style.display = 'none';
+            return;
+        }}
+
+        const pages = totalPages();
+        if (currentPage >= pages) currentPage = pages - 1;
+        if (currentPage < 0) currentPage = 0;
+
+        const start = currentPage * PAGE_SIZE;
+        const pageItems = filteredItems.slice(start, start + PAGE_SIZE);
+
+        const html = pageItems.map((g) => {{
+            const idx = groupedItems.indexOf(g);
+            const latest = g.versions[0] || {{}};
+            return `
+                <div class="item" onclick="openModal(${{idx}})">
+                    <img class="item-icon" src="${{g.icon}}" alt="${{g.name}}" loading="lazy" onerror="this.onerror=null;this.src='${{DEFAULT_ICON}}'">
+                    <div class="item-info">
+                        <div class="item-name">${{g.name}}</div>
+                        <div class="item-id">${{g.bundle}}</div>
+                        <div class="item-version">v${{latest.version || '1.0'}}${{g.versions.length > 1 ? ' · ' + g.versions.length + ' bản' : ''}}</div>
+                    </div>
+                    <button class="item-action" id="quickbtn-${{idx}}" onclick="event.stopPropagation(); quickDownload(${{idx}})">Nhận</button>
+                </div>
+            `;
+        }}).join('');
+
+        document.getElementById('list').innerHTML = html;
+        window.scrollTo({{ top: document.querySelector('.container').offsetTop - 8, behavior: 'instant' }});
+
+        renderPagination();
+    }}
+
+    function renderPagination() {{
+        const pages = totalPages();
+        const pag = document.getElementById('pagination');
+
+        if (pages <= 1) {{
+            pag.style.display = 'none';
+            return;
+        }}
+        pag.style.display = 'flex';
+
+        const windowSize = 10;
+        let windowStart = Math.max(0, currentPage - Math.floor(windowSize / 2));
+        let windowEnd = Math.min(pages, windowStart + windowSize);
+        windowStart = Math.max(0, windowEnd - windowSize);
+
+        let html = `<button class="page-btn" onclick="goToPage(${{currentPage - 1}})" ${{currentPage === 0 ? 'disabled' : ''}}>◀️</button>`;
+
+        for (let p = windowStart; p < windowEnd; p++) {{
+            const digit = DIGIT_EMOJI[p % 10];
+            html += `<button class="page-btn ${{p === currentPage ? 'active' : ''}}" onclick="goToPage(${{p}})">${{digit}}</button>`;
+        }}
+
+        html += `<button class="page-btn" onclick="goToPage(${{currentPage + 1}})" ${{currentPage >= pages - 1 ? 'disabled' : ''}}>▶️</button>`;
+        html += `<div class="page-info">` + t('page') + ` ${{currentPage + 1}} / ${{pages}} · ${{filteredItems.length}} ` + t('results') + `</div>`;
+
+        pag.innerHTML = html;
+    }}
+
+    function goToPage(p) {{
+        const pages = totalPages();
+        if (p < 0 || p >= pages) return;
+        currentPage = p;
+        renderList();
+    }}
+
+    // ════════════════════════════════════════════════════════════
+    // MODAL
+    // ════════════════════════════════════════════════════════════
+    function openModal(idx) {{
+        currentGroup = groupedItems[idx];
+        if (!currentGroup) return;
+        selectedVersionIdx = 0;
+
+        document.getElementById('modalIcon').src = currentGroup.icon;
+        document.getElementById('modalIcon').onerror = function() {{ this.onerror = null; this.src = DEFAULT_ICON; }};
+        document.getElementById('modalName').textContent = currentGroup.name;
+        document.getElementById('modalId').textContent = currentGroup.bundle;
+
+        // Description
+        const descSection = document.getElementById('descSection');
+        if (currentGroup.desc) {{
+            descSection.style.display = 'block';
+            descSection.classList.remove('open');
+            document.getElementById('modalDesc').textContent = currentGroup.desc;
+        }} else {{
+            descSection.style.display = 'none';
+        }}
+
+        // ✨ Phiên bản — chọn để tải
+        const versionSelectSection = document.getElementById('versionSelectSection');
+        if (currentGroup.versions && currentGroup.versions.length > 0) {{
+            versionSelectSection.style.display = 'block';
+            versionSelectSection.classList.remove('open');
+            renderVersionSelectList();
+        }} else {{
+            versionSelectSection.style.display = 'none';
+        }}
+
+        // 📋 Lịch sử phiên bản
+        document.getElementById('historySection').classList.remove('open');
+        renderVersionHistory();
+
+        // Screenshots
+        if (currentGroup.screenshots && currentGroup.screenshots.length > 0) {{
+            lightboxList = currentGroup.screenshots;
+            document.getElementById('screenshotsSection').style.display = 'block';
+            document.getElementById('screenshots').innerHTML = currentGroup.screenshots.map((s, i) =>
+                `<img class="screenshot" src="${{s}}" alt="Screenshot" loading="lazy" onclick="openLightbox(${{i}})" onerror="this.style.display='none'">`
+            ).join('');
+        }} else {{
+            lightboxList = [];
+            document.getElementById('screenshotsSection').style.display = 'none';
+        }}
+
+        // Permissions
+        const permSection = document.getElementById('permSection');
+        const permKeys = Object.keys(currentGroup.permissions || {{}});
+        if (permKeys.length > 0) {{
+            permSection.style.display = 'block';
+            permSection.classList.remove('open');
+            document.getElementById('permissions').innerHTML = permKeys.map(k =>
+                `<div class="permission-item">${{k}}</div>`
+            ).join('');
+        }} else {{
+            permSection.style.display = 'none';
+        }}
+
+        updateSelectedVersionDisplay();
+
+        const scrollBody = document.querySelector('.modal-scroll-body');
+        if (scrollBody) scrollBody.scrollTop = 0;
+
+        document.getElementById('modal').classList.add('active');
+    }}
+
+    // ✨ Phiên bản — danh sách để chọn tải
+    function renderVersionSelectList() {{
+        const html = currentGroup.versions.map((v, i) => {{
+            const label = 'v' + v.version + (v.arch ? ' (' + v.arch + ')' : '');
+            const dateTag = v.date ? ' · ' + v.date : '';
+            return `
+                <div class="version-item ${{i === selectedVersionIdx ? 'selected' : ''}}" onclick="selectVersion(${{i}})">
+                    <div class="version-item-left">
+                        <div class="version-num">${{label}}${{dateTag}}</div>
+                        <div class="version-note">${{v.note || 'Không có ghi chú cập nhật'}}</div>
+                    </div>
+                    <div class="version-check">✓</div>
+                </div>
+            `;
+        }}).join('');
+        document.getElementById('versionSelectList').innerHTML = html ||
+            '<div style="padding:12px; color:var(--text-secondary); font-size:0.9em;">Chưa có dữ liệu phiên bản</div>';
+    }}
+
+    // 📋 Lịch sử phiên bản — danh sách tất cả changelog
+    function renderVersionHistory() {{
+        const html = currentGroup.versions.map((v, i) => {{
+            const label = 'v' + v.version + (v.arch ? ' (' + v.arch + ')' : '');
+            const dateTag = v.date ? ' · ' + v.date : '';
+            return `
+                <div class="version-item" style="cursor:default;">
+                    <div class="version-item-left">
+                        <div class="version-num">${{label}}${{dateTag}}</div>
+                        <div class="version-note">${{v.note || 'Không có thông tin thay đổi'}}</div>
+                    </div>
+                </div>
+            `;
+        }}).join('');
+        document.getElementById('versionHistory').innerHTML = html ||
+            '<div style="padding:12px; color:var(--text-secondary); font-size:0.9em;">Chưa có lịch sử phiên bản</div>';
+    }}
+
+    function selectVersion(i) {{
+        if (!currentGroup || !currentGroup.versions[i]) return;
+        selectedVersionIdx = i;
+
+        const items = document.querySelectorAll('#versionSelectList .version-item');
+        items.forEach((el, idx) => {{
+            el.classList.toggle('selected', idx === i);
+        }});
+
+        updateSelectedVersionDisplay();
+    }}
+
+    function updateSelectedVersionDisplay() {{
+        const v = currentGroup.versions[selectedVersionIdx] || {{}};
+        document.getElementById('modalVersion').textContent = 'v' + (v.version || '1.0');
+        document.getElementById('infoVersion').textContent = v.version || '1.0';
+        document.getElementById('infoCategory').textContent = getCategory(currentGroup, v);
+        document.getElementById('infoAuthor').textContent = currentGroup.author || 'Kyic Store';
+        document.getElementById('infoSize').textContent = formatSize(v.size);
+    }}
+
+    function closeModal(e) {{
+        if (e && e.target.id !== 'modal') return;
+        document.getElementById('modal').classList.remove('active');
+        currentGroup = null;
+    }}
+
+    // ════════════════════════════════════════════════════════════
+    // LIGHTBOX
+    // ════════════════════════════════════════════════════════════
+    let touchStartX = 0;
+
+    function openLightbox(i) {{
+        if (!lightboxList.length) return;
+        lightboxIdx = i;
+        updateLightboxImg();
+        document.getElementById('lightbox').classList.add('active');
+    }}
+
+    function closeLightbox() {{
+        document.getElementById('lightbox').classList.remove('active');
+    }}
+
+    function lightboxBackdropClick(e) {{
+        if (e.target.id === 'lightbox') closeLightbox();
+    }}
+
+    function lightboxNav(dir, e) {{
+        if (e) e.stopPropagation();
+        if (!lightboxList.length) return;
+        lightboxIdx = (lightboxIdx + dir + lightboxList.length) % lightboxList.length;
+        updateLightboxImg();
+    }}
+
+    function updateLightboxImg() {{
+        document.getElementById('lightboxImg').src = lightboxList[lightboxIdx];
+        document.getElementById('lightboxCounter').textContent = (lightboxIdx + 1) + ' / ' + lightboxList.length;
+    }}
+
+    document.getElementById('lightbox').addEventListener('touchstart', e => {{
+        touchStartX = e.changedTouches[0].screenX;
+    }}, {{ passive: true }});
+
+    document.getElementById('lightbox').addEventListener('touchend', e => {{
+        const dx = e.changedTouches[0].screenX - touchStartX;
+        if (Math.abs(dx) > 40) {{
+            lightboxNav(dx > 0 ? -1 : 1);
+        }}
+    }}, {{ passive: true }});
+
+    // ════════════════════════════════════════════════════════════
+    // DOWNLOAD
+    // ════════════════════════════════════════════════════════════
+    async function triggerDownload(url, filename, btnEl) {{
+        if (!url) {{
+            showToast(t('no_link'));
+            return;
+        }}
+
+        const originalText = btnEl ? btnEl.textContent : null;
+        if (btnEl) {{ btnEl.textContent = t('download_start'); btnEl.classList.add('loading'); }}
+
+        try {{
+            const res = await fetch(url, {{ mode: 'cors' }});
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const blob = await res.blob();
+            const blobUrl = URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            a.href = blobUrl;
+            a.download = filename || 'download';
+            a.rel = 'noopener';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
+            setTimeout(() => URL.revokeObjectURL(blobUrl), 8000);
+            showToast(t('download_success'));
+        }} catch (err) {{
+            console.warn('Blob download failed:', err);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename || '';
+            a.rel = 'noopener noreferrer';
+            a.target = '_self';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            showToast(t('download_fallback'));
+        }} finally {{
+            if (btnEl) {{ btnEl.textContent = originalText; btnEl.classList.remove('loading'); }}
+        }}
+    }}
+
+    function downloadSelected() {{
+        if (!currentGroup) return;
+        const v = currentGroup.versions[selectedVersionIdx];
+        if (!v) {{ showToast(t('no_version')); return; }}
+        const filename = v.filename || (currentGroup.name + '_v' + v.version);
+        triggerDownload(v.downloadURL, filename, document.getElementById('downloadBtn'));
+    }}
+
+    function quickDownload(idx) {{
+        const g = groupedItems[idx];
+        if (!g || !g.versions[0]) {{ showToast(t('no_version')); return; }}
+        const v = g.versions[0];
+        const filename = v.filename || (g.name + '_v' + v.version);
+        triggerDownload(v.downloadURL, filename, document.getElementById('quickbtn-' + idx));
+    }}
+
+    function copySelected() {{
+        if (!currentGroup) return;
+        const v = currentGroup.versions[selectedVersionIdx];
+        if (!v || !v.downloadURL) {{ showToast(t('no_results_copy')); return; }}
+        navigator.clipboard.writeText(v.downloadURL).then(() => {{
+            showToast(t('copy_success'));
+        }}).catch(() => {{
+            showToast(t('copy_error'));
+        }});
+    }}
+
+    // ════════════════════════════════════════════════════════════
+    // LOAD DATA
+    // ════════════════════════════════════════════════════════════
+    async function loadData() {{
+        try {{
+            const res = await fetch('{json_path}');
+            const data = await res.json();
+            const items = data[DATA_KEY];
+            rawItems = Array.isArray(items) ? items : Object.values(items || {{}});
+
+            groupedItems = groupByBundle(rawItems);
+
+            if (groupedItems.length === 0) {{
+                document.getElementById('list').innerHTML =
+                    '<div class="empty-state">' + t('no_data') + '</div>';
+                return;
+            }}
+
+            currentPage = 0;
+            renderList();
+        }} catch (e) {{
+            document.getElementById('list').innerHTML =
+                '<div class="empty-state" style="color:#ff6b6b;">' + t('error') + e.message + '</div>';
+        }}
+    }}
+
+    // ════════════════════════════════════════════════════════════
+    // INIT
+    // ════════════════════════════════════════════════════════════
+    initTheme();
+
+    const saved_lang = localStorage.getItem('lang');
+    if (saved_lang) {{
+        document.documentElement.setAttribute('data-lang', saved_lang);
+    }}
+
+    loadData();
+</script>
+
+</body>
+</html>
+"""
+
+
+def build_view(output_file, title, json_path, data_key, default_tab="apps", repo_type="apps"):
+    """
+    Sinh HTML v4 cho Apps/Tweaks/Dylibs pages
+
+    Args:
+        output_file: đường dẫn file HTML output
+        title: tiêu đề trang (Apps/Tweaks/Dylibs)
+        json_path: đường dẫn tới JSON data
+        data_key: tên key trong JSON
+        default_tab: tab nào đang active
+        repo_type: loại repo ("apps"/"tweaks"/"dylibs") — dùng để compute thể loại
+    """
+    rel_json_path = os.path.relpath(json_path, config.REPO_OUTPUT_DIR)
+
+    active_apps = "active" if default_tab == "apps" else ""
+    active_tweaks = "active" if default_tab == "tweaks" else ""
+    active_dylibs = "active" if default_tab == "dylibs" else ""
+
+    html = HTML_TEMPLATE.format(
+        title=title,
+        repo_name=config.REPO_NAME,
+        tint=config.TINT_COLOR,
+        json_path=rel_json_path,
+        data_key=data_key,
+        active_apps=active_apps,
+        active_tweaks=active_tweaks,
+        active_dylibs=active_dylibs,
+        default_icon=config.SOURCE_LOGO,
+        repo_type=repo_type
+    )
+
+    with open(output_file, 'w', encoding='utf-8') as f:
+        f.write(html)
+
+    print(f"✅ Tạo xong: {output_file}")
+
+
+if __name__ == "__main__":
+    path_apps = os.path.join(config.REPO_OUTPUT_DIR, "apps.json")
+    path_tweaks = os.path.join(config.REPO_OUTPUT_DIR, "sileo.json")
+    path_dylibs = os.path.join(config.REPO_OUTPUT_DIR, "dylibs.json")
+
+    build_view(os.path.join(config.REPO_OUTPUT_DIR, "apps.html"), "Apps", path_apps, "apps", "apps", "apps")
+    build_view(os.path.join(config.REPO_OUTPUT_DIR, "tweaks.html"), "Tweaks", path_tweaks, "tweaks", "tweaks", "tweaks")
+    build_view(os.path.join(config.REPO_OUTPUT_DIR, "dylibs.html"), "Dylibs", path_dylibs, "dylibs", "dylibs", "dylibs")
+
+    print("🎉 Tất cả HTML views v4 đã được tạo thành công!")
