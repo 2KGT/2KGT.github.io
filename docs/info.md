@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 16:54:13 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 16:54:16 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -412,7 +412,7 @@
     │           ├── 📂 Lead/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 10 file ]
     │           ├── 📂 TGExtra/
-    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │           ├── 📂 YoutubeX/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │           ├── 📂 cc18/
@@ -448,8 +448,6 @@
     │           ├── 📂 youspeed/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
     │           ├── 📂 youtubefix/
-    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
-    │           ├── 📂 yt-native-share/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │           ├── 📂 ytmu/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 9 file ]
