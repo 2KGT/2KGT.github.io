@@ -106,12 +106,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6);
         }}
 
-        /* Đẩy nội dung trang xuống vì nav-shell giờ là fixed (không chiếm chỗ trong flow).
-           Giá trị --nav-h được JS đo và set động theo chiều cao thực tế của nav-shell. */
-        .container {{
-            padding-top: calc(var(--nav-h, 168px) + 14px);
-        }}
-
         .nav-inner {{
             margin: 0 auto;
             padding: 0 8px 6px;
@@ -224,6 +218,15 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             max-width: 500px;
             margin: 0 auto;
             padding: 16px;
+        }}
+
+        /* Spacer cố định, đứng riêng phía trên #list — không bị JS ghi đè khi
+           renderList() thay innerHTML của #list. Đây là cách đáng tin cậy nhất
+           để đảm bảo item đầu tiên không bao giờ bị nav-shell (fixed) che,
+           vì nó không phụ thuộc đo đạc JS (dễ trễ nhịp, gây hở/che tùy máy). */
+        .nav-spacer {{
+            height: 186px;
+            flex-shrink: 0;
         }}
 
         /* ─────────────────────────── SEARCH ─────────────────────────── */
@@ -889,6 +892,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 </div>
 
 <div class="container">
+    <div class="nav-spacer" aria-hidden="true"></div>
     <div id="list" class="list">
         <div class="loading">
             <div class="spinner"></div>
@@ -1704,24 +1708,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     }})();
 
     // ════════════════════════════════════════════════════════════
-    // NAV SHELL HEIGHT SYNC — tránh nav (fixed, đứng ngoài flow) che mất
-    // item đầu tiên trong danh sách. Đo chiều cao thật của nav-shell
-    // (gồm top offset 10px) rồi gán vào biến CSS --nav-h cho .container.
-    // ════════════════════════════════════════════════════════════
-    function syncNavHeight() {{
-        const navShell = document.getElementById('navShell');
-        if (!navShell) return;
-        // offsetHeight không bị ảnh hưởng bởi transform (translateY khi nav-hidden),
-        // nên luôn cho chiều cao thật của pill bất kể nav đang ẩn hay hiện.
-        const navTopOffset = 10; // khớp với top offset của nav-shell (10px)
-        const total = navTopOffset + navShell.offsetHeight;
-        document.documentElement.style.setProperty('--nav-h', total + 'px');
-    }}
-
-    window.addEventListener('resize', syncNavHeight);
-    window.addEventListener('orientationchange', () => setTimeout(syncNavHeight, 150));
-
-    // ════════════════════════════════════════════════════════════
     // INIT
     // ════════════════════════════════════════════════════════════
     initTheme();
@@ -1737,10 +1723,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         document.getElementById('settingsPanel').classList.add('active');
         document.getElementById('settingsOverlay').classList.add('active');
     }}
-
-    // Đo chiều cao nav sau khi layout/font đã render xong (tránh đo lúc 0px)
-    requestAnimationFrame(() => requestAnimationFrame(syncNavHeight));
-    window.addEventListener('load', syncNavHeight);
 
     loadData();
 </script>
