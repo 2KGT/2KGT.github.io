@@ -1,4 +1,0 @@
-Turrit
-
-Turrit v1.4.8 + leadgram v1.3.3
-• Đã khắc phục: Không thể chuyển tiếp tin nhắn.
