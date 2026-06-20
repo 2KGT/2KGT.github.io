@@ -172,7 +172,7 @@ def download_resource_to_local(url, target_path):
 
 
 def get_default_assets(asset_name):
-    return f"{config.RAW_URL.rstrip('/')}/depictions/default/{asset_name}.png"
+    return f"{config.RAW_URL.rstrip('/')}/data/default/{asset_name}.png"
 
 
 def get_default_screens():
