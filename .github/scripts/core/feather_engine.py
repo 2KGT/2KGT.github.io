@@ -24,7 +24,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 def get_optimized_description(clean_name, version, release_note=None):
     """Logic thông minh: GitHub Note > File local > Mặc định"""
     # FIX: Dùng config.DESC_DIR thay vì tự ghép đường dẫn thủ công
-    # Đảm bảo lưu đúng vào main(root)/repo/depictions/metadata/desc/apps/<AppName>/
+    # Đảm bảo lưu đúng vào main(root)/repo/data/desc/apps/<AppName>/
     app_desc_dir = os.path.join(config.DESC_DIR, clean_name)
     os.makedirs(app_desc_dir, exist_ok=True)
     version_file = os.path.join(app_desc_dir, f"v{version}.txt")
