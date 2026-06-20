@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 17:07:21 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 17:07:24 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -355,7 +355,6 @@
     │               ├── 📂 BiliBili/
     │               │   └── v2.70.0.txt
     │               ├── 📂 Facebook/
-    │               │   ├── v519.0.0.txt
     │               │   ├── v538.1.0.txt
     │               │   ├── v551.1.0.txt
     │               │   └── v565.0.0.txt
