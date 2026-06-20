@@ -245,9 +245,10 @@ SUMMARY_EXTENSIONS = {
     '.jpg': '📸 Ảnh JPG',
     '.jpeg': '📸 Ảnh JPEG',
     '.svg': '🎨 Đồ họa SVG',
-    '.deb': '📦 Gói tinh chỉnh .deb',
-    '.ipa': '📱 Ứng dụng iOS .ipa',
-    '.json': '⚙️ Cấu hình .json'
+    '.deb': '📦 Tweak .deb',
+    '.ipa': '📱 App iOS .ipa',
+    '.json': '⚙️ Config .json'
+    '.txt': '📝 Notes .txt'
 }
 
 EXCLUDE_DIRS = {'.git', '.github', 'docs', 'node_modules', '.venv', '__pycache__'}
@@ -296,7 +297,7 @@ def generate_smart_tree(dir_path, prefix=""):
 
     if summary_parts:
         connector = "└── "
-        summary_str = f"[ 📊 Tóm tắt tài nguyên: {', '.join(summary_parts)} ]"
+        summary_str = f"[ 📊 Số lượng: {', '.join(summary_parts)} ]"
         lines.append(f"{prefix}{connector}{summary_str}")
 
     return "\n".join([l for l in lines if l.strip()])
