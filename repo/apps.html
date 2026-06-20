@@ -1,9 +1,18 @@
-<!DOCTYPE html>
+# .github/scripts/views.py
+
+import os
+import json
+import time
+import datetime
+import inspect
+import config
+
+HTML_TEMPLATE = """<!DOCTYPE html>
 <html lang="vi" data-lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Apps - Kyic Premium Store</title>
+    <title>{title} - {repo_name}</title>
     <style>
         * {{ margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }}
 
@@ -12,7 +21,7 @@
             --card: #1a1a2e;
             --text: #ffffff;
             --text-secondary: #8e8e93;
-            --tint: #848ef9;
+            --tint: #{tint};
             --border: rgba(255, 255, 255, 0.1);
         }}
 
@@ -27,10 +36,11 @@
         }}
 
         html[data-theme="light"] {{
+            color-scheme: light;
             --bg: #f5f5f7;
             --card: #ffffff;
-            --text: #000000;
-            --text-secondary: #86868b;
+            --text: #1a1a1a;
+            --text-secondary: #65656a;
             --border: rgba(0, 0, 0, 0.08);
             color-scheme: light;
         }}
@@ -119,13 +129,13 @@
             background: rgba(28, 28, 46, 0.95);
             border: 1px solid var(--border);
             border-radius: 14px;
-            min-width: 200px;
-            z-index: 100;
+            min-width: 160px;
+            z-index: 200;
             display: none;
             flex-direction: column;
             overflow: hidden;
             backdrop-filter: blur(10px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.4);
         }}
 
         html[data-theme="light"] .settings-dropdown {{
@@ -343,15 +353,15 @@
             inset: 0;
             background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(10px);
-            z-index: 100;
+            z-index: 200;
             padding: 0;
         }}
 
         .modal.active {{ display: flex; align-items: flex-end; }}
 
         .modal-content {{
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.98) 0%, rgba(37, 37, 64, 0.98) 100%);
             position: relative;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             background: linear-gradient(135deg, #1a1a2e, #252540);
             border: 1px solid var(--border);
             border-radius: 24px 24px 0 0;
@@ -366,6 +376,7 @@
         }}
 
         html[data-theme="light"] .modal-content {{
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.98) 0%, rgba(37, 37, 64, 0.98) 100%);
             background: linear-gradient(135deg, #ffffff, #f9f9fb);
         }}
 
@@ -389,6 +400,7 @@
         }}
 
         .modal-scroll-body {{
+            background: transparent;
             overflow-y: auto;
             padding: 18px 20px 20px;
             flex: 1;
@@ -496,6 +508,8 @@
 
         /* ─────────────────────────── ACCORDION SECTIONS ─────────────────────────── */
         .detail-section {{
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
             margin-top: 14px;
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--border);
@@ -504,6 +518,8 @@
         }}
 
         html[data-theme="light"] .detail-section {{
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
             background: rgba(0, 0, 0, 0.03);
         }}
 
@@ -544,7 +560,7 @@
         }}
 
         .detail-section.open .detail-section-body {{
-            max-height: 1000px;
+            max-height: 2000px;
             padding: 0 14px 14px;
         }}
 
@@ -590,6 +606,8 @@
         .version-num {{ font-weight: 600; color: var(--tint); margin-bottom: 2px; }}
 
         .version-note {{
+            color: var(--text-secondary);
+            font-size: 0.85em;
             color: var(--text-secondary); font-size: 0.85em;
             overflow: hidden; text-overflow: ellipsis;
             display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
@@ -614,6 +632,10 @@
         }}
 
         .info-box {{
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 13px 14px;
             margin-top: 14px;
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--border);
@@ -622,15 +644,19 @@
         }}
 
         html[data-theme="light"] .info-box {{
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 13px 14px;
             background: rgba(0, 0, 0, 0.03);
         }}
 
         .info-row {{ margin-bottom: 6px; }}
         .info-row:last-child {{ margin-bottom: 0; }}
 
-        .info-label {{ font-weight: 600; font-size: 0.85em; color: var(--text-secondary); }}
+        .info-label {{ font-weight: 600; font-size: 0.85em; color: var(--text-secondary); margin-bottom: 3px; }}
 
-        .info-value {{ color: var(--text); font-size: 0.9em; }}
+        .info-value {{ color: var(--text); font-size: 0.93em; font-weight: 500; }}
 
         /* ─────────────────────────── ACTION BAR ─────────────────────────── */
         .action-buttons {{
@@ -651,7 +677,7 @@
         }}
 
         .action-btn:active {{ transform: scale(0.97); opacity: 0.9; }}
-        .action-btn.loading {{ opacity: 0.6; pointer-events: none; }}
+        .action-btn.loading {{ opacity: 0.7; pointer-events: none; background: rgba(132, 142, 249, 0.5); }}
 
         .action-btn-icon {{
             width: 50px; flex: none;
@@ -683,6 +709,8 @@
         @keyframes spin {{ to {{ transform: rotate(360deg); }} }}
 
         .toast {{
+            background: rgba(28, 28, 46, 0.96);
+            border: 1px solid rgba(132, 142, 249, 0.3);
             position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
             background: rgba(28,28,46,0.95); border: 1px solid var(--border);
             padding: 12px 20px; border-radius: 12px; font-size: 0.9em;
@@ -691,6 +719,8 @@
         }}
 
         html[data-theme="light"] .toast {{
+            background: rgba(28, 28, 46, 0.96);
+            border: 1px solid rgba(132, 142, 249, 0.3);
             background: rgba(255,255,255,0.95);
         }}
 
@@ -737,9 +767,9 @@
 
         <!-- TABS -->
         <div class="tabs-header">
-            <button class="tab-btn active" onclick="location.href='apps.html'">📱 Apps</button>
-            <button class="tab-btn " onclick="location.href='tweaks.html'">🔧 Tweaks</button>
-            <button class="tab-btn " onclick="location.href='dylibs.html'">📚 Dylibs</button>
+            <button class="tab-btn {active_apps}" onclick="location.href='apps.html'">📱 Apps</button>
+            <button class="tab-btn {active_tweaks}" onclick="location.href='tweaks.html'">🔧 Tweaks</button>
+            <button class="tab-btn {active_dylibs}" onclick="location.href='dylibs.html'">📚 Dylibs</button>
         </div>
 
         <!-- SEARCH BOX (moved from container) -->
@@ -765,7 +795,7 @@
 </div>
 
 <!-- MODAL -->
-<div id="modal" class="modal" onclick="closeModal(event)">
+<div id="modal" class="modal" onclick="if(event.target.id==='modal') closeModal(event)">
     <div class="modal-content" onclick="event.stopPropagation()">
 
         <div class="modal-fixed-header">
@@ -809,7 +839,17 @@
                 </div>
             </div>
 
-            
+            <!-- 📋 Lịch sử phiên bản -->
+            <div id="historySection" class="detail-section">
+                <div class="detail-section-header" onclick="toggleSection('historySection')">
+                    <div class="detail-section-title">📋 Lịch sử phiên bản</div>
+                    <div class="detail-section-toggle">🔽</div>
+                </div>
+                <div class="detail-section-body">
+                    <div class="version-history" id="versionHistory"></div>
+                </div>
+            </div>
+
             <!-- 🔐 Quyền hạn -->
             <div id="permSection" class="detail-section" style="display:none;">
                 <div class="detail-section-header" onclick="toggleSection('permSection')">
@@ -964,9 +1004,9 @@
     let lightboxList = [];
     let lightboxIdx = 0;
 
-    const DEFAULT_ICON = 'https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic.png';
-    const DATA_KEY = 'apps';
-    const REPO_TYPE = 'apps';
+    const DEFAULT_ICON = '{default_icon}';
+    const DATA_KEY = '{data_key}';
+    const REPO_TYPE = '{repo_type}';
 
     const DIGIT_EMOJI = ['0️⃣','1️⃣','2️⃣','3️⃣','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣'];
 
@@ -994,7 +1034,7 @@
     }}
 
     function parseVersion(v) {{
-        return String(v || '0').split(/[.\-_]/).map(x => parseInt(x) || 0);
+        return String(v || '0').split(/[.\\-_]/).map(x => parseInt(x) || 0);
     }}
 
     function compareVersions(a, b) {{
@@ -1202,12 +1242,14 @@
         if (currentGroup.versions && currentGroup.versions.length > 0) {{
             versionSection.style.display = 'block';
             versionSection.classList.remove('open');
-            renderVersionList();
+            renderVersionSelectList();
         }} else {{
             versionSection.style.display = 'none';
         }}
 
-
+        // 📋 Lịch sử phiên bản
+        document.getElementById('historySection').classList.remove('open');
+        renderVersionHistory();
 
         // Screenshots
         if (currentGroup.screenshots && currentGroup.screenshots.length > 0) {{
@@ -1239,7 +1281,11 @@
         const scrollBody = document.querySelector('.modal-scroll-body');
         if (scrollBody) scrollBody.scrollTop = 0;
 
-        document.getElementById('modal').classList.add('active');
+        const modal = document.getElementById('modal');
+        if (modal) {{
+            modal.classList.add('active');
+            modal.style.display = 'flex';
+        }}
     }}
 
     function renderVersionList() {{
@@ -1260,7 +1306,7 @@
             '<div style="padding:12px; color:var(--text-secondary); font-size:0.9em;">Chưa có dữ liệu phiên bản</div>';
     }}
 
-    }
+    
 
     function selectVersion(i) {{
         if (!currentGroup || !currentGroup.versions[i]) return;
@@ -1442,7 +1488,7 @@
     // ════════════════════════════════════════════════════════════
     async function loadData() {{
         try {{
-            const res = await fetch('apps.json');
+            const res = await fetch('{json_path}');
             const data = await res.json();
             const items = data[DATA_KEY];
             rawItems = Array.isArray(items) ? items : Object.values(items || {{}});
@@ -1478,3 +1524,42 @@
 
 </body>
 </html>
+"""
+
+
+def build_view(output_file, title, json_path, data_key, default_tab="apps", repo_type="apps"):
+    rel_json_path = os.path.relpath(json_path, config.REPO_OUTPUT_DIR)
+
+    active_apps = "active" if default_tab == "apps" else ""
+    active_tweaks = "active" if default_tab == "tweaks" else ""
+    active_dylibs = "active" if default_tab == "dylibs" else ""
+
+    html = HTML_TEMPLATE.format(
+        title=title,
+        repo_name=config.REPO_NAME,
+        tint=config.TINT_COLOR,
+        json_path=rel_json_path,
+        data_key=data_key,
+        active_apps=active_apps,
+        active_tweaks=active_tweaks,
+        active_dylibs=active_dylibs,
+        default_icon=config.SOURCE_LOGO,
+        repo_type=repo_type
+    )
+
+    with open(output_file, 'w', encoding='utf-8') as f:
+        f.write(html)
+
+    print(f"✅ Tạo xong: {output_file}")
+
+
+if __name__ == "__main__":
+    path_apps = os.path.join(config.REPO_OUTPUT_DIR, "apps.json")
+    path_tweaks = os.path.join(config.REPO_OUTPUT_DIR, "sileo.json")
+    path_dylibs = os.path.join(config.REPO_OUTPUT_DIR, "dylibs.json")
+
+    build_view(os.path.join(config.REPO_OUTPUT_DIR, "apps.html"), "Apps", path_apps, "apps", "apps", "apps")
+    build_view(os.path.join(config.REPO_OUTPUT_DIR, "tweaks.html"), "Tweaks", path_tweaks, "tweaks", "tweaks", "tweaks")
+    build_view(os.path.join(config.REPO_OUTPUT_DIR, "dylibs.html"), "Dylibs", path_dylibs, "dylibs", "dylibs", "dylibs")
+
+    print("🎉 HTML views v5 tạo thành công!")
