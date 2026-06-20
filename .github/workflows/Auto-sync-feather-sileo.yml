@@ -64,10 +64,13 @@ jobs:
         run: |
           cd .github/scripts
           python views.py
-        #continue-on-error: true  # Không fail nếu dylib empty
+        continue-on-error: true  # Không fail nếu dylib empty
 
-      - name: Generate Docs logs info
-        run: python3 .github/scripts/logs.py
+      - name: "📊 Sinh cây thư mục & Changelog"
+        run: |
+          mkdir -p docs
+          python3 .github/scripts/logs.py
+        continue-on-error: true  # Không fail toàn bộ job nếu bước log gặp lỗi
 
       - name: "📤 Commit và Push dữ liệu mới"
         run: |
@@ -98,6 +101,3 @@ jobs:
           git push origin HEAD:main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-
-
