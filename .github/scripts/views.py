@@ -47,6 +47,18 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             padding-bottom: env(safe-area-inset-bottom, 0);
             padding-left: env(safe-area-inset-left, 0);
             padding-right: env(safe-area-inset-right, 0);
+            opacity: 1;
+            animation: pageFadeIn 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+        }}
+
+        body.page-leaving {{
+            opacity: 0;
+            transition: opacity 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+        }}
+
+        @keyframes pageFadeIn {{
+            from {{ opacity: 0; transform: translateY(6px); }}
+            to {{ opacity: 1; transform: translateY(0); }}
         }}
 
         /* ─────────────────────────── LIGHT MODE ─────────────────────────── */
@@ -181,8 +193,13 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             cursor: pointer;
             font-weight: 600;
             font-size: 0.86em;
-            transition: all 0.2s;
+            transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                        color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                        border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                        transform 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+                        box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-align: center;
+            will-change: transform;
         }}
 
         html[data-theme="light"] .tab-btn {{
@@ -193,6 +210,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             background: rgba(132, 142, 249, 0.2);
             color: var(--text);
             border-color: var(--tint);
+            box-shadow: 0 4px 14px rgba(132, 142, 249, 0.25);
+            transform: scale(1.02);
         }}
 
         html[data-theme="light"] .tab-btn.active {{
@@ -200,7 +219,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }}
 
         .tab-btn:active {{
-            transform: scale(0.97);
+            transform: scale(0.95);
+            transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
         }}
 
         /* ─────────────────────────── CONTAINER ─────────────────────────── */
@@ -902,9 +922,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         </div>
 
         <div class="tabs-header">
-            <button class="tab-btn {active_apps}" onclick="location.href='apps.html'">📱 Apps</button>
-            <button class="tab-btn {active_tweaks}" onclick="location.href='tweaks.html'">🔧 Tweaks</button>
-            <button class="tab-btn {active_dylibs}" onclick="location.href='dylibs.html'">📚 Dylibs</button>
+            <button class="tab-btn {active_apps}" onclick="navigateTab('apps.html', this)">📱 Apps</button>
+            <button class="tab-btn {active_tweaks}" onclick="navigateTab('tweaks.html', this)">🔧 Tweaks</button>
+            <button class="tab-btn {active_dylibs}" onclick="navigateTab('dylibs.html', this)">📚 Dylibs</button>
         </div>
 
         <div class="search-box">
@@ -1147,6 +1167,14 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         document.documentElement.setAttribute('data-theme', next);
         localStorage.setItem('darkMode', next === 'dark');
         updateSettingsPanelTexts();
+    }}
+
+    function navigateTab(url, btn) {{
+        if (btn && btn.classList.contains('active')) return;
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        if (btn) btn.classList.add('active');
+        document.body.classList.add('page-leaving');
+        setTimeout(() => {{ location.href = url; }}, 170);
     }}
 
     let scrollLockY = 0;
@@ -1774,9 +1802,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     // NAV SHELL AUTO-HIDE ON SCROLL (iOS-style)
     // ════════════════════════════════════════════════════════════
     // ════════════════════════════════════════════════════════════
-    // NAV SHELL AUTO-SHOW/HIDE (kiểu Safari): hiện ngay khi cuộn xuống,
-    // không tự hiện khi cuộn lên giữa trang, hiện khi về hẳn đầu trang,
-    // tự ẩn sau một lúc đứng yên nếu đang ở giữa trang.
+    // NAV SHELL AUTO-SHOW/HIDE: kéo lên xem nội dung phía dưới (scrollY tăng)
+    // -> nav tự ẩn nhường chỗ đọc; kéo xuống xem lại phía trên (scrollY giảm)
+    // giữa trang -> không tự hiện ngay; về hẳn đầu trang -> hiện; đứng yên
+    // một lúc giữa trang -> tự ẩn.
     // ════════════════════════════════════════════════════════════
     (function setupNavAutoHide() {{
         const navShell = document.getElementById('navShell');
@@ -1808,9 +1837,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             if (currentY <= TOP_THRESHOLD) {{
                 setNavHidden(false);
             }} else if (delta > 0) {{
-                setNavHidden(false);
+                setNavHidden(true);
             }}
-            // delta < 0 (cuộn lên giữa trang): giữ nguyên trạng thái hiện tại
+            // delta < 0 (kéo xuống xem lại phía trên, giữa trang): giữ nguyên trạng thái
 
             scheduleIdleHide();
             lastScrollY = currentY;
