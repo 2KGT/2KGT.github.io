@@ -28,6 +28,10 @@
           "screenshots": [
             {
               "accessibilityText": "Screenshot0",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_4.jpeg"
+            },
+            {
+              "accessibilityText": "Screenshot1",
               "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_6.jpeg"
             }
           ],
