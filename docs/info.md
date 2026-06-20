@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 17:01:15 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 17:01:16 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -375,8 +375,6 @@
     │       │       ├── 📂 LCSign/
     │       │       │   ├── v1.1.6.txt
     │       │       │   └── v1.1.txt
-    │       │       ├── 📂 MuteOTA/
-    │       │       │   └── v1.2.txt
     │       │       ├── 📂 Phim4K/
     │       │       │   ├── v2.2.2.txt
     │       │       │   └── v2.3.1.txt
