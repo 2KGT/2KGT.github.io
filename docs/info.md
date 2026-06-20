@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 17:07:39 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 17:07:47 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -352,31 +352,18 @@
     │   └── 📂 metadata/
     │       └── 📂 desc/
     │           └── 📂 apps/
-    │               ├── 📂 BiliBili/
-    │               │   └── v2.70.0.txt
-    │               ├── 📂 Instagram/
-    │               │   ├── v419.0.0.txt
-    │               │   └── v433.0.0.txt
     │               ├── 📂 LCSign/
     │               │   ├── v1.1.6.txt
     │               │   └── v1.1.txt
     │               ├── 📂 Phim4K/
-    │               │   ├── v2.2.2.txt
     │               │   └── v2.3.1.txt
     │               ├── 📂 SPAMSMS/
     │               │   └── v1.0.0.txt
     │               ├── 📂 Stay/
     │               │   ├── v2.9.18.txt
     │               │   └── v2.9.20.txt
-    │               ├── 📂 UnKeySign/
-    │               │   └── v1.1.8.txt
-    │               ├── 📂 YouTube/
-    │               │   ├── v21.16.2.txt
-    │               │   ├── v21.17.3.txt
-    │               │   ├── v21.22.3.txt
-    │               │   └── v21.24.3.txt
-    │               └── 📂 Zebra/
-    │                   └── v1.1.28.txt
+    │               └── 📂 UnKeySign/
+    │                   └── v1.1.8.txt
     ├── 📂 dylibs/
     │   ├── .gitkeep
     │   └── 📂 Lead/
