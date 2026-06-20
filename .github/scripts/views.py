@@ -1,30 +1,11 @@
 # .github/scripts/views.py
 #!/usr/bin/env python3
-"""
-Views.py v4 — AppStore-style HTML generator (đồng bộ apps/tweaks/dylibs)
-
-FIXES V4 (theo feedback ảnh screenshot + yêu cầu chi tiết):
-1. ✅ PAGE_SIZE: 15 → 10 items/trang
-2. ✅ Header mới: 🏠 🌐 🌓 ⚙️ (hàng trên), KHÔNG auto-hide (luôn sticky)
-3. ✅ Dark/Light mode toggle 🌓 (localStorage, mặc định theo device)
-4. ✅ Language toggle 🌐 (VI/EN, mặc định VI)
-5. ✅ Sửa background iOS glassmorphism (xoá gradient xanh lỗi)
-6. ✅ Sửa lỗi Apps: đảm bảo liệt kê đầy đủ phiên bản
-7. ✅ Đổi sections:
-   - ✨ Phiên bản (chọn để tải) — accordion thu gọn
-   - 📝 Mô tả — accordion thu gọn
-   - 📋 Lịch sử phiên bản — accordion thu gọn, changelog chi tiết
-   - 🔐 Quyền hạn — accordion thu gọn
-8. ✅ Thêm "Thể loại" vào ℹ️ Thông tin (Apps-ios-ipa, Tweaks-arm64-deb, v.v.)
-"""
 import os
 import json
 import time
 import datetime
 import inspect
 import config
-
-# config.safe_write_file("repo/apps.json", json_data)  # Removed — undefined json_data
 
 # ────────────────────────────────────────────────────────
 # HTML TEMPLATE v4
@@ -229,14 +210,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         .nav-spacer {{
             height: 186px;
             flex-shrink: 0;
-        }}
-
-        /* Khi nav-shell ẩn đi lúc cuộn xuống, thu khoảng đệm lại ngay lập tức
-           (không transition) để tránh cộng dồn việc tính layout vào main thread
-           trong lúc đang cuộn — đây là nguyên nhân chính gây giật/lag khi scroll.
-           Nav-shell tự nó đã có animation mượt nên spacer không cần animate theo. */
-        .nav-spacer.collapsed {{
-            height: 18px;
         }}
 
         /* ─────────────────────────── SEARCH ─────────────────────────── */
@@ -773,6 +746,11 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             pointer-events: none;
             transition: opacity 0.3s ease;
             z-index: 300;
+            /* Cách ly layer: overlay tự thành 1 compositor layer riêng, tách khỏi
+               nội dung trang phía sau — tránh việc 2 animation (cuộn trang + mở
+               panel) tranh giành cùng một layer khi render. */
+            will-change: opacity;
+            transform: translateZ(0);
         }}
 
         .settings-overlay.active {{
@@ -793,13 +771,14 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             border: 1px solid rgba(255, 255, 255, 0.16);
             border-radius: 28px;
             box-shadow: 0 14px 50px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-            transform: translateX(calc(100% + 24px));
+            transform: translateX(calc(100% + 24px)) translateZ(0);
             transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 301;
             display: flex;
             flex-direction: column;
             padding: 6px 0 10px;
             overflow: hidden;
+            will-change: transform;
         }}
 
         html[data-theme="light"] .settings-panel {{
@@ -808,7 +787,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }}
 
         .settings-panel.active {{
-            transform: translateX(0);
+            transform: translateX(0) translateZ(0);
         }}
 
         .settings-header {{
@@ -1181,6 +1160,26 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         updateSettingsPanelTexts();
     }}
 
+    let scrollLockY = 0;
+
+    function lockBodyScroll() {{
+        scrollLockY = window.scrollY;
+        document.body.style.position = 'fixed';
+        document.body.style.top = (-scrollLockY) + 'px';
+        document.body.style.left = '0';
+        document.body.style.right = '0';
+        document.body.style.width = '100%';
+    }}
+
+    function unlockBodyScroll() {{
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.left = '';
+        document.body.style.right = '';
+        document.body.style.width = '';
+        window.scrollTo(0, scrollLockY);
+    }}
+
     function toggleSettings() {{
         const panel = document.getElementById('settingsPanel');
         const overlay = document.getElementById('settingsOverlay');
@@ -1189,6 +1188,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             closeSettings();
         }} else {{
             updateSettingsPanelTexts();
+            lockBodyScroll();
             panel.classList.add('active');
             overlay.classList.add('active');
         }}
@@ -1197,6 +1197,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     function closeSettings() {{
         document.getElementById('settingsPanel').classList.remove('active');
         document.getElementById('settingsOverlay').classList.remove('active');
+        unlockBodyScroll();
     }}
 
     function updateSettingsPanelTexts() {{
@@ -1786,20 +1787,25 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     // ════════════════════════════════════════════════════════════
     (function setupNavAutoHide() {{
         const navShell = document.getElementById('navShell');
-        const navSpacer = document.querySelector('.nav-spacer');
         if (!navShell) return;
 
         let lastScrollY = window.scrollY;
-        let accumulatedDelta = 0;
         let isHidden = false;
         let ticking = false;
-        const THRESHOLD = 24; // px tích luỹ cần vượt qua mới đổi trạng thái — tránh dao động mỗi frame
+        let lastToggleTime = 0;
+        const SHOW_THRESHOLD = 4;   // px — cuộn lên dù chỉ một chút cũng hiện lại ngay (nhạy)
+        const HIDE_THRESHOLD = 10;  // px — cuộn xuống cần một chút để tránh giật do rung tay
+        const COOLDOWN = 120;       // ms — khoảng nghỉ tối thiểu giữa 2 lần đổi trạng thái, chặn dao động qua lại
 
         function setNavHidden(hidden) {{
-            if (isHidden === hidden) return; // không đổi gì thì không đụng tới DOM/class
+            if (isHidden === hidden) return;
+            const now = performance.now();
+            if (now - lastToggleTime < COOLDOWN) return;
+            lastToggleTime = now;
             isHidden = hidden;
+            // Chỉ toggle 1 class duy nhất, đổi transform/opacity (không đổi layout/height)
+            // — đây là thay đổi compositor-only nên không gây reflow khi cuộn.
             navShell.classList.toggle('nav-hidden', hidden);
-            if (navSpacer) navSpacer.classList.toggle('collapsed', hidden);
         }}
 
         function onScroll() {{
@@ -1808,21 +1814,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
             if (currentY <= 12) {{
                 setNavHidden(false);
-                accumulatedDelta = 0;
-            }} else {{
-                // Tích luỹ độ dịch chuyển theo cùng hướng; đổi hướng thì reset lại
-                if ((delta > 0 && accumulatedDelta < 0) || (delta < 0 && accumulatedDelta > 0)) {{
-                    accumulatedDelta = 0;
-                }}
-                accumulatedDelta += delta;
-
-                if (accumulatedDelta > THRESHOLD) {{
-                    setNavHidden(true);
-                    accumulatedDelta = 0;
-                }} else if (accumulatedDelta < -THRESHOLD) {{
-                    setNavHidden(false);
-                    accumulatedDelta = 0;
-                }}
+            }} else if (delta >= HIDE_THRESHOLD) {{
+                setNavHidden(true);
+            }} else if (delta <= -SHOW_THRESHOLD) {{
+                setNavHidden(false);
             }}
 
             lastScrollY = currentY;
