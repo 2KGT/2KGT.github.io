@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 17:06:34 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 17:06:58 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -391,7 +391,7 @@
     │       │           └── v1.1.28.txt
     │       └── 📂 tweaks/
     │           └── 📂 glow/
-    │               └── [ 📊 Số lượng: ⚙️ Config .json: 16 file ]
+    │               └── [ 📊 Số lượng: ⚙️ Config .json: 10 file ]
     ├── 📂 dylibs/
     │   ├── .gitkeep
     │   └── 📂 Lead/
