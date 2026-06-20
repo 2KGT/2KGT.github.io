@@ -1,15 +1,4 @@
-# .github/scripts/views.py — v5
-# Ghi chú: File này là view generator cho 3 trang (apps/tweaks/dylibs)
-# Copy file này từ v4 rồi apply các patches sau:
-
-# ════════════════════════════════════════════════════════════
-# CHANGES v5:
-# 1. ✅ Search box di chuyển vào NAV SHELL (dưới tabs, trong nav-inner)
-# 2. ✅ NAV SHELL auto-hide + scroll ẩn/hiện lại (như Safari)
-# 3. ✅ ⚙️ Settings dropdown (Telegram, Support, Sign up, Log in)
-# 4. ✅ Sửa lỗi trùng ghi chú: desc ≠ note rõ ràng
-# 5. ✅ Cân đối layout header 4 buttons + responsive
-# ════════════════════════════════════════════════════════════
+# .github/scripts/views.py
 
 import os
 import json
@@ -23,30 +12,30 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>{title} - {repo_name}</title>
+    <title>{{title}} - {{repo_name}}</title>
     <style>
-        * {{ margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }}
+        * {{{{ margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }}}}
 
-        :root {{
+        :root {{{{
             --bg: #0f0f1e;
             --card: #1a1a2e;
             --text: #ffffff;
             --text-secondary: #8e8e93;
-            --tint: #{tint};
+            --tint: #{{tint}};
             --border: rgba(255, 255, 255, 0.1);
-        }}
+        }}}}
 
-        html {{ color-scheme: dark; }}
+        html {{{{ color-scheme: dark; }}}}
 
-        body {{
+        body {{{{
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI", sans-serif;
             background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #0f0f1e 100%);
             color: var(--text);
             min-height: 100vh;
             overflow-x: hidden;
-        }}
+        }}}}
 
-        html[data-theme="light"] {{
+        html[data-theme="light"] {{{{
             color-scheme: light;
             --bg: #f5f5f7;
             --card: #ffffff;
@@ -54,16 +43,16 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             --text-secondary: #65656a;
             --border: rgba(0, 0, 0, 0.08);
             color-scheme: light;
-        }}
+        }}}}
 
-        html[data-theme="light"] body {{
+        html[data-theme="light"] body {{{{
             background: linear-gradient(135deg, #f5f5f7 0%, #ffffff 50%, #f0f0f2 100%);
-        }}
+        }}}}
 
         /* ─────────────────────────── NAV SHELL ─────────────────────────
            ✨ v5: Auto-hide khi cuộn xuống, hiện lại khi cuộn lên
            Search box nằm dưới tabs, chung với nav-inner               */
-        .nav-shell {{
+        .nav-shell {{{{
             position: sticky;
             top: 0;
             z-index: 50;
@@ -73,36 +62,36 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             border-bottom: 1px solid var(--border);
             transform: translateY(0);
             transition: transform 0.28s ease;
-        }}
+        }}}}
 
-        .nav-shell.nav-hidden {{
+        .nav-shell.nav-hidden {{{{
             transform: translateY(-100%);
-        }}
+        }}}}
 
-        html[data-theme="light"] .nav-shell {{
+        html[data-theme="light"] .nav-shell {{{{
             background: rgba(255, 255, 255, 0.5);
-        }}
+        }}}}
 
-        .nav-inner {{
+        .nav-inner {{{{
             max-width: 500px;
             margin: 0 auto;
             padding: 0 12px;
-        }}
+        }}}}
 
-        .header-row {{
+        .header-row {{{{
             display: flex;
             justify-content: space-between;
             align-items: center;
             height: 48px;
             padding: 0 4px;
-        }}
+        }}}}
 
-        .header-actions {{
+        .header-actions {{{{
             display: flex;
             gap: 6px;
-        }}
+        }}}}
 
-        .icon-btn {{
+        .icon-btn {{{{
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid var(--border);
             color: var(--text);
@@ -116,23 +105,23 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             font-size: 1.1em;
             transition: all 0.2s;
             position: relative;
-        }}
+        }}}}
 
-        html[data-theme="light"] .icon-btn {{
+        html[data-theme="light"] .icon-btn {{{{
             background: rgba(0, 0, 0, 0.05);
-        }}
+        }}}}
 
-        .icon-btn:active {{
+        .icon-btn:active {{{{
             background: rgba(255, 255, 255, 0.2);
             transform: scale(0.93);
-        }}
+        }}}}
 
-        html[data-theme="light"] .icon-btn:active {{
+        html[data-theme="light"] .icon-btn:active {{{{
             background: rgba(0, 0, 0, 0.12);
-        }}
+        }}}}
 
         /* ──────────────────────── SETTINGS DROPDOWN ──────────────────────── */
-        .settings-dropdown {{
+        .settings-dropdown {{{{
             position: absolute;
             top: 100%;
             right: 0;
@@ -147,17 +136,17 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             overflow: hidden;
             backdrop-filter: blur(10px);
             box-shadow: 0 12px 32px rgba(0,0,0,0.4);
-        }}
+        }}}}
 
-        html[data-theme="light"] .settings-dropdown {{
+        html[data-theme="light"] .settings-dropdown {{{{
             background: rgba(255, 255, 255, 0.95);
-        }}
+        }}}}
 
-        .settings-dropdown.active {{
+        .settings-dropdown.active {{{{
             display: flex;
-        }}
+        }}}}
 
-        .settings-item {{
+        .settings-item {{{{
             padding: 13px 14px;
             cursor: pointer;
             border-bottom: 1px solid var(--border);
@@ -168,33 +157,33 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             display: flex;
             align-items: center;
             gap: 8px;
-        }}
+        }}}}
 
-        .settings-item:last-child {{
+        .settings-item:last-child {{{{
             border-bottom: none;
-        }}
+        }}}}
 
-        .settings-item:hover {{
+        .settings-item:hover {{{{
             background: rgba(255, 255, 255, 0.1);
-        }}
+        }}}}
 
-        html[data-theme="light"] .settings-item:hover {{
+        html[data-theme="light"] .settings-item:hover {{{{
             background: rgba(0, 0, 0, 0.05);
-        }}
+        }}}}
 
-        .settings-item:active {{
+        .settings-item:active {{{{
             background: rgba(255, 255, 255, 0.2);
-        }}
+        }}}}
 
         /* ─────────────────────────── TABS ─────────────────────────── */
-        .tabs-header {{
+        .tabs-header {{{{
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             gap: 8px;
             padding: 0 4px 8px;
-        }}
+        }}}}
 
-        .tab-btn {{
+        .tab-btn {{{{
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--border);
             color: var(--text-secondary);
@@ -205,24 +194,24 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             font-size: 0.86em;
             transition: all 0.2s;
             text-align: center;
-        }}
+        }}}}
 
-        html[data-theme="light"] .tab-btn {{
+        html[data-theme="light"] .tab-btn {{{{
             background: rgba(0, 0, 0, 0.03);
-        }}
+        }}}}
 
-        .tab-btn.active {{
+        .tab-btn.active {{{{
             background: rgba(132, 142, 249, 0.2);
             color: var(--text);
             border-color: var(--tint);
-        }}
+        }}}}
 
-        .tab-btn:active {{
+        .tab-btn:active {{{{
             transform: scale(0.97);
-        }}
+        }}}}
 
         /* ─────────────────────────── SEARCH (moved to nav-shell) ─────────────────────────── */
-        .search-box {{
+        .search-box {{{{
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--border);
             border-radius: 16px;
@@ -231,38 +220,38 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             display: flex;
             align-items: center;
             gap: 10px;
-        }}
+        }}}}
 
-        html[data-theme="light"] .search-box {{
+        html[data-theme="light"] .search-box {{{{
             background: rgba(0, 0, 0, 0.04);
-        }}
+        }}}}
 
-        .search-box input {{
+        .search-box input {{{{
             background: transparent;
             border: none;
             color: var(--text);
             width: 100%;
             outline: none;
             font-size: 0.95em;
-        }}
+        }}}}
 
-        .search-box input::placeholder {{ color: var(--text-secondary); }}
+        .search-box input::placeholder {{{{ color: var(--text-secondary); }}}}
 
         /* ─────────────────────────── CONTAINER ─────────────────────────── */
-        .container {{
+        .container {{{{
             max-width: 500px;
             margin: 0 auto;
             padding: 0;
-        }}
+        }}}}
 
-        .container-inner {{
+        .container-inner {{{{
             padding: 16px;
-        }}
+        }}}}
 
         /* ─────────────────────────── LIST ─────────────────────────── */
-        .list {{ display: flex; flex-direction: column; gap: 12px; min-height: 200px; }}
+        .list {{{{ display: flex; flex-direction: column; gap: 12px; min-height: 200px; }}}}
 
-        .item {{
+        .item {{{{
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--border);
             border-radius: 16px;
@@ -272,46 +261,46 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             gap: 12px;
             cursor: pointer;
             transition: all 0.2s;
-        }}
+        }}}}
 
-        html[data-theme="light"] .item {{
+        html[data-theme="light"] .item {{{{
             background: rgba(0, 0, 0, 0.04);
-        }}
+        }}}}
 
-        .item:active {{ background: rgba(255, 255, 255, 0.1); transform: scale(0.99); }}
+        .item:active {{{{ background: rgba(255, 255, 255, 0.1); transform: scale(0.99); }}}}
 
-        .item-icon {{
+        .item-icon {{{{
             width: 56px; height: 56px; border-radius: 12px;
             object-fit: cover; flex-shrink: 0;
             background: rgba(255, 255, 255, 0.05);
-        }}
+        }}}}
 
-        .item-info {{ flex: 1; min-width: 0; }}
+        .item-info {{{{ flex: 1; min-width: 0; }}}}
 
-        .item-name {{
+        .item-name {{{{
             font-weight: 600; font-size: 1em; margin-bottom: 4px;
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }}
+        }}}}
 
-        .item-id {{
+        .item-id {{{{
             font-size: 0.85em; color: var(--text-secondary);
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }}
+        }}}}
 
-        .item-version {{ font-size: 0.8em; color: var(--text-secondary); margin-top: 2px; }}
+        .item-version {{{{ font-size: 0.8em; color: var(--text-secondary); margin-top: 2px; }}}}
 
-        .item-action {{
+        .item-action {{{{
             background: var(--tint); color: white; border: none;
             padding: 9px 20px; border-radius: 20px; font-weight: 600;
             cursor: pointer; font-size: 0.9em; white-space: nowrap;
             transition: all 0.2s; flex-shrink: 0;
-        }}
+        }}}}
 
-        .item-action:active {{ transform: scale(0.93); opacity: 0.85; }}
-        .item-action.loading {{ opacity: 0.6; pointer-events: none; }}
+        .item-action:active {{{{ transform: scale(0.93); opacity: 0.85; }}}}
+        .item-action.loading {{{{ opacity: 0.6; pointer-events: none; }}}}
 
         /* ─────────────────────────── PAGINATION ─────────────────────────── */
-        .pagination {{
+        .pagination {{{{
             display: flex;
             justify-content: center;
             align-items: center;
@@ -319,9 +308,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             flex-wrap: wrap;
             margin-top: 20px;
             padding: 6px 16px 16px;
-        }}
+        }}}}
 
-        .page-btn {{
+        .page-btn {{{{
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--border);
             color: var(--text);
@@ -335,30 +324,30 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             align-items: center;
             justify-content: center;
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }}
+        }}}}
 
-        html[data-theme="light"] .page-btn {{
+        html[data-theme="light"] .page-btn {{{{
             background: rgba(0, 0, 0, 0.04);
-        }}
+        }}}}
 
-        .page-btn.active {{
+        .page-btn.active {{{{
             background: rgba(132, 142, 249, 0.25);
             border-color: var(--tint);
-        }}
+        }}}}
 
-        .page-btn:disabled {{ opacity: 0.35; pointer-events: none; }}
-        .page-btn:active {{ transform: scale(0.92); }}
+        .page-btn:disabled {{{{ opacity: 0.35; pointer-events: none; }}}}
+        .page-btn:active {{{{ transform: scale(0.92); }}}}
 
-        .page-info {{
+        .page-info {{{{
             width: 100%;
             text-align: center;
             color: var(--text-secondary);
             font-size: 0.8em;
             margin-top: 8px;
-        }}
+        }}}}
 
         /* ─────────────────────────── MODAL ─────────────────────────── */
-        .modal {{
+        .modal {{{{
             display: none;
             position: fixed;
             inset: 0;
@@ -366,11 +355,11 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             backdrop-filter: blur(10px);
             z-index: 200;
             padding: 0;
-        }}
+        }}}}
 
-        .modal.active {{ display: flex; align-items: flex-end; }}
+        .modal.active {{{{ display: flex; align-items: flex-end; }}}}
 
-        .modal-content {{
+        .modal-content {{{{
             background: linear-gradient(135deg, rgba(26, 26, 46, 0.98) 0%, rgba(37, 37, 64, 0.98) 100%);
             position: relative;
             background: linear-gradient(135deg, #1a1a2e, #252540);
@@ -384,19 +373,19 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             flex-direction: column;
             animation: slideUp 0.25s ease;
             overflow: hidden;
-        }}
+        }}}}
 
-        html[data-theme="light"] .modal-content {{
+        html[data-theme="light"] .modal-content {{{{
             background: linear-gradient(135deg, rgba(26, 26, 46, 0.98) 0%, rgba(37, 37, 64, 0.98) 100%);
             background: linear-gradient(135deg, #ffffff, #f9f9fb);
-        }}
+        }}}}
 
-        @keyframes slideUp {{
-            from {{ transform: translateY(100%); }}
-            to {{ transform: translateY(0); }}
-        }}
+        @keyframes slideUp {{{{
+            from {{{{ transform: translateY(100%); }}}}
+            to {{{{ transform: translateY(0); }}}}
+        }}}}
 
-        .modal-fixed-header {{
+        .modal-fixed-header {{{{
             position: sticky;
             top: 0;
             z-index: 5;
@@ -404,38 +393,38 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             padding: 18px 20px 14px;
             border-bottom: 1px solid var(--border);
             flex-shrink: 0;
-        }}
+        }}}}
 
-        html[data-theme="light"] .modal-fixed-header {{
+        html[data-theme="light"] .modal-fixed-header {{{{
             background: linear-gradient(135deg, #ffffff, #f9f9fb);
-        }}
+        }}}}
 
-        .modal-scroll-body {{
+        .modal-scroll-body {{{{
             background: transparent;
             overflow-y: auto;
             padding: 18px 20px 20px;
             flex: 1;
-        }}
+        }}}}
 
-        .modal-header {{
+        .modal-header {{{{
             display: flex; gap: 16px;
             align-items: flex-start; padding-right: 40px;
-        }}
+        }}}}
 
-        .modal-icon {{ width: 76px; height: 76px; border-radius: 18px; object-fit: cover; flex-shrink: 0; }}
+        .modal-icon {{{{ width: 76px; height: 76px; border-radius: 18px; object-fit: cover; flex-shrink: 0; }}}}
 
-        .modal-title-block {{ flex: 1; min-width: 0; }}
+        .modal-title-block {{{{ flex: 1; min-width: 0; }}}}
 
-        .modal-name {{
+        .modal-name {{{{
             font-size: 1.3em; font-weight: 700; margin-bottom: 4px;
             overflow-wrap: break-word;
-        }}
+        }}}}
 
-        .modal-id {{ color: var(--text-secondary); font-size: 0.88em; margin-bottom: 6px; word-break: break-all; }}
+        .modal-id {{{{ color: var(--text-secondary); font-size: 0.88em; margin-bottom: 6px; word-break: break-all; }}}}
 
-        .modal-version {{ color: var(--tint); font-size: 0.95em; font-weight: 600; }}
+        .modal-version {{{{ color: var(--tint); font-size: 0.95em; font-weight: 600; }}}}
 
-        .modal-close {{
+        .modal-close {{{{
             position: absolute;
             top: 14px;
             right: 14px;
@@ -447,28 +436,28 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             display: flex; align-items: center; justify-content: center;
             font-size: 1.3em; color: var(--text);
             z-index: 6;
-        }}
+        }}}}
 
-        html[data-theme="light"] .modal-close {{
+        html[data-theme="light"] .modal-close {{{{
             background: rgba(0, 0, 0, 0.08);
-        }}
+        }}}}
 
-        .modal-close:active {{ background: rgba(255, 255, 255, 0.25); }}
+        .modal-close:active {{{{ background: rgba(255, 255, 255, 0.25); }}}}
 
         /* ─────────────────────────── SCREENSHOTS ─────────────────────────── */
-        .screenshots {{ display: flex; gap: 10px; overflow-x: auto; margin-bottom: 4px; padding-bottom: 6px; scroll-snap-type: x proximity; }}
+        .screenshots {{{{ display: flex; gap: 10px; overflow-x: auto; margin-bottom: 4px; padding-bottom: 6px; scroll-snap-type: x proximity; }}}}
 
-        .screenshot {{
+        .screenshot {{{{
             width: 140px; height: 248px; border-radius: 14px; object-fit: cover;
             flex-shrink: 0; border: 1px solid var(--border);
             cursor: pointer; transition: transform 0.15s;
             scroll-snap-align: start;
-        }}
+        }}}}
 
-        .screenshot:active {{ transform: scale(0.96); }}
+        .screenshot:active {{{{ transform: scale(0.96); }}}}
 
         /* LIGHTBOX */
-        .lightbox {{
+        .lightbox {{{{
             display: none;
             position: fixed;
             inset: 0;
@@ -477,48 +466,48 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             align-items: center;
             justify-content: center;
             touch-action: pan-y;
-        }}
+        }}}}
 
-        .lightbox.active {{ display: flex; }}
+        .lightbox.active {{{{ display: flex; }}}}
 
-        .lightbox-img {{
+        .lightbox-img {{{{
             max-width: 92vw;
             max-height: 80vh;
             border-radius: 14px;
             object-fit: contain;
             user-select: none;
             -webkit-user-drag: none;
-        }}
+        }}}}
 
-        .lightbox-close {{
+        .lightbox-close {{{{
             position: absolute; top: 18px; right: 18px;
             width: 40px; height: 40px; border-radius: 12px;
             background: rgba(255,255,255,0.12); border: 1px solid var(--border);
             color: var(--text); font-size: 1.3em;
             display: flex; align-items: center; justify-content: center;
             cursor: pointer;
-        }}
+        }}}}
 
-        .lightbox-nav {{
+        .lightbox-nav {{{{
             position: absolute; top: 50%; transform: translateY(-50%);
             width: 44px; height: 44px; border-radius: 50%;
             background: rgba(255,255,255,0.12); border: 1px solid var(--border);
             color: var(--text); font-size: 1.3em;
             display: flex; align-items: center; justify-content: center;
             cursor: pointer;
-        }}
+        }}}}
 
-        .lightbox-prev {{ left: 14px; }}
-        .lightbox-next {{ right: 14px; }}
+        .lightbox-prev {{{{ left: 14px; }}}}
+        .lightbox-next {{{{ right: 14px; }}}}
 
-        .lightbox-counter {{
+        .lightbox-counter {{{{
             position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);
             color: var(--text-secondary); font-size: 0.85em;
             background: rgba(255,255,255,0.08); padding: 5px 12px; border-radius: 20px;
-        }}
+        }}}}
 
         /* ─────────────────────────── ACCORDION SECTIONS ─────────────────────────── */
-        .detail-section {{
+        .detail-section {{{{
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid var(--border);
             margin-top: 14px;
@@ -526,29 +515,29 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             border: 1px solid var(--border);
             border-radius: 14px;
             overflow: hidden;
-        }}
+        }}}}
 
-        html[data-theme="light"] .detail-section {{
+        html[data-theme="light"] .detail-section {{{{
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid var(--border);
             background: rgba(0, 0, 0, 0.03);
-        }}
+        }}}}
 
-        .detail-section-header {{
+        .detail-section-header {{{{
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 13px 14px;
             cursor: pointer;
             user-select: none;
-        }}
+        }}}}
 
-        .detail-section-title {{
+        .detail-section-title {{{{
             font-weight: 600; color: var(--text); font-size: 0.92em;
             display: flex; align-items: center; gap: 8px;
-        }}
+        }}}}
 
-        .detail-section-toggle {{
+        .detail-section-toggle {{{{
             font-size: 0.85em;
             color: var(--text-secondary);
             width: 26px; height: 26px;
@@ -557,39 +546,39 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             display: flex; align-items: center; justify-content: center;
             flex-shrink: 0;
             transition: transform 0.2s;
-        }}
+        }}}}
 
-        html[data-theme="light"] .detail-section-toggle {{
+        html[data-theme="light"] .detail-section-toggle {{{{
             background: rgba(0, 0, 0, 0.06);
-        }}
+        }}}}
 
-        .detail-section-body {{
+        .detail-section-body {{{{
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             padding: 0 14px;
-        }}
+        }}}}
 
-        .detail-section.open .detail-section-body {{
+        .detail-section.open .detail-section-body {{{{
             max-height: 2000px;
             padding: 0 14px 14px;
-        }}
+        }}}}
 
-        .detail-section.open .detail-section-toggle {{ transform: rotate(180deg); }}
+        .detail-section.open .detail-section-toggle {{{{ transform: rotate(180deg); }}}}
 
-        .detail-section-content {{ color: var(--text); font-size: 0.93em; line-height: 1.55; }}
+        .detail-section-content {{{{ color: var(--text); font-size: 0.93em; line-height: 1.55; }}}}
 
-        .version-history {{
+        .version-history {{{{
             max-height: 260px; overflow-y: auto;
             background: rgba(255, 255, 255, 0.02);
             border-radius: 12px; padding: 4px;
-        }}
+        }}}}
 
-        html[data-theme="light"] .version-history {{
+        html[data-theme="light"] .version-history {{{{
             background: rgba(0, 0, 0, 0.02);
-        }}
+        }}}}
 
-        .version-item {{
+        .version-item {{{{
             padding: 11px 12px;
             border: 1.5px solid transparent;
             border-radius: 10px;
@@ -601,48 +590,48 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             justify-content: space-between;
             align-items: center;
             gap: 8px;
-        }}
+        }}}}
 
-        .version-item:active {{ background: rgba(255, 255, 255, 0.06); transform: scale(0.98); box-shadow: 0 4px 12px rgba(132, 142, 249, 0.2); }}
+        .version-item:active {{{{ background: rgba(255, 255, 255, 0.06); transform: scale(0.98); box-shadow: 0 4px 12px rgba(132, 142, 249, 0.2); }}}}
 
-        html[data-theme="light"] .version-item:active {{ background: rgba(0, 0, 0, 0.06); }}
+        html[data-theme="light"] .version-item:active {{{{ background: rgba(0, 0, 0, 0.06); }}}}
 
-        .version-item.selected {{
+        .version-item.selected {{{{
             border-color: var(--tint);
             background: rgba(132, 142, 249, 0.12);
-        }}
+        }}}}
 
-        .version-item-left {{ flex: 1; min-width: 0; }}
+        .version-item-left {{{{ flex: 1; min-width: 0; }}}}
 
-        .version-num {{ font-weight: 600; color: var(--tint); margin-bottom: 2px; }}
+        .version-num {{{{ font-weight: 600; color: var(--tint); margin-bottom: 2px; }}}}
 
-        .version-note {{
+        .version-note {{{{
             color: var(--text-secondary);
             font-size: 0.85em;
             color: var(--text-secondary); font-size: 0.85em;
             overflow: hidden; text-overflow: ellipsis;
             display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-        }}
+        }}}}
 
-        .version-check {{
+        .version-check {{{{
             font-size: 1.1em; color: var(--tint);
             opacity: 0; transition: opacity 0.15s; flex-shrink: 0;
-        }}
+        }}}}
 
-        .version-item.selected .version-check {{ opacity: 1; }}
+        .version-item.selected .version-check {{{{ opacity: 1; }}}}
 
-        .permissions-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }}
+        .permissions-grid {{{{ display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }}}}
 
-        .permission-item {{
+        .permission-item {{{{
             background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border);
             border-radius: 8px; padding: 10px; font-size: 0.85em; color: var(--text-secondary);
-        }}
+        }}}}
 
-        html[data-theme="light"] .permission-item {{
+        html[data-theme="light"] .permission-item {{{{
             background: rgba(0, 0, 0, 0.04);
-        }}
+        }}}}
 
-        .info-box {{
+        .info-box {{{{
             background: rgba(255, 255, 255, 0.08);
             border: 1px solid var(--border);
             border-radius: 14px;
@@ -652,74 +641,74 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             border: 1px solid var(--border);
             border-radius: 14px;
             padding: 13px 14px;
-        }}
+        }}}}
 
-        html[data-theme="light"] .info-box {{
+        html[data-theme="light"] .info-box {{{{
             background: rgba(255, 255, 255, 0.08);
             border: 1px solid var(--border);
             border-radius: 14px;
             padding: 13px 14px;
             background: rgba(0, 0, 0, 0.03);
-        }}
+        }}}}
 
-        .info-row {{ margin-bottom: 6px; }}
-        .info-row:last-child {{ margin-bottom: 0; }}
+        .info-row {{{{ margin-bottom: 6px; }}}}
+        .info-row:last-child {{{{ margin-bottom: 0; }}}}
 
-        .info-label {{ font-weight: 600; font-size: 0.85em; color: var(--text-secondary); margin-bottom: 3px; }}
+        .info-label {{{{ font-weight: 600; font-size: 0.85em; color: var(--text-secondary); margin-bottom: 3px; }}}}
 
-        .info-value {{ color: var(--text); font-size: 0.93em; font-weight: 500; }}
+        .info-value {{{{ color: var(--text); font-size: 0.93em; font-weight: 500; }}}}
 
         /* ─────────────────────────── ACTION BAR ─────────────────────────── */
-        .action-buttons {{
+        .action-buttons {{{{
             display: flex; gap: 10px; margin-top: 16px;
             position: sticky; bottom: -1px;
             background: linear-gradient(to top, #1a1a2e 75%, transparent);
             padding: 10px 0 2px;
-        }}
+        }}}}
 
-        html[data-theme="light"] .action-buttons {{
+        html[data-theme="light"] .action-buttons {{{{
             background: linear-gradient(to top, #f9f9fb 75%, transparent);
-        }}
+        }}}}
 
-        .action-btn {{
+        .action-btn {{{{
             flex: 1; background: var(--tint); color: white; border: none;
             padding: 14px 16px; border-radius: 14px; font-weight: 700;
             cursor: pointer; font-size: 1em; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }}
+        }}}}
 
-        .action-btn:active {{ transform: scale(0.97); opacity: 0.9; }}
-        .action-btn.loading {{ opacity: 0.7; pointer-events: none; background: rgba(132, 142, 249, 0.5); }}
+        .action-btn:active {{{{ transform: scale(0.97); opacity: 0.9; }}}}
+        .action-btn.loading {{{{ opacity: 0.7; pointer-events: none; background: rgba(132, 142, 249, 0.5); }}}}
 
-        .action-btn-icon {{
+        .action-btn-icon {{{{
             width: 50px; flex: none;
             background: rgba(255, 255, 255, 0.1);
             color: var(--text); border: 1px solid var(--border);
             border-radius: 14px; font-size: 1.2em; cursor: pointer;
-        }}
+        }}}}
 
-        html[data-theme="light"] .action-btn-icon {{
+        html[data-theme="light"] .action-btn-icon {{{{
             background: rgba(0, 0, 0, 0.05);
-        }}
+        }}}}
 
-        .action-btn-icon:active {{ background: rgba(255, 255, 255, 0.2); }}
+        .action-btn-icon:active {{{{ background: rgba(255, 255, 255, 0.2); }}}}
 
         /* ─────────────────────────── LOADING / EMPTY ─────────────────────────── */
-        .loading, .empty-state {{ text-align: center; color: var(--text-secondary); padding: 50px 20px; }}
+        .loading, .empty-state {{{{ text-align: center; color: var(--text-secondary); padding: 50px 20px; }}}}
 
-        .spinner {{
+        .spinner {{{{
             width: 38px; height: 38px; border: 3px solid rgba(255, 255, 255, 0.1);
             border-top-color: var(--tint); border-radius: 50%;
             animation: spin 0.9s linear infinite; margin: 0 auto 18px;
-        }}
+        }}}}
 
-        html[data-theme="light"] .spinner {{
+        html[data-theme="light"] .spinner {{{{
             border-color: rgba(0, 0, 0, 0.1);
             border-top-color: var(--tint);
-        }}
+        }}}}
 
-        @keyframes spin {{ to {{ transform: rotate(360deg); }} }}
+        @keyframes spin {{{{ to {{{{ transform: rotate(360deg); }}}} }}}}
 
-        .toast {{
+        .toast {{{{
             background: rgba(28, 28, 46, 0.96);
             border: 1px solid rgba(132, 142, 249, 0.3);
             position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
@@ -727,22 +716,22 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             padding: 12px 20px; border-radius: 12px; font-size: 0.9em;
             z-index: 200; opacity: 0; transition: opacity 0.25s; pointer-events: none;
             max-width: 86vw; text-align: center;
-        }}
+        }}}}
 
-        html[data-theme="light"] .toast {{
+        html[data-theme="light"] .toast {{{{
             background: rgba(28, 28, 46, 0.96);
             border: 1px solid rgba(132, 142, 249, 0.3);
             background: rgba(255,255,255,0.95);
-        }}
+        }}}}
 
-        .toast.show {{ opacity: 1; }}
+        .toast.show {{{{ opacity: 1; }}}}
 
-        @media (max-width: 480px) {{
-            .modal-icon {{ width: 64px; height: 64px; }}
-            .modal-name {{ font-size: 1.15em; }}
-            .permissions-grid {{ grid-template-columns: 1fr; }}
-            .screenshot {{ width: 120px; height: 213px; }}
-        }}
+        @media (max-width: 480px) {{{{
+            .modal-icon {{{{ width: 64px; height: 64px; }}}}
+            .modal-name {{{{ font-size: 1.15em; }}}}
+            .permissions-grid {{{{ grid-template-columns: 1fr; }}}}
+            .screenshot {{{{ width: 120px; height: 213px; }}}}
+        }}}}
     </style>
 </head>
 <body>
@@ -752,6 +741,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     <div class="nav-inner">
         <!-- HEADER TOP ROW -->
         <div class="header-row">
+            <div style="width: 36px;"></div>
             <div class="header-actions">
                 <button class="icon-btn" onclick="location.href='./index.html'" title="Trang chủ">🏠</button>
                 <button class="icon-btn" onclick="toggleLanguage()" title="Ngôn ngữ (VI/EN)">🌐</button>
@@ -777,9 +767,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
         <!-- TABS -->
         <div class="tabs-header">
-            <button class="tab-btn {active_apps}" onclick="location.href='apps.html'">📱 Apps</button>
-            <button class="tab-btn {active_tweaks}" onclick="location.href='tweaks.html'">🔧 Tweaks</button>
-            <button class="tab-btn {active_dylibs}" onclick="location.href='dylibs.html'">📚 Dylibs</button>
+            <button class="tab-btn {{active_apps}}" onclick="location.href='apps.html'">📱 Apps</button>
+            <button class="tab-btn {{active_tweaks}}" onclick="location.href='tweaks.html'">🔧 Tweaks</button>
+            <button class="tab-btn {{active_dylibs}}" onclick="location.href='dylibs.html'">📚 Dylibs</button>
         </div>
 
         <!-- SEARCH BOX (moved from container) -->
@@ -917,8 +907,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     // ════════════════════════════════════════════════════════════
     // I18N & THEME
     // ════════════════════════════════════════════════════════════
-    const I18N = {{
-        vi: {{
+    const I18N = {{{{
+        vi: {{{{
             "loading": "Đang tải dữ liệu...",
             "no_results": "😕 Không tìm thấy kết quả",
             "no_data": "📭 Chưa có dữ liệu",
@@ -933,8 +923,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             "download_fallback": "⚠️ Đang mở link tải (chế độ dự phòng)",
             "copy_success": "✅ Đã sao chép link!",
             "copy_error": "❌ Sao chép thất bại"
-        }},
-        en: {{
+        }}}},
+        en: {{{{
             "loading": "Loading data...",
             "no_results": "😕 No results found",
             "no_data": "📭 No data",
@@ -949,64 +939,55 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             "download_fallback": "⚠️ Opening link (fallback mode)",
             "copy_success": "✅ Link copied!",
             "copy_error": "❌ Copy failed"
-        }}
-    }};
+        }}}}
+    }}}};
 
-    function getLang() {{ return document.documentElement.getAttribute('data-lang') || 'vi'; }}
-    function t(key) {{
+    function getLang() {{{{ return document.documentElement.getAttribute('data-lang') || 'vi'; }}}}
+    function t(key) {{{{
         const lang = getLang();
         return (I18N[lang] || I18N.vi)[key] || key;
-    }}
+    }}}}
 
-    function toggleLanguage() {{
+    function toggleLanguage() {{{{
         const current = getLang();
         const next = current === 'vi' ? 'en' : 'vi';
         document.documentElement.setAttribute('data-lang', next);
         document.documentElement.lang = next;
         localStorage.setItem('lang', next);
         location.reload();
-    }}
+    }}}}
 
-    function initTheme() {{
+    function initTheme() {{{{
         const saved = localStorage.getItem('darkMode');
-        if (saved !== null) {{
+        if (saved !== null) {{{{
             const isDark = saved === 'true';
             document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
-        }} else {{
+        }}}} else {{{{
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
-        }}
-    }}
+        }}}}
+    }}}}
 
-    function toggleDarkMode() {{
+    function toggleDarkMode() {{{{
         const current = document.documentElement.getAttribute('data-theme') || 'dark';
         const next = current === 'dark' ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', next);
         localStorage.setItem('darkMode', next === 'dark');
-    }}
+    }}}}
 
-    function toggleSettings(event) {{
+    function toggleSettings(event) {{{{
         event.stopPropagation();
         const dropdown = document.getElementById('settingsDropdown');
         dropdown.classList.toggle('active');
-        
-        // Position dropdown below nav shell
-        if (dropdown.classList.contains('active')) {{
-            const navShell = document.getElementById('navShell');
-            if (navShell) {{
-                const navHeight = navShell.offsetHeight;
-                dropdown.style.top = (navHeight + 8) + 'px';
-            }}
-        }}
-    }}
+    }}}}
 
-    document.addEventListener('click', (e) => {{
+    document.addEventListener('click', (e) => {{{{
         const dropdown = document.getElementById('settingsDropdown');
         const settingsBtn = document.getElementById('settingsBtn');
-        if (!settingsBtn.contains(e.target) && !dropdown.contains(e.target)) {{
+        if (!settingsBtn.contains(e.target) && !dropdown.contains(e.target)) {{{{
             dropdown.classList.remove('active');
-        }}
-    }});
+        }}}}
+    }}}});
 
     // ════════════════════════════════════════════════════════════
     // STATE & CONSTANTS
@@ -1023,50 +1004,50 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     let lightboxList = [];
     let lightboxIdx = 0;
 
-    const DEFAULT_ICON = '{default_icon}';
-    const DATA_KEY = '{data_key}';
-    const REPO_TYPE = '{repo_type}';
+    const DEFAULT_ICON = '{{default_icon}}';
+    const DATA_KEY = '{{data_key}}';
+    const REPO_TYPE = '{{repo_type}}';
 
     const DIGIT_EMOJI = ['0️⃣','1️⃣','2️⃣','3️⃣','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣'];
 
     // ════════════════════════════════════════════════════════════
     // UTILITIES
     // ════════════════════════════════════════════════════════════
-    function formatSize(bytes) {{
+    function formatSize(bytes) {{{{
         if (!bytes || bytes <= 0) return 'Không rõ';
         const k = 1024;
         const sizes = ['B', 'KB', 'MB', 'GB'];
         const i = Math.floor(Math.log(bytes) / Math.log(k));
         return (bytes / Math.pow(k, i)).toFixed(2) + ' ' + sizes[i];
-    }}
+    }}}}
 
-    function showToast(msg) {{
+    function showToast(msg) {{{{
         const t = document.getElementById('toast');
         t.textContent = msg;
         t.classList.add('show');
         setTimeout(() => t.classList.remove('show'), 2200);
-    }}
+    }}}}
 
-    function toggleSection(sectionId) {{
+    function toggleSection(sectionId) {{{{
         const el = document.getElementById(sectionId);
         if (el) el.classList.toggle('open');
-    }}
+    }}}}
 
-    function parseVersion(v) {{
+    function parseVersion(v) {{{{
         return String(v || '0').split(/[.\\-_]/).map(x => parseInt(x) || 0);
-    }}
+    }}}}
 
-    function compareVersions(a, b) {{
+    function compareVersions(a, b) {{{{
         const pa = parseVersion(a), pb = parseVersion(b);
         const len = Math.max(pa.length, pb.length);
-        for (let i = 0; i < len; i++) {{
+        for (let i = 0; i < len; i++) {{{{
             const diff = (pb[i] || 0) - (pa[i] || 0);
             if (diff !== 0) return diff;
-        }}
+        }}}}
         return 0;
-    }}
+    }}}}
 
-    function getCategory(group, version) {{
+    function getCategory(group, version) {{{{
         const repoType = REPO_TYPE || 'apps';
         const arch = version?.arch || 'universal';
         let ext = 'unknown';
@@ -1074,41 +1055,41 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         else if (repoType === 'tweaks') ext = 'deb';
         else if (repoType === 'dylibs') ext = 'dylib';
         return repoType.charAt(0).toUpperCase() + repoType.slice(1) + '-' + arch + '-' + ext;
-    }}
+    }}}}
 
     // ════════════════════════════════════════════════════════════
     // GROUPING
     // ════════════════════════════════════════════════════════════
-    function groupByBundle(items) {{
+    function groupByBundle(items) {{{{
         const map = new Map();
 
-        items.forEach(raw => {{
+        items.forEach(raw => {{{{
             const bundleKey = raw.bundle || raw.bundleIdentifier || raw.bid ||
                                raw.Package || raw.package || raw.id || raw.name;
             if (!bundleKey) return;
 
-            if (!map.has(bundleKey)) {{
-                map.set(bundleKey, {{
+            if (!map.has(bundleKey)) {{{{
+                map.set(bundleKey, {{{{
                     name: raw.name || raw.Name || 'Unknown',
                     bundle: bundleKey,
                     icon: raw.icon || raw.iconURL || raw.Icon || DEFAULT_ICON,
                     desc: raw.desc || raw.description || raw.localizedDescription || raw.Description || '',
                     author: raw.author || raw.Author || 'Kyic Store',
                     screenshots: raw.screenshots || raw.screenshotURLs || [],
-                    permissions: raw.appPermissions || raw.permissions || {{}},
+                    permissions: raw.appPermissions || raw.permissions || {{{{}}}},
                     versions: []
-                }});
-            }}
+                }}}});
+            }}}}
 
             const group = map.get(bundleKey);
             const curDesc = raw.desc || raw.description || raw.localizedDescription || '';
-            if (curDesc.length > (group.desc || '').length) {{
+            if (curDesc.length > (group.desc || '').length) {{{{
                 group.desc = curDesc;
                 group.icon = raw.icon || raw.iconURL || raw.Icon || group.icon;
-            }}
-            if ((raw.screenshots || raw.screenshotURLs || []).length > group.screenshots.length) {{
+            }}}}
+            if ((raw.screenshots || raw.screenshotURLs || []).length > group.screenshots.length) {{{{
                 group.screenshots = raw.screenshots || raw.screenshotURLs || [];
-            }}
+            }}}}
 
             const arch = raw.architecture || raw.Architecture || raw.arch || '';
             const ver = raw.version || raw.Version || raw.ver || '1.0';
@@ -1116,8 +1097,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             const changelog = raw.changelog || raw.releaseNotes || raw.body || '';
 
             const exists = group.versions.find(v => v.version === ver && v.arch === arch && v.downloadURL === dlUrl);
-            if (!exists) {{
-                group.versions.push({{
+            if (!exists) {{{{
+                group.versions.push({{{{
                     version: ver,
                     arch: arch,
                     size: raw.size || 0,
@@ -1125,49 +1106,49 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                     filename: raw.filename || raw.name || '',
                     date: raw.date || raw.releaseDate || raw.pubDate || '',
                     note: changelog || ''
-                }});
-            }}
-        }});
+                }}}});
+            }}}}
+        }}}});
 
         const result = Array.from(map.values());
-        result.forEach(g => {{
+        result.forEach(g => {{{{
             g.versions.sort((a, b) => compareVersions(a.version, b.version) || a.arch.localeCompare(b.arch));
-        }});
+        }}}});
         result.sort((a, b) => a.name.localeCompare(b.name));
         return result;
-    }}
+    }}}}
 
     // ════════════════════════════════════════════════════════════
     // SEARCH & PAGINATION
     // ════════════════════════════════════════════════════════════
-    function onSearchInput() {{
+    function onSearchInput() {{{{
         currentPage = 0;
         renderList();
-    }}
+    }}}}
 
-    function applyFilter() {{
+    function applyFilter() {{{{
         const query = (document.getElementById('searchInput').value || '').toLowerCase();
         filteredItems = groupedItems.filter(g =>
             g.name.toLowerCase().includes(query) || g.bundle.toLowerCase().includes(query)
         );
-    }}
+    }}}}
 
-    function totalPages() {{
+    function totalPages() {{{{
         return Math.max(1, Math.ceil(filteredItems.length / PAGE_SIZE));
-    }}
+    }}}}
 
     // ════════════════════════════════════════════════════════════
     // RENDER LIST
     // ════════════════════════════════════════════════════════════
-    function renderList() {{
+    function renderList() {{{{
         applyFilter();
 
-        if (filteredItems.length === 0) {{
+        if (filteredItems.length === 0) {{{{
             document.getElementById('list').innerHTML =
                 '<div class="empty-state">' + t('no_results') + '</div>';
             document.getElementById('pagination').style.display = 'none';
             return;
-        }}
+        }}}}
 
         const pages = totalPages();
         if (currentPage >= pages) currentPage = pages - 1;
@@ -1176,36 +1157,36 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         const start = currentPage * PAGE_SIZE;
         const pageItems = filteredItems.slice(start, start + PAGE_SIZE);
 
-        const html = pageItems.map((g) => {{
+        const html = pageItems.map((g) => {{{{
             const idx = groupedItems.indexOf(g);
-            const latest = g.versions[0] || {{}};
+            const latest = g.versions[0] || {{{{}}}};
             return `
-                <div class="item" onclick="openModal(${{idx}})">
-                    <img class="item-icon" src="${{g.icon}}" alt="${{g.name}}" loading="lazy" onerror="this.onerror=null;this.src='${{DEFAULT_ICON}}'">
+                <div class="item" onclick="openModal(${{{{idx}}}})">
+                    <img class="item-icon" src="${{{{g.icon}}}}" alt="${{{{g.name}}}}" loading="lazy" onerror="this.onerror=null;this.src='${{{{DEFAULT_ICON}}}}'">
                     <div class="item-info">
-                        <div class="item-name">${{g.name}}</div>
-                        <div class="item-id">${{g.bundle}}</div>
-                        <div class="item-version">v${{latest.version || '1.0'}}${{g.versions.length > 1 ? ' · ' + g.versions.length + ' bản' : ''}}</div>
+                        <div class="item-name">${{{{g.name}}}}</div>
+                        <div class="item-id">${{{{g.bundle}}}}</div>
+                        <div class="item-version">v${{{{latest.version || '1.0'}}}}${{{{g.versions.length > 1 ? ' · ' + g.versions.length + ' bản' : ''}}}}</div>
                     </div>
-                    <button class="item-action" id="quickbtn-${{idx}}" onclick="event.stopPropagation(); quickDownload(${{idx}})">Nhận</button>
+                    <button class="item-action" id="quickbtn-${{{{idx}}}}" onclick="event.stopPropagation(); quickDownload(${{{{idx}}}})">Nhận</button>
                 </div>
             `;
-        }}).join('');
+        }}}}).join('');
 
         document.getElementById('list').innerHTML = html;
-        window.scrollTo({{ top: 0, behavior: 'instant' }});
+        window.scrollTo({{{{ top: 0, behavior: 'instant' }}}});
 
         renderPagination();
-    }}
+    }}}}
 
-    function renderPagination() {{
+    function renderPagination() {{{{
         const pages = totalPages();
         const pag = document.getElementById('pagination');
 
-        if (pages <= 1) {{
+        if (pages <= 1) {{{{
             pag.style.display = 'none';
             return;
-        }}
+        }}}}
         pag.style.display = 'flex';
 
         const windowSize = 10;
@@ -1213,87 +1194,87 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         let windowEnd = Math.min(pages, windowStart + windowSize);
         windowStart = Math.max(0, windowEnd - windowSize);
 
-        let html = `<button class="page-btn" onclick="goToPage(${{currentPage - 1}})" ${{currentPage === 0 ? 'disabled' : ''}}>◀️</button>`;
+        let html = `<button class="page-btn" onclick="goToPage(${{{{currentPage - 1}}}})" ${{{{currentPage === 0 ? 'disabled' : ''}}}}>◀️</button>`;
 
-        for (let p = windowStart; p < windowEnd; p++) {{
+        for (let p = windowStart; p < windowEnd; p++) {{{{
             const digit = DIGIT_EMOJI[p % 10];
-            html += `<button class="page-btn ${{p === currentPage ? 'active' : ''}}" onclick="goToPage(${{p}})">${{digit}}</button>`;
-        }}
+            html += `<button class="page-btn ${{{{p === currentPage ? 'active' : ''}}}}" onclick="goToPage(${{{{p}}}})">${{{{digit}}}}</button>`;
+        }}}}
 
-        html += `<button class="page-btn" onclick="goToPage(${{currentPage + 1}})" ${{currentPage >= pages - 1 ? 'disabled' : ''}}>▶️</button>`;
-        html += `<div class="page-info">` + t('page') + ` ${{currentPage + 1}} / ${{pages}} · ${{filteredItems.length}} ` + t('results') + `</div>`;
+        html += `<button class="page-btn" onclick="goToPage(${{{{currentPage + 1}}}})" ${{{{currentPage >= pages - 1 ? 'disabled' : ''}}}}>▶️</button>`;
+        html += `<div class="page-info">` + t('page') + ` ${{{{currentPage + 1}}}} / ${{{{pages}}}} · ${{{{filteredItems.length}}}} ` + t('results') + `</div>`;
 
         pag.innerHTML = html;
-    }}
+    }}}}
 
-    function goToPage(p) {{
+    function goToPage(p) {{{{
         const pages = totalPages();
         if (p < 0 || p >= pages) return;
         currentPage = p;
         renderList();
-    }}
+    }}}}
 
     // ════════════════════════════════════════════════════════════
     // MODAL
     // ════════════════════════════════════════════════════════════
-    function openModal(idx) {{
+    function openModal(idx) {{{{
         currentGroup = groupedItems[idx];
         if (!currentGroup) return;
         selectedVersionIdx = 0;
 
         document.getElementById('modalIcon').src = currentGroup.icon;
-        document.getElementById('modalIcon').onerror = function() {{ this.onerror = null; this.src = DEFAULT_ICON; }};
+        document.getElementById('modalIcon').onerror = function() {{{{ this.onerror = null; this.src = DEFAULT_ICON; }}}};
         document.getElementById('modalName').textContent = currentGroup.name;
         document.getElementById('modalId').textContent = currentGroup.bundle;
 
         // 📝 Mô tả — app description (NOT version changelog)
         const descSection = document.getElementById('descSection');
-        if (currentGroup.desc && currentGroup.desc.trim()) {{
+        if (currentGroup.desc && currentGroup.desc.trim()) {{{{
             descSection.style.display = 'block';
             descSection.classList.remove('open');
             document.getElementById('modalDesc').textContent = currentGroup.desc;
-        }} else {{
+        }}}} else {{{{
             descSection.style.display = 'none';
-        }}
+        }}}}
 
         // ✨ Phiên bản — version selector
         const versionSection = document.getElementById('versionSection');
-        if (currentGroup.versions && currentGroup.versions.length > 0) {{
+        if (currentGroup.versions && currentGroup.versions.length > 0) {{{{
             versionSection.style.display = 'block';
             versionSection.classList.remove('open');
             renderVersionSelectList();
-        }} else {{
+        }}}} else {{{{
             versionSection.style.display = 'none';
-        }}
+        }}}}
 
         // 📋 Lịch sử phiên bản
         document.getElementById('historySection').classList.remove('open');
         renderVersionHistory();
 
         // Screenshots
-        if (currentGroup.screenshots && currentGroup.screenshots.length > 0) {{
+        if (currentGroup.screenshots && currentGroup.screenshots.length > 0) {{{{
             lightboxList = currentGroup.screenshots;
             document.getElementById('screenshotsSection').style.display = 'block';
             document.getElementById('screenshots').innerHTML = currentGroup.screenshots.map((s, i) =>
-                `<img class="screenshot" src="${{s}}" alt="Screenshot" loading="lazy" onclick="openLightbox(${{i}})" onerror="this.style.display='none'">`
+                `<img class="screenshot" src="${{{{s}}}}" alt="Screenshot" loading="lazy" onclick="openLightbox(${{{{i}}}})" onerror="this.style.display='none'">`
             ).join('');
-        }} else {{
+        }}}} else {{{{
             lightboxList = [];
             document.getElementById('screenshotsSection').style.display = 'none';
-        }}
+        }}}}
 
         // Permissions
         const permSection = document.getElementById('permSection');
-        const permKeys = Object.keys(currentGroup.permissions || {{}});
-        if (permKeys.length > 0) {{
+        const permKeys = Object.keys(currentGroup.permissions || {{{{}}}});
+        if (permKeys.length > 0) {{{{
             permSection.style.display = 'block';
             permSection.classList.remove('open');
             document.getElementById('permissions').innerHTML = permKeys.map(k =>
-                `<div class="permission-item">${{k}}</div>`
+                `<div class="permission-item">${{{{k}}}}</div>`
             ).join('');
-        }} else {{
+        }}}} else {{{{
             permSection.style.display = 'none';
-        }}
+        }}}}
 
         updateSelectedVersionDisplay();
 
@@ -1301,150 +1282,150 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         if (scrollBody) scrollBody.scrollTop = 0;
 
         const modal = document.getElementById('modal');
-        if (modal) {
+        if (modal) {{
             modal.classList.add('active');
             modal.style.display = 'flex';
-        }
-    }}
+        }}
+    }}}}
 
-    function renderVersionList() {{
-        const html = currentGroup.versions.map((v, i) => {{
+    function renderVersionList() {{{{
+        const html = currentGroup.versions.map((v, i) => {{{{
             const label = 'v' + v.version + (v.arch ? ' (' + v.arch + ')' : '');
             const dateTag = v.date ? ' · ' + v.date : '';
             return `
-                <div class="version-item ${{i === selectedVersionIdx ? 'selected' : ''}}" onclick="selectVersion(${{i}})">
+                <div class="version-item ${{{{i === selectedVersionIdx ? 'selected' : ''}}}}" onclick="selectVersion(${{{{i}}}})">
                     <div class="version-item-left">
-                        <div class="version-num">${{label}}${{dateTag}}</div>
-                        <div class="version-note">${{v.note || 'Không có ghi chú thay đổi'}}</div>
+                        <div class="version-num">${{{{label}}}}${{{{dateTag}}}}</div>
+                        <div class="version-note">${{{{v.note || 'Không có ghi chú thay đổi'}}}}</div>
                     </div>
                     <div class="version-check">✓</div>
                 </div>
             `;
-        }}).join('');
+        }}}}).join('');
         document.getElementById('versionList').innerHTML = html ||
             '<div style="padding:12px; color:var(--text-secondary); font-size:0.9em;">Chưa có dữ liệu phiên bản</div>';
-    }}
+    }}}}
 
     
 
-    function selectVersion(i) {{
+    function selectVersion(i) {{{{
         if (!currentGroup || !currentGroup.versions[i]) return;
         selectedVersionIdx = i;
 
         const items = document.querySelectorAll('#versionList .version-item');
-        items.forEach((el, idx) => {{
+        items.forEach((el, idx) => {{{{
             el.classList.toggle('selected', idx === i);
-        }});
+        }}}});
 
         updateSelectedVersionDisplay();
-    }}
+    }}}}
 
-    function updateSelectedVersionDisplay() {{
-        const v = currentGroup.versions[selectedVersionIdx] || {{}};
+    function updateSelectedVersionDisplay() {{{{
+        const v = currentGroup.versions[selectedVersionIdx] || {{{{}}}};
         document.getElementById('modalVersion').textContent = 'v' + (v.version || '1.0');
         document.getElementById('infoVersion').textContent = v.version || '1.0';
         document.getElementById('infoCategory').textContent = getCategory(currentGroup, v);
         document.getElementById('infoAuthor').textContent = currentGroup.author || 'Kyic Store';
         document.getElementById('infoSize').textContent = formatSize(v.size);
-    }}
+    }}}}
 
-    function closeModal(e) {{
+    function closeModal(e) {{{{
         if (e && e.target.id !== 'modal') return;
         document.getElementById('modal').classList.remove('active');
         currentGroup = null;
         document.getElementById('settingsDropdown').classList.remove('active');
-    }}
+    }}}}
 
     // ════════════════════════════════════════════════════════════
     // LIGHTBOX
     // ════════════════════════════════════════════════════════════
     let touchStartX = 0;
 
-    function openLightbox(i) {{
+    function openLightbox(i) {{{{
         if (!lightboxList.length) return;
         lightboxIdx = i;
         updateLightboxImg();
         document.getElementById('lightbox').classList.add('active');
-    }}
+    }}}}
 
-    function closeLightbox() {{
+    function closeLightbox() {{{{
         document.getElementById('lightbox').classList.remove('active');
-    }}
+    }}}}
 
-    function lightboxBackdropClick(e) {{
+    function lightboxBackdropClick(e) {{{{
         if (e.target.id === 'lightbox') closeLightbox();
-    }}
+    }}}}
 
-    function lightboxNav(dir, e) {{
+    function lightboxNav(dir, e) {{{{
         if (e) e.stopPropagation();
         if (!lightboxList.length) return;
         lightboxIdx = (lightboxIdx + dir + lightboxList.length) % lightboxList.length;
         updateLightboxImg();
-    }}
+    }}}}
 
-    function updateLightboxImg() {{
+    function updateLightboxImg() {{{{
         document.getElementById('lightboxImg').src = lightboxList[lightboxIdx];
         document.getElementById('lightboxCounter').textContent = (lightboxIdx + 1) + ' / ' + lightboxList.length;
-    }}
+    }}}}
 
-    document.getElementById('lightbox').addEventListener('touchstart', e => {{
+    document.getElementById('lightbox').addEventListener('touchstart', e => {{{{
         touchStartX = e.changedTouches[0].screenX;
-    }}, {{ passive: true }});
+    }}}}, {{{{ passive: true }}}});
 
-    document.getElementById('lightbox').addEventListener('touchend', e => {{
+    document.getElementById('lightbox').addEventListener('touchend', e => {{{{
         const dx = e.changedTouches[0].screenX - touchStartX;
-        if (Math.abs(dx) > 40) {{
+        if (Math.abs(dx) > 40) {{{{
             lightboxNav(dx > 0 ? -1 : 1);
-        }}
-    }}, {{ passive: true }});
+        }}}}
+    }}}}, {{{{ passive: true }}}});
 
     // ════════════════════════════════════════════════════════════
     // NAV AUTO-HIDE (v5)
     // ════════════════════════════════════════════════════════════
-    (function setupNavAutoHide() {{
+    (function setupNavAutoHide() {{{{
         let lastY = window.scrollY;
         let ticking = false;
         const shell = document.getElementById('navShell');
         const THRESHOLD = 6;
 
-        function onScroll() {{
+        function onScroll() {{{{
             const y = window.scrollY;
             const diff = y - lastY;
 
-            if (y <= 8) {{
+            if (y <= 8) {{{{
                 shell.classList.remove('nav-hidden');
-            }} else if (diff > THRESHOLD) {{
+            }}}} else if (diff > THRESHOLD) {{{{
                 shell.classList.add('nav-hidden');
-            }} else if (diff < -THRESHOLD) {{
+            }}}} else if (diff < -THRESHOLD) {{{{
                 shell.classList.remove('nav-hidden');
-            }}
+            }}}}
 
             lastY = y;
             ticking = false;
-        }}
+        }}}}
 
-        window.addEventListener('scroll', () => {{
-            if (!ticking) {{
+        window.addEventListener('scroll', () => {{{{
+            if (!ticking) {{{{
                 requestAnimationFrame(onScroll);
                 ticking = true;
-            }}
-        }}, {{ passive: true }});
-    }})();
+            }}}}
+        }}}}, {{{{ passive: true }}}});
+    }}}})();
 
     // ════════════════════════════════════════════════════════════
     // DOWNLOAD
     // ════════════════════════════════════════════════════════════
-    async function triggerDownload(url, filename, btnEl) {{
-        if (!url) {{
+    async function triggerDownload(url, filename, btnEl) {{{{
+        if (!url) {{{{
             showToast(t('no_link'));
             return;
-        }}
+        }}}}
 
         const originalText = btnEl ? btnEl.textContent : null;
-        if (btnEl) {{ btnEl.textContent = t('download_start'); btnEl.classList.add('loading'); }}
+        if (btnEl) {{{{ btnEl.textContent = t('download_start'); btnEl.classList.add('loading'); }}}}
 
-        try {{
-            const res = await fetch(url, {{ mode: 'cors' }});
+        try {{{{
+            const res = await fetch(url, {{{{ mode: 'cors' }}}});
             if (!res.ok) throw new Error('HTTP ' + res.status);
             const blob = await res.blob();
             const blobUrl = URL.createObjectURL(blob);
@@ -1459,7 +1440,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
             setTimeout(() => URL.revokeObjectURL(blobUrl), 8000);
             showToast(t('download_success'));
-        }} catch (err) {{
+        }}}} catch (err) {{{{
             console.warn('Blob download failed:', err);
             const a = document.createElement('a');
             a.href = url;
@@ -1470,63 +1451,63 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             a.click();
             document.body.removeChild(a);
             showToast(t('download_fallback'));
-        }} finally {{
-            if (btnEl) {{ btnEl.textContent = originalText; btnEl.classList.remove('loading'); }}
-        }}
-    }}
+        }}}} finally {{{{
+            if (btnEl) {{{{ btnEl.textContent = originalText; btnEl.classList.remove('loading'); }}}}
+        }}}}
+    }}}}
 
-    function downloadSelected() {{
+    function downloadSelected() {{{{
         if (!currentGroup) return;
         const v = currentGroup.versions[selectedVersionIdx];
-        if (!v) {{ showToast(t('no_version')); return; }}
+        if (!v) {{{{ showToast(t('no_version')); return; }}}}
         const filename = v.filename || (currentGroup.name + '_v' + v.version);
         triggerDownload(v.downloadURL, filename, document.getElementById('downloadBtn'));
-    }}
+    }}}}
 
-    function quickDownload(idx) {{
+    function quickDownload(idx) {{{{
         const g = groupedItems[idx];
-        if (!g || !g.versions[0]) {{ showToast(t('no_version')); return; }}
+        if (!g || !g.versions[0]) {{{{ showToast(t('no_version')); return; }}}}
         const v = g.versions[0];
         const filename = v.filename || (g.name + '_v' + v.version);
         triggerDownload(v.downloadURL, filename, document.getElementById('quickbtn-' + idx));
-    }}
+    }}}}
 
-    function copySelected() {{
+    function copySelected() {{{{
         if (!currentGroup) return;
         const v = currentGroup.versions[selectedVersionIdx];
-        if (!v || !v.downloadURL) {{ showToast(t('no_results_copy')); return; }}
-        navigator.clipboard.writeText(v.downloadURL).then(() => {{
+        if (!v || !v.downloadURL) {{{{ showToast(t('no_results_copy')); return; }}}}
+        navigator.clipboard.writeText(v.downloadURL).then(() => {{{{
             showToast(t('copy_success'));
-        }}).catch(() => {{
+        }}}}).catch(() => {{{{
             showToast(t('copy_error'));
-        }});
-    }}
+        }}}});
+    }}}}
 
     // ════════════════════════════════════════════════════════════
     // LOAD DATA
     // ════════════════════════════════════════════════════════════
-    async function loadData() {{
-        try {{
-            const res = await fetch('{json_path}');
+    async function loadData() {{{{
+        try {{{{
+            const res = await fetch('{{json_path}}');
             const data = await res.json();
             const items = data[DATA_KEY];
-            rawItems = Array.isArray(items) ? items : Object.values(items || {{}});
+            rawItems = Array.isArray(items) ? items : Object.values(items || {{{{}}}});
 
             groupedItems = groupByBundle(rawItems);
 
-            if (groupedItems.length === 0) {{
+            if (groupedItems.length === 0) {{{{
                 document.getElementById('list').innerHTML =
                     '<div class="empty-state">' + t('no_data') + '</div>';
                 return;
-            }}
+            }}}}
 
             currentPage = 0;
             renderList();
-        }} catch (e) {{
+        }}}} catch (e) {{{{
             document.getElementById('list').innerHTML =
                 '<div class="empty-state" style="color:#ff6b6b;">' + t('error') + e.message + '</div>';
-        }}
-    }}
+        }}}}
+    }}}}
 
     // ════════════════════════════════════════════════════════════
     // INIT
@@ -1534,9 +1515,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     initTheme();
 
     const saved_lang = localStorage.getItem('lang');
-    if (saved_lang) {{
+    if (saved_lang) {{{{
         document.documentElement.setAttribute('data-lang', saved_lang);
-    }}
+    }}}}
 
     loadData();
 </script>
