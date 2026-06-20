@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 18:25:08 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 18:25:14 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -274,8 +274,7 @@
     │       ├── 📂 Stay/
     │       │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 5 file ]
     │       ├── 📂 TGEXtra/
-    │       │   ├── .gitkeep
-    │       │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 1 file ]
+    │       │   └── .gitkeep
     │       ├── 📂 Telegram/
     │       │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 8 file ]
     │       ├── 📂 Turrit/
@@ -351,8 +350,10 @@
     │   │   │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 2 file ]
     │   │   ├── 📂 Feather/
     │   │   │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 1 file ]
-    │   │   └── 📂 Lead/
-    │   │       ├── .gitkeep
+    │   │   ├── 📂 Lead/
+    │   │   │   ├── .gitkeep
+    │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 1 file ]
+    │   │   └── 📂 TGEXtra/
     │   │       └── [ 📊 Số lượng: 📸 Ảnh JPG: 1 file ]
     │   └── 📂 metadata/
     ├── 📂 dylibs/
