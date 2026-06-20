@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 16:56:31 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 16:56:38 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -331,7 +331,7 @@
     ├── 📂 depictions/
     │   ├── 📂 default/
     │   ├── 📂 icons/
-    │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 10 file, 🖼️ Ảnh PNG: 1 file ]
+    │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 8 file, 🖼️ Ảnh PNG: 1 file ]
     │   ├── 📂 images/
     │   │   ├── 📂 AutoAC/
     │   │   │   ├── .gitkeep
@@ -415,7 +415,7 @@
     │           ├── 📂 infuseplus/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 18 file ]
     │           ├── 📂 orwellvk/
-    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 6 file ]
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 2 file ]
     │           ├── 📂 tweach/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 12 file ]
     │           ├── 📂 youmod/
