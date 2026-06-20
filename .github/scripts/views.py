@@ -21,6 +21,29 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     <style>
         * {{ margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }}
 
+        /* ─────────────────────────── PHẢN HỒI NHẤN TOÀN HỆ THỐNG ───────────────────────────
+           Áp dụng nhất quán cho mọi nút/phần tử có thể nhấn: thu nhỏ nhẹ + tối hơn một chút
+           khi nhấn giữ, nhả ra phục hồi mượt. Các class có hiệu ứng đặc thù riêng (transform
+           khác, scale khác) khai báo sau trong file sẽ tự override nhờ thứ tự CSS. */
+        .icon-btn, .tab-btn, .search-clear, .item, .item-action, .page-btn,
+        .screenshot, .lightbox-close, .lightbox-nav, .detail-section-header,
+        .version-item, .action-btn, .action-btn-icon, .modal-close,
+        .settings-close, .settings-item, .pill-btn {{
+            transition: transform 0.12s cubic-bezier(0.4, 0, 0.2, 1),
+                        filter 0.12s cubic-bezier(0.4, 0, 0.2, 1),
+                        background 0.2s ease, opacity 0.2s ease;
+        }}
+
+        .icon-btn:active, .tab-btn:active, .search-clear:active, .item:active,
+        .item-action:active, .page-btn:active, .screenshot:active,
+        .lightbox-close:active, .lightbox-nav:active, .detail-section-header:active,
+        .version-item:active, .action-btn:active, .action-btn-icon:active,
+        .modal-close:active, .settings-close:active, .settings-item:active,
+        .pill-btn:active {{
+            transform: scale(0.95);
+            filter: brightness(0.92);
+        }}
+
         :root {{
             --bg: #0f0f1e;
             --card: #1a1a2e;
@@ -439,6 +462,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             backdrop-filter: blur(10px);
             z-index: 100;
             padding: 0;
+            will-change: opacity;
         }}
 
         .modal.active {{ display: flex; align-items: flex-end; }}
@@ -456,6 +480,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             flex-direction: column;
             animation: slideUp 0.25s ease;
             overflow: hidden;
+            will-change: transform;
         }}
 
         html[data-theme="light"] .modal-content {{
@@ -484,6 +509,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
         .modal-scroll-body {{
             overflow-y: auto;
+            overscroll-behavior: contain;
             padding: 18px 20px 20px;
             flex: 1;
         }}
@@ -878,6 +904,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             gap: 8px;
             padding: 12px 10px;
             overflow-y: auto;
+            overscroll-behavior: contain;
         }}
 
         .settings-item {{
@@ -1005,7 +1032,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         <div class="settings-item" onclick="toggleDarkMode()">
             <div class="settings-item-icon">🌓</div>
             <div class="settings-item-text">
-                <div class="settings-item-title" id="settingsThemeTitle">Chủ đề sáng/tối</div>
+                <div class="settings-item-title" id="settingsThemeTitle">Chủ đề</div>
                 <div class="settings-item-sub" id="settingsThemeSub">Tối</div>
             </div>
         </div>
@@ -1199,6 +1226,14 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
         }}
+
+        // Nếu người dùng chưa từng tự chỉnh tay, theo dõi và tự cập nhật
+        // ngay khi thiết bị đổi chế độ sáng/tối (không cần tải lại trang).
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {{
+            if (localStorage.getItem('darkMode') !== null) return;
+            document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+            updateSettingsPanelTexts();
+        }});
     }}
 
     function toggleDarkMode() {{
@@ -1217,23 +1252,30 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     }}
 
     let scrollLockY = 0;
+    let scrollLockCount = 0;
 
     function lockBodyScroll() {{
-        scrollLockY = window.scrollY;
-        document.body.style.position = 'fixed';
-        document.body.style.top = (-scrollLockY) + 'px';
-        document.body.style.left = '0';
-        document.body.style.right = '0';
-        document.body.style.width = '100%';
+        if (scrollLockCount === 0) {{
+            scrollLockY = window.scrollY;
+            document.body.style.position = 'fixed';
+            document.body.style.top = (-scrollLockY) + 'px';
+            document.body.style.left = '0';
+            document.body.style.right = '0';
+            document.body.style.width = '100%';
+        }}
+        scrollLockCount++;
     }}
 
     function unlockBodyScroll() {{
-        document.body.style.position = '';
-        document.body.style.top = '';
-        document.body.style.left = '';
-        document.body.style.right = '';
-        document.body.style.width = '';
-        window.scrollTo(0, scrollLockY);
+        scrollLockCount = Math.max(0, scrollLockCount - 1);
+        if (scrollLockCount === 0) {{
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.left = '';
+            document.body.style.right = '';
+            document.body.style.width = '';
+            window.scrollTo(0, scrollLockY);
+        }}
     }}
 
     function toggleSettings() {{
@@ -1264,7 +1306,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         document.getElementById('settingsTitle').textContent = isVi ? '⚙️ Cài đặt' : '⚙️ Settings';
         document.getElementById('settingsLangTitle').textContent = isVi ? 'Ngôn ngữ' : 'Language';
         document.getElementById('settingsLangSub').textContent = isVi ? 'Tiếng Việt (nhấn để đổi sang English)' : 'English (tap to switch to Vietnamese)';
-        document.getElementById('settingsThemeTitle').textContent = isVi ? 'Chủ đề sáng/tối' : 'Light/Dark theme';
+        document.getElementById('settingsThemeTitle').textContent = isVi ? 'Chủ đề' : 'Theme';
         document.getElementById('settingsThemeSub').textContent = isVi
             ? (isDark ? 'Tối (nhấn để chuyển sang Sáng)' : 'Sáng (nhấn để chuyển sang Tối)')
             : (isDark ? 'Dark (tap to switch to Light)' : 'Light (tap to switch to Dark)');
@@ -1630,6 +1672,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         const scrollBody = document.querySelector('.modal-scroll-body');
         if (scrollBody) scrollBody.scrollTop = 0;
 
+        lockBodyScroll();
         document.getElementById('modal').classList.add('active');
     }}
 
@@ -1695,6 +1738,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         if (e && e.target.id !== 'modal') return;
         document.getElementById('modal').classList.remove('active');
         currentGroup = null;
+        unlockBodyScroll();
     }}
 
     // ════════════════════════════════════════════════════════════
