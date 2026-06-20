@@ -1,4 +1,4 @@
-# 
+# .github/scripts/logs.py
 import os
 import subprocess
 import datetime
