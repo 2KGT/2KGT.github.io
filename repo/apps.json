@@ -1,7 +1,7 @@
 {
   "name": "Kyic Premium Store",
   "identifier": "com.kyic.premium",
-  "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic.png",
+  "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
   "apps": [
     {
       "name": "BiliBili",
@@ -9,7 +9,7 @@
       "developerName": "Kyic Store",
       "subtitle": "Phiên bản Premium",
       "localizedDescription": "Ứng dụng Premium phiên bản ổn định, mượt mà, mở khóa đầy đủ tính năng cao cấp từ Kyic Store.",
-      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/BiliBili.png",
+      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
       "tintColor": "848ef9",
       "version": "2.70.0",
       "versionDate": "2026-05-02T03:49:19Z",
@@ -25,16 +25,9 @@
         }
       ],
       "screenshotURLs": [
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_1.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_2.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_3.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_4.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_5.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_6.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_7.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_8.jpeg"
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_1.jpeg"
       ],
-      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_video.mp4",
+      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_video.mp4",
       "appPermissions": {
         "Máy ảnh": "如果不允许，您将无法使用拍摄、直播、扫一扫等功能。",
         "Thư viện ảnh": "如果不允许，您将无法发布、发送系统相册里的照片等。",
@@ -49,7 +42,7 @@
       "developerName": "Kyic Store",
       "subtitle": "Phiên bản Premium",
       "localizedDescription": "Ứng dụng Premium phiên bản ổn định, mượt mà, mở khóa đầy đủ tính năng cao cấp từ Kyic Store.",
-      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/DLiPA.png",
+      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
       "tintColor": "848ef9",
       "version": "1.3",
       "versionDate": "2026-06-17T23:23:41Z",
@@ -65,13 +58,9 @@
         }
       ],
       "screenshotURLs": [
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/DLiPA/DLiPA_1.png",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/DLiPA/DLiPA_2.png",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/DLiPA/DLiPA_3.png",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/DLiPA/DLiPA_4.png",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/DLiPA/DLiPA_5.png"
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_1.jpeg"
       ],
-      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_video.mp4",
+      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_video.mp4",
       "appPermissions": {
         "Mạng cục bộ": "Exchange data with nearby devices running the DLiPA."
       }
@@ -82,32 +71,25 @@
       "developerName": "Kyic Store",
       "subtitle": "Phiên bản Premium",
       "localizedDescription": "Ứng dụng Premium phiên bản ổn định, mượt mà, mở khóa đầy đủ tính năng cao cấp từ Kyic Store.",
-      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/ESign.png",
+      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
       "tintColor": "848ef9",
       "version": "5.0.2",
-      "versionDate": "2026-06-20T08:18:37Z",
+      "versionDate": "2026-06-20T08:32:47Z",
       "size": 7473847,
       "downloadURL": "https://2kgt.github.io/repo/apps/ESign/ESign_5.0.2.ipa",
       "versions": [
         {
           "version": "5.0.2",
-          "date": "2026-06-20T08:18:37Z",
+          "date": "2026-06-20T08:32:47Z",
           "size": 7473847,
           "downloadURL": "https://2kgt.github.io/repo/apps/ESign/ESign_5.0.2.ipa",
           "localizedDescription": "Cập nhật phiên bản Premium v5.0.2 từ Kyic Store."
         }
       ],
       "screenshotURLs": [
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_1.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_2.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_3.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_4.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_5.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_6.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_7.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_8.jpeg"
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_1.jpeg"
       ],
-      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_video.mp4",
+      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_video.mp4",
       "appPermissions": {
         "Máy ảnh": "授权后才能使用您的相机进行扫一扫",
         "Thư viện ảnh": "授权后才能访问您的手机相册，您才能上传对应的图片",
@@ -122,7 +104,7 @@
       "developerName": "Kyic Store",
       "subtitle": "Phiên bản Premium",
       "localizedDescription": "Nơi người thật thổi bùng sự hiếu kỳ trong bạn. Dù bạn đang bán đồ cũ, hiển thị thước phim cho nhóm người muốn xem hay chia sẻ tiếng cười qua những hình ảnh vui nhộn do AI tạo mới, Facebook đều có thể hỗ trợ bạn thực hiện theo cách độc đáo mà không mạng xã hội nào khác làm được. Khám phá và mở rộng sở thích: * Hỏi Meta AI để tìm kiếm chủ đề bạn quan tâm và nhận ngay các kết quả giàu tính tương tác hơn so với văn bản thuần túy. * Mua sắm trên Marketplace để \"săn\" khuyến mãi và những món đồ quý ít người biết nhằm nuôi dưỡng sở thích của bạn * Tùy chỉnh Bảng feed cho phù hợp với riêng bạn để xem thêm những gì bạn thích và ẩn bớt những gì bạn không thích * Khám phá thước phim và video để xem hướng dẫn cách làm hoặc giải trí nhanh Kết nối với mọi người và cộng đồng: * Tham gia các nhóm để học hỏi bí quyết từ người thật, việc thật * Bật tính năng chia sẻ lên Instagram để tiết kiệm thời gian * Bài viết liên quan đến thông điệp riêng tư mà chỉ bạn tốt mãi mãi mới xem được hoặc xu hướng trên Reels mà mọi người đang xôn xao bàn tán Chia sẻ thế giới của bạn: * Dùng AI tạo sinh để mang lại tiếng cười cho bạn bè qua những hình ảnh tùy chỉnh hay đơn thuần là nhận sự trợ giúp để viết bài * Tùy chỉnh trang cá nhân để chọn cách bạn hiện diện và đối tượng xem được bài viết của bạn * Dễ dàng tạo thước phim từ các mẫu thịnh hành hoặc khoe tài sáng tạo của bạn qua bộ công cụ chỉnh sửa đầy đủ * Lưu giữ những khoảnh khắc nhanh chóng qua tin Điều khoản &amp; chính sách: https://www.facebook.com/policies_center Tìm hiểu về cách chúng tôi giữ an toàn cho cộng đồng trên các công nghệ của Meta, thông qua Trung tâm an toàn của Meta: https://about.meta.com/actions/safety",
-      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/Facebook.png",
+      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/Facebook.jpg",
       "tintColor": "848ef9",
       "version": "565.0.0",
       "versionDate": "2026-06-15T00:41:48Z",
@@ -159,18 +141,18 @@
         }
       ],
       "screenshotURLs": [
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Facebook/Facebook_1.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Facebook/Facebook_2.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Facebook/Facebook_3.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Facebook/Facebook_4.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Facebook/Facebook_5.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Facebook/Facebook_6.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Facebook/Facebook_7.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Facebook/Facebook_8.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Facebook/Facebook_9.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Facebook/Facebook_10.jpg"
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Facebook/Facebook_1.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Facebook/Facebook_2.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Facebook/Facebook_3.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Facebook/Facebook_4.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Facebook/Facebook_5.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Facebook/Facebook_6.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Facebook/Facebook_7.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Facebook/Facebook_8.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Facebook/Facebook_9.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Facebook/Facebook_10.jpg"
       ],
-      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_video.mp4",
+      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_video.mp4",
       "appPermissions": {
         "Máy ảnh": "Facebook uses access to your camera to do things like help you take and share photos, record videos, and use visual effects. You can always change this in your device settings.",
         "Micro": "Facebook uses access to your microphone to do things like help you record audio, identify songs, search with your voice and use audio effects. You can always change this in your device settings.",
@@ -193,28 +175,25 @@
       "developerName": "Kyic Store",
       "subtitle": "Phiên bản Premium",
       "localizedDescription": "Ứng dụng Premium phiên bản ổn định, mượt mà, mở khóa đầy đủ tính năng cao cấp từ Kyic Store.",
-      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/Feather.png",
+      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
       "tintColor": "848ef9",
       "version": "2.8.2",
-      "versionDate": "2026-06-20T08:18:37Z",
+      "versionDate": "2026-06-20T08:32:47Z",
       "size": 14210105,
       "downloadURL": "https://2kgt.github.io/repo/apps/Feather/Feather_2.8.2.ipa",
       "versions": [
         {
           "version": "2.8.2",
-          "date": "2026-06-20T08:18:37Z",
+          "date": "2026-06-20T08:32:47Z",
           "size": 14210105,
           "downloadURL": "https://2kgt.github.io/repo/apps/Feather/Feather_2.8.2.ipa",
           "localizedDescription": "Cập nhật phiên bản Premium v2.8.2 từ Kyic Store."
         }
       ],
       "screenshotURLs": [
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Feather/Feather_1.png",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Feather/Feather_2.png",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Feather/Feather_3.png",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Feather/Feather_4.png"
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_1.jpeg"
       ],
-      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_video.mp4",
+      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_video.mp4",
       "appPermissions": {}
     },
     {
@@ -223,7 +202,7 @@
       "developerName": "Kyic Store",
       "subtitle": "Phiên bản Premium",
       "localizedDescription": "Thắt chặt tình bạn qua những khoảnh khắc giản đơn. Chia sẻ khoảnh khắc của bạn trên Instagram. - Từ Meta Kết nối với bạn bè, tìm những fan khác, cũng như xem mọi người xung quanh bạn đang làm gì và quan tâm đến điều gì. Khám phá sở thích của bạn và đăng những gì đang diễn ra, từ khoảnh khắc hàng ngày cho đến sự kiện nổi bật trong cuộc sống. Chia sẻ hoạt động và đam mê của bạn. - Cập nhật tình hình với bạn bè một cách nhanh chóng qua Tin và Ghi chú biến mất sau 24 giờ. - Bắt đầu nhóm chat và chia sẻ những khoảnh khắc chân thực với Bạn thân. - Chia sẻ kỷ niệm về sự kiện hoặc chuyến đi gần đây trên Bảng feed. - Biến cuộc sống của bạn thành phim và khám phá những video ngắn, thú vị trên Instagram thông qua Reels. - Tùy chỉnh bài viết với mẫu, nhạc, nhãn dán và bộ lọc độc quyền. Khám phá sở thích của bạn. - Xem video của Người sáng tạo nội dung bạn yêu thích và khám phá nội dung mới phù hợp với sở thích của bạn. - Lấy cảm hứng từ ảnh và video của những tài khoản mới trong phần Khám phá. - Khám phá thương hiệu và doanh nghiệp nhỏ, cũng như mua sắm sản phẩm phù hợp với phong cách cá nhân. Một số tính năng của Instagram có thể chưa dùng được ở quốc gia hoặc khu vực của bạn. Điều khoản và chính sách - https://help.instagram.com/581066165581870 Tìm hiểu về cách chúng tôi giữ an toàn cho cộng đồng trên các công nghệ của Meta, thông qua Trung tâm an toàn của Instagram: https://about.instagram.com/safety",
-      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/Instagram.png",
+      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/Instagram.jpg",
       "tintColor": "848ef9",
       "version": "433.0.0",
       "versionDate": "2026-06-09T02:06:22Z",
@@ -246,14 +225,14 @@
         }
       ],
       "screenshotURLs": [
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Instagram/Instagram_1.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Instagram/Instagram_2.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Instagram/Instagram_3.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Instagram/Instagram_4.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Instagram/Instagram_5.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Instagram/Instagram_6.jpg"
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Instagram/Instagram_1.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Instagram/Instagram_2.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Instagram/Instagram_3.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Instagram/Instagram_4.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Instagram/Instagram_5.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Instagram/Instagram_6.jpg"
       ],
-      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_video.mp4",
+      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_video.mp4",
       "appPermissions": {
         "Máy ảnh": "Instagram uses your device's camera to do things like help you take photos, record videos and use effects.",
         "Micro": "Instagram uses your device's microphone to do things like help you record videos and preview audio effects.",
@@ -275,7 +254,7 @@
       "developerName": "Kyic Store",
       "subtitle": "Phiên bản Premium",
       "localizedDescription": "Ứng dụng Premium phiên bản ổn định, mượt mà, mở khóa đầy đủ tính năng cao cấp từ Kyic Store.",
-      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/LCSign.png",
+      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
       "tintColor": "848ef9",
       "version": "1.1.6",
       "versionDate": "2026-06-17T17:25:32Z",
@@ -298,23 +277,16 @@
         },
         {
           "version": "1.0.7",
-          "date": "2026-06-20T08:18:38Z",
+          "date": "2026-06-20T08:32:47Z",
           "size": 14346028,
           "downloadURL": "https://2kgt.github.io/repo/apps/LCSign/LCSign_1.0.7.ipa",
           "localizedDescription": "Cập nhật phiên bản Premium v1.0.7 từ Kyic Store."
         }
       ],
       "screenshotURLs": [
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_1.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_2.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_3.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_4.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_5.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_6.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_7.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_8.jpeg"
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_1.jpeg"
       ],
-      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_video.mp4",
+      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_video.mp4",
       "appPermissions": {
         "Thư viện ảnh": "选择图片并裁切后用作应用图标。"
       }
@@ -325,7 +297,7 @@
       "developerName": "Kyic Store",
       "subtitle": "Phiên bản Premium",
       "localizedDescription": "Ứng dụng Premium phiên bản ổn định, mượt mà, mở khóa đầy đủ tính năng cao cấp từ Kyic Store.",
-      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/MuteOTA.png",
+      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
       "tintColor": "848ef9",
       "version": "1.2",
       "versionDate": "2026-05-02T05:47:09Z",
@@ -341,16 +313,9 @@
         }
       ],
       "screenshotURLs": [
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_1.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_2.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_3.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_4.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_5.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_6.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_7.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_8.jpeg"
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_1.jpeg"
       ],
-      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_video.mp4",
+      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_video.mp4",
       "appPermissions": {}
     },
     {
@@ -359,7 +324,7 @@
       "developerName": "Kyic Store",
       "subtitle": "Phiên bản Premium",
       "localizedDescription": "Ứng dụng Premium phiên bản ổn định, mượt mà, mở khóa đầy đủ tính năng cao cấp từ Kyic Store.",
-      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic.png",
+      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
       "tintColor": "848ef9",
       "version": "2.3.1",
       "versionDate": "2026-05-06T07:31:57Z",
@@ -382,16 +347,9 @@
         }
       ],
       "screenshotURLs": [
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_1.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_2.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_3.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_4.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_5.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_6.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_7.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_8.jpeg"
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_1.jpeg"
       ],
-      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_video.mp4",
+      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_video.mp4",
       "appPermissions": {
         "Máy ảnh": "Ứng dụng cần camera để quét mã QR đăng nhập trên TV.",
         "Thư viện ảnh": "This app requires access to the photo library to support Profile Update.",
@@ -407,32 +365,25 @@
       "developerName": "Kyic Store",
       "subtitle": "Phiên bản Premium",
       "localizedDescription": "Ứng dụng Premium phiên bản ổn định, mượt mà, mở khóa đầy đủ tính năng cao cấp từ Kyic Store.",
-      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic.png",
+      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
       "tintColor": "848ef9",
       "version": "0.8.1",
-      "versionDate": "2026-06-20T08:18:38Z",
+      "versionDate": "2026-06-20T08:32:48Z",
       "size": 7760218,
       "downloadURL": "https://2kgt.github.io/repo/apps/Pocket/Pocket_0.8.1_下载deb_0.8.1.ipa",
       "versions": [
         {
           "version": "0.8.1",
-          "date": "2026-06-20T08:18:38Z",
+          "date": "2026-06-20T08:32:48Z",
           "size": 7760218,
           "downloadURL": "https://2kgt.github.io/repo/apps/Pocket/Pocket_0.8.1_下载deb_0.8.1.ipa",
           "localizedDescription": "Cập nhật phiên bản Premium v0.8.1 từ Kyic Store."
         }
       ],
       "screenshotURLs": [
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_1.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_2.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_3.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_4.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_5.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_6.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_7.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_8.jpeg"
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_1.jpeg"
       ],
-      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_video.mp4",
+      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_video.mp4",
       "appPermissions": {
         "Thư viện ảnh": "PostBox can save media (such as screenshots and banners) to your photo library.",
         "Ghi vào Thư viện ảnh": "Please allow PostBox to save media into your photo library."
@@ -444,7 +395,7 @@
       "developerName": "Kyic Store",
       "subtitle": "Phiên bản Premium",
       "localizedDescription": "Ứng dụng Premium phiên bản ổn định, mượt mà, mở khóa đầy đủ tính năng cao cấp từ Kyic Store.",
-      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic.png",
+      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
       "tintColor": "848ef9",
       "version": "1.0.0",
       "versionDate": "2026-06-04T11:33:25Z",
@@ -460,16 +411,9 @@
         }
       ],
       "screenshotURLs": [
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_1.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_2.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_3.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_4.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_5.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_6.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_7.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_8.jpeg"
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_1.jpeg"
       ],
-      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_video.mp4",
+      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_video.mp4",
       "appPermissions": {}
     },
     {
@@ -478,7 +422,7 @@
       "developerName": "Kyic Store",
       "subtitle": "Phiên bản Premium",
       "localizedDescription": "# The choice of 2 million Safari users. A Must-Have Extension for Safari. Stay is a powerful extension designed specifically for Safari, focused on enhancing browsing efficiency, flexibility, and cross-device continuity. Stay supports all Apple platforms and offers a one-time payment that covers iPhone, iPad, and Mac devices. With Stay installed, what new features can you expect in your Safari browser? 【Userscripts】 Give Safari more capabilities. By installing or writing user scripts, Safari can support features such as automatic pagination, immersive translation, redirect blocking, aggregated search, and more. 【Cross-Device Bookmark Sync】 Enhance Safari’s bookmark functionality. With Stay’s multi-platform coverage, your bookmarks are no longer limited to the Apple ecosystem and can be synced across devices. 【Downloads】 Enhance file downloads in Safari. Downloads are faster, and files can be saved into categorized folders, making it easier to manage downloaded resources. 【Ad Blocking】 Enhance Safari’s ad filtering capabilities. Supports AdGuard, uBlock Origin, and AdBlock Plus, compatible with EasyList filtering rules, making your browsing experience cleaner and safer. 【Dark Mode for Web Pages】 Enable dark mode for all web pages browsed in Safari. By purchasing Stay Pro, you can enjoy the following additional benefits: - Supports self-hosted script synchronization - Unlimited custom ad-blocking rules - Ability to mark ads directly on web pages - Download management with privacy mode support Privacy policy: https://www.privacypolicyonline.com/live.php?token=ZPXT0Jfv2diYUfbf5ciLDV9oYRgJ6Evc Terms of service: https://fastclip.app/policy/terms-stay.htm Visit our open-source version address at https://github.com/shenruisi/Stay. For any questions, please follow our official Twitter @stayfork to provide feedback. Join our Telegram group at t.me/fastclipchat.",
-      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/Stay.png",
+      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/Stay.jpg",
       "tintColor": "848ef9",
       "version": "2.9.20",
       "versionDate": "2026-05-16T10:27:56Z",
@@ -501,12 +445,12 @@
         }
       ],
       "screenshotURLs": [
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Stay/Stay_1.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Stay/Stay_2.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Stay/Stay_3.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Stay/Stay_4.jpg"
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Stay/Stay_1.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Stay/Stay_2.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Stay/Stay_3.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Stay/Stay_4.jpg"
       ],
-      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_video.mp4",
+      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_video.mp4",
       "appPermissions": {
         "Máy ảnh": "Stay uses the camera to save videos.",
         "Thư viện ảnh": "Stay uses Photo Library to save videos.",
@@ -522,7 +466,7 @@
       "developerName": "Kyic Store",
       "subtitle": "Phiên bản Premium",
       "localizedDescription": "Pure instant messaging — simple, fast, secure, and synced across all your devices. One of the top 5 most downloaded apps in the world with over 1 billion active users. FAST: Telegram is the fastest messaging app on the market, connecting people via a unique, distributed network of data centers around the globe. SYNCED: You can access your messages from all your phones, tablets and computers at once. Telegram apps are standalone, so you don’t need to keep your phone connected. Start typing on one device and finish the message from another. Never lose your data again. UNLIMITED: You can send media and files, without any limits on their type and size. Your entire chat history will require no disk space on your device, and will be securely stored in the Telegram cloud for as long as you need it. SECURE: We made it our mission to provide the best security combined with ease of use. Everything on Telegram, including chats, groups, media, etc. is encrypted using a combination of 256-bit symmetric AES encryption, 2048-bit RSA encryption, and Diffie–Hellman secure key exchange. 100% FREE & OPEN: Telegram has a fully documented and free API for developers, open source apps and verifiable builds to prove the app you download is built from the exact same source code that is published. POWERFUL: You can create group chats with up to 200,000 members, share large videos, documents of any type (.DOCX, .MP3, .ZIP, etc.) up to 2 GB each, and even set up bots for specific tasks. Telegram is the perfect tool for hosting online communities and coordinating teamwork. RELIABLE: Built to deliver your messages using as little data as possible, Telegram is the most reliable messaging system ever made. It works even on the weakest mobile connections. FUN: Telegram has powerful photo and video editing tools, animated stickers and emoji, fully customizable themes to change the appearance of your app, and an open sticker/GIF platform to cater to all your expressive needs. SIMPLE: While providing an unprecedented array of features, we take great care to keep the interface clean. Telegram is so simple you already know how to use it. PRIVATE: We take your privacy seriously and will never give any third parties access to your data. You can delete any message you ever sent or received for both sides, at any time and without a trace. Telegram will never use your data to show you ads. For those interested in maximum privacy, Telegram offers Secret Chats. Secret Chat messages can be programmed to self-destruct automatically from both participating devices. This way you can send all types of disappearing content — messages, photos, videos, and even files. Secret Chats use End-to-End Encryption to ensure that a message can only be read by its intended recipient. We keep expanding the boundaries of what you can do with a messaging app. Don’t wait years for older messengers to catch up with Telegram — join the revolution today. Terms of Use: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/",
-      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/Telegram.png",
+      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/Telegram.png",
       "tintColor": "848ef9",
       "version": "12.8",
       "versionDate": "2026-06-09T12:32:10Z",
@@ -545,17 +489,15 @@
         }
       ],
       "screenshotURLs": [
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Telegram/Telegram_1.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Telegram/Telegram_2.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Telegram/Telegram_3.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Telegram/Telegram_4.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Telegram/Telegram_5.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Telegram/Telegram_6.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Telegram/Telegram_7.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Telegram/Telegram_8.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Telegram/Telegram_9.jpg"
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Telegram/Telegram_1.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Telegram/Telegram_2.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Telegram/Telegram_3.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Telegram/Telegram_4.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Telegram/Telegram_5.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Telegram/Telegram_6.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Telegram/Telegram_7.jpg"
       ],
-      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_video.mp4",
+      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_video.mp4",
       "appPermissions": {
         "Máy ảnh": "We need this so that you can take and share photos and videos.",
         "Micro": "We need this so that you can record and share voice messages and videos with sound.",
@@ -573,7 +515,7 @@
       "developerName": "Kyic Store",
       "subtitle": "Phiên bản Premium",
       "localizedDescription": "Turrit is a messenger built to deliver a superior messaging experience while maintaining strong security and privacy standards. As an enhanced messaging platform based on the latest Telegram technology, Turrit combines familiar communication features with exclusive upgrades designed to give you more control, efficiency, and flexibility in everyday conversations. More than just a messenger, Turrit offers a Plus experience — empowering users with premium tools, refined performance, and smarter message management across chats, groups, and channels. Key Features Video Page Discover a TikTok-style video feed tailored to your interests. Customise video content from your favourite channels and groups, all in one immersive viewing experience. Premium User Experience & Advanced Management Enjoy higher limits, enhanced chat organisation, and powerful tools designed for users who value control and productivity. From smarter chat folders to improved navigation, Turrit helps you manage conversations with ease. Text, Voice & Video Communication Stay connected through fast and reliable messaging, crystal-clear voice calls, and high-quality video calls — whether you’re chatting one-on-one or in groups. Fast & Reliable File Transfers Share documents, photos, and videos effortlessly with accelerated transfer speeds or compressed quality options. Downloads now resume automatically if the app restarts or returns to the foreground, ensuring a smooth experience even on unstable networks. Smart Chat & Channel Tools Gain deeper insights and better control over your communities. View approximate group and channel creation dates, jump to the first message, add chats to folders, select all outgoing messages, and even add notes to channels for better context. Efficient Storage & Media Management New auto-clear cache limits (1GB and 2GB) help you manage storage intelligently, while batch media saving makes organising your files faster than ever. Seamlessly save images, videos, and files directly to PikPak cloud storage via the newly integrated PikPak entry, making cross-platform file management faster and more convenient. Built-in Translator Communicate without language barriers using free, accurate translation across multiple languages — ideal for global conversations. Enhanced translation now supports Markdown formatting and richer content rendering, ensuring clearer and more structured message display, along with a free speech-to-text feature for effortless voice input. Enhanced Search & Navigation Find messages faster with Search Assistance, circular scrolling in chat folders, a dedicated Recent Chats folder, and clearer chat lists that now display group sender usernames. Customisation & Interface Improvements Choose from additional app icons, enjoy a refined text editor positioned below the message input field, and enable the improved call screen for a more intuitive calling experience. Quick Friend Connections Add friends instantly using QR code scanning, making social connections faster and more convenient. Performance & Stability Turrit is built on the latest Telegram codebase, delivering improved stability, smoother performance, and a more reliable messaging experience across all use cases. Experience messaging without limits. Stay securely connected with powerful features designed to keep conversations organised, fast, and enjoyable. If you have any questions, please contact our support team at support@seastar.im Privacy Policy: https://www.iturrit.com/privacy Official Website: https://iturrit.com/",
-      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/Turrit.png",
+      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/Turrit.jpg",
       "tintColor": "848ef9",
       "version": "1.4.8",
       "versionDate": "2026-05-10T01:16:52Z",
@@ -603,18 +545,16 @@
         }
       ],
       "screenshotURLs": [
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Turrit/Turrit_1.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Turrit/Turrit_2.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Turrit/Turrit_3.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Turrit/Turrit_4.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Turrit/Turrit_5.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Turrit/Turrit_6.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Turrit/Turrit_7.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Turrit/Turrit_8.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Turrit/Turrit_9.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/Turrit/Turrit_10.jpg"
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Turrit/Turrit_1.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Turrit/Turrit_2.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Turrit/Turrit_3.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Turrit/Turrit_4.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Turrit/Turrit_5.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Turrit/Turrit_6.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Turrit/Turrit_7.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Turrit/Turrit_8.jpg"
       ],
-      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_video.mp4",
+      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_video.mp4",
       "appPermissions": {
         "Máy ảnh": "We need this so that you can take and share photos and videos.",
         "Micro": "We need this so that you can record and share voice messages and videos with sound.",
@@ -633,7 +573,7 @@
       "developerName": "Kyic Store",
       "subtitle": "Phiên bản Premium",
       "localizedDescription": "Ứng dụng Premium phiên bản ổn định, mượt mà, mở khóa đầy đủ tính năng cao cấp từ Kyic Store.",
-      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/UnKeySign.png",
+      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
       "tintColor": "848ef9",
       "version": "1.1.8",
       "versionDate": "2026-04-26T05:00:07Z",
@@ -649,16 +589,9 @@
         }
       ],
       "screenshotURLs": [
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_1.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_2.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_3.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_4.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_5.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_6.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_7.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_8.jpeg"
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_1.jpeg"
       ],
-      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_video.mp4",
+      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_video.mp4",
       "appPermissions": {
         "Máy ảnh": "UnKeySign cần camera để quét mã QR import certificate",
         "Thư viện ảnh": "UnKeyApp cần quyền truy cập thư viện ảnh để lưu và chia sẻ file IPA đã ký.",
@@ -672,7 +605,7 @@
       "developerName": "Kyic Store",
       "subtitle": "Phiên bản Premium",
       "localizedDescription": "Tải ứng dụng YouTube chính thức dành cho iPhone và iPad. Khám phá nội dung mọi người đang xem – từ những video nhạc nổi bật nhất đến nội dung trò chơi, thời trang, làm đẹp, tin tức, giáo dục, cùng nhiều nội dung khác. Đăng ký kênh bạn yêu thích, tạo nội dung của riêng bạn, chia sẻ với bạn bè và xem trên mọi thiết bị. Xem và đăng ký ● Duyệt xem nội dung đề xuất dành riêng cho bạn trên Trang chủ ● Nắm bắt thông tin mới nhất từ những kênh bạn yêu thích trong thẻ Kênh đăng ký ● Tìm các video bạn đã xem, đã thích và lưu để xem sau trong Thư viện Khám phá các chủ đề khác nhau, nội dung thịnh hành và đang nổi lên (chỉ có tại một số quốc gia) ● Nắm bắt tin tức các nội dung thịnh hành về âm nhạc, trò chơi, làm đẹp, tin tức, giáo dục và nhiều nội dung khác ● Khám phá nội dung thịnh hành trên YouTube và khắp thế giới tại trang Khám phá ● Tìm hiểu về những người sáng tạo, người chơi trò chơi và nghệ sĩ nổi bật đang lên (chỉ có tại một số quốc gia) Kết nối với cộng đồng trên YouTube ● Theo dõi người sáng tạo yêu thích của bạn thông qua Bài đăng, Câu chuyện, Buổi công chiếu và Sự kiện trực tiếp ● Tham gia trò chuyện thông qua bình luận và tương tác với người sáng tạo cũng như các thành viên khác trong cộng đồng Tạo nội dung từ thiết bị di động của bạn ● Đăng hoặc tải video của riêng bạn lên ngay trong ứng dụng ● Tương tác với khán giả theo thời gian thực thông qua việc phát trực tiếp ngay trong ứng dụng Tìm ra trải nghiệm phù hợp với bạn và gia đình bạn (chỉ có tại một số quốc gia) ● Mỗi gia đình đều có cách riêng khi xem video trực tuyến. Tìm hiểu về các lựa chọn dành cho bạn: Ứng dụng YouTube Kids hoặc trải nghiệm mới có sự giám sát của cha mẹ trên YouTube tại youtube.com/myfamily Ủng hộ người sáng tạo bạn yêu thích thông qua chương trình hội viên của kênh (chỉ có tại một số quốc gia) ● Tham gia gói hội viên có tính phí hằng tháng để ủng hộ nỗ lực sáng tạo của các kênh ● Nhận đặc quyền mà kênh cung cấp và trở thành một phần trong cộng đồng của kênh ● Xuất hiện nổi bật trong phần bình luận và trò chuyện trực tiếp với huy hiệu hội viên trung thành bên cạnh tên người dùng của bạn Nâng cấp lên gói YouTube Premium (chỉ có tại một số quốc gia) ● Xem video không có quảng cáo trong khi vẫn dùng các ứng dụng khác hoặc khi màn hình khóa ● Giúp bạn lưu video để xem khi cần – như khi trên máy bay hoặc trên đường đi làm ● Nhận lợi ích sử dụng YouTube Music Premium Lưu ý: Nếu bạn đăng ký qua Apple, khoản thanh toán sẽ được tính vào tài khoản App Store khi bạn xác nhận giao dịch mua. Gói đăng ký sẽ tự động gia hạn, trừ phi bạn tắt tính năng tự động gia hạn ít nhất 24 giờ trước khi kỳ đăng ký hiện tại kết thúc. Trong vòng 24 giờ trước khi kỳ đăng ký hiện tại kết thúc, tài khoản sẽ được tính phí gia hạn bằng với mức phí của gói đã chọn. Bạn có thể quản lý các gói đăng ký và tính năng tự động gia hạn bằng cách chuyển đến phần Cài đặt tài khoản sau khi mua. Điều khoản của YouTube về dịch vụ có tính phí: https://www.youtube.com/t/terms_paidservice. Chính sách quyền riêng tư: https://www.google.com/policies/privacy",
-      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/YouTube.png",
+      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/YouTube.png",
       "tintColor": "848ef9",
       "version": "21.24.3",
       "versionDate": "2026-06-15T00:46:16Z",
@@ -709,13 +642,13 @@
         }
       ],
       "screenshotURLs": [
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/YouTube/YouTube_1.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/YouTube/YouTube_2.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/YouTube/YouTube_3.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/YouTube/YouTube_4.jpg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/images/YouTube/YouTube_5.jpg"
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/YouTube/YouTube_1.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/YouTube/YouTube_2.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/YouTube/YouTube_3.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/YouTube/YouTube_4.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/YouTube/YouTube_5.jpg"
       ],
-      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_video.mp4",
+      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_video.mp4",
       "appPermissions": {
         "Máy ảnh": "This lets you create videos using the app.",
         "Micro": "This lets you include audio with your videos and search using your voice.",
@@ -733,7 +666,7 @@
       "developerName": "Kyic Store",
       "subtitle": "Phiên bản Premium",
       "localizedDescription": "Ứng dụng Premium phiên bản ổn định, mượt mà, mở khóa đầy đủ tính năng cao cấp từ Kyic Store.",
-      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/Zebra.png",
+      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
       "tintColor": "848ef9",
       "version": "1.1.28",
       "versionDate": "2026-04-22T07:11:47Z",
@@ -749,16 +682,9 @@
         }
       ],
       "screenshotURLs": [
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_1.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_2.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_3.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_4.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_5.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_6.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_7.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_8.jpeg"
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_1.jpeg"
       ],
-      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_video.mp4",
+      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_video.mp4",
       "appPermissions": {
         "Face ID / Touch ID": "Zebra uses Face ID to authenticate purchases."
       }
@@ -769,32 +695,25 @@
       "developerName": "Kyic Store",
       "subtitle": "Phiên bản Premium",
       "localizedDescription": "Ứng dụng Premium phiên bản ổn định, mượt mà, mở khóa đầy đủ tính năng cao cấp từ Kyic Store.",
-      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/全能签.png",
+      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
       "tintColor": "848ef9",
       "version": "26.0.5",
-      "versionDate": "2026-06-20T08:18:37Z",
+      "versionDate": "2026-06-20T08:32:47Z",
       "size": 5579478,
       "downloadURL": "https://2kgt.github.io/repo/apps/AllSign/全能签_26.0.5.ipa",
       "versions": [
         {
           "version": "26.0.5",
-          "date": "2026-06-20T08:18:37Z",
+          "date": "2026-06-20T08:32:47Z",
           "size": 5579478,
           "downloadURL": "https://2kgt.github.io/repo/apps/AllSign/全能签_26.0.5.ipa",
           "localizedDescription": "Cập nhật phiên bản Premium v26.0.5 từ Kyic Store."
         }
       ],
       "screenshotURLs": [
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_1.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_2.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_3.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_4.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_5.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_6.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_7.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_8.jpeg"
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_1.jpeg"
       ],
-      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/Kyic_video.mp4",
+      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_video.mp4",
       "appPermissions": {
         "Máy ảnh": "用于「下载」页扫二维码，识别其中的网址以打开或下载",
         "Thư viện ảnh": "用于选择图片以修改应用图标",
@@ -809,7 +728,7 @@
       "identifier": "new-com.bstar.intl",
       "caption": "Phiên bản 2.70.0 đã sẵn sàng.",
       "date": "2026-06-20",
-      "imageURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/icons/BiliBili.png",
+      "imageURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
       "url": "https://github.com/2KGT/repo/blob/main/README.md",
       "appIdentifier": "com.bstar.intl"
     },
@@ -818,7 +737,7 @@
       "identifier": "feather-donate",
       "caption": "Ủng hộ Kyic Store!",
       "date": "2026-06-20",
-      "imageURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/donate.png",
+      "imageURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/donate.png",
       "url": "https://www.paypal.me/225668",
       "appIdentifier": "com.bstar.intl"
     },
@@ -827,7 +746,7 @@
       "identifier": "feather-about",
       "caption": "Chào mừng!",
       "date": "2026-06-20",
-      "imageURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/depictions/default/about.png",
+      "imageURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/about.png",
       "url": "https://github.com/2KGT/repo/blob/main/README.md",
       "appIdentifier": "com.bstar.intl"
     }
