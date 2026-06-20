@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 16:55:52 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 16:55:56 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -410,8 +410,6 @@
     │       └── 📂 tweaks/
     │           ├── 📂 Lead/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 10 file ]
-    │           ├── 📂 fastlock/
-    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 4 file ]
     │           ├── 📂 glow/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 18 file ]
     │           ├── 📂 infuseplus/
