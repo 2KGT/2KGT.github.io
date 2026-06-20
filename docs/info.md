@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 16:54:54 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 16:54:57 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -412,6 +412,8 @@
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 10 file ]
     │           ├── 📂 YoutubeX/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
+    │           ├── 📂 cc18/
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 2 file ]
     │           ├── 📂 fastlock/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 9 file ]
     │           ├── 📂 flow/
