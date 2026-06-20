@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 15:13:22 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 15:17:08 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -73,6 +73,22 @@
     │   └── 📂 Zebra/
     │       └── .gitkeep
     ├── apps.html
+    ├── 📂 data/
+    │   ├── 📂 default/
+    │   │   └── [ 📊 Số lượng: 📸 Ảnh JPEG: 1 file ]
+    │   ├── 📂 images/
+    │   │   ├── 📂 AutoAC/
+    │   │   │   └── .gitkeep
+    │   │   └── 📂 YouTube/
+    │   │       └── .gitkeep
+    │   └── 📂 metadata/
+    │       ├── 📂 desc/
+    │       │   └── 📂 apps/
+    │       │       └── 📂 UnKeySign/
+    │       │           └── v1.1.8.txt
+    │       └── 📂 tweaks/
+    │           └── 📂 orwellvk/
+    │               └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     ├── 📂 debs/
     │   ├── 📂 Lead/
     │   │   ├── .gitkeep
