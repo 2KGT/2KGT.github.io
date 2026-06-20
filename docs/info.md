@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 16:31:08 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 16:38:46 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -75,7 +75,8 @@
     ├── apps.html
     ├── 📂 data/
     │   ├── 📂 default/
-    │   │   └── [ 📊 Số lượng: 📸 Ảnh JPEG: 1 file ]
+    │   │   ├── Kyic_video.mp4
+    │   │   └── [ 📊 Số lượng: 📸 Ảnh JPEG: 1 file, 🖼️ Ảnh PNG: 3 file ]
     │   ├── 📂 desc/
     │   │   ├── 📂 apps/
     │   │   │   ├── 📂 BiliBili/
@@ -250,82 +251,27 @@
     │   │       └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
     │   ├── 📂 icons/
     │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 17 file, 🖼️ Ảnh PNG: 3 file ]
-    │   ├── 📂 images/
-    │   │   ├── 📂 AutoAC/
-    │   │   │   └── .gitkeep
-    │   │   ├── 📂 Facebook/
-    │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 11 file ]
-    │   │   ├── 📂 Instagram/
-    │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 7 file ]
-    │   │   ├── 📂 Lead/
-    │   │   │   └── .gitkeep
-    │   │   ├── 📂 Stay/
-    │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 5 file ]
-    │   │   ├── 📂 Telegram/
-    │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 8 file ]
-    │   │   ├── 📂 Turrit/
-    │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 9 file ]
-    │   │   ├── 📂 YouTube/
-    │   │   │   ├── .gitkeep
-    │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 6 file ]
-    │   │   └── 📂 ytplus/
-    │   │       ├── .gitkeep
-    │   │       └── [ 📊 Số lượng: 📸 Ảnh JPG: 2 file ]
-    │   ├── 📂 tweaks/
-    │   │   ├── 📂 Lead/
-    │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 9 file ]
-    │   │   ├── 📂 TGExtra/
-    │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
-    │   │   ├── 📂 YoutubeX/
-    │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
-    │   │   ├── 📂 cc18/
-    │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
-    │   │   ├── 📂 ccappicon/
-    │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
-    │   │   ├── 📂 fastlock/
-    │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 9 file ]
-    │   │   ├── 📂 flow/
-    │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
-    │   │   ├── 📂 glow/
-    │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 18 file ]
-    │   │   ├── 📂 infuseplus/
-    │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 18 file ]
-    │   │   ├── 📂 noytpremium/
-    │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
-    │   │   ├── 📂 oledkeyboard/
-    │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
-    │   │   ├── 📂 orwellvk/
-    │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 6 file ]
-    │   │   ├── 📂 tweach/
-    │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 12 file ]
-    │   │   ├── 📂 twlegacy/
-    │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
-    │   │   ├── 📂 yougroupsettings/
-    │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
-    │   │   ├── 📂 youmod/
-    │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
-    │   │   ├── 📂 youmute/
-    │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
-    │   │   ├── 📂 youpip/
-    │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 2 file ]
-    │   │   ├── 📂 youspeed/
-    │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
-    │   │   ├── 📂 youtubefix/
-    │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
-    │   │   ├── 📂 yt-native-share/
-    │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
-    │   │   ├── 📂 ytmu/
-    │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 9 file ]
-    │   │   ├── 📂 ytplus/
-    │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 18 file ]
-    │   │   ├── 📂 ytuhd/
-    │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 2 file ]
-    │   │   ├── 📂 ytunshorts/
-    │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
-    │   │   └── 📂 ytvideooverlay/
-    │   │       └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
-    │   └── 📂 wiki/
-    │       └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
+    │   └── 📂 images/
+    │       ├── 📂 AutoAC/
+    │       │   └── .gitkeep
+    │       ├── 📂 Facebook/
+    │       │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 11 file ]
+    │       ├── 📂 Instagram/
+    │       │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 7 file ]
+    │       ├── 📂 Lead/
+    │       │   └── .gitkeep
+    │       ├── 📂 Stay/
+    │       │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 5 file ]
+    │       ├── 📂 Telegram/
+    │       │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 8 file ]
+    │       ├── 📂 Turrit/
+    │       │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 9 file ]
+    │       ├── 📂 YouTube/
+    │       │   ├── .gitkeep
+    │       │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 6 file ]
+    │       └── 📂 ytplus/
+    │           ├── .gitkeep
+    │           └── [ 📊 Số lượng: 📸 Ảnh JPG: 2 file ]
     ├── 📂 debs/
     │   ├── 📂 Lead/
     │   │   ├── .gitkeep
@@ -383,8 +329,7 @@
     │       └── [ 📊 Số lượng: 📦 Package .deb: 3 file ]
     ├── 📂 depictions/
     │   ├── 📂 default/
-    │   │   ├── Kyic_video.mp4
-    │   │   └── [ 📊 Số lượng: 📸 Ảnh JPEG: 8 file, 🖼️ Ảnh PNG: 4 file ]
+    │   │   └── [ 📊 Số lượng: 📸 Ảnh JPEG: 8 file, 🖼️ Ảnh PNG: 2 file ]
     │   ├── 📂 icons/
     │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 14 file, 🖼️ Ảnh PNG: 21 file ]
     │   ├── 📂 images/
