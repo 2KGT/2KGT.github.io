@@ -28,11 +28,35 @@
           "screenshots": [
             {
               "accessibilityText": "Screenshot0",
-              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_4.jpeg"
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_1.jpeg"
             },
             {
               "accessibilityText": "Screenshot1",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_2.jpeg"
+            },
+            {
+              "accessibilityText": "Screenshot2",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_3.jpeg"
+            },
+            {
+              "accessibilityText": "Screenshot3",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_4.jpeg"
+            },
+            {
+              "accessibilityText": "Screenshot4",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_5.jpeg"
+            },
+            {
+              "accessibilityText": "Screenshot5",
               "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_6.jpeg"
+            },
+            {
+              "accessibilityText": "Screenshot6",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_7.jpeg"
+            },
+            {
+              "accessibilityText": "Screenshot7",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_8.jpeg"
             }
           ],
           "itemSize": "{160, 275.41333333333336}",
