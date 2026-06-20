@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 17:06:18 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 17:06:32 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -390,10 +390,8 @@
     │       │       └── 📂 Zebra/
     │       │           └── v1.1.28.txt
     │       └── 📂 tweaks/
-    │           ├── 📂 glow/
-    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 18 file ]
-    │           └── 📂 ytplus/
-    │               └── [ 📊 Số lượng: ⚙️ Config .json: 8 file ]
+    │           └── 📂 glow/
+    │               └── [ 📊 Số lượng: ⚙️ Config .json: 18 file ]
     ├── 📂 dylibs/
     │   ├── .gitkeep
     │   └── 📂 Lead/
