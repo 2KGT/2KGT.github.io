@@ -75,33 +75,65 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }}
 
         /* ─────────────────────────── NAV SHELL (HEADER) ─────────────────────────── 
-           FIX: 🏠 🌐 🌓 ⚙️ hàng trên, iOS glassmorphism, LUÔN STICKY (không auto-hide)   */
+           🏠 ... tên repo ... ⚙️ hàng trên, iOS 26 "liquid glass" pill, tự ẩn/hiện khi cuộn */
         .nav-shell {{
-            position: sticky;
-            top: 0;
+            position: fixed;
+            top: 10px;
+            left: 0;
+            right: 0;
             z-index: 50;
+            margin: 0 auto;
+            max-width: 500px;
+            width: calc(100% - 20px);
             padding: 0;
-            backdrop-filter: blur(26px);
-            background: rgba(28, 28, 46, 0.4);
-            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(26px) saturate(180%);
+            -webkit-backdrop-filter: blur(26px) saturate(180%);
+            background: rgba(28, 28, 46, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 26px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease;
+        }}
+
+        .nav-shell.nav-hidden {{
+            transform: translateY(-130%);
+            opacity: 0;
         }}
 
         html[data-theme="light"] .nav-shell {{
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        }}
+
+        /* Đẩy nội dung trang xuống vì nav-shell giờ là fixed (không chiếm chỗ trong flow) */
+        .container {{
+            padding-top: 118px;
         }}
 
         .nav-inner {{
-            max-width: 500px;
             margin: 0 auto;
-            padding: 0 12px;
+            padding: 0 8px 6px;
         }}
 
         .header-row {{
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: 36px 1fr 36px;
             align-items: center;
             height: 50px;
-            padding: 0 4px;
+            padding: 0 6px;
+        }}
+
+        .nav-repo-name {{
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.95em;
+            letter-spacing: 0.2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: var(--text);
+            opacity: 0.92;
         }}
 
         .header-actions {{
@@ -143,6 +175,11 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             grid-template-columns: 1fr 1fr 1fr;
             gap: 8px;
             padding: 0 4px 10px;
+        }}
+
+        /* Search box khi đặt trong nav-shell, ngay dưới tabs */
+        .nav-inner .search-box {{
+            margin: 0 4px 12px;
         }}
 
         .tab-btn {{
@@ -677,6 +714,138 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
         .toast.show {{ opacity: 1; }}
 
+        /* ─────────────────────────── SETTINGS PANEL (layer trượt từ phải) ─────────────────────────── */
+        .settings-overlay {{
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(2px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 300;
+        }}
+
+        .settings-overlay.active {{
+            opacity: 1;
+            pointer-events: auto;
+        }}
+
+        .settings-panel {{
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 78%;
+            max-width: 320px;
+            background: rgba(28, 28, 46, 0.78);
+            backdrop-filter: blur(30px) saturate(180%);
+            -webkit-backdrop-filter: blur(30px) saturate(180%);
+            border-left: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: -8px 0 40px rgba(0, 0, 0, 0.35);
+            transform: translateX(100%);
+            transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 301;
+            display: flex;
+            flex-direction: column;
+            padding: env(safe-area-inset-top, 20px) 0 20px;
+        }}
+
+        html[data-theme="light"] .settings-panel {{
+            background: rgba(255, 255, 255, 0.82);
+            border-left: 1px solid rgba(0, 0, 0, 0.06);
+        }}
+
+        .settings-panel.active {{
+            transform: translateX(0);
+        }}
+
+        .settings-header {{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 18px 14px;
+            border-bottom: 1px solid var(--border);
+        }}
+
+        .settings-header h3 {{
+            font-size: 1.05em;
+            font-weight: 700;
+        }}
+
+        .settings-close {{
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border);
+            color: var(--text);
+            width: 32px; height: 32px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+        }}
+
+        html[data-theme="light"] .settings-close {{
+            background: rgba(0, 0, 0, 0.05);
+        }}
+
+        .settings-list {{
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 16px 14px;
+            overflow-y: auto;
+        }}
+
+        .settings-item {{
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 14px 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            color: var(--text);
+        }}
+
+        html[data-theme="light"] .settings-item {{
+            background: rgba(0, 0, 0, 0.035);
+        }}
+
+        .settings-item:active {{
+            background: rgba(255, 255, 255, 0.14);
+            transform: scale(0.98);
+        }}
+
+        html[data-theme="light"] .settings-item:active {{
+            background: rgba(0, 0, 0, 0.08);
+        }}
+
+        .settings-item-icon {{
+            font-size: 1.3em;
+            width: 28px;
+            text-align: center;
+            flex-shrink: 0;
+        }}
+
+        .settings-item-text {{
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            flex: 1;
+        }}
+
+        .settings-item-title {{
+            font-weight: 600;
+            font-size: 0.95em;
+        }}
+
+        .settings-item-sub {{
+            font-size: 0.78em;
+            color: var(--text-secondary);
+        }}
+
         @media (max-width: 480px) {{
             .container {{ padding: 12px; }}
             .modal-icon {{ width: 64px; height: 64px; }}
@@ -688,18 +857,14 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 </head>
 <body>
 
-<!-- NAV SHELL — 🏠 🌐 🌓 ⚙️ hàng trên, iOS glassmorphism, LUÔN STICKY -->
+<!-- NAV SHELL — 🏠 ... tên repo ... ⚙️, search dưới tabs, iOS 26 glass pill, tự ẩn/hiện khi cuộn -->
 <div class="nav-shell" id="navShell">
     <div class="nav-inner">
         <!-- HEADER TOP ROW -->
         <div class="header-row">
-            <div style="width: 36px;"></div><!-- Placeholder để căn giữa -->
-            <div class="header-actions">
-                <button class="icon-btn" onclick="location.href='./index.html'" title="Trang chủ">🏠</button>
-                <button class="icon-btn" onclick="toggleLanguage()" title="Ngôn ngữ (VI/EN)">🌐</button>
-                <button class="icon-btn" onclick="toggleDarkMode()" title="Chế độ sáng/tối">🌓</button>
-                <button class="icon-btn" onclick="toggleSettings()" title="Cài đặt">⚙️</button>
-            </div>
+            <button class="icon-btn" onclick="location.href='./index.html'" title="Trang chủ">🏠</button>
+            <div class="nav-repo-name">{repo_name}</div>
+            <button class="icon-btn" onclick="toggleSettings()" title="Cài đặt">⚙️</button>
         </div>
 
         <!-- TABS -->
@@ -708,15 +873,16 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             <button class="tab-btn {active_tweaks}" onclick="location.href='tweaks.html'">🔧 Tweaks</button>
             <button class="tab-btn {active_dylibs}" onclick="location.href='dylibs.html'">📚 Dylibs</button>
         </div>
+
+        <!-- SEARCH (đặt trong cùng nav-shell, ngay dưới tabs) -->
+        <div class="search-box">
+            <span>🔍</span>
+            <input type="text" id="searchInput" placeholder="Tìm kiếm..." oninput="onSearchInput()">
+        </div>
     </div>
 </div>
 
 <div class="container">
-    <div class="search-box">
-        <span>🔍</span>
-        <input type="text" id="searchInput" placeholder="Tìm kiếm..." oninput="onSearchInput()">
-    </div>
-
     <div id="list" class="list">
         <div class="loading">
             <div class="spinner"></div>
@@ -726,6 +892,45 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
     <!-- Pagination: ◀️ 0️⃣...9️⃣ ▶️ -->
     <div class="pagination" id="pagination" style="display:none;"></div>
+</div>
+
+<!-- SETTINGS PANEL — layer trượt từ phải -->
+<div class="settings-overlay" id="settingsOverlay" onclick="closeSettings()"></div>
+<div class="settings-panel" id="settingsPanel">
+    <div class="settings-header">
+        <h3 id="settingsTitle">⚙️ Cài đặt</h3>
+        <button class="settings-close" onclick="closeSettings()">✕</button>
+    </div>
+    <div class="settings-list">
+        <div class="settings-item" onclick="toggleLanguage()">
+            <div class="settings-item-icon">🌐</div>
+            <div class="settings-item-text">
+                <div class="settings-item-title" id="settingsLangTitle">Ngôn ngữ</div>
+                <div class="settings-item-sub" id="settingsLangSub">Tiếng Việt</div>
+            </div>
+        </div>
+        <div class="settings-item" onclick="toggleDarkMode()">
+            <div class="settings-item-icon">🌓</div>
+            <div class="settings-item-text">
+                <div class="settings-item-title" id="settingsThemeTitle">Chủ đề sáng/tối</div>
+                <div class="settings-item-sub" id="settingsThemeSub">Tối</div>
+            </div>
+        </div>
+        <a class="settings-item" href="https://t.me/+uhoygGN-1Gc4NzZl" target="_blank" rel="noopener noreferrer">
+            <div class="settings-item-icon">💬</div>
+            <div class="settings-item-text">
+                <div class="settings-item-title" id="settingsChatTitle">Nhắn tin</div>
+                <div class="settings-item-sub" id="settingsChatSub">Tham gia kênh Telegram</div>
+            </div>
+        </a>
+        <a class="settings-item" href="https://nativex.edu.vn/wp-content/uploads/2019/12/thanks-1024x576.jpg" target="_blank" rel="noopener noreferrer">
+            <div class="settings-item-icon">☕️</div>
+            <div class="settings-item-text">
+                <div class="settings-item-title" id="settingsDonateTitle">Donate</div>
+                <div class="settings-item-sub" id="settingsDonateSub">Ủng hộ một ly cà phê</div>
+            </div>
+        </a>
+    </div>
 </div>
 
 <!-- MODAL -->
@@ -895,6 +1100,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         document.documentElement.setAttribute('data-lang', next);
         document.documentElement.lang = next;
         localStorage.setItem('lang', next);
+        sessionStorage.setItem('reopenSettings', '1');
         location.reload();
     }}
 
@@ -915,10 +1121,43 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         const next = current === 'dark' ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', next);
         localStorage.setItem('darkMode', next === 'dark');
+        updateSettingsPanelTexts();
     }}
 
     function toggleSettings() {{
-        showToast(t('settings'));
+        const panel = document.getElementById('settingsPanel');
+        const overlay = document.getElementById('settingsOverlay');
+        const isOpen = panel.classList.contains('active');
+        if (isOpen) {{
+            closeSettings();
+        }} else {{
+            updateSettingsPanelTexts();
+            panel.classList.add('active');
+            overlay.classList.add('active');
+        }}
+    }}
+
+    function closeSettings() {{
+        document.getElementById('settingsPanel').classList.remove('active');
+        document.getElementById('settingsOverlay').classList.remove('active');
+    }}
+
+    function updateSettingsPanelTexts() {{
+        const lang = getLang();
+        const isDark = (document.documentElement.getAttribute('data-theme') || 'dark') === 'dark';
+        const isVi = lang === 'vi';
+
+        document.getElementById('settingsTitle').textContent = isVi ? '⚙️ Cài đặt' : '⚙️ Settings';
+        document.getElementById('settingsLangTitle').textContent = isVi ? 'Ngôn ngữ' : 'Language';
+        document.getElementById('settingsLangSub').textContent = isVi ? 'Tiếng Việt (nhấn để đổi sang English)' : 'English (tap to switch to Vietnamese)';
+        document.getElementById('settingsThemeTitle').textContent = isVi ? 'Chủ đề sáng/tối' : 'Light/Dark theme';
+        document.getElementById('settingsThemeSub').textContent = isVi
+            ? (isDark ? 'Tối (nhấn để chuyển sang Sáng)' : 'Sáng (nhấn để chuyển sang Tối)')
+            : (isDark ? 'Dark (tap to switch to Light)' : 'Light (tap to switch to Dark)');
+        document.getElementById('settingsChatTitle').textContent = isVi ? 'Nhắn tin' : 'Message us';
+        document.getElementById('settingsChatSub').textContent = isVi ? 'Tham gia kênh Telegram' : 'Join our Telegram channel';
+        document.getElementById('settingsDonateTitle').textContent = 'Donate';
+        document.getElementById('settingsDonateSub').textContent = isVi ? 'Ủng hộ một ly cà phê ☕️' : 'Buy us a coffee ☕️';
     }}
 
     // ════════════════════════════════════════════════════════════
@@ -1426,6 +1665,39 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     }}
 
     // ════════════════════════════════════════════════════════════
+    // NAV SHELL AUTO-HIDE ON SCROLL (iOS-style)
+    // ════════════════════════════════════════════════════════════
+    (function setupNavAutoHide() {{
+        const navShell = document.getElementById('navShell');
+        if (!navShell) return;
+        let lastScrollY = window.scrollY;
+        let ticking = false;
+
+        function onScroll() {{
+            const currentY = window.scrollY;
+            const delta = currentY - lastScrollY;
+
+            if (currentY <= 12) {{
+                navShell.classList.remove('nav-hidden');
+            }} else if (delta > 6) {{
+                navShell.classList.add('nav-hidden');
+            }} else if (delta < -6) {{
+                navShell.classList.remove('nav-hidden');
+            }}
+
+            lastScrollY = currentY;
+            ticking = false;
+        }}
+
+        window.addEventListener('scroll', () => {{
+            if (!ticking) {{
+                window.requestAnimationFrame(onScroll);
+                ticking = true;
+            }}
+        }}, {{ passive: true }});
+    }})();
+
+    // ════════════════════════════════════════════════════════════
     // INIT
     // ════════════════════════════════════════════════════════════
     initTheme();
@@ -1433,6 +1705,13 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     const saved_lang = localStorage.getItem('lang');
     if (saved_lang) {{
         document.documentElement.setAttribute('data-lang', saved_lang);
+    }}
+
+    if (sessionStorage.getItem('reopenSettings') === '1') {{
+        sessionStorage.removeItem('reopenSettings');
+        updateSettingsPanelTexts();
+        document.getElementById('settingsPanel').classList.add('active');
+        document.getElementById('settingsOverlay').classList.add('active');
     }}
 
     loadData();
