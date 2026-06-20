@@ -47,18 +47,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             padding-bottom: env(safe-area-inset-bottom, 0);
             padding-left: env(safe-area-inset-left, 0);
             padding-right: env(safe-area-inset-right, 0);
-            opacity: 1;
-            animation: pageFadeIn 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-        }}
-
-        body.page-leaving {{
-            opacity: 0;
-            transition: opacity 0.18s cubic-bezier(0.4, 0, 0.2, 1);
-        }}
-
-        @keyframes pageFadeIn {{
-            from {{ opacity: 0; transform: translateY(6px); }}
-            to {{ opacity: 1; transform: translateY(0); }}
         }}
 
         /* ─────────────────────────── LIGHT MODE ─────────────────────────── */
@@ -227,12 +215,13 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         .container {{
             max-width: 500px;
             margin: 0 auto;
-            padding: 16px;
+            padding: 0 16px 16px;
         }}
 
         /* Khoảng đệm cố định để item đầu list không bị nav-shell (fixed) che */
         .nav-spacer {{
-            height: calc(186px + env(safe-area-inset-top, 0px));
+            height: calc(156px + env(safe-area-inset-top, 0px));
+            margin-bottom: 4px;
             flex-shrink: 0;
         }}
 
@@ -305,7 +294,14 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             align-items: center;
             gap: 12px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: background 0.2s, transform 0.15s;
+            animation: itemDropIn 0.36s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+            animation-delay: calc(var(--item-i, 0) * 35ms);
+        }}
+
+        @keyframes itemDropIn {{
+            from {{ opacity: 0; transform: translateY(10px) scale(0.97); }}
+            to {{ opacity: 1; transform: translateY(0) scale(1); }}
         }}
 
         html[data-theme="light"] .item {{
@@ -902,7 +898,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }}
 
         @media (max-width: 480px) {{
-            .container {{ padding: 12px; }}
+            .container {{ padding: 0 12px 12px; }}
             .modal-icon {{ width: 64px; height: 64px; }}
             .modal-name {{ font-size: 1.15em; }}
             .permissions-grid {{ grid-template-columns: 1fr; }}
@@ -1173,8 +1169,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         if (btn && btn.classList.contains('active')) return;
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         if (btn) btn.classList.add('active');
-        document.body.classList.add('page-leaving');
-        setTimeout(() => {{ location.href = url; }}, 170);
+        location.href = url;
     }}
 
     let scrollLockY = 0;
@@ -1467,11 +1462,11 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         const start = currentPage * PAGE_SIZE;
         const pageItems = filteredItems.slice(start, start + PAGE_SIZE);
 
-        const html = pageItems.map((g) => {{
+        const html = pageItems.map((g, i) => {{
             const idx = groupedItems.indexOf(g);
             const latest = g.versions[0] || {{}};
             return `
-                <div class="item" onclick="openModal(${{idx}})">
+                <div class="item" style="--item-i:${{i}}" onclick="openModal(${{idx}})">
                     <img class="item-icon" src="${{g.icon}}" alt="${{g.name}}" loading="lazy" onerror="this.onerror=null;this.src='${{DEFAULT_ICON}}'">
                     <div class="item-info">
                         <div class="item-name">${{g.name}}</div>
@@ -1799,13 +1794,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     }}
 
     // ════════════════════════════════════════════════════════════
-    // NAV SHELL AUTO-HIDE ON SCROLL (iOS-style)
-    // ════════════════════════════════════════════════════════════
-    // ════════════════════════════════════════════════════════════
     // NAV SHELL AUTO-SHOW/HIDE: kéo lên xem nội dung phía dưới (scrollY tăng)
-    // -> nav tự ẩn nhường chỗ đọc; kéo xuống xem lại phía trên (scrollY giảm)
-    // giữa trang -> không tự hiện ngay; về hẳn đầu trang -> hiện; đứng yên
-    // một lúc giữa trang -> tự ẩn.
+    // -> ẩn ngay nhường chỗ đọc; kéo xuống xem lại phía trên (scrollY giảm),
+    // dù chỉ một chút và ở bất kỳ đâu -> hiện ngay lập tức; đứng yên một lúc
+    // không tương tác -> tự hiện lại để sẵn sàng điều hướng.
     // ════════════════════════════════════════════════════════════
     (function setupNavAutoHide() {{
         const navShell = document.getElementById('navShell');
@@ -1816,7 +1808,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         let ticking = false;
         let idleTimer = null;
         const TOP_THRESHOLD = 12;
-        const IDLE_DELAY = 1200;
+        const IDLE_SHOW_DELAY = 600;
 
         function setNavHidden(hidden) {{
             if (isHidden === hidden) return;
@@ -1824,24 +1816,22 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             navShell.classList.toggle('nav-hidden', hidden);
         }}
 
-        function scheduleIdleHide() {{
+        function scheduleIdleShow() {{
             clearTimeout(idleTimer);
-            if (window.scrollY <= TOP_THRESHOLD) return;
-            idleTimer = setTimeout(() => setNavHidden(true), IDLE_DELAY);
+            idleTimer = setTimeout(() => setNavHidden(false), IDLE_SHOW_DELAY);
         }}
 
         function onScroll() {{
             const currentY = Math.max(0, window.scrollY);
             const delta = currentY - lastScrollY;
 
-            if (currentY <= TOP_THRESHOLD) {{
+            if (currentY <= TOP_THRESHOLD || delta < 0) {{
                 setNavHidden(false);
             }} else if (delta > 0) {{
                 setNavHidden(true);
             }}
-            // delta < 0 (kéo xuống xem lại phía trên, giữa trang): giữ nguyên trạng thái
 
-            scheduleIdleHide();
+            scheduleIdleShow();
             lastScrollY = currentY;
             ticking = false;
         }}
@@ -1853,7 +1843,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             }}
         }}, {{ passive: true }});
 
-        scheduleIdleHide();
+        scheduleIdleShow();
     }})();
 
     // ════════════════════════════════════════════════════════════
