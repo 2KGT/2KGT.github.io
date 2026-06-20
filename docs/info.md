@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 17:01:17 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 17:01:33 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -339,12 +339,12 @@
     │   │   │   ├── .gitkeep
     │   │   │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 5 file ]
     │   │   ├── 📂 Facebook/
-    │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 7 file ]
+    │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 6 file ]
     │   │   ├── 📂 Feather/
     │   │   │   ├── .gitkeep
     │   │   │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 4 file ]
     │   │   ├── 📂 Instagram/
-    │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 3 file ]
+    │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 2 file ]
     │   │   ├── 📂 Lead/
     │   │   │   ├── .gitkeep
     │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 1 file ]
@@ -353,8 +353,6 @@
     │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 1 file ]
     │   │   ├── 📂 Telegram/
     │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 6 file ]
-    │   │   ├── 📂 Turrit/
-    │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 2 file ]
     │   │   └── 📂 ytplus/
     │   │       └── [ 📊 Số lượng: 📸 Ảnh JPG: 3 file ]
     │   └── 📂 metadata/
@@ -362,8 +360,6 @@
     │       │   └── 📂 apps/
     │       │       ├── 📂 BiliBili/
     │       │       │   └── v2.70.0.txt
-    │       │       ├── 📂 DLiPA/
-    │       │       │   └── v1.3.txt
     │       │       ├── 📂 Facebook/
     │       │       │   ├── v519.0.0.txt
     │       │       │   ├── v538.1.0.txt
