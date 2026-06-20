@@ -1,6 +1,6 @@
 {
   "minVersion": "0.1",
-  "headerImage": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_banner.png",
+  "headerImage": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/ytplus/ytplus_banner.png",
   "class": "DepictionTabView",
   "tintColor": "#F77686",
   "tabs": [
@@ -32,10 +32,18 @@
             },
             {
               "accessibilityText": "Screenshot1",
-              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/ytplus/ytplus_4.jpg"
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/ytplus/ytplus_2.jpg"
             },
             {
               "accessibilityText": "Screenshot2",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/ytplus/ytplus_4.jpg"
+            },
+            {
+              "accessibilityText": "Screenshot3",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/ytplus/ytplus_5.jpg"
+            },
+            {
+              "accessibilityText": "Screenshot4",
               "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/ytplus/ytplus_6.jpg"
             }
           ],
