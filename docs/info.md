@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 09:31:42 (ICT)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 10:14:51 (ICT)*
 
 ```text
 🗺️ Root/
@@ -13,7 +13,6 @@
 ├── LICENSE
 ├── README.md
 ├── cliff.toml
-├── generate_tree.py
 ├── index.html
 └── 📂 repo/
     ├── Packages
@@ -47,6 +46,7 @@
     │   │   └── .gitkeep
     │   └── 📂 Zebra/
     │       └── .gitkeep
+    ├── apps.html
     ├── 📂 debs/
     │   ├── 📂 Lead/
     │   │   ├── .gitkeep
@@ -142,48 +142,79 @@
     │   │       └── [ 📊 Tóm tắt tài nguyên: 📸 Ảnh JPG: 9 file, 🖼️ Ảnh PNG: 1 file ]
     │   └── 📂 metadata/
     │       ├── 📂 desc/
-    │       │   └── 📂 apps/
-    │       │       ├── 📂 BiliBili/
-    │       │       │   └── v2.70.0.txt
-    │       │       ├── 📂 DLiPA/
-    │       │       │   └── v1.3.txt
-    │       │       ├── 📂 Facebook/
-    │       │       │   ├── v519.0.0.txt
-    │       │       │   ├── v538.1.0.txt
-    │       │       │   ├── v551.1.0.txt
-    │       │       │   └── v565.0.0.txt
-    │       │       ├── 📂 Instagram/
-    │       │       │   ├── v419.0.0.txt
-    │       │       │   └── v433.0.0.txt
-    │       │       ├── 📂 LCSign/
-    │       │       │   ├── v1.1.6.txt
-    │       │       │   └── v1.1.txt
-    │       │       ├── 📂 MuteOTA/
-    │       │       │   └── v1.2.txt
-    │       │       ├── 📂 Phim4K/
-    │       │       │   ├── v2.2.2.txt
-    │       │       │   └── v2.3.1.txt
-    │       │       ├── 📂 SPAMSMS/
-    │       │       │   └── v1.0.0.txt
-    │       │       ├── 📂 Stay/
-    │       │       │   ├── v2.9.18.txt
-    │       │       │   └── v2.9.20.txt
-    │       │       ├── 📂 Telegram/
-    │       │       │   ├── v12.6.3.txt
-    │       │       │   └── v12.8.txt
-    │       │       ├── 📂 Turrit/
-    │       │       │   ├── v1.4.6.txt
-    │       │       │   ├── v1.4.7.txt
-    │       │       │   └── v1.4.8.txt
-    │       │       ├── 📂 UnKeySign/
-    │       │       │   └── v1.1.8.txt
-    │       │       ├── 📂 YouTube/
-    │       │       │   ├── v21.16.2.txt
-    │       │       │   ├── v21.17.3.txt
-    │       │       │   ├── v21.22.3.txt
-    │       │       │   └── v21.24.3.txt
-    │       │       └── 📂 Zebra/
-    │       │           └── v1.1.28.txt
+    │       │   ├── 📂 apps/
+    │       │   │   ├── 📂 BiliBili/
+    │       │   │   │   └── v2.70.0.txt
+    │       │   │   ├── 📂 DLiPA/
+    │       │   │   │   └── v1.3.txt
+    │       │   │   ├── 📂 ESign/
+    │       │   │   ├── 📂 Facebook/
+    │       │   │   │   ├── v519.0.0.txt
+    │       │   │   │   ├── v538.1.0.txt
+    │       │   │   │   ├── v551.1.0.txt
+    │       │   │   │   └── v565.0.0.txt
+    │       │   │   ├── 📂 Feather/
+    │       │   │   ├── 📂 Instagram/
+    │       │   │   │   ├── v419.0.0.txt
+    │       │   │   │   └── v433.0.0.txt
+    │       │   │   ├── 📂 LCSign/
+    │       │   │   │   ├── v1.1.6.txt
+    │       │   │   │   └── v1.1.txt
+    │       │   │   ├── 📂 MuteOTA/
+    │       │   │   │   └── v1.2.txt
+    │       │   │   ├── 📂 Phim4K/
+    │       │   │   │   ├── v2.2.2.txt
+    │       │   │   │   └── v2.3.1.txt
+    │       │   │   ├── 📂 Pocket/
+    │       │   │   ├── 📂 SPAMSMS/
+    │       │   │   │   └── v1.0.0.txt
+    │       │   │   ├── 📂 Stay/
+    │       │   │   │   ├── v2.9.18.txt
+    │       │   │   │   └── v2.9.20.txt
+    │       │   │   ├── 📂 Telegram/
+    │       │   │   │   ├── v12.6.3.txt
+    │       │   │   │   └── v12.8.txt
+    │       │   │   ├── 📂 Turrit/
+    │       │   │   │   ├── v1.4.6.txt
+    │       │   │   │   ├── v1.4.7.txt
+    │       │   │   │   └── v1.4.8.txt
+    │       │   │   ├── 📂 UnKeySign/
+    │       │   │   │   └── v1.1.8.txt
+    │       │   │   ├── 📂 YouTube/
+    │       │   │   │   ├── v21.16.2.txt
+    │       │   │   │   ├── v21.17.3.txt
+    │       │   │   │   ├── v21.22.3.txt
+    │       │   │   │   └── v21.24.3.txt
+    │       │   │   ├── 📂 Zebra/
+    │       │   │   │   └── v1.1.28.txt
+    │       │   │   └── 📂 全能签/
+    │       │   └── 📂 tweaks/
+    │       │       ├── 📂 Lead/
+    │       │       ├── 📂 TGExtra/
+    │       │       ├── 📂 YoutubeX/
+    │       │       ├── 📂 cc18/
+    │       │       ├── 📂 ccappicon/
+    │       │       ├── 📂 fastlock/
+    │       │       ├── 📂 flow/
+    │       │       ├── 📂 glow/
+    │       │       ├── 📂 infuseplus/
+    │       │       ├── 📂 noytpremium/
+    │       │       ├── 📂 oledkeyboard/
+    │       │       ├── 📂 orwellvk/
+    │       │       ├── 📂 tweach/
+    │       │       ├── 📂 twlegacy/
+    │       │       ├── 📂 yougroupsettings/
+    │       │       ├── 📂 youmod/
+    │       │       ├── 📂 youmute/
+    │       │       ├── 📂 youpip/
+    │       │       ├── 📂 youspeed/
+    │       │       ├── 📂 youtubefix/
+    │       │       ├── 📂 yt-native-share/
+    │       │       ├── 📂 ytmu/
+    │       │       ├── 📂 ytplus/
+    │       │       ├── 📂 ytuhd/
+    │       │       ├── 📂 ytunshorts/
+    │       │       └── 📂 ytvideooverlay/
     │       ├── 📂 tweaks/
     │       │   ├── 📂 Lead/
     │       │   │   └── [ 📊 Tóm tắt tài nguyên: ⚙️ Cấu hình .json: 10 file ]
@@ -243,6 +274,8 @@
     │   ├── .gitkeep
     │   └── 📂 Lead/
     │       └── .gitkeep
+    ├── dylibs.html
     ├── index.html
+    ├── tweaks.html
     └── [ 📊 Tóm tắt tài nguyên: ⚙️ Cấu hình .json: 3 file, 🖼️ Ảnh PNG: 1 file ]
 ```
