@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 17:05:05 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 17:05:07 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -395,7 +395,7 @@
     │           ├── 📂 glow/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 18 file ]
     │           ├── 📂 infuseplus/
-    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 18 file ]
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 13 file ]
     │           └── 📂 ytplus/
     │               └── [ 📊 Số lượng: ⚙️ Config .json: 17 file ]
     ├── 📂 dylibs/
