@@ -47,10 +47,11 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }}
 
         html[data-theme="light"] {{
+            color-scheme: light;
             --bg: #f5f5f7;
             --card: #ffffff;
-            --text: #000000;
-            --text-secondary: #86868b;
+            --text: #1a1a1a;
+            --text-secondary: #65656a;
             --border: rgba(0, 0, 0, 0.08);
             color-scheme: light;
         }}
@@ -370,6 +371,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         .modal.active {{ display: flex; align-items: flex-end; }}
 
         .modal-content {{
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.98) 0%, rgba(37, 37, 64, 0.98) 100%);
             position: relative;
             background: linear-gradient(135deg, #1a1a2e, #252540);
             border: 1px solid var(--border);
@@ -385,6 +387,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }}
 
         html[data-theme="light"] .modal-content {{
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.98) 0%, rgba(37, 37, 64, 0.98) 100%);
             background: linear-gradient(135deg, #ffffff, #f9f9fb);
         }}
 
@@ -408,6 +411,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }}
 
         .modal-scroll-body {{
+            background: transparent;
             overflow-y: auto;
             padding: 18px 20px 20px;
             flex: 1;
@@ -515,6 +519,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
         /* ─────────────────────────── ACCORDION SECTIONS ─────────────────────────── */
         .detail-section {{
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
             margin-top: 14px;
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--border);
@@ -523,6 +529,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }}
 
         html[data-theme="light"] .detail-section {{
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
             background: rgba(0, 0, 0, 0.03);
         }}
 
@@ -563,7 +571,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }}
 
         .detail-section.open .detail-section-body {{
-            max-height: 1000px;
+            max-height: 2000px;
             padding: 0 14px 14px;
         }}
 
@@ -609,6 +617,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         .version-num {{ font-weight: 600; color: var(--tint); margin-bottom: 2px; }}
 
         .version-note {{
+            color: var(--text-secondary);
+            font-size: 0.85em;
             color: var(--text-secondary); font-size: 0.85em;
             overflow: hidden; text-overflow: ellipsis;
             display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
@@ -633,6 +643,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }}
 
         .info-box {{
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 13px 14px;
             margin-top: 14px;
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--border);
@@ -641,15 +655,19 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }}
 
         html[data-theme="light"] .info-box {{
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 13px 14px;
             background: rgba(0, 0, 0, 0.03);
         }}
 
         .info-row {{ margin-bottom: 6px; }}
         .info-row:last-child {{ margin-bottom: 0; }}
 
-        .info-label {{ font-weight: 600; font-size: 0.85em; color: var(--text-secondary); }}
+        .info-label {{ font-weight: 600; font-size: 0.85em; color: var(--text-secondary); margin-bottom: 3px; }}
 
-        .info-value {{ color: var(--text); font-size: 0.9em; }}
+        .info-value {{ color: var(--text); font-size: 0.93em; font-weight: 500; }}
 
         /* ─────────────────────────── ACTION BAR ─────────────────────────── */
         .action-buttons {{
@@ -670,7 +688,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }}
 
         .action-btn:active {{ transform: scale(0.97); opacity: 0.9; }}
-        .action-btn.loading {{ opacity: 0.6; pointer-events: none; }}
+        .action-btn.loading {{ opacity: 0.7; pointer-events: none; background: rgba(132, 142, 249, 0.5); }}
 
         .action-btn-icon {{
             width: 50px; flex: none;
@@ -702,6 +720,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         @keyframes spin {{ to {{ transform: rotate(360deg); }} }}
 
         .toast {{
+            background: rgba(28, 28, 46, 0.96);
+            border: 1px solid rgba(132, 142, 249, 0.3);
             position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
             background: rgba(28,28,46,0.95); border: 1px solid var(--border);
             padding: 12px 20px; border-radius: 12px; font-size: 0.9em;
@@ -710,6 +730,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }}
 
         html[data-theme="light"] .toast {{
+            background: rgba(28, 28, 46, 0.96);
+            border: 1px solid rgba(132, 142, 249, 0.3);
             background: rgba(255,255,255,0.95);
         }}
 
