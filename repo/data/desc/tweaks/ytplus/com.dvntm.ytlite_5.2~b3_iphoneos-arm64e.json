@@ -28,7 +28,7 @@
           "screenshots": [
             {
               "accessibilityText": "Screenshot0",
-              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/ytplus/ytplus_2.jpg"
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/ytplus/ytplus_1.jpg"
             },
             {
               "accessibilityText": "Screenshot1",
@@ -52,6 +52,10 @@
             },
             {
               "accessibilityText": "Screenshot6",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/ytplus/ytplus_8.jpg"
+            },
+            {
+              "accessibilityText": "Screenshot7",
               "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/ytplus/ytplus_9.jpg"
             }
           ],
