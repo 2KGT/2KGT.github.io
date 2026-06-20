@@ -1,5 +1,5 @@
 """
-Script tổng hợp cho workflow "Auto sync generate info".
+Script tổng hợp cho workflow "Auto sync feather sileo".
 
 Thứ tự chạy (quan trọng):
   1) generate_changelog()  -> ghi docs/CHANGELOG.md trước
@@ -7,8 +7,10 @@ Thứ tự chạy (quan trọng):
                                phản ánh đúng luôn cả CHANGELOG.md vừa cập nhật
 
 Lý do thứ tự này:
-- generate_changelog() dựa vào `git diff` giữa HEAD~1 và HEAD nên cần chạy
-  trước khi docs/ bị thay đổi thêm bởi bước sinh cây thư mục.
+- Script này chạy SAU khi main.py / views.py đã sửa file nhưng TRƯỚC khi
+  commit, nên generate_changelog() phải đọc thay đổi từ WORKING TREE hiện
+  tại (git status), KHÔNG đọc từ git diff HEAD~1 HEAD — vì những thay đổi
+  đó chưa hề được commit, `HEAD~1 HEAD` chỉ thấy lịch sử commit cũ.
 - generate_tree() liệt kê toàn bộ cấu trúc thư mục hiện tại, nên chạy sau
   cùng để info.md là bản chụp mới nhất, bao gồm cả CHANGELOG.md đã cập nhật.
 """
@@ -19,66 +21,152 @@ import datetime
 
 
 # ==========================================
-# PHẦN 1: SINH CHANGELOG DẠNG BẢNG
+# PHẦN 1: SINH CHANGELOG (bảng dọc 2 cột, gộp theo lần chạy)
 # ==========================================
 
-ACTIONS = {"A": "✨ Thêm", "M": "✏️ Sửa", "D": "🗑️ Xoá"}
-EMPTY_TREE = "4b825dc642cb6eb9a060e54bf8d69288fbee4904"
+ACTION_LABELS = {
+    "A": "✨ Thêm",
+    "M": "✏️ Sửa",
+    "D": "🗑️ Xoá",
+    "R": "🔀 Đổi tên",
+    "?": "✨ Thêm",  # untracked file mới = coi như Thêm
+}
+
+# Thứ tự ưu tiên hiển thị từng nhóm hành động trong 1 lần chạy
+ACTION_ORDER = ["A", "M", "D", "R", "?"]
+
+MAX_VISIBLE_ROWS = 12  # số file hiện trực tiếp trước khi gói vào <details> để cuộn
 
 
 def run(cmd):
     return subprocess.run(cmd, shell=True, capture_output=True, text=True).stdout.strip()
 
 
-def generate_changelog_rows():
-    """Trả về danh sách dòng markdown mô tả thay đổi của commit hiện tại."""
-    prev = run("git rev-parse HEAD~1 2>/dev/null")
-    if not prev:
-        prev = EMPTY_TREE  # commit đầu tiên của repo: so sánh với cây rỗng
+def run_raw(cmd):
+    """Như run(), nhưng KHÔNG strip() toàn chuỗi — chỉ bỏ newline cuối.
+    Bắt buộc dùng cho `git status --porcelain`, vì status code có thể là
+    khoảng trắng (" D", " M"...) và .strip() sẽ ăn mất nó ở dòng đầu tiên."""
+    out = subprocess.run(cmd, shell=True, capture_output=True, text=True).stdout
+    return out.rstrip("\n")
 
-    curr = run("git rev-parse HEAD")
-    author = run("git log -1 --pretty=format:'%an'").replace("|", "/")
-    msg = run("git log -1 --pretty=format:'%s'").replace("|", "/").replace("\n", " ").strip()
-    if len(msg) > 60:
-        msg = msg[:57] + "..."
+
+def collect_working_tree_changes():
+    """
+    Lấy toàn bộ thay đổi hiện có ở working tree (staged + unstaged + untracked),
+    bất kể đã commit hay chưa. Đây là trạng thái thật của lần chạy workflow này,
+    vì logs.py chạy trước bước commit.
+    """
+    raw = run_raw("git status --porcelain -- . ':!docs' ':!.github'")
+    if not raw:
+        return {}
+
+    grouped = {}
+    for line in raw.splitlines():
+        if not line:
+            continue
+        status = line[:2]
+        path = line[3:]
+
+        # Bỏ dấu ngoặc kép nếu git bọc path có ký tự đặc biệt
+        if path.startswith('"') and path.endswith('"'):
+            path = path[1:-1]
+
+        # Xác định mã hành động ưu tiên: D (xoá) > R (đổi tên) > A (mới) > M (sửa) > ? (untracked)
+        if "D" in status:
+            code = "D"
+        elif "R" in status:
+            code = "R"
+            if " -> " in path:
+                old, new = path.split(" -> ", 1)
+                path = f"{old} → {new}"
+        elif status == "??":
+            code = "?"
+        elif "A" in status:
+            code = "A"
+        else:
+            code = "M"
+
+        grouped.setdefault(code, []).append(path)
+
+    return grouped
+
+
+def build_changelog_entry():
+    """Xây 1 block changelog (bảng dọc 2 cột) cho lần chạy hiện tại."""
+    grouped = collect_working_tree_changes()
+    if not grouped:
+        return None
+
+    author = run("git log -1 --pretty=format:'%an'") or "GitHub Action"
+    msg = run("git log -1 --pretty=format:'%s'").replace("\n", " ").strip() or "(không có commit message)"
+    if len(msg) > 80:
+        msg = msg[:77] + "..."
 
     ict_now = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=7)
-    time_str = ict_now.strftime("%d/%m %H:%M")
+    time_str = ict_now.strftime("%d/%m/%Y %H:%M:%S")
 
-    diffs = run(f"git diff --name-status -M \"{prev}\" \"{curr}\" -- . ':!docs' ':!.github'")
-    lines = [l for l in diffs.splitlines() if l.strip()]
+    total_files = sum(len(v) for v in grouped.values())
 
-    rows = []
-    for line in lines:
-        parts = line.split("\t")
-        action_code = parts[0][0]
-        fname = parts[1] if len(parts) < 3 else f"{parts[1]} → {parts[2]}"
-        action_label = ACTIONS.get(action_code, "❓ Khác")
-        status = "✅" if action_code in ACTIONS else "❌"
-        rows.append(f"| {time_str} | `{fname}` | {action_label} | {author} | {msg} | {status} |")
+    lines = []
+    lines.append("| 🏷️ Tiêu đề | 📋 Thay đổi |")
+    lines.append("|---|---|")
 
-    return rows
+    summary_bits = ", ".join(
+        f"{ACTION_LABELS[c]}: {len(grouped[c])}" for c in ACTION_ORDER if c in grouped
+    )
+    lines.append(f"| ⏱️ Thời gian | {time_str} (ICT) |")
+    lines.append(f"| 👤 Tác giả | {author} |")
+    lines.append(f"| 💬 Commit | {msg} |")
+    lines.append(f"| 📊 Tổng quan | {total_files} file thay đổi — {summary_bits} |")
+
+    # Chi tiết từng nhóm hành động, dùng <details> để cuộn gọn trên điện thoại
+    for code in ACTION_ORDER:
+        if code not in grouped:
+            continue
+        label = ACTION_LABELS[code]
+        files = grouped[code]
+
+        file_list_html = "<br>".join(f"`{f}`" for f in files)
+
+        if len(files) > MAX_VISIBLE_ROWS:
+            detail_cell = (
+                f"<details><summary>{label} — {len(files)} file (bấm để xem đầy đủ)</summary><br>"
+                f"{file_list_html}</details>"
+            )
+        else:
+            detail_cell = f"{label} — {len(files)} file<br>{file_list_html}"
+
+        lines.append(f"| {label} | {detail_cell} |")
+
+    return "\n".join(lines)
 
 
-def write_changelog(rows):
-    """Tạo docs/CHANGELOG.md nếu chưa có, rồi chèn các dòng mới ngay dưới header bảng."""
+def write_changelog(entry):
+    """Tạo docs/CHANGELOG.md nếu chưa có, rồi chèn block mới ngay dưới marker, mới nhất ở trên cùng."""
+    header = (
+        "# 🔰 CHANGELOG SYSTEM 🔰\n\n"
+        "> *Hệ thống ghi nhận thay đổi tự động từ GitHub Actions. "
+        "Mỗi lần chạy là một bảng riêng, mới nhất nằm trên cùng.*\n\n"
+        "<!-- CHANGELOG_ENTRIES -->\n"
+    )
+
     if not os.path.exists("docs/CHANGELOG.md"):
         with open("docs/CHANGELOG.md", "w", encoding="utf-8") as f:
-            f.write("# 🔰CHANGELOG SYSTEM🔰\n\n")
-            f.write("> *Hệ thống ghi nhận thay đổi tự động từ GitHub Actions. Mục mới nhất nằm trên cùng.*\n\n")
-            f.write("| 🗓️ Thời gian | 📄 Tệp | 🛠️ Hành động | 👤 Tác giả | 💬 Commit | 📊 |\n")
-            f.write("|---|---|---|---|---|---|\n")
-            f.write("<!-- CHANGELOG_ROWS -->\n")
+            f.write(header)
 
-    if not rows:
+    if not entry:
         return
 
     with open("docs/CHANGELOG.md", "r", encoding="utf-8") as f:
         content = f.read()
 
+    if "<!-- CHANGELOG_ENTRIES -->" not in content:
+        content = header  # file cũ sai định dạng / bị sửa tay -> reset lại header chuẩn
+
+    block = entry + "\n\n---\n"
     content = content.replace(
-        "<!-- CHANGELOG_ROWS -->",
-        "<!-- CHANGELOG_ROWS -->\n" + "\n".join(rows),
+        "<!-- CHANGELOG_ENTRIES -->",
+        "<!-- CHANGELOG_ENTRIES -->\n\n" + block,
     )
 
     with open("docs/CHANGELOG.md", "w", encoding="utf-8") as f:
@@ -86,8 +174,8 @@ def write_changelog(rows):
 
 
 def generate_changelog():
-    rows = generate_changelog_rows()
-    write_changelog(rows)
+    entry = build_changelog_entry()
+    write_changelog(entry)
 
 
 # ==========================================
@@ -177,7 +265,7 @@ def generate_tree():
 def main():
     os.makedirs("docs", exist_ok=True)
 
-    # 1) Changelog trước (dựa vào git diff của commit hiện tại)
+    # 1) Changelog trước (đọc working tree hiện tại, trước khi commit)
     generate_changelog()
 
     # 2) Cây thư mục sau (chụp lại trạng thái mới nhất, gồm cả CHANGELOG.md)
