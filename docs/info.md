@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 16:55:14 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 16:55:26 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -331,7 +331,7 @@
     ├── 📂 depictions/
     │   ├── 📂 default/
     │   ├── 📂 icons/
-    │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 14 file, 🖼️ Ảnh PNG: 11 file ]
+    │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 14 file, 🖼️ Ảnh PNG: 6 file ]
     │   ├── 📂 images/
     │   │   ├── 📂 AutoAC/
     │   │   │   ├── .gitkeep
@@ -426,8 +426,6 @@
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 6 file ]
     │           ├── 📂 tweach/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 12 file ]
-    │           ├── 📂 twlegacy/
-    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
     │           ├── 📂 youmod/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │           ├── 📂 youmute/
