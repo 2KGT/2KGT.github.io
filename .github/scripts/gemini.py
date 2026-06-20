@@ -8,7 +8,6 @@ import re
 import time
 import datetime
 import logging
-import inspect
 
 # FIX: Bỏ import requests — dùng urllib thuần nhất quán với toàn bộ codebase
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -18,6 +17,83 @@ if CURRENT_DIR not in sys.path:
 import config
 
 logger = logging.getLogger(__name__)
+
+# ==========================================
+# CACHE TÊN MODEL KHẢ DỤNG (tự động dò qua ListModels)
+# ==========================================
+# Lý do: Google liên tục deprecate model (gemini-1.5-flash, gemini-2.0-flash...
+# đã bị khai tử và trả 404). Thay vì hardcode 1 tên model cố định rồi lại dính
+# 404 lần nữa trong tương lai, ta hỏi thẳng API "model nào đang dùng được"
+# rồi chọn 1 model flash phù hợp. Cache lại để không gọi ListModels nhiều lần
+# trong cùng 1 lần chạy script (chỉ gọi 1 lần đầu tiên cần dùng).
+_CACHED_MODEL_NAME = None
+
+# Thứ tự ưu tiên khi có nhiều model flash khả dụng: ưu tiên bản ổn định (GA),
+# không có hậu tố preview/-latest/exp, vì các bản preview có thể bị tắt đột ngột.
+_PREFERRED_ORDER_HINTS = ["flash-lite", "flash"]
+
+
+def _list_available_models(gemini_key):
+    """Gọi ListModels, trả về list tên model (đã bỏ tiền tố 'models/') hỗ trợ generateContent."""
+    url = f"https://generativelanguage.googleapis.com/v1beta/models?key={gemini_key}"
+    req = urllib.request.Request(url, method="GET")
+    with urllib.request.urlopen(req, timeout=10) as response:
+        data = json.loads(response.read().decode("utf-8"))
+
+    names = []
+    for m in data.get("models", []):
+        methods = m.get("supportedGenerationMethods", [])
+        if "generateContent" in methods:
+            name = m.get("name", "")
+            if name.startswith("models/"):
+                name = name[len("models/"):]
+            if name:
+                names.append(name)
+    return names
+
+
+def _pick_best_flash_model(model_names):
+    """Chọn model flash phù hợp nhất: ưu tiên bản GA, tránh preview/exp nếu có lựa chọn khác."""
+    flash_models = [n for n in model_names if "flash" in n.lower() and "image" not in n.lower()]
+    if not flash_models:
+        # Không có model flash nào -> đành lấy model bất kỳ hỗ trợ generateContent
+        return model_names[0] if model_names else None
+
+    # Ưu tiên bản KHÔNG preview/exp trước
+    stable = [n for n in flash_models if "preview" not in n.lower() and "exp" not in n.lower()]
+    candidates = stable if stable else flash_models
+
+    # Trong các ứng viên, ưu tiên theo gợi ý thứ tự (flash thường, không phải lite)
+    for hint in reversed(_PREFERRED_ORDER_HINTS):
+        for n in candidates:
+            if hint in n.lower():
+                return n
+
+    return candidates[0]
+
+
+def resolve_gemini_model(gemini_key):
+    """
+    Trả về tên model Gemini khả dụng cho API key hiện tại, có cache trong
+    vòng đời script. Nếu ListModels lỗi (mất mạng, key sai...), fallback về
+    alias 'gemini-flash-latest' — alias này do Google duy trì, tự trỏ sang
+    bản mới nhất nên hiếm khi bị 404 vì model cũ bị khai tử.
+    """
+    global _CACHED_MODEL_NAME
+    if _CACHED_MODEL_NAME:
+        return _CACHED_MODEL_NAME
+
+    fallback = "gemini-flash-latest"
+    try:
+        models = _list_available_models(gemini_key)
+        best = _pick_best_flash_model(models)
+        _CACHED_MODEL_NAME = best or fallback
+    except Exception as e:
+        logger.warning(f"⚠️ Không lấy được danh sách model Gemini ({e}), dùng fallback '{fallback}'.")
+        _CACHED_MODEL_NAME = fallback
+
+    logger.info(f"🤖 Đang dùng model Gemini: {_CACHED_MODEL_NAME}")
+    return _CACHED_MODEL_NAME
 
 
 def escape_html(text):
@@ -52,15 +128,16 @@ def scan_repo_inventory(repo_path='.'):
 def ask_gemini_ai(prompt, retries=2):
     # LÀM SẠCH KEY: loại bỏ khoảng trắng và xuống dòng thừa
     gemini_key = os.getenv("GEMINI_API_KEY", "").strip().replace("\n", "").replace("\r", "")
-    
+
     if not gemini_key:
         logger.warning("⚠️ Thiếu GEMINI_API_KEY, bỏ qua gọi AI.")
         return ""
 
+    model_name = resolve_gemini_model(gemini_key)
 
     url = (
         f"https://generativelanguage.googleapis.com/v1beta/models/"
-        f"gemini-1.5-flash:generateContent?key={gemini_key}"
+        f"{model_name}:generateContent?key={gemini_key}"
     )
     headers = {"Content-Type": "application/json"}
     payload = json.dumps({"contents": [{"parts": [{"text": prompt}]}]}).encode("utf-8")
@@ -85,8 +162,20 @@ def ask_gemini_ai(prompt, retries=2):
             ai_text = parts[0].get("text", "").strip()
             return re.sub(r'^[`"\']+|[`"\']+$', '', ai_text).strip()
 
-        # FIX 3: Không retry lỗi client (4xx) — retry chỉ có ý nghĩa với lỗi server/mạng
+        # FIX 3: Không retry lỗi client (4xx) — TRỪ lỗi 404 do tên model lỗi thời,
+        # trường hợp đó thử xoá cache để dò lại model 1 lần rồi retry tiếp.
         except urllib.error.HTTPError as e:
+            if e.code == 404:
+                logger.warning(f"⚠️ Model '{model_name}' trả 404 (có thể đã bị deprecate). Dò lại model khả dụng...")
+                global _CACHED_MODEL_NAME
+                _CACHED_MODEL_NAME = None
+                model_name = resolve_gemini_model(gemini_key)
+                url = (
+                    f"https://generativelanguage.googleapis.com/v1beta/models/"
+                    f"{model_name}:generateContent?key={gemini_key}"
+                )
+                # Không tính là 1 lần retry "thật", thử lại ngay với model mới
+                continue
             if 400 <= e.code < 500:
                 logger.error(f"❌ Lỗi Gemini API {e.code} (không retry): {e.reason}")
                 return ""
@@ -196,8 +285,3 @@ Yêu cầu nghiêm ngặt:
             logger.warning(f"⚠️ Không ghi được vào GITHUB_ENV: {e}")
 
     return bai_viet_telegram
-
-
-# FIX: Bỏ hàm send_final_report — chức năng này đã được xử lý tập trung
-# trong main.py bằng send_telegram(). Giữ 2 nơi gửi Telegram gây trùng lặp
-# và khó kiểm soát token/chat_id.
