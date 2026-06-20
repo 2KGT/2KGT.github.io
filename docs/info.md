@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 15:17:08 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 15:17:43 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -76,8 +76,14 @@
     ├── 📂 data/
     │   ├── 📂 default/
     │   │   └── [ 📊 Số lượng: 📸 Ảnh JPEG: 1 file ]
+    │   ├── 📂 icons/
+    │   │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 1 file ]
     │   ├── 📂 images/
     │   │   ├── 📂 AutoAC/
+    │   │   │   └── .gitkeep
+    │   │   ├── 📂 Facebook/
+    │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 1 file ]
+    │   │   ├── 📂 Lead/
     │   │   │   └── .gitkeep
     │   │   └── 📂 YouTube/
     │   │       └── .gitkeep
@@ -87,6 +93,8 @@
     │       │       └── 📂 UnKeySign/
     │       │           └── v1.1.8.txt
     │       └── 📂 tweaks/
+    │           ├── 📂 fastlock/
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │           └── 📂 orwellvk/
     │               └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     ├── 📂 debs/
@@ -158,7 +166,7 @@
     │   │   │   ├── .gitkeep
     │   │   │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 5 file ]
     │   │   ├── 📂 Facebook/
-    │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 11 file ]
+    │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 10 file ]
     │   │   ├── 📂 Feather/
     │   │   │   ├── .gitkeep
     │   │   │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 4 file ]
