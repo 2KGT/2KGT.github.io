@@ -60,39 +60,44 @@ jobs:
         run: |
           python3 .github/scripts/main.py
 
-      - name: Generate All Views
+      - name: Generate All Views Web html
         run: |
           cd .github/scripts
           python views.py
-        continue-on-error: true  # Không fail nếu dylib empty
+        #continue-on-error: true  # Không fail nếu dylib empty
+
+      - name: Generate Docs logs info
+        run: python3 .github/scripts/logs_info.py
 
       - name: "📤 Commit và Push dữ liệu mới"
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
+          # 1. Cập nhật code mới nhất từ server về trước
+          # Sử dụng --no-rebase để đơn giản hóa, tránh bị treo ở trạng thái rebase
+          git pull origin main --no-rebase
+
+          # 2. Add tất cả thay đổi
           git add -A
 
-          # Thoát sớm nếu không có thay đổi
+          # 3. Thoát sớm nếu không có thay đổi
           if git diff --cached --quiet; then
             echo "✅ Không có thay đổi dữ liệu nào để commit."
             exit 0
           fi
 
-          # Đọc commit message từ file nếu có
+          # 4. Commit
           COMMIT_MSG="🔄 Tối ưu hóa hệ thống & Đồng bộ kho lưu trữ định kỳ [skip ci]"
           if [ -f ".commit_msg" ]; then
             COMMIT_MSG="$(cat .commit_msg) [skip ci]"
           fi
-
           git commit -m "$COMMIT_MSG"
 
-          # FIX: Dùng pull --rebase thay vì fetch + rebase thủ công
-          # Tránh trường hợp rebase thất bại không được xử lý
-          git pull --rebase origin main
-
-          # FIX: Dùng GITHUB_TOKEN qua env thay vì nhúng token trực tiếp vào URL
-          # Tránh lộ token trong log của Actions
+          # 5. Push lên
           git push origin HEAD:main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+
