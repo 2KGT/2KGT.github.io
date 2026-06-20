@@ -67,7 +67,7 @@ jobs:
         #continue-on-error: true  # Không fail nếu dylib empty
 
       - name: Generate Docs logs info
-        run: python3 .github/scripts/logs_info.py
+        run: python3 .github/scripts/logs.py
 
       - name: "📤 Commit và Push dữ liệu mới"
         run: |
