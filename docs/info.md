@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 16:56:38 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 16:56:39 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -415,7 +415,7 @@
     │           ├── 📂 infuseplus/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 18 file ]
     │           ├── 📂 orwellvk/
-    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 2 file ]
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 5 file ]
     │           ├── 📂 tweach/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 12 file ]
     │           ├── 📂 youmod/
