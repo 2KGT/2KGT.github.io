@@ -1,5 +1,5 @@
-# .github/scripts/views.py
 #!/usr/bin/env python3
+"""AppStore-style HTML generator cho Apps/Tweaks/Dylibs."""
 import os
 import json
 import time
@@ -8,13 +8,15 @@ import inspect
 import config
 
 # ────────────────────────────────────────────────────────
-# HTML TEMPLATE v4
+# HTML TEMPLATE
 # ────────────────────────────────────────────────────────
 HTML_TEMPLATE = """<!DOCTYPE html>
 <html lang="vi" data-lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#0f0f1e">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>{title} - {repo_name}</title>
     <style>
         * {{ margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }}
@@ -31,14 +33,20 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         /* ─────────────────────────── DARK MODE (DEFAULT) ─────────────────────────── */
         html {{
             color-scheme: dark;
+            background: #0f0f1e;
+            height: 100%;
         }}
 
         body {{
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI", sans-serif;
             background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #0f0f1e 100%);
             color: var(--text);
-            min-height: 100vh;
+            min-height: 100%;
+            min-height: 100dvh;
             overflow-x: hidden;
+            padding-bottom: env(safe-area-inset-bottom, 0);
+            padding-left: env(safe-area-inset-left, 0);
+            padding-right: env(safe-area-inset-right, 0);
         }}
 
         /* ─────────────────────────── LIGHT MODE ─────────────────────────── */
@@ -49,17 +57,17 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             --text-secondary: #86868b;
             --border: rgba(0, 0, 0, 0.08);
             color-scheme: light;
+            background: #f5f5f7;
         }}
 
         html[data-theme="light"] body {{
             background: linear-gradient(135deg, #f5f5f7 0%, #ffffff 50%, #f0f0f2 100%);
         }}
 
-        /* ─────────────────────────── NAV SHELL (HEADER) ─────────────────────────── 
-           🏠 ... tên repo ... ⚙️ hàng trên, iOS 26 "liquid glass" pill, tự ẩn/hiện khi cuộn */
+        /* ─────────────────────────── NAV SHELL (HEADER) ─────────────────────────── */
         .nav-shell {{
             position: fixed;
-            top: 10px;
+            top: calc(env(safe-area-inset-top, 0px) + 10px);
             left: 0;
             right: 0;
             z-index: 50;
@@ -160,7 +168,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             padding: 0 4px 10px;
         }}
 
-        /* Search box khi đặt trong nav-shell, ngay dưới tabs */
         .nav-inner .search-box {{
             margin: 0 4px 12px;
         }}
@@ -203,12 +210,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             padding: 16px;
         }}
 
-        /* Spacer cố định, đứng riêng phía trên #list — không bị JS ghi đè khi
-           renderList() thay innerHTML của #list. Đây là cách đáng tin cậy nhất
-           để đảm bảo item đầu tiên không bao giờ bị nav-shell (fixed) che,
-           vì nó không phụ thuộc đo đạc JS (dễ trễ nhịp, gây hở/che tùy máy). */
+        /* Khoảng đệm cố định để item đầu list không bị nav-shell (fixed) che */
         .nav-spacer {{
-            height: 186px;
+            height: calc(186px + env(safe-area-inset-top, 0px));
             flex-shrink: 0;
         }}
 
@@ -746,9 +750,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             pointer-events: none;
             transition: opacity 0.3s ease;
             z-index: 300;
-            /* Cách ly layer: overlay tự thành 1 compositor layer riêng, tách khỏi
-               nội dung trang phía sau — tránh việc 2 animation (cuộn trang + mở
-               panel) tranh giành cùng một layer khi render. */
             will-change: opacity;
             transform: translateZ(0);
         }}
@@ -891,24 +892,21 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 </head>
 <body>
 
-<!-- NAV SHELL — 🏠 ... tên repo ... ⚙️, search dưới tabs, iOS 26 glass pill, tự ẩn/hiện khi cuộn -->
+<!-- NAV SHELL -->
 <div class="nav-shell" id="navShell">
     <div class="nav-inner">
-        <!-- HEADER TOP ROW -->
         <div class="header-row">
             <button class="icon-btn" onclick="location.href='./index.html'" title="Trang chủ">🏠</button>
             <div class="nav-repo-name">{repo_name}</div>
             <button class="icon-btn" onclick="toggleSettings()" title="Cài đặt">⚙️</button>
         </div>
 
-        <!-- TABS -->
         <div class="tabs-header">
             <button class="tab-btn {active_apps}" onclick="location.href='apps.html'">📱 Apps</button>
             <button class="tab-btn {active_tweaks}" onclick="location.href='tweaks.html'">🔧 Tweaks</button>
             <button class="tab-btn {active_dylibs}" onclick="location.href='dylibs.html'">📚 Dylibs</button>
         </div>
 
-        <!-- SEARCH (đặt trong cùng nav-shell, ngay dưới tabs) -->
         <div class="search-box">
             <span>🔍</span>
             <input type="text" id="searchInput" placeholder="Tìm kiếm..." oninput="onSearchInput()">
@@ -926,11 +924,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         </div>
     </div>
 
-    <!-- Pagination: ◀️ 0️⃣...9️⃣ ▶️ -->
     <div class="pagination" id="pagination" style="display:none;"></div>
 </div>
 
-<!-- SETTINGS PANEL — layer trượt từ phải -->
+<!-- SETTINGS PANEL -->
 <div class="settings-overlay" id="settingsOverlay" onclick="closeSettings()"></div>
 <div class="settings-panel" id="settingsPanel">
     <div class="settings-header">
@@ -973,7 +970,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 <div id="modal" class="modal" onclick="closeModal(event)">
     <div class="modal-content" onclick="event.stopPropagation()">
 
-        <!-- Header CỐ ĐỊNH -->
         <div class="modal-fixed-header">
             <button class="modal-close" onclick="closeModal()">✕</button>
             <div class="modal-header">
@@ -988,13 +984,11 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
         <div class="modal-scroll-body">
 
-            <!-- Screenshots -->
             <div id="screenshotsSection" style="display:none;">
                 <div class="detail-section-title" style="margin-bottom:8px;">📸 Ảnh chụp màn hình</div>
                 <div class="screenshots" id="screenshots"></div>
             </div>
 
-            <!-- ✨ Phiên bản — chọn để tải (accordion, mặc định đóng) -->
             <div id="versionSelectSection" class="detail-section" style="display:none;">
                 <div class="detail-section-header" onclick="toggleSection('versionSelectSection')">
                     <div class="detail-section-title">✨ Phiên bản — chọn để tải</div>
@@ -1005,7 +999,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 </div>
             </div>
 
-            <!-- 📝 Mô tả (accordion, mặc định đóng) -->
             <div id="descSection" class="detail-section" style="display:none;">
                 <div class="detail-section-header" onclick="toggleSection('descSection')">
                     <div class="detail-section-title">📝 Mô tả</div>
@@ -1016,7 +1009,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 </div>
             </div>
 
-            <!-- 📋 Lịch sử phiên bản (accordion, mặc định đóng, changelog chi tiết) -->
             <div id="historySection" class="detail-section">
                 <div class="detail-section-header" onclick="toggleSection('historySection')">
                     <div class="detail-section-title">📋 Lịch sử phiên bản</div>
@@ -1027,7 +1019,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 </div>
             </div>
 
-            <!-- 🔐 Quyền hạn (accordion, mặc định đóng) -->
             <div id="permSection" class="detail-section" style="display:none;">
                 <div class="detail-section-header" onclick="toggleSection('permSection')">
                     <div class="detail-section-title">🔐 Quyền hạn</div>
@@ -1038,7 +1029,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 </div>
             </div>
 
-            <!-- ℹ️ Thông tin phiên bản đang chọn (luôn hiện, không thu gọn) — BỔ SUNG THÊM THỂ LOẠI -->
             <div class="info-box">
                 <div class="detail-section-title" style="margin-bottom:10px;">ℹ️ Thông tin phiên bản đang chọn</div>
                 <div class="detail-section-content">
@@ -1146,7 +1136,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             const isDark = saved === 'true';
             document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
         }} else {{
-            // Mặc định theo hệ thống
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
         }}
@@ -1338,7 +1327,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
     // ════════════════════════════════════════════════════════════
     // GETTYPE CATEGORY — Thể loại cho info-box
-    // VD: Apps-ios-ipa, Tweaks-arm64-deb, Dylibs-arm64-dylib
     // ════════════════════════════════════════════════════════════
     function getCategory(group, version) {{
         const repoType = REPO_TYPE || 'apps';
@@ -1531,7 +1519,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             descSection.style.display = 'none';
         }}
 
-        // ✨ Phiên bản — chọn để tải
+        // Phiên bản — chọn để tải
         const versionSelectSection = document.getElementById('versionSelectSection');
         if (currentGroup.versions && currentGroup.versions.length > 0) {{
             versionSelectSection.style.display = 'block';
@@ -1541,7 +1529,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             versionSelectSection.style.display = 'none';
         }}
 
-        // 📋 Lịch sử phiên bản
+        // Lịch sử phiên bản
         document.getElementById('historySection').classList.remove('open');
         renderVersionHistory();
 
@@ -1578,7 +1566,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         document.getElementById('modal').classList.add('active');
     }}
 
-    // ✨ Phiên bản — danh sách để chọn tải
+    // Phiên bản — danh sách để chọn tải
     function renderVersionSelectList() {{
         const html = currentGroup.versions.map((v, i) => {{
             const label = 'v' + v.version + (v.arch ? ' (' + v.arch + ')' : '');
@@ -1597,7 +1585,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             '<div style="padding:12px; color:var(--text-secondary); font-size:0.9em;">Chưa có dữ liệu phiên bản</div>';
     }}
 
-    // 📋 Lịch sử phiên bản — danh sách tất cả changelog
+    // Lịch sử phiên bản — danh sách tất cả changelog
     function renderVersionHistory() {{
         const html = currentGroup.versions.map((v, i) => {{
             const label = 'v' + v.version + (v.arch ? ' (' + v.arch + ')' : '');
@@ -1793,9 +1781,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         let isHidden = false;
         let ticking = false;
         let lastToggleTime = 0;
-        const SHOW_THRESHOLD = 4;   // px — cuộn lên dù chỉ một chút cũng hiện lại ngay (nhạy)
-        const HIDE_THRESHOLD = 10;  // px — cuộn xuống cần một chút để tránh giật do rung tay
-        const COOLDOWN = 120;       // ms — khoảng nghỉ tối thiểu giữa 2 lần đổi trạng thái, chặn dao động qua lại
+        const SHOW_THRESHOLD = 6;
+        const HIDE_THRESHOLD = 80;
+        const HIDE_MIN_Y = 220;
+        const COOLDOWN = 150;
 
         function setNavHidden(hidden) {{
             if (isHidden === hidden) return;
@@ -1803,8 +1792,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             if (now - lastToggleTime < COOLDOWN) return;
             lastToggleTime = now;
             isHidden = hidden;
-            // Chỉ toggle 1 class duy nhất, đổi transform/opacity (không đổi layout/height)
-            // — đây là thay đổi compositor-only nên không gây reflow khi cuộn.
             navShell.classList.toggle('nav-hidden', hidden);
         }}
 
@@ -1814,7 +1801,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
             if (currentY <= 12) {{
                 setNavHidden(false);
-            }} else if (delta >= HIDE_THRESHOLD) {{
+            }} else if (delta >= HIDE_THRESHOLD && currentY >= HIDE_MIN_Y) {{
                 setNavHidden(true);
             }} else if (delta <= -SHOW_THRESHOLD) {{
                 setNavHidden(false);
