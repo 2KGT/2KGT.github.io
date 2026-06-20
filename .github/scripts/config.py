@@ -49,10 +49,10 @@ SOURCE_IDENTIFIER = "com.kyic.premium"
 # tintColor config 
 TINT_COLOR = "848ef9"
 
-ICON_DIR_NAME = "repo/depictions/icons"
-IMG_DIR_NAME = "repo/depictions/images"
-DEPICTION_DIR_NAME = "repo/depictions/metadata"
-DEFAULT_DIR_NAME = "repo/depictions/default"
+ICON_DIR_NAME = "repo/data/icons"
+IMG_DIR_NAME = "repo/data/images"
+DEPICTION_DIR_NAME = "repo/data/metadata"
+DEFAULT_DIR_NAME = "repo/data/default"
 
 ICON_DIR = os.path.join(REPO_ROOT, ICON_DIR_NAME)
 IMG_DIR = os.path.join(REPO_ROOT, IMG_DIR_NAME)
@@ -67,7 +67,7 @@ REPO_OUTPUT_DIR = os.path.join(REPO_ROOT, "repo")
 
 # --- Vùng lưu trữ "trí nhớ đầu vào" (Wiki Data) ---
 # Cấu trúc: Gom wiki file database wiki/
-# main(root)/repo/depictions/metadata/wiki/
+# main(root)/repo/data/metadata/wiki/
 WIKI_DIR = os.path.join(DEPICTION_DIR, "wiki")
 FEATHER_DATABASE = os.path.join(WIKI_DIR, "wikiapps.json")
 SILEO_DATABASE = os.path.join(WIKI_DIR, "wikidebs.json")
@@ -79,9 +79,9 @@ APPS_JSON_PATH = os.path.join(REPO_ROOT, "repo/apps.json")
 SILEO_JSON_PATH = os.path.join(REPO_ROOT, "repo/sileo.json")
 DYLIBS_JSON_PATH = os.path.join(REPO_ROOT, "repo/dylibs.json")
 
-# FIX: Chuyển desc vào gom cùng cụm depictions/metadata/ cho nhất quán
-# Cấu trúc: main(root)/repo/depictions/metadata/desc/apps/<AppName>/v1.0.txt
-# Cấu trúc: main(root)/repo/depictions/metadata/desc/tweaks/<TweakName>/v1.0.txt
+# FIX: Chuyển desc vào gom cùng cụm data/metadata/ cho nhất quán
+# Cấu trúc: main(root)/repo/data/metadata/desc/apps/<AppName>/v1.0.txt
+# Cấu trúc: main(root)/repo/data/metadata/desc/tweaks/<TweakName>/v1.0.txt
 DESC_DIR = os.path.join(DEPICTION_DIR, "desc", "apps")
 TWEAK_DESC_DIR = os.path.join(DEPICTION_DIR, "desc", "tweaks")
 
@@ -151,12 +151,12 @@ def get_depiction_path_by_filename(section, tweak_name, safe_filename):
     safe_filename (tweak_ver_arch) làm tên file JSON — KHÔNG dùng chung
     1 file cho mọi version/arch để tránh xung đột đè dữ liệu.
 
-    Cấu trúc: repo/depictions/metadata/<section>/<tweak_name>/<tweak_ver_arch>.json
+    Cấu trúc: repo/data/metadata/<section>/<tweak_name>/<tweak_ver_arch>.json
     Ví dụ:
-      repo/depictions/metadata/tweaks/glow/glow_1.3.1_iphoneos-arm.json
-      repo/depictions/metadata/tweaks/glow/glow_1.3.1_iphoneos-arm64.json
-      repo/depictions/metadata/tweaks/glow/glow_1.3.1_iphoneos-arm64e.json
-      repo/depictions/metadata/tweaks/glow/glow_1.3.0_iphoneos-arm.json  (version cũ vẫn giữ riêng)
+      repo/data/metadata/tweaks/glow/glow_1.3.1_iphoneos-arm.json
+      repo/data/metadata/tweaks/glow/glow_1.3.1_iphoneos-arm64.json
+      repo/data/metadata/tweaks/glow/glow_1.3.1_iphoneos-arm64e.json
+      repo/data/metadata/tweaks/glow/glow_1.3.0_iphoneos-arm.json  (version cũ vẫn giữ riêng)
 
     ⭐ Lý do tách theo version+arch (không gộp theo bundle_id):
     - Mỗi .deb (arm/arm64/arm64e) build JSON độc lập, không ghi đè lẫn nhau
@@ -182,7 +182,7 @@ def get_depiction_path_by_filename(section, tweak_name, safe_filename):
 
 def get_default_screenshots():
     """
-    Tự động quét thư mục repo/depictions/default để lấy danh sách ảnh từ Kyic_1 đến Kyic_8.
+    Tự động quét thư mục repo/data/default để lấy danh sách ảnh từ Kyic_1 đến Kyic_8.
     Nếu chạy trên Actions mà thư mục trống, hàm sẽ tự động sinh danh sách link chuẩn.
     """
     screens = []
@@ -215,8 +215,8 @@ def get_optimized_tweak_description(tweak_name, version):
     2. File default.txt (mô tả mặc định)
     3. Chuỗi mặc định từ control data
     
-    Cấu trúc: repo/depictions/metadata/desc/tweaks/<TweakName>/v<version>.txt
-    Ví dụ: repo/depictions/metadata/desc/tweaks/cc18/v0.0.3.txt
+    Cấu trúc: repo/data/metadata/desc/tweaks/<TweakName>/v<version>.txt
+    Ví dụ: repo/data/metadata/desc/tweaks/cc18/v0.0.3.txt
     """
     tweak_desc_dir = os.path.join(TWEAK_DESC_DIR, tweak_name)
     os.makedirs(tweak_desc_dir, exist_ok=True)
@@ -251,7 +251,7 @@ def get_tweak_changelog_history(tweak_name, current_version, limit=10):
     depiction JSON — người dùng vẫn thấy đầy đủ "có gì mới" qua từng version.
 
     Đọc tất cả file v<version>.txt đã từng được tạo trong:
-    repo/depictions/metadata/desc/tweaks/<TweakName>/
+    repo/data/metadata/desc/tweaks/<TweakName>/
     Sort giảm dần theo version số (mới nhất trước), giới hạn `limit` bản
     gần nhất để tránh markdown quá dài.
 
@@ -309,8 +309,8 @@ def get_app_images_dir(app_name):
     """
     FIX: Lấy thư mục images theo app name (giống tweak, nhất quán).
     
-    Cấu trúc: repo/depictions/images/<app_name>/
-    Ví dụ: repo/depictions/images/Telegram/
+    Cấu trúc: repo/data/images/<app_name>/
+    Ví dụ: repo/data/images/Telegram/
     - Telegram_banner.png
     - Telegram_1.png
     - Telegram_2.png
@@ -322,8 +322,8 @@ def get_tweak_images_dir(tweak_name):
     """
     FIX: Lấy thư mục images theo tweak name.
     
-    Cấu trúc: repo/depictions/images/<tweak_name>/
-    Ví dụ: repo/depictions/images/cc18/
+    Cấu trúc: repo/data/images/<tweak_name>/
+    Ví dụ: repo/data/images/cc18/
     - cc18_banner.png
     - cc18_1.png
     - cc18_2.png
