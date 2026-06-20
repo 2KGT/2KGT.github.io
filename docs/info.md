@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 17:00:57 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 17:01:01 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -354,7 +354,7 @@
     │   │   ├── 📂 Telegram/
     │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 7 file ]
     │   │   ├── 📂 Turrit/
-    │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 5 file ]
+    │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 6 file ]
     │   │   ├── 📂 YouTube/
     │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 2 file ]
     │   │   └── 📂 ytplus/
