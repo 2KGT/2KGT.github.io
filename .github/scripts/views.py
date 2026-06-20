@@ -1773,6 +1773,11 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     // ════════════════════════════════════════════════════════════
     // NAV SHELL AUTO-HIDE ON SCROLL (iOS-style)
     // ════════════════════════════════════════════════════════════
+    // ════════════════════════════════════════════════════════════
+    // NAV SHELL AUTO-SHOW/HIDE (kiểu Safari): hiện ngay khi cuộn xuống,
+    // không tự hiện khi cuộn lên giữa trang, hiện khi về hẳn đầu trang,
+    // tự ẩn sau một lúc đứng yên nếu đang ở giữa trang.
+    // ════════════════════════════════════════════════════════════
     (function setupNavAutoHide() {{
         const navShell = document.getElementById('navShell');
         if (!navShell) return;
@@ -1780,33 +1785,34 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         let lastScrollY = window.scrollY;
         let isHidden = false;
         let ticking = false;
-        let lastToggleTime = 0;
-        const SHOW_THRESHOLD = 6;
-        const HIDE_THRESHOLD = 80;
-        const HIDE_MIN_Y = 220;
-        const COOLDOWN = 150;
+        let idleTimer = null;
+        const TOP_THRESHOLD = 12;
+        const IDLE_DELAY = 1200;
 
         function setNavHidden(hidden) {{
             if (isHidden === hidden) return;
-            const now = performance.now();
-            if (now - lastToggleTime < COOLDOWN) return;
-            lastToggleTime = now;
             isHidden = hidden;
             navShell.classList.toggle('nav-hidden', hidden);
+        }}
+
+        function scheduleIdleHide() {{
+            clearTimeout(idleTimer);
+            if (window.scrollY <= TOP_THRESHOLD) return;
+            idleTimer = setTimeout(() => setNavHidden(true), IDLE_DELAY);
         }}
 
         function onScroll() {{
             const currentY = Math.max(0, window.scrollY);
             const delta = currentY - lastScrollY;
 
-            if (currentY <= 12) {{
+            if (currentY <= TOP_THRESHOLD) {{
                 setNavHidden(false);
-            }} else if (delta >= HIDE_THRESHOLD && currentY >= HIDE_MIN_Y) {{
-                setNavHidden(true);
-            }} else if (delta <= -SHOW_THRESHOLD) {{
+            }} else if (delta > 0) {{
                 setNavHidden(false);
             }}
+            // delta < 0 (cuộn lên giữa trang): giữ nguyên trạng thái hiện tại
 
+            scheduleIdleHide();
             lastScrollY = currentY;
             ticking = false;
         }}
@@ -1817,6 +1823,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 ticking = true;
             }}
         }}, {{ passive: true }});
+
+        scheduleIdleHide();
     }})();
 
     // ════════════════════════════════════════════════════════════
