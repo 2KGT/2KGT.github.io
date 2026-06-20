@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 17:07:50 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 17:07:51 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -363,12 +363,8 @@
     │               ├── 📂 Stay/
     │               │   ├── v2.9.18.txt
     │               │   └── v2.9.20.txt
-    │               ├── 📂 UnKeySign/
-    │               │   └── v1.1.8.txt
-    │               └── 📂 YouTube/
-    │                   ├── v21.17.3.txt
-    │                   ├── v21.22.3.txt
-    │                   └── v21.24.3.txt
+    │               └── 📂 UnKeySign/
+    │                   └── v1.1.8.txt
     ├── 📂 dylibs/
     │   ├── .gitkeep
     │   └── 📂 Lead/
