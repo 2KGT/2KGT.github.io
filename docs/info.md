@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 17:07:37 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 17:07:38 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -352,8 +352,6 @@
     │   └── 📂 metadata/
     │       └── 📂 desc/
     │           └── 📂 apps/
-    │               ├── 📂 Instagram/
-    │               │   └── v433.0.0.txt
     │               ├── 📂 LCSign/
     │               │   ├── v1.1.6.txt
     │               │   └── v1.1.txt
