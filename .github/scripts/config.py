@@ -51,7 +51,7 @@ TINT_COLOR = "848ef9"
 
 ICON_DIR_NAME = "repo/data/icons"
 IMG_DIR_NAME = "repo/data/images"
-DEPICTION_DIR_NAME = "repo/data"
+DEPICTION_DIR_NAME = "repo/data/desc"
 DEFAULT_DIR_NAME = "repo/data/default"
 
 ICON_DIR = os.path.join(REPO_ROOT, ICON_DIR_NAME)
