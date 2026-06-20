@@ -9,8 +9,8 @@
 | ⏱️ Time | 20/06/2026 15:18 |
 | 👤 Author | 2K |
 | 💬 Commit | Modified by App SourceFiles |
-| 📊 Overview | 5 file thay đổi |
-| 🛠️ Các thay đổi | ✏️ Sửa (4)<br>`.commit_msg`<br>`repo/apps.json`<br>`repo/dylibs.json`<br>`repo/sileo.json`<br>✨ Thêm (1)<br>`repo/depictions/metadata/tweaks/Lead/com.w3ltyyy.lead_1.3.5_iphoneos-arm.json` |
+| 📊 Overview | 6 file thay đổi |
+| 🛠️ Các thay đổi | ✏️ Sửa (4)<br>`.commit_msg`<br>`repo/apps.json`<br>`repo/dylibs.json`<br>`repo/sileo.json`<br>✨ Thêm (2)<br>`repo/depictions/metadata/tweaks/Lead/com.w3ltyyy.lead_1.3.5_iphoneos-arm.json`<br>`repo/depictions/metadata/tweaks/TGExtra/com.choco.tgextra_227_1.7.6_iphoneos-arm64e.json` |
 | ❓ Nguyên nhân | Hệ thống tự động kích hoạt khi có push lên nhánh main · Cập nhật cấu hình · Commit: Modified by App SourceFiles |
 | 🎯 Kết quả | ✅ Hoàn tất |
 

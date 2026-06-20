@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 20/06/2026 15:18:17 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 20/06/2026 15:18:47 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -77,7 +77,7 @@
     │   ├── 📂 default/
     │   │   └── [ 📊 Số lượng: 📸 Ảnh JPEG: 1 file ]
     │   ├── 📂 icons/
-    │   │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 2 file ]
+    │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 2 file, 🖼️ Ảnh PNG: 3 file ]
     │   ├── 📂 images/
     │   │   ├── 📂 AutoAC/
     │   │   │   └── .gitkeep
@@ -97,13 +97,19 @@
     │       └── 📂 tweaks/
     │           ├── 📂 Lead/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
-    │           ├── 📂 ccappicon/
+    │           ├── 📂 TGExtra/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
+    │           ├── 📂 ccappicon/
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 2 file ]
     │           ├── 📂 fastlock/
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
+    │           ├── 📂 glow/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │           ├── 📂 infuseplus/
     │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
-    │           └── 📂 orwellvk/
+    │           ├── 📂 orwellvk/
+    │           │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
+    │           └── 📂 ytuhd/
     │               └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     ├── 📂 debs/
     │   ├── 📂 Lead/
