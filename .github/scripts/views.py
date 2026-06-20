@@ -221,7 +221,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         /* Khoảng đệm cố định để item đầu list không bị nav-shell (fixed) che */
         .nav-spacer {{
             height: calc(178px + env(safe-area-inset-top, 0px));
-            margin-bottom: 6px;
+            margin-bottom: 12px;
             flex-shrink: 0;
         }}
 
@@ -390,6 +390,36 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             color: var(--text-secondary);
             font-size: 0.8em;
             margin-top: 8px;
+        }}
+
+        /* ─────────────────────────── FOOTER ─────────────────────────── */
+        .repo-footer {{
+            text-align: center;
+            margin-top: 28px;
+            padding: 0 12px;
+        }}
+
+        .repo-footer p {{
+            color: var(--text-secondary);
+            font-size: 0.8em;
+            line-height: 1.6;
+            max-width: 380px;
+            margin: 0 auto;
+        }}
+
+        .repo-footer-divider {{
+            margin: 14px auto;
+            font-size: 0.85em;
+            letter-spacing: 1px;
+            color: var(--tint);
+            opacity: 0.55;
+        }}
+
+        .repo-footer-credit {{
+            font-weight: 600;
+            font-size: 0.82em !important;
+            color: var(--text-secondary);
+            opacity: 0.8;
         }}
 
         /* ─────────────────────────── MODAL ─────────────────────────── */
@@ -941,6 +971,12 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     </div>
 
     <div class="pagination" id="pagination" style="display:none;"></div>
+
+    <div class="repo-footer">
+        <p>Đây là Static Distribution Zone — kho lưu trữ tĩnh phục vụ phân phối Tweak &amp; IPA chất lượng cao cho iOS, được đồng bộ và tối ưu hóa tự động.</p>
+        <div class="repo-footer-divider">──⋆⋅☆⋅⋆જ⁀➴ₖ🦎ᵢ꜀︵✰⋆⋅☆⋅⋆──</div>
+        <p class="repo-footer-credit">Made with ❤️ by Kyic</p>
+    </div>
 </div>
 
 <!-- SETTINGS PANEL -->
