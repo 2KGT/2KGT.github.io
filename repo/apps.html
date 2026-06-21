@@ -902,10 +902,46 @@
             transform: translateX(0) translateZ(0);
         }
 
-        /* ─────────────────────────── VERSION PICKER ─────────────────────────── */
+        /* ─────────────────────────── VERSION PICKER (modal căn giữa màn hình) ─────────────────────────── */
+        /* FIX: Trước đây kế thừa .settings-panel (slide-in từ phải, neo top/right)
+           khiến panel hiện lệch sang góc phải, khó bấm trên 1 tay. Giờ tách hẳn
+           ra thành modal độc lập, luôn căn giữa cả chiều ngang và chiều đứng. */
         .version-picker-panel {
-            max-width: 320px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            right: auto;
+            width: min(86%, 360px);
+            max-width: 360px;
+            max-height: min(70vh, 520px);
+            background: rgba(28, 28, 46, 0.92);
+            backdrop-filter: blur(30px) saturate(180%);
+            -webkit-backdrop-filter: blur(30px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 26px;
+            box-shadow: 0 14px 50px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            transform: translate(-50%, -50%) scale(0.92);
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+                        opacity 0.22s ease;
             z-index: 401;
+            display: flex;
+            flex-direction: column;
+            padding: 6px 0 10px;
+            overflow: hidden;
+            will-change: transform, opacity;
+        }
+
+        html[data-theme="light"] .version-picker-panel {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .version-picker-panel.active {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+            pointer-events: auto;
         }
 
         #versionPickerOverlay { z-index: 400; }
@@ -946,38 +982,50 @@
 
         .version-picker-item.selected .version-picker-check { opacity: 1; }
 
-        /* ─────────────────────────── VERSION POPOVER (neo tại chỗ, dùng cho nút Nhận) ─────────────────────────── */
+        /* ─────────────────────────── VERSION POPOVER (modal căn giữa, dùng cho nút Nhận) ─────────────────────────── */
+        /* FIX: Trước đây neo theo vị trí nút bấm (positionVersionPopover tính
+           top/left theo getBoundingClientRect của nút) khiến popup hiện ở góc
+           màn hình, dễ bị mép/nav che mất, khó bấm. Giờ đổi sang modal cố định
+           căn giữa màn hình giống version-picker-panel, đồng thời thêm tiêu đề
+           là tên app vừa nhấn "Nhận" để rõ ràng hơn. */
         .version-popover-overlay {
             position: fixed;
             inset: 0;
-            background: transparent;
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(2px);
             opacity: 0;
             pointer-events: none;
+            transition: opacity 0.3s ease;
             z-index: 400;
         }
 
-        .version-popover-overlay.active { pointer-events: auto; }
+        .version-popover-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
 
         .version-popover {
             position: fixed;
-            width: min(260px, calc(100vw - 32px));
-            max-height: 280px;
+            top: 50%;
+            left: 50%;
+            width: min(86%, 320px);
+            max-width: 320px;
+            max-height: min(70vh, 480px);
             background: rgba(28, 28, 46, 0.92);
             backdrop-filter: blur(24px) saturate(180%);
             -webkit-backdrop-filter: blur(24px) saturate(180%);
             border: 1px solid rgba(255, 255, 255, 0.16);
-            border-radius: 18px;
+            border-radius: 22px;
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-            padding: 8px;
             opacity: 0;
             pointer-events: none;
-            transform: scale(0.9);
+            transform: translate(-50%, -50%) scale(0.9);
             transition: opacity 0.18s cubic-bezier(0.4, 0, 0.2, 1),
                         transform 0.18s cubic-bezier(0.4, 0, 0.2, 1);
-            transform-origin: var(--popover-origin-x, 100%) var(--popover-origin-y, 0%);
             z-index: 401;
-            overflow-y: auto;
-            overscroll-behavior: contain;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
 
         html[data-theme="light"] .version-popover {
@@ -988,13 +1036,33 @@
         .version-popover.active {
             opacity: 1;
             pointer-events: auto;
-            transform: scale(1);
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .version-popover .version-popover-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px 12px;
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .version-popover .version-popover-header h3 {
+            font-size: 0.96em;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .version-popover .version-popover-list {
             display: flex;
             flex-direction: column;
             gap: 6px;
+            padding: 10px;
+            overflow-y: auto;
+            overscroll-behavior: contain;
         }
 
         .version-popover .version-picker-item {
@@ -1275,9 +1343,13 @@
     <div class="settings-list" id="versionPickerList"></div>
 </div>
 
-<!-- VERSION POPOVER (LIST) — popover nhỏ neo tại chỗ ngay cạnh nút "Nhận" vừa nhấn -->
+<!-- VERSION POPOVER (LIST) — modal căn giữa, dùng cho nút "Nhận" trong list -->
 <div class="version-popover-overlay" id="versionPopoverOverlay" onclick="closeVersionPopover()"></div>
 <div class="version-popover" id="versionPopover">
+    <div class="version-popover-header">
+        <h3 id="versionPopoverTitle">✨ Chọn phiên bản</h3>
+        <button class="settings-close" onclick="closeVersionPopover()">✕</button>
+    </div>
     <div class="version-popover-list" id="versionPopoverList"></div>
 </div>
 
@@ -2077,11 +2149,10 @@
     }
 
     // ════════════════════════════════════════════════════════════
-    // VERSION POPOVER (LIST) — popover nhỏ neo ngay cạnh nút "Nhận" vừa nhấn
+    // VERSION POPOVER (LIST) — modal căn giữa, dùng cho nút "Nhận" trong list
     // ════════════════════════════════════════════════════════════
     let popoverGroup = null;
     let popoverListIdx = null;
-    let popoverAnchorBtn = null;
 
     function openVersionPopover(idx, btnEl) {
         const group = groupedItems[idx];
@@ -2097,7 +2168,10 @@
 
         popoverGroup = group;
         popoverListIdx = idx;
-        popoverAnchorBtn = btnEl;
+
+        // FIX: Tiêu đề popup = tên app vừa nhấn "Nhận", giúp rõ ràng đang chọn
+        // phiên bản cho app nào (đặc biệt hữu ích khi danh sách dài, dễ nhầm).
+        document.getElementById('versionPopoverTitle').textContent = '✨ ' + group.name;
 
         const html = group.versions.map((v, i) => {
             const label = 'v' + v.version + ' - ' + getCategory(group, v);
@@ -2110,42 +2184,15 @@
         }).join('');
         document.getElementById('versionPopoverList').innerHTML = html;
 
-        positionVersionPopover(btnEl);
-
+        lockBodyScroll();
         document.getElementById('versionPopover').classList.add('active');
         document.getElementById('versionPopoverOverlay').classList.add('active');
-    }
-
-    function positionVersionPopover(btnEl) {
-        const popover = document.getElementById('versionPopover');
-        const rect = btnEl.getBoundingClientRect();
-        const margin = 10;
-        const popoverWidth = Math.min(260, window.innerWidth - 32);
-        const popoverMaxHeight = 280;
-
-        // Mặc định: bung lên phía trên nút, căn phải trùng mép phải nút
-        let left = rect.right - popoverWidth;
-        let top = rect.top - popoverMaxHeight - margin;
-        let originY = '100%';
-
-        // Nếu không đủ chỗ phía trên, bung xuống phía dưới nút thay vào đó
-        if (top < margin) {
-            top = rect.bottom + margin;
-            originY = '0%';
-        }
-        // Giữ popover trong khung nhìn theo chiều ngang
-        left = Math.max(margin, Math.min(left, window.innerWidth - popoverWidth - margin));
-
-        popover.style.left = left + 'px';
-        popover.style.top = top + 'px';
-        const originX = ((rect.right - left) / popoverWidth * 100).toFixed(0) + '%';
-        popover.style.setProperty('--popover-origin-x', originX);
-        popover.style.setProperty('--popover-origin-y', originY);
     }
 
     function closeVersionPopover() {
         document.getElementById('versionPopover').classList.remove('active');
         document.getElementById('versionPopoverOverlay').classList.remove('active');
+        unlockBodyScroll();
     }
 
     function pickPopoverVersion(i) {
@@ -2155,12 +2202,6 @@
         closeVersionPopover();
         openConfirmDownload(group, v, document.getElementById('quickbtn-' + popoverListIdx));
     }
-
-    window.addEventListener('resize', () => {
-        if (popoverAnchorBtn && document.getElementById('versionPopover').classList.contains('active')) {
-            positionVersionPopover(popoverAnchorBtn);
-        }
-    });
 
     // ════════════════════════════════════════════════════════════
     // CONFIRM DOWNLOAD DIALOG
