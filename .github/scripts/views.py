@@ -2377,40 +2377,36 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     // ════════════════════════════════════════════════════════════
     // DOWNLOAD
     // ════════════════════════════════════════════════════════════
-    async function triggerDownload(url, filename, btnEl) {{
+    function triggerDownload(url, filename, btnEl) {{
         if (!url) {{
             showToast(t('no_link'));
             return;
         }}
 
+        // FIX: Trước đây dùng fetch() + blob để tải, nhưng fetch() đòi hỏi
+        // CORS header từ server. File local (2kgt.github.io, cùng origin)
+        // thì fetch được, nhưng file GitHub Release (github.com/.../releases/
+        // download/...) KHÔNG trả CORS header cho fetch cross-origin -> fetch
+        // luôn lỗi -> rơi vào catch -> fallback cũ điều hướng cả trang sang
+        // url đó ("nhảy trang"). Giờ bỏ hẳn fetch/blob: dùng thẳng thẻ
+        // <a href=url download> rồi click. Cách này không cần đọc nội dung
+        // file qua JS nên không bị CORS chặn — browser tự xử lý tải xuống
+        // (kể cả với GitHub Release, vốn đã trả đúng header
+        // Content-Disposition: attachment cho asset thật), hoạt động đúng
+        // cho cả file local lẫn file cloud, không còn nhảy trang.
         const originalText = btnEl ? btnEl.textContent : null;
         if (btnEl) {{ btnEl.textContent = t('download_start'); btnEl.classList.add('loading'); }}
 
         try {{
-            const res = await fetch(url, {{ mode: 'cors' }});
-            if (!res.ok) throw new Error('HTTP ' + res.status);
-            const blob = await res.blob();
-            const blobUrl = URL.createObjectURL(blob);
-
             const a = document.createElement('a');
-            a.href = blobUrl;
+            a.href = url;
             a.download = filename || 'download';
             a.rel = 'noopener';
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-
-            setTimeout(() => URL.revokeObjectURL(blobUrl), 8000);
             showToast(t('download_success'));
         }} catch (err) {{
-            // FIX: Trước đây fallback gán a.href = url (link GỐC, không qua
-            // blob) rồi a.click() với target='_self'. Vì download attribute
-            // bị trình duyệt bỏ qua trong nhiều trường hợp (cross-origin,
-            // redirect, thiếu header Content-Disposition), việc click thẻ
-            // <a> này thực chất ĐIỀU HƯỚNG cả trang sang thẳng url đó thay vì
-            // tải file — đây là nguyên nhân gây "nhảy trang" khi bấm Tải
-            // xuống/Nhận. Giờ bỏ hẳn bước điều hướng này, chỉ báo lỗi rõ ràng
-            // qua toast (cơ chế showToast() có sẵn, đã hoạt động ổn định).
             console.warn('Download failed:', err);
             showToast('❌ Tải thất bại: ' + (err && err.message ? err.message : 'Lỗi không xác định'));
         }} finally {{
