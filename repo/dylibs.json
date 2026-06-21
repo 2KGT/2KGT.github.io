@@ -2,7 +2,57 @@
   "name": "Kyic Premium Store",
   "identifier": "com.kyic.premium",
   "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
-  "apps": [],
-  "generated_at": "2026-06-21T10:58:13Z",
-  "total": 0
+  "apps": [
+    {
+      "name": "Lead",
+      "bundleIdentifier": "com.w3ltyyy.lead",
+      "developerName": "w3ltyyy",
+      "subtitle": "Dylib Sideload",
+      "localizedDescription": "The best Tweak For Telegram iOS",
+      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
+      "tintColor": "848ef9",
+      "version": "1.4.3",
+      "versionDate": "2026-06-21T11:23:09Z",
+      "size": 25685712,
+      "downloadURL": "https://2kgt.github.io/repo/dylibs/com.w3ltyyy.lead_1.4.3_iphoneos-arm.dylib",
+      "versions": [
+        {
+          "version": "1.4.3",
+          "date": "2026-06-21T11:23:09Z",
+          "size": 25685712,
+          "downloadURL": "https://2kgt.github.io/repo/dylibs/com.w3ltyyy.lead_1.4.3_iphoneos-arm.dylib",
+          "localizedDescription": "The best Tweak For Telegram iOS",
+          "architecture": "iphoneos-arm",
+          "depictionURL": "https://2kgt.github.io/repo/data/desc/dylibs/Lead/com.w3ltyyy.lead_1.4.3_iphoneos-arm.json"
+        },
+        {
+          "version": "1.4.2",
+          "date": "2026-06-21T11:23:10Z",
+          "size": 25669104,
+          "downloadURL": "https://2kgt.github.io/repo/dylibs/com.w3ltyyy.lead_1.4.2_iphoneos-arm.dylib",
+          "localizedDescription": "The best Tweak For Telegram iOS",
+          "architecture": "iphoneos-arm",
+          "depictionURL": "https://2kgt.github.io/repo/data/desc/dylibs/Lead/com.w3ltyyy.lead_1.4.2_iphoneos-arm.json"
+        },
+        {
+          "version": "1.3.3",
+          "date": "2026-06-21T11:23:10Z",
+          "size": 25524416,
+          "downloadURL": "https://2kgt.github.io/repo/dylibs/com.w3ltyyy.lead_1.3.3_iphoneos-arm.dylib",
+          "localizedDescription": "The best Tweak For Telegram iOS",
+          "architecture": "iphoneos-arm",
+          "depictionURL": "https://2kgt.github.io/repo/data/desc/dylibs/Lead/com.w3ltyyy.lead_1.3.3_iphoneos-arm.json"
+        }
+      ],
+      "screenshotURLs": [
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Lead/Lead_1.jpg"
+      ],
+      "architecture": "iphoneos-arm",
+      "depictionURL": "https://2kgt.github.io/repo/data/desc/dylibs/Lead/com.w3ltyyy.lead_1.4.3_iphoneos-arm.json",
+      "bannerURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_banner.png",
+      "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_video.mp4"
+    }
+  ],
+  "generated_at": "2026-06-21T11:23:11Z",
+  "total": 1
 }

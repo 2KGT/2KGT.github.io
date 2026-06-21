@@ -6,6 +6,19 @@
 
 | Tiêu đề | Nội dung |
 |---|---|
+| ⏱️ Time | 21/06/2026 18:23 |
+| 👤 Author | 2K |
+| 💬 Commit | Update config.py |
+| 📊 Overview | 8 file · 2 thư mục thay đổi |
+| 🛠️ Các thay đổi | ✨ Thêm (4)<br>`repo/data/desc/dylibs/`<br>`repo/dylibs/com.w3ltyyy.lead_1.3.3_iphoneos-arm.dylib`<br>`repo/dylibs/com.w3ltyyy.lead_1.4.2_iphoneos-arm.dylib`<br>`repo/dylibs/com.w3ltyyy.lead_1.4.3_iphoneos-arm.dylib`<br>✏️ Sửa (4)<br>`.commit_msg`<br>`repo/apps.json`<br>`repo/dylibs.json`<br>`repo/sileo.json`<br>✨ Thêm thư mục (2)<br>`repo/data/desc/dylibs/`<br>`repo/data/desc/dylibs/Lead/` |
+| ❓ Nguyên nhân | Hệ thống tự động kích hoạt khi có push lên nhánh main · Cập nhật cấu hình · Commit: Update config.py |
+| 🎯 Kết quả | ✅ Hoàn tất<br><br>📄 File (8): ✏️ Sửa 4, ✨ Thêm 4<br>📂 Thư mục (2): ✨ Thêm 2 |
+
+---
+
+
+| Tiêu đề | Nội dung |
+|---|---|
 | ⏱️ Time | 21/06/2026 17:58 |
 | 👤 Author | GitHub Action |
 | 💬 Commit | 🚀 Auto Sync: 18 apps, 58 tweaks | 21/06/2026 10:54 [skip ci] |

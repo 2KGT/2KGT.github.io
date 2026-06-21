@@ -35,6 +35,8 @@
     "repo/data/desc/apps/YouTube",
     "repo/data/desc/apps/Zebra",
     "repo/data/desc/apps/全能签",
+    "repo/data/desc/dylibs",
+    "repo/data/desc/dylibs/Lead",
     "repo/data/desc/tweaks",
     "repo/data/desc/tweaks/Lead",
     "repo/data/desc/tweaks/NoYTPremium",
@@ -328,7 +330,10 @@
       "com.dvntm.cc18_0.0.3_iphoneos-arm64e.deb"
     ],
     "repo/dylibs": [
-      ".gitkeep"
+      ".gitkeep",
+      "com.w3ltyyy.lead_1.3.3_iphoneos-arm.dylib",
+      "com.w3ltyyy.lead_1.4.2_iphoneos-arm.dylib",
+      "com.w3ltyyy.lead_1.4.3_iphoneos-arm.dylib"
     ],
     "repo/dylibs/Lead": [
       ".gitkeep"
@@ -555,6 +560,15 @@
       "com.dvntm.cc18_0.0.3_iphoneos-arm.json",
       "com.dvntm.cc18_0.0.3_iphoneos-arm64.json",
       "com.dvntm.cc18_0.0.3_iphoneos-arm64e.json"
+    ],
+    "repo/data/desc/dylibs": [],
+    "repo/data/desc/dylibs/Lead": [
+      "com.w3ltyyy.lead_1.3.3_iphoneos-arm.json",
+      "com.w3ltyyy.lead_1.4.2_iphoneos-arm.json",
+      "com.w3ltyyy.lead_1.4.3_iphoneos-arm.json",
+      "v1.3.3.txt",
+      "v1.4.2.txt",
+      "v1.4.3.txt"
     ],
     "repo/data/desc/wiki": [
       "wikiapps.json",

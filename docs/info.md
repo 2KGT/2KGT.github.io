@@ -1,5 +1,7 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 21/06/2026 17:58:24 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 21/06/2026 18:23:20 (Giờ Hà Nội)*
+
+📝 *Thay đổi thư mục so với lần quét trước: ✨ +2 thư mục mới* — xem chi tiết tại `docs/CHANGELOG.md`
 
 ```text
 🗺️ Root/
@@ -126,6 +128,12 @@
     │   │   │   ├── 📂 Zebra/
     │   │   │   │   └── v1.1.28.txt
     │   │   │   └── 📂 全能签/
+    │   │   ├── 📂 dylibs/
+    │   │   │   └── 📂 Lead/
+    │   │   │       ├── v1.3.3.txt
+    │   │   │       ├── v1.4.2.txt
+    │   │   │       ├── v1.4.3.txt
+    │   │   │       └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
     │   │   ├── 📂 tweaks/
     │   │   │   ├── 📂 Lead/
     │   │   │   │   ├── v1.4.3.txt
@@ -294,8 +302,11 @@
     │   └── 📂 metadata/
     ├── 📂 dylibs/
     │   ├── .gitkeep
-    │   └── 📂 Lead/
-    │       └── .gitkeep
+    │   ├── 📂 Lead/
+    │   │   └── .gitkeep
+    │   ├── com.w3ltyyy.lead_1.3.3_iphoneos-arm.dylib
+    │   ├── com.w3ltyyy.lead_1.4.2_iphoneos-arm.dylib
+    │   └── com.w3ltyyy.lead_1.4.3_iphoneos-arm.dylib
     ├── dylibs.html
     ├── index.html
     ├── tweaks.html
