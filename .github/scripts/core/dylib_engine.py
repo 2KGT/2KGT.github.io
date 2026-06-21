@@ -45,6 +45,38 @@ def get_file_version_date(path):
         return to_feather_timestamp()
 
 
+def _extract_asset_name_url(asset):
+    """
+    FIX: Đọc tên file + URL tải về từ 1 phần tử trong release_assets.
+    Hỗ trợ cả định dạng chuẩn GitHub Release API ('name' +
+    'browser_download_url') lẫn vài biến thể dict đơn giản khác có thể
+    được main.py truyền vào, để không phụ thuộc cứng vào 1 schema.
+    """
+    if not isinstance(asset, dict):
+        return None, None
+    name = asset.get('name') or asset.get('filename') or asset.get('asset_name')
+    url = (
+        asset.get('browser_download_url') or asset.get('download_url')
+        or asset.get('downloadURL') or asset.get('url')
+    )
+    return name, url
+
+
+def _iso_to_epoch(value):
+    """FIX: Parse ngày dạng ISO 8601 (vd: GitHub 'updated_at'/'created_at')
+    sang epoch, để gán lại mtime file local = ngày phát hành thật trên
+    GitHub Release, thay vì ngày tải file về (sai lệch versionDate)."""
+    if not value:
+        return None
+    try:
+        s = str(value).strip()
+        if s.endswith('Z'):
+            s = s[:-1] + '+00:00'
+        return datetime.datetime.fromisoformat(s).timestamp()
+    except Exception:
+        return None
+
+
 def calculate_hashes_from_local(path):
     """Tính hash chuẩn cho file .dylib cục bộ (streaming tránh tràn RAM)"""
     md5 = hashlib.md5()
@@ -311,7 +343,8 @@ def run_dylib_engine(release_assets, system_db):
     """
     🌟 PHÂN HỆ XỬ LÝ DYLIBS (kiến trúc Feather + nội dung kiểu Sileo):
 
-    - Quét .dylib cục bộ (repo/dylibs/).
+    - Đồng bộ asset *.dylib từ release_assets (GitHub Releases) về local,
+      gộp với .dylib đã có sẵn cục bộ tại repo/dylibs/, rồi quét toàn bộ.
     - Đối chiếu với system_db["tweaks"] (do sileo_engine xử lý trước đó
       trong main.py) để lấy Name/Author/Icon/Description đẹp — giống deb.
     - Gom theo bundle để xuất "versions[]" như apps.json của Feather.
@@ -326,12 +359,43 @@ def run_dylib_engine(release_assets, system_db):
     dylibs_map = defaultdict(list)  # group theo bundle để dựng versions[]
 
     dylibs_input_dir = getattr(config, "DYLIBS_INPUT_DIR", os.path.join(config.REPO_OUTPUT_DIR, "dylibs"))
+    os.makedirs(dylibs_input_dir, exist_ok=True)
 
-    if not os.path.exists(dylibs_input_dir):
-        logger.warning(f"⚠️ Không tìm thấy thư mục chứa dylibs tại: {dylibs_input_dir}")
-        return processed_dylibs_titles
+    # 0. FIX QUAN TRỌNG: trước đây tham số release_assets được nhận vào
+    # nhưng KHÔNG hề được dùng — nên dylib chỉ được "Release" (upload lên
+    # GitHub Releases) mà không commit thẳng vào repo/dylibs/ sẽ luôn bị
+    # bỏ sót, khiến dylibs.json xuất ra "apps": [] dù cloud có file.
+    # Ở đây đồng bộ mọi asset *.dylib từ release_assets về local trước
+    # khi quét, đồng thời gán lại mtime = ngày upload thật trên GitHub
+    # (nếu có) để versionDate/date phản ánh đúng thời điểm phát hành,
+    # thay vì thời điểm script chạy tải file về.
+    synced = 0
+    for asset in (release_assets or []):
+        a_name, a_url = _extract_asset_name_url(asset)
+        if not a_name or not a_url or not a_name.lower().endswith('.dylib'):
+            continue
+        local_path = os.path.join(dylibs_input_dir, a_name)
+        if os.path.exists(local_path):
+            continue
+        if utils.download_resource_to_local(a_url, local_path):
+            synced += 1
+            epoch = _iso_to_epoch(asset.get('updated_at') or asset.get('created_at'))
+            if epoch:
+                try:
+                    os.utime(local_path, (epoch, epoch))
+                except Exception:
+                    pass
+            logger.info(f"⬇️ Đã đồng bộ dylib mới từ GitHub Release: {a_name}")
+        else:
+            logger.warning(f"⚠️ Tải thất bại dylib từ release: {a_name}")
+    if synced:
+        logger.info(f"✅ Đồng bộ {synced} file .dylib mới từ GitHub Release vào: {dylibs_input_dir}")
 
     dylib_files = [f for f in sorted(os.listdir(dylibs_input_dir)) if f.endswith('.dylib') and not f.startswith('.')]
+
+    if not dylib_files:
+        logger.warning(f"⚠️ Không tìm thấy file .dylib nào (cục bộ lẫn release_assets) tại: {dylibs_input_dir}")
+        return processed_dylibs_titles
 
     for f_name in dylib_files:
         path = os.path.join(dylibs_input_dir, f_name)
