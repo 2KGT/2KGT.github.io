@@ -1465,9 +1465,14 @@
                 </div>
             </div>
 
-            <div class="info-box" id="changelogBox" style="display:none;">
-                <div class="detail-section-title" style="margin-bottom:10px;">🆕 Có gì mới</div>
-                <div class="detail-section-content" id="modalChangelog"></div>
+            <div id="changelogBox" class="detail-section" style="display:none;">
+                <div class="detail-section-header" onclick="toggleSection('changelogBox')">
+                    <div class="detail-section-title">🆕 Có gì mới</div>
+                    <div class="detail-section-toggle">🔽</div>
+                </div>
+                <div class="detail-section-body">
+                    <div class="detail-section-content" id="modalChangelog"></div>
+                </div>
             </div>
 
             <div id="descSection" class="detail-section" style="display:none;">
@@ -2078,10 +2083,16 @@
         }
 
         // Có gì mới — nội dung theo phiên bản đang chọn, cập nhật
-        // trong updateSelectedVersionDisplay() mỗi khi người dùng đổi phiên bản
+        // trong updateSelectedVersionDisplay() mỗi khi người dùng đổi phiên bản.
+        // Thu gọn/mở rộng giống hệt section Mô tả (đóng mặc định khi mở modal).
         const changelogBox = document.getElementById('changelogBox');
         const hasAnyChangelog = (currentGroup.versions || []).some(v => v.note);
-        changelogBox.style.display = hasAnyChangelog ? 'block' : 'none';
+        if (hasAnyChangelog) {
+            changelogBox.style.display = 'block';
+            changelogBox.classList.remove('open');
+        } else {
+            changelogBox.style.display = 'none';
+        }
 
         // Nút chọn phiên bản (thanh hành động cố định đáy modal)
         const versionPickerBtn = document.getElementById('versionPickerBtn');
