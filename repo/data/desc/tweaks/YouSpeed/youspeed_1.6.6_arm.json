@@ -11,7 +11,7 @@
         {
           "class": "DepictionSubheaderView",
           "useBottomMargin": false,
-          "title": "Lead",
+          "title": "YouSpeed",
           "useBoldText": true
         },
         {
@@ -28,7 +28,35 @@
           "screenshots": [
             {
               "accessibilityText": "Screenshot0",
-              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Lead/Lead_1.jpg"
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_1.jpeg"
+            },
+            {
+              "accessibilityText": "Screenshot1",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_2.jpeg"
+            },
+            {
+              "accessibilityText": "Screenshot2",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_3.jpeg"
+            },
+            {
+              "accessibilityText": "Screenshot3",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_4.jpeg"
+            },
+            {
+              "accessibilityText": "Screenshot4",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_5.jpeg"
+            },
+            {
+              "accessibilityText": "Screenshot5",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_6.jpeg"
+            },
+            {
+              "accessibilityText": "Screenshot6",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_7.jpeg"
+            },
+            {
+              "accessibilityText": "Screenshot7",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_8.jpeg"
             }
           ],
           "itemSize": "{160, 275.41333333333336}",
@@ -44,7 +72,7 @@
         {
           "class": "DepictionTableTextView",
           "title": "Developer",
-          "text": "w3ltyyy"
+          "text": "PoomSmart"
         },
         {
           "class": "DepictionTableTextView",
@@ -63,13 +91,13 @@
       "views": [
         {
           "class": "DepictionTableTextView",
-          "title": "Version 1.3.7",
+          "title": "Version 1.6.6",
           "text": "Lịch sử cập nhật"
         },
         {
           "class": "DepictionMarkdownView",
           "useSpacing": true,
-          "markdown": "### v1.4.3\nLead\n\nUpdate: v1.4.3\n• Đã sửa:Một biểu tượng \"đã chỉnh sửa\" giả mạo xuất hiện trên các biểu tượng cảm xúc và tin nhắn thông thường.\n• Đã sửa:Chức năng chống thu hồi không hoạt động trong các nhóm và kênh.\n• Đã sửa:Biểu tượng phương tiện dùng một lần đã biến mất sau khi thoát và vào lại cuộc trò chuyện.\n• Đã cập nhậtCác hook dành cho phiên bản Telegram mới nhất"
+          "markdown": "### v1.6.6\nCập nhật phiên bản v1.6.6 từ Kyic Store."
         }
       ]
     },

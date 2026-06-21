@@ -37,7 +37,15 @@
     "repo/data/desc/apps/全能签",
     "repo/data/desc/tweaks",
     "repo/data/desc/tweaks/Lead",
+    "repo/data/desc/tweaks/NoYTPremium",
     "repo/data/desc/tweaks/TGExtra",
+    "repo/data/desc/tweaks/YTUnShorts",
+    "repo/data/desc/tweaks/YTVideoOverlay",
+    "repo/data/desc/tweaks/YouGroupSettings",
+    "repo/data/desc/tweaks/YouMute",
+    "repo/data/desc/tweaks/YouSpeed",
+    "repo/data/desc/tweaks/YouTube Fix",
+    "repo/data/desc/tweaks/YouTube X",
     "repo/data/desc/tweaks/YoutubeX",
     "repo/data/desc/tweaks/cc18",
     "repo/data/desc/tweaks/ccappicon",
@@ -354,8 +362,20 @@
       "com.dvntm.glow_1.3_iphoneos-arm64.json",
       "com.dvntm.glow_1.3_iphoneos-arm64e.json"
     ],
+    "repo/data/desc/tweaks/YTVideoOverlay": [
+      "ytvideooverlay_2.3.5_arm.json"
+    ],
+    "repo/data/desc/tweaks/YouGroupSettings": [
+      "yougroupsettings_1.0.10-arm.json"
+    ],
+    "repo/data/desc/tweaks/YouSpeed": [
+      "youspeed_1.6.6_arm.json"
+    ],
     "repo/data/desc/tweaks/youmod": [
       "dev.water888.youmod_1.3.0_iphoneos-arm.json"
+    ],
+    "repo/data/desc/tweaks/NoYTPremium": [
+      "noytpremium_1.0.7_arm.json"
     ],
     "repo/data/desc/tweaks/orwellvk": [
       "com.dvntm.ovk_1.1.6_iphoneos-arm.json",
@@ -375,6 +395,9 @@
       "com.ginsu.ytmusicultimate_2.4_iphoneos-arm.json",
       "com.ginsu.ytmusicultimate_2.4_iphoneos-arm64.json",
       "com.ginsu.ytmusicultimate_2.4_iphoneos-arm64e.json"
+    ],
+    "repo/data/desc/tweaks/YouTube X": [
+      "YoutubeX_1.7.19_arm.json"
     ],
     "repo/data/desc/tweaks/ccappicon": [
       "com.dvntm.ccappicon_0.0.1_iphoneos-arm.json",
@@ -398,7 +421,9 @@
       "com.w3ltyyy.lead_1.3.9_iphoneos-arm.json",
       "com.w3ltyyy.lead_1.4.0_iphoneos-arm.json",
       "com.w3ltyyy.lead_1.4.1_iphoneos-arm.json",
-      "com.w3ltyyy.lead_1.4.2_iphoneos-arm.json"
+      "com.w3ltyyy.lead_1.4.2_iphoneos-arm.json",
+      "com.w3ltyyy.lead_1.4.3_iphoneos-arm.json",
+      "v1.4.3.txt"
     ],
     "repo/data/desc/tweaks/ytplus": [
       "com.dvntm.ytlite_5.2.1_iphoneos-arm.json",
@@ -449,6 +474,9 @@
       "com.w3ltyyy.lead_1.4.3_iphoneos-arm.json",
       "v1.4.3.txt"
     ],
+    "repo/data/desc/tweaks/YTUnShorts": [
+      "ytunshorts_1.3.1_arm.json"
+    ],
     "repo/data/desc/tweaks/ytvideooverlay": [
       "com.ps.ytvideooverlay_2.3.6_iphoneos-arm.json",
       "com.ps.ytvideooverlay_2.3.6_iphoneos-arm64.json",
@@ -483,6 +511,9 @@
       "com.dvntm.twlegacy_0.0.1_iphoneos-arm64.json",
       "com.dvntm.twlegacy_0.0.1_iphoneos-arm64e.json"
     ],
+    "repo/data/desc/tweaks/YouTube Fix": [
+      "youtubefix_1.0_arm.json"
+    ],
     "repo/data/desc/tweaks/tweach": [
       "com.dvntm.tweach_2.3.1_iphoneos-arm.json",
       "com.dvntm.tweach_2.3.1_iphoneos-arm64.json",
@@ -512,6 +543,9 @@
       "com.dvntm.oledkeyboard_0.0.3_iphoneos-arm.json",
       "com.dvntm.oledkeyboard_0.0.3_iphoneos-arm64.json",
       "com.dvntm.oledkeyboard_0.0.3_iphoneos-arm64e.json"
+    ],
+    "repo/data/desc/tweaks/YouMute": [
+      "youmute_1.4.0_arm.json"
     ],
     "repo/data/desc/tweaks/flow": [
       "com.dvntm.flow_1.0_iphoneos-arm.json",

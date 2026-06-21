@@ -6,6 +6,19 @@
 
 | Tiêu đề | Nội dung |
 |---|---|
+| ⏱️ Time | 21/06/2026 16:08 |
+| 👤 Author | 2K |
+| 💬 Commit | Update sileo_engine.py |
+| 📊 Overview | 25 file · 8 thư mục thay đổi |
+| 🛠️ Các thay đổi | ✨ Thêm (10)<br>`repo/data/desc/tweaks/Lead/com.w3ltyyy.lead_1.4.3_iphoneos-arm.json`<br>`repo/data/desc/tweaks/Lead/v1.4.3.txt`<br>`repo/data/desc/tweaks/NoYTPremium/`<br>`repo/data/desc/tweaks/YTUnShorts/`<br>`repo/data/desc/tweaks/YTVideoOverlay/`<br>`repo/data/desc/tweaks/YouGroupSettings/`<br>`repo/data/desc/tweaks/YouMute/`<br>`repo/data/desc/tweaks/YouSpeed/`<br>`repo/data/desc/tweaks/YouTube Fix/`<br>`repo/data/desc/tweaks/YouTube X/`<br><details><summary>✏️ Sửa (15)</summary><br>`.commit_msg`<br>`repo/Packages`<br>`repo/Packages.bz2`<br>`repo/apps.json`<br>`repo/data/desc/tweaks/Lead/com.w3ltyyy.lead_1.3.1_iphoneos-arm.json`<br>`repo/data/desc/tweaks/Lead/com.w3ltyyy.lead_1.3.3_iphoneos-arm.json`<br>`repo/data/desc/tweaks/Lead/com.w3ltyyy.lead_1.3.5_iphoneos-arm.json`<br>`repo/data/desc/tweaks/Lead/com.w3ltyyy.lead_1.3.6_iphoneos-arm.json`<br>`repo/data/desc/tweaks/Lead/com.w3ltyyy.lead_1.3.7_iphoneos-arm.json`<br>`repo/data/desc/tweaks/Lead/com.w3ltyyy.lead_1.3.9_iphoneos-arm.json`<br>`repo/data/desc/tweaks/Lead/com.w3ltyyy.lead_1.4.0_iphoneos-arm.json`<br>`repo/data/desc/tweaks/Lead/com.w3ltyyy.lead_1.4.1_iphoneos-arm.json`<br>`repo/data/desc/tweaks/Lead/com.w3ltyyy.lead_1.4.2_iphoneos-arm.json`<br>`repo/dylibs.json`<br>`repo/sileo.json`</details><br>✨ Thêm thư mục (8)<br>`repo/data/desc/tweaks/NoYTPremium/`<br>`repo/data/desc/tweaks/YTUnShorts/`<br>`repo/data/desc/tweaks/YTVideoOverlay/`<br>`repo/data/desc/tweaks/YouGroupSettings/`<br>`repo/data/desc/tweaks/YouMute/`<br>`repo/data/desc/tweaks/YouSpeed/`<br>`repo/data/desc/tweaks/YouTube Fix/`<br>`repo/data/desc/tweaks/YouTube X/` |
+| ❓ Nguyên nhân | Hệ thống tự động kích hoạt khi có push lên nhánh main · Cập nhật mô tả ứng dụng (depiction) · Commit: Update sileo_engine.py |
+| 🎯 Kết quả | ✅ Hoàn tất<br><br>📄 File (25): ✏️ Sửa 15, ✨ Thêm 10<br>📂 Thư mục (8): ✨ Thêm 8 |
+
+---
+
+
+| Tiêu đề | Nội dung |
+|---|---|
 | ⏱️ Time | 21/06/2026 15:25 |
 | 👤 Author | GitHub Action |
 | 💬 Commit | 🚀 Auto Sync: 18 apps, 58 tweaks | 21/06/2026 07:55 [skip ci] |

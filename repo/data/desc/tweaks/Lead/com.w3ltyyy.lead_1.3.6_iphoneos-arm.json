@@ -69,7 +69,7 @@
         {
           "class": "DepictionMarkdownView",
           "useSpacing": true,
-          "markdown": "### v1.3.6\nCập nhật phiên bản v1.3.6 từ Kyic Store."
+          "markdown": "### v1.4.3\nLead\n\nUpdate: v1.4.3\n• Đã sửa:Một biểu tượng \"đã chỉnh sửa\" giả mạo xuất hiện trên các biểu tượng cảm xúc và tin nhắn thông thường.\n• Đã sửa:Chức năng chống thu hồi không hoạt động trong các nhóm và kênh.\n• Đã sửa:Biểu tượng phương tiện dùng một lần đã biến mất sau khi thoát và vào lại cuộc trò chuyện.\n• Đã cập nhậtCác hook dành cho phiên bản Telegram mới nhất"
         }
       ]
     },

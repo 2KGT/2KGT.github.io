@@ -1,7 +1,7 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 21/06/2026 15:25:39 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 21/06/2026 16:08:09 (Giờ Hà Nội)*
 
-📝 *Thay đổi thư mục so với lần quét trước: ✨ +1 thư mục mới* — xem chi tiết tại `docs/CHANGELOG.md`
+📝 *Thay đổi thư mục so với lần quét trước: ✨ +8 thư mục mới* — xem chi tiết tại `docs/CHANGELOG.md`
 
 ```text
 🗺️ Root/
@@ -130,9 +130,26 @@
     │   │   │   └── 📂 全能签/
     │   │   ├── 📂 tweaks/
     │   │   │   ├── 📂 Lead/
-    │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 9 file ]
+    │   │   │   │   ├── v1.4.3.txt
+    │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 10 file ]
+    │   │   │   ├── 📂 NoYTPremium/
+    │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │   │   │   ├── 📂 TGExtra/
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
+    │   │   │   ├── 📂 YTUnShorts/
+    │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
+    │   │   │   ├── 📂 YTVideoOverlay/
+    │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
+    │   │   │   ├── 📂 YouGroupSettings/
+    │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
+    │   │   │   ├── 📂 YouMute/
+    │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
+    │   │   │   ├── 📂 YouSpeed/
+    │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
+    │   │   │   ├── 📂 YouTube Fix/
+    │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
+    │   │   │   ├── 📂 YouTube X/
+    │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │   │   │   ├── 📂 YoutubeX/
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │   │   │   ├── 📂 cc18/

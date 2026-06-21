@@ -551,7 +551,7 @@ Author: Eevee
 Description: Fix YouTube images not loading
 Section: Tweaks
 Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png
-SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/youtubefix/youtubefix_1.0_arm.json
+SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/YouTube Fix/youtubefix_1.0_arm.json
 
 Package: com.ginsu.ytmusicultimate
 Name: YTMusicUltimate
@@ -611,7 +611,7 @@ Author: PoomSmart
 Description: Removes YouTube Premium upsells.
 Section: Tweaks
 Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png
-SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/noytpremium/noytpremium_1.0.7_arm.json
+SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/NoYTPremium/noytpremium_1.0.7_arm.json
 
 Package: com.ps.yougroupsettings
 Name: YouGroupSettings
@@ -626,7 +626,7 @@ Author: PoomSmart <unicorn03.glimmer@icloud.com>
 Description: Allows tweak-made settings to be grouped and displayed in iOS YouTube app.
 Section: Tweaks
 Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/yougroupsettings.jpg
-SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/yougroupsettings/yougroupsettings_1.0.10-arm.json
+SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/YouGroupSettings/yougroupsettings_1.0.10-arm.json
 
 Package: com.ps.youmute
 Name: YouMute
@@ -641,7 +641,7 @@ Author: PoomSmart
 Description: Mutes/unmutes videos in YouTube directly.
 Section: Tweaks
 Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png
-SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/youmute/youmute_1.4.0_arm.json
+SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/YouMute/youmute_1.4.0_arm.json
 
 Package: com.ps.youpip
 Name: YouPiP
@@ -746,7 +746,7 @@ Author: PoomSmart
 Description: Removes Shorts from YouTube app's feed.
 Section: Tweaks
 Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png
-SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/ytunshorts/ytunshorts_1.3.1_arm.json
+SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/YTUnShorts/ytunshorts_1.3.1_arm.json
 
 Package: com.ps.ytvideooverlay
 Name: YTVideoOverlay
@@ -791,7 +791,7 @@ Author: PoomSmart
 Description: A YouTube improvement tweak.
 Section: Tweaks
 Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png
-SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/YoutubeX/YoutubeX_1.7.19_arm.json
+SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/YouTube X/YoutubeX_1.7.19_arm.json
 
 Package: com.w3ltyyy.lead
 Name: Lead
@@ -806,7 +806,7 @@ Author: w3ltyyy
 Description: The best Tweak For Telegram iOS
 Section: Tweaks
 Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png
-SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/com.w3ltyyy.lead/com.w3ltyyy.lead_1.4.3_iphoneos-arm.json
+SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/Lead/com.w3ltyyy.lead_1.4.3_iphoneos-arm.json
 
 Package: dev.water888.youmod
 Name: YouMod
