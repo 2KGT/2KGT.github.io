@@ -6,6 +6,19 @@
 
 | Tiêu đề | Nội dung |
 |---|---|
+| ⏱️ Time | 21/06/2026 20:36 |
+| 👤 Author | 2K |
+| 💬 Commit | Delete dylibs.json |
+| 📊 Overview | 7 file · 0 thư mục thay đổi |
+| 🛠️ Các thay đổi | ✨ Thêm (1)<br>`repo/dylibs.json`<br>✏️ Sửa (6)<br>`.commit_msg`<br>`repo/apps.json`<br>`repo/data/desc/dylibs/Lead/com.w3ltyyy.lead_1.3.3_iphoneos-arm.json`<br>`repo/data/desc/dylibs/Lead/com.w3ltyyy.lead_1.4.2_iphoneos-arm.json`<br>`repo/data/desc/dylibs/Lead/com.w3ltyyy.lead_1.4.3_iphoneos-arm.json`<br>`repo/sileo.json` |
+| ❓ Nguyên nhân | Được kích hoạt thủ công (workflow_dispatch) · Cập nhật cấu hình · Commit: Delete dylibs.json |
+| 🎯 Kết quả | ✅ Hoàn tất<br><br>📄 File (7): ✏️ Sửa 6, ✨ Thêm 1 |
+
+---
+
+
+| Tiêu đề | Nội dung |
+|---|---|
 | ⏱️ Time | 21/06/2026 20:19 |
 | 👤 Author | 2K |
 | 💬 Commit | Update dylib_engine.py |
