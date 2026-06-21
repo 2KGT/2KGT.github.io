@@ -1688,31 +1688,44 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 group.screenshots = raw.screenshots || raw.screenshotURLs || [];
             }}
 
-            const arch = raw.architecture || raw.Architecture || raw.arch || '';
-            const ver = raw.version || raw.Version || raw.ver || '1.0';
-            const dlUrl = raw.downloadURL || raw.dl || raw.url || raw.download || raw.downloadUrl || '';
+            // FIX: Một số nguồn dữ liệu (Feather/apps.json) đã gom sẵn toàn bộ
+            // lịch sử phiên bản vào field `versions[]` lồng bên trong mỗi app
+            // (mỗi bundle chỉ có 1 object `raw`, không phải 1 object/version
+            // như Sileo/Dylib). Nếu đọc thẳng raw.version (số ít) như cũ thì
+            // chỉ lấy được bản mới nhất — toàn bộ versions[] bị bỏ qua.
+            // -> Phát hiện trường hợp này và duyệt qua từng phần tử versions[],
+            //    kế thừa field cấp app rồi override bằng field cấp version.
+            const nestedVersions = Array.isArray(raw.versions) && raw.versions.length > 0
+                ? raw.versions.map(v => Object.assign({{}}, raw, v))
+                : [raw];
 
-            const exists = group.versions.find(v => v.version === ver && v.arch === arch && v.downloadURL === dlUrl);
-            if (!exists) {{
-                group.versions.push({{
-                    version: ver,
-                    arch: arch,
-                    size: raw.size || 0,
-                    downloadURL: dlUrl,
-                    filename: raw.filename || raw.name || '',
-                    date: raw.date || raw.releaseDate || raw.pubDate || '',
-                    note: raw.changelog || raw.releaseNotes || raw.whatsNew || raw['Whats New'] || '',
-                    section: raw.section || raw.Section || '',
-                    installedSize: raw.installedSize || raw['Installed-Size'] || raw.installed_size || '',
-                    compatibilityRaw: raw.compatibility || raw.Compatibility || raw.minVersion || '',
-                    depends: raw.depends || raw.Depends || '',
-                    devices: raw.devices || raw.supportedDevices || raw.Devices || '',
-                    minOS: raw.minOSVersion || raw.minIOSVersion || raw.minOS || '',
-                    maxOS: raw.maxOSVersion || raw.maxIOSVersion || raw.maxOS || '',
-                    jbVersion: raw.jailbreakVersion || raw.jbVersion || raw.minJailbreak || '',
-                    jbTool: raw.jailbreakTool || raw.jbTool || raw.tool || ''
-                }});
-            }}
+            nestedVersions.forEach(verRaw => {{
+                const arch = verRaw.architecture || verRaw.Architecture || verRaw.arch || '';
+                const ver = verRaw.version || verRaw.Version || verRaw.ver || '1.0';
+                const dlUrl = verRaw.downloadURL || verRaw.dl || verRaw.url || verRaw.download || verRaw.downloadUrl || '';
+
+                const exists = group.versions.find(v => v.version === ver && v.arch === arch && v.downloadURL === dlUrl);
+                if (!exists) {{
+                    group.versions.push({{
+                        version: ver,
+                        arch: arch,
+                        size: verRaw.size || 0,
+                        downloadURL: dlUrl,
+                        filename: verRaw.filename || verRaw.name || '',
+                        date: verRaw.date || verRaw.releaseDate || verRaw.pubDate || '',
+                        note: verRaw.changelog || verRaw.releaseNotes || verRaw.whatsNew || verRaw['Whats New'] || verRaw.localizedDescription || '',
+                        section: verRaw.section || verRaw.Section || '',
+                        installedSize: verRaw.installedSize || verRaw['Installed-Size'] || verRaw.installed_size || '',
+                        compatibilityRaw: verRaw.compatibility || verRaw.Compatibility || verRaw.minVersion || '',
+                        depends: verRaw.depends || verRaw.Depends || '',
+                        devices: verRaw.devices || verRaw.supportedDevices || verRaw.Devices || '',
+                        minOS: verRaw.minOSVersion || verRaw.minIOSVersion || verRaw.minOS || '',
+                        maxOS: verRaw.maxOSVersion || verRaw.maxIOSVersion || verRaw.maxOS || '',
+                        jbVersion: verRaw.jailbreakVersion || verRaw.jbVersion || verRaw.minJailbreak || '',
+                        jbTool: verRaw.jailbreakTool || verRaw.jbTool || verRaw.tool || ''
+                    }});
+                }}
+            }});
         }});
 
         const result = Array.from(map.values());
