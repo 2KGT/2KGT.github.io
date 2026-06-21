@@ -5,15 +5,14 @@ import json
 import logging
 import hashlib
 import re
-import time
 import datetime
-import inspect
 import config
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from . import utils
 from collections import defaultdict
+
 logger = logging.getLogger(__name__)
 
 
@@ -51,11 +50,11 @@ def parse_dylib_filename(filename):
     """
     name_no_ext = filename.rsplit('.', 1)[0]
     parts = name_no_ext.split('_')
-    
+
     id_or_name = parts[0] if len(parts) > 0 else name_no_ext
     ver = parts[1] if len(parts) > 1 else None
     arch = parts[2] if len(parts) > 2 else None
-    
+
     return id_or_name, ver, arch
 
 
@@ -68,11 +67,8 @@ def resolve_display_name(deb_match, fallback_id):
        hợp lệ và KHÔNG phải là bundle ID trá hình (Name == Package).
     2. Fallback: lấy đoạn cuối cùng của bundle ID/tên file dylib
        (com.w3ltyyy.lead → lead → Lead), viết hoa chữ cái đầu.
-
-    Không tự early-return name rỗng/None — luôn rơi xuống fallback.
     """
     def _looks_like_bundle_id(s):
-        # com.x.y kiểu domain ngược — nhiều dấu chấm + toàn chữ thường/số
         return bool(re.match(r'^[a-z0-9]+(\.[a-z0-9]+){2,}$', s.strip()))
 
     name = (deb_match or {}).get("Name", "")
@@ -92,147 +88,340 @@ def find_matching_deb_data(f_name, system_db):
     từ dữ liệu deb (sileo_engine) lưu trong system_db["tweaks"]
     """
     id_or_name, dylib_ver, dylib_arch = parse_dylib_filename(f_name)
-    
-    # Tìm kiếm các biến thể để tăng tỷ lệ khớp (Glow, com.kyic.glow)
+
     clean_dylib_id = clean_string_for_match(id_or_name)
     clean_dylib_base = clean_string_for_match(id_or_name.split('.')[-1])
-    
+
     best_match = None
     tweaks_dict = system_db.get("tweaks", {})
-    
+
     for key, deb_info in tweaks_dict.items():
         deb_pkg = deb_info.get("Package", "")
         deb_name = deb_info.get("Name", "")
         deb_ver = deb_info.get("Version", "")
         deb_arch = deb_info.get("Architecture", "")
-        
+
         clean_deb_pkg = clean_string_for_match(deb_pkg)
         clean_deb_pkg_base = clean_string_for_match(deb_pkg.split('.')[-1])
         clean_deb_name = clean_string_for_match(deb_name)
-        
-        # Kiểm tra khớp chéo đa điều kiện
-        if (clean_dylib_id == clean_deb_pkg or 
-            clean_dylib_base in [clean_deb_pkg_base, clean_deb_name]):
-            
-            # Ưu tiên số 1: Khớp hoàn hảo cả kiến trúc và phiên bản
+
+        if (clean_dylib_id == clean_deb_pkg or
+                clean_dylib_base in [clean_deb_pkg_base, clean_deb_name]):
+
             if dylib_ver == deb_ver and dylib_arch == deb_arch:
                 return deb_info
-            # Ưu tiên số 2: Khớp phiên bản
             if dylib_ver == deb_ver:
                 best_match = deb_info
-            # Ưu tiên số 3: Fallback lấy dữ liệu trùng tên gần nhất
             elif not best_match:
                 best_match = deb_info
-                
+
     return best_match
+
+
+def get_dylib_assets(dylib_name, deb_match):
+    """
+    FIX MỚI: Lấy đầy đủ asset (icon/banner/screenshots) cho dylib —
+    cùng tinh thần get_tweak_assets() của sileo_engine.py, vì dylib
+    sideload độc lập qua TrollFools/SideStore cần hiển thị đẹp trên
+    web giống Feather, không chỉ icon đơn thuần.
+
+    Thứ tự ưu tiên:
+    1. Control field khai báo trong deb_match (Icon/Banner/Screenshots)
+       nếu dylib đối chiếu khớp được với 1 gói .deb đã xử lý trước đó.
+    2. Quét thư mục local đã tải/upload sẵn:
+       repo/data/icons/<base>.*  và  repo/data/images/<dylib_name>/*
+    3. Asset mặc định của repo (SOURCE_LOGO / DEFAULT_BANNER / default screens).
+    """
+    exts = ['.png', '.jpg', '.jpeg', '.webp']
+    base_variant = clean_string_for_match(dylib_name) or "default"
+
+    def build_icon_url(file_name):
+        return f"{config.RAW_URL.rstrip('/')}/{config.ICON_DIR_NAME.strip('/')}/{file_name}"
+
+    def build_image_url(file_name):
+        return f"{config.RAW_URL.rstrip('/')}/{config.IMG_DIR_NAME.strip('/')}/{dylib_name}/{file_name}"
+
+    local_icons = os.listdir(config.ICON_DIR) if os.path.exists(config.ICON_DIR) else []
+    dylib_img_dir = config.get_dylib_images_dir(dylib_name)
+    local_images = os.listdir(dylib_img_dir) if os.path.exists(dylib_img_dir) else []
+
+    icon_url, banner_url, screens = None, None, []
+
+    if deb_match:
+        remote_icon = deb_match.get('Icon') or deb_match.get('icon')
+        if remote_icon and str(remote_icon).startswith("http"):
+            if utils.download_resource_to_local(remote_icon, os.path.join(config.ICON_DIR, f"{base_variant}.jpg")):
+                icon_url = build_icon_url(f"{base_variant}.jpg")
+
+        remote_banner = deb_match.get('Banner') or deb_match.get('banner')
+        if remote_banner and str(remote_banner).startswith("http"):
+            os.makedirs(dylib_img_dir, exist_ok=True)
+            if utils.download_resource_to_local(remote_banner, os.path.join(dylib_img_dir, f"{base_variant}_banner.jpg")):
+                banner_url = build_image_url(f"{base_variant}_banner.jpg")
+
+        raw_screens_data = (
+            deb_match.get('Screenshots') or deb_match.get('screenshots')
+            or deb_match.get('Screenshot') or deb_match.get('screenshot')
+        )
+        if raw_screens_data:
+            urls_list = []
+            if isinstance(raw_screens_data, list):
+                urls_list = raw_screens_data
+            elif isinstance(raw_screens_data, str):
+                if raw_screens_data.startswith('[') and raw_screens_data.endswith(']'):
+                    try:
+                        urls_list = json.loads(raw_screens_data)
+                    except Exception:
+                        urls_list = [u.strip() for u in raw_screens_data.strip('[]').split(',') if u]
+                else:
+                    urls_list = [u.strip() for u in raw_screens_data.split(',') if u]
+
+            os.makedirs(dylib_img_dir, exist_ok=True)
+            for idx, scr_url in enumerate(urls_list, start=1):
+                if str(scr_url).startswith("http"):
+                    if utils.download_resource_to_local(scr_url, os.path.join(dylib_img_dir, f"{base_variant}_{idx}.jpg")):
+                        screens.append(build_image_url(f"{base_variant}_{idx}.jpg"))
+
+    # ── Fallback: tìm trong thư mục local đã tải/upload sẵn ──
+    if not icon_url:
+        matched = next(
+            (f for f in local_icons
+             if clean_string_for_match(f.rsplit('.', 1)[0]) == base_variant
+             and any(f.lower().endswith(e) for e in exts)),
+            None
+        )
+        if matched:
+            icon_url = build_icon_url(matched)
+
+    if not banner_url:
+        matched = next(
+            (f for f in local_images
+             if clean_string_for_match(f.rsplit('.', 1)[0]) in [f"{base_variant}banner", f"{base_variant}_banner"]
+             and any(f.lower().endswith(e) for e in exts)),
+            None
+        )
+        if matched:
+            banner_url = build_image_url(matched)
+
+    if not screens:
+        for i in range(1, 16):
+            matched = next(
+                (f for f in local_images
+                 if clean_string_for_match(f.rsplit('.', 1)[0]) in [f"{base_variant}_{i}", f"{base_variant}{i}"]
+                 and any(f.lower().endswith(e) for e in exts)),
+                None
+            )
+            if matched:
+                screens.append(build_image_url(matched))
+
+    if not icon_url:
+        icon_url = config.SOURCE_LOGO
+    if not banner_url:
+        banner_url = config.DEFAULT_BANNER
+    if not screens:
+        screens = utils.get_default_screens()
+
+    return {
+        "icon": utils.clean_github_url(icon_url),
+        "banner": utils.clean_github_url(banner_url),
+        "screenshots": [utils.clean_github_url(s) for s in screens if s]
+    }
+
+
+def build_dylib_depiction_json(safe_filename, dylib_name, version, description, assets, author, bundle, architecture, extra):
+    """
+    FIX MỚI: Depiction JSON riêng từng version+arch cho dylib — KHÔNG
+    dùng format DepictionTabView của Sileo (dylib không qua APT/Sileo),
+    mà dùng cấu trúc key-value đơn giản giống phong cách Feather, để
+    dylib.html trên web tự đọc và hiển thị trực tiếp.
+
+    Cấu trúc: repo/data/desc/dylibs/<DylibName>/<safe_filename>.json
+    """
+    optimized_desc = config.get_optimized_dylib_description(dylib_name, version)
+    final_description = optimized_desc if optimized_desc else description
+    changelog_markdown = config.get_dylib_changelog_history(dylib_name, version)
+
+    target_folder, json_filename = config.get_dylib_depiction_path(dylib_name, safe_filename)
+    os.makedirs(target_folder, exist_ok=True)
+    file_path = os.path.join(target_folder, json_filename)
+
+    clean_desc = utils.smart_truncate_description(final_description, max_chars=1000)
+
+    depiction_data = {
+        "name": str(dylib_name),
+        "bundle": str(bundle),
+        "version": str(version),
+        "architecture": str(architecture),
+        "author": str(author),
+        "description": clean_desc,
+        "changelog": changelog_markdown,
+        "icon": assets["icon"],
+        "banner": assets["banner"],
+        "screenshots": assets["screenshots"],
+        "size": extra.get("size", 0),
+        "md5": extra.get("md5", ""),
+        "sha1": extra.get("sha1", ""),
+        "sha256": extra.get("sha256", ""),
+        "downloadURL": extra.get("downloadURL", ""),
+        "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat()
+    }
+
+    try:
+        with open(file_path, 'w', encoding='utf-8') as f:
+            json.dump(depiction_data, f, indent=2, ensure_ascii=False)
+    except Exception as e:
+        logger.error(f"❌ Lỗi ghi depiction JSON cho dylib {safe_filename}: {e}")
+        return None
+
+    # FIX: URL public trỏ tới file depiction vừa ghi — dùng cho field
+    # "depictionURL" trong dylibs.json để web fetch chi tiết từng bản.
+    rel = os.path.relpath(file_path, config.REPO_OUTPUT_DIR).replace("\\", "/")
+    return f"{config.BASE_URL.rstrip('/')}/{rel.lstrip('/')}"
 
 
 def run_dylib_engine(release_assets, system_db):
     """
-    🌟 PHÂN HỆ XỬ LÝ DYLIBS: 
-    Đối chiếu tên file .dylib -> Khớp lấy thông tin từ DEB -> Đổ qua utils nắn khung -> Xuất dữ liệu vào wiki và repo
+    🌟 PHÂN HỆ XỬ LÝ DYLIBS (kiến trúc Feather + nội dung kiểu Sileo):
+
+    - Quét .dylib cục bộ (repo/dylibs/).
+    - Đối chiếu với system_db["tweaks"] (do sileo_engine xử lý trước đó
+      trong main.py) để lấy Name/Author/Icon/Description đẹp — giống deb.
+    - Gom theo bundle để xuất "versions[]" như apps.json của Feather.
+    - Mỗi version+arch có file changelog .txt riêng + depiction .json
+      riêng tại repo/data/desc/dylibs/<Name>/ — không version nào đè
+      version khác.
     """
     logger.info("🚀 Khởi chạy phân hệ xử lý dữ liệu dylibs chuyên sâu...")
-    
+
     processed_dylibs_titles = []
-    wiki_dylibs_data = {}  # Lưu trữ dữ liệu thô chi tiết đầy đủ thuộc tính cho wikidylibs.json
-    dylibs_list_data = []  # Lưu dữ liệu danh mục rút gọn sau khi nắn khung cho dylibs.json
-    
-    # Xác định thư mục chứa file dylib thực tế từ config
+    wiki_dylibs_data = {}     # cache thô đầy đủ thuộc tính cho wikidylibs.json
+    dylibs_map = defaultdict(list)  # group theo bundle để dựng versions[]
+
     dylibs_input_dir = getattr(config, "DYLIBS_INPUT_DIR", os.path.join(config.REPO_OUTPUT_DIR, "dylibs"))
-    
+
     if not os.path.exists(dylibs_input_dir):
         logger.warning(f"⚠️ Không tìm thấy thư mục chứa dylibs tại: {dylibs_input_dir}")
         return processed_dylibs_titles
 
-    # Quét tất cả các file .dylib thực tế hiện có trong thư mục
     dylib_files = [f for f in sorted(os.listdir(dylibs_input_dir)) if f.endswith('.dylib') and not f.startswith('.')]
 
     for f_name in dylib_files:
         path = os.path.join(dylibs_input_dir, f_name)
+        safe_filename = f_name.rsplit('.', 1)[0]
         id_or_name, dylib_ver, dylib_arch = parse_dylib_filename(f_name)
-        
-        # 1. Khớp mật mã để lấy thông tin toàn vẹn từ cấu trúc DEB đã chạy trước đó
+
+        # 1. Đối chiếu để lấy thông tin đẹp từ DEB đã xử lý trước đó (nếu có)
         deb_match = find_matching_deb_data(f_name, system_db)
-        
-        # Tính toán dung lượng và mã hash của tệp dylib thực tế
+
         md5, sha1, sha256 = calculate_hashes_from_local(path)
         file_size = int(os.path.getsize(path))
         relative_path = os.path.relpath(path, config.REPO_OUTPUT_DIR).replace("\\", "/")
         download_url = f"{config.BASE_URL.rstrip('/')}/{relative_path.lstrip('/')}"
-        
-        # Định hình dữ liệu cơ sở dựa trên việc đối chiếu kết quả
-        # FIX: dùng resolve_display_name() để tên đẹp nhất quán với
-        # sileo_engine.py — tránh hiển thị bundle ID thô (com.w3ltyyy.lead)
-        # khi deb_match["Name"] vô tình trùng bundle ID, và viết hoa chữ
-        # đầu khi phải fallback về đoạn cuối id_or_name.
-        if deb_match:
-            name = resolve_display_name(deb_match, id_or_name)
-            bundle = deb_match.get("Package", id_or_name)
-            version = dylib_ver if dylib_ver else deb_match.get("Version", "1.0")
-            architecture = dylib_arch if dylib_arch else deb_match.get("Architecture", "iphoneos-arm64")
-            section = deb_match.get("Section", "Tweaks")
-            author = deb_match.get("Author", "Kyic Store")
-            description = deb_match.get("Description", "Tinh chỉnh cấu trúc dylib.")
-        else:
-            name = resolve_display_name(None, id_or_name)
-            bundle = id_or_name if '.' in id_or_name else f"com.kyic.{id_or_name.lower()}"
-            version = dylib_ver if dylib_ver else "1.0"
-            architecture = dylib_arch if dylib_arch else "iphoneos-arm64"
-            section = "Tweaks"
-            author = "Kyic Store"
-            description = "Tinh chỉnh dylib độc lập (Không có gói DEB đối chiếu)."
 
-        # Đồng bộ hóa Icon xử lý qua utils hoặc config
-        clean_base = clean_string_for_match(name)
-        icon_url = f"{config.RAW_URL.rstrip('/')}/{config.ICON_DIR_NAME.strip('/')}/{clean_base}.jpg"
-        icon_url = utils.clean_github_url(icon_url)
-        if not icon_url or "default" in icon_url:
-            icon_url = config.SOURCE_LOGO
+        # FIX: tên đẹp — ưu tiên Name từ deb_match, fallback đoạn cuối bundle ID
+        dylib_name = resolve_display_name(deb_match, id_or_name)
 
-        # 2. Lưu vào Cấu trúc wikidylibs_data (Đã sửa lỗi nạp thiếu dữ liệu)
+        version = dylib_ver if dylib_ver else (deb_match.get("Version") if deb_match else "1.0")
+        architecture = dylib_arch if dylib_arch else (deb_match.get("Architecture") if deb_match else "iphoneos-arm64")
+        bundle = deb_match.get("Package", id_or_name) if deb_match else (
+            id_or_name if '.' in id_or_name else f"com.kyic.{id_or_name.lower()}"
+        )
+        author = deb_match.get("Author", "Kyic Store") if deb_match else "Kyic Store"
+        section = deb_match.get("Section", "Tweaks") if deb_match else "Tweaks"
+        raw_description = deb_match.get("Description") if deb_match else None
+        if not raw_description:
+            raw_description = "Tinh chỉnh cấu trúc dylib." if deb_match else "Tinh chỉnh dylib độc lập (Không có gói DEB đối chiếu)."
+
+        logger.info(f"-> Đang quét Dylib: {dylib_name} [{architecture}/v{version}]")
+        processed_dylibs_titles.append(dylib_name)
+
+        # 2. FIX MỚI: Lưu changelog v{version}.txt riêng cho dylib — ưu
+        # tiên Description từ deb_match làm nội dung (nếu chưa có file
+        # sẵn từ trước), giống cơ chế release_note của sileo_engine.
+        dylib_desc_dir = os.path.join(config.DYLIB_DESC_DIR, dylib_name)
+        version_file = os.path.join(dylib_desc_dir, f"v{version}.txt")
+        if raw_description and len(str(raw_description).strip()) > 10 and not os.path.exists(version_file):
+            os.makedirs(dylib_desc_dir, exist_ok=True)
+            try:
+                with open(version_file, 'w', encoding='utf-8') as f:
+                    f.write(str(raw_description).strip())
+                logger.info(f"💾 Lưu changelog dylib: {version_file}")
+            except Exception as e:
+                logger.warning(f"⚠️ Không lưu changelog cho dylib {dylib_name} v{version}: {e}")
+
+        # 3. FIX MỚI: Đầy đủ asset (icon/banner/screenshots) — cần cho
+        # sideload qua TrollFools/SideStore hiển thị đẹp trên web.
+        assets = get_dylib_assets(dylib_name, deb_match)
+
+        # 4. FIX MỚI: Depiction JSON riêng từng version+arch
+        depiction_url = build_dylib_depiction_json(
+            safe_filename, dylib_name, version, raw_description, assets, author, bundle, architecture,
+            extra={"size": file_size, "md5": md5, "sha1": sha1, "sha256": sha256, "downloadURL": download_url}
+        )
+
+        # 5. Cache thô đầy đủ thuộc tính — giữ wikidylibs.json để tránh
+        # tính lại hash mỗi lần chạy (như cơ chế cache của feather/sileo)
         wiki_dylibs_data[download_url] = {
-            "Package": bundle,
-            "Name": name,
-            "Version": version,
-            "Architecture": architecture,
-            "Section": section,
-            "Author": author,
-            "Description": description,
-            "Icon": icon_url,
-            "Size": file_size,
-            "MD5": md5,
-            "SHA1": sha1,
-            "SHA256": sha256,
-            "Dylib_File": f_name
+            "Package": bundle, "Name": dylib_name, "Version": version,
+            "Architecture": architecture, "Section": section, "Author": author,
+            "Description": raw_description, "Icon": assets["icon"], "Banner": assets["banner"],
+            "Screenshots": assets["screenshots"], "Size": file_size,
+            "MD5": md5, "SHA1": sha1, "SHA256": sha256, "Dylib_File": f_name
         }
 
-        # 3. Đổ dữ liệu qua utils để nắn khung dọn dẹp chuỗi trước khi nạp vào dylibs.json
-        final_name = str(name)
-        final_version = str(version)
-        processed_dylibs_titles.append(final_name)
-
-        dylibs_list_data.append({
-            "name": final_name,
-            "bundle": bundle,
-            "version": final_version,
-            "architecture": architecture,
-            "section": section,
-            "author": author,
-            "icon": icon_url,
-            "size": file_size,
-            "downloadURL": download_url,
-            "md5": md5,
-            "sha256": sha256
+        dylibs_map[bundle].append({
+            "name": dylib_name, "ver": str(version), "bundle": bundle,
+            "architecture": architecture, "size": file_size,
+            "downloadURL": download_url, "md5": md5, "sha256": sha256,
+            "author": author, "icon": assets["icon"], "banner": assets["banner"],
+            "screenshots": assets["screenshots"], "depictionURL": depiction_url,
+            "safe_file": safe_filename,
+            "description": config.get_optimized_dylib_description(dylib_name, version)
         })
 
-    # Thời gian tạo bản dựng
+    # 6. FIX MỚI: Xuất dylibs.json theo cấu trúc giống apps.json của
+    # Feather — group theo bundle, mỗi entry có "versions[]" đầy đủ,
+    # nhưng nội dung (name/author/icon/description) lấy theo style sileo.
+    final_dylibs = []
+    for bundle, versions in dylibs_map.items():
+        unique_versions = sorted(versions, key=lambda v: utils.parse_version_tuple(v['ver']), reverse=True)
+        latest = unique_versions[0]
+
+        final_dylibs.append({
+            "name": latest['name'],
+            "bundleIdentifier": bundle,
+            "developerName": latest['author'],
+            "subtitle": "Dylib Sideload",
+            "localizedDescription": latest['description'],
+            "iconURL": latest['icon'],
+            "tintColor": config.TINT_COLOR,
+            "version": latest['ver'],
+            "architecture": latest['architecture'],
+            "size": latest['size'],
+            "downloadURL": latest['downloadURL'],
+            "depictionURL": latest['depictionURL'],
+            "versions": [
+                {
+                    "version": v['ver'],
+                    "architecture": v['architecture'],
+                    "size": v['size'],
+                    "downloadURL": v['downloadURL'],
+                    "depictionURL": v['depictionURL'],
+                    "localizedDescription": v['description']
+                }
+                for v in unique_versions
+            ],
+            "screenshotURLs": latest['screenshots'],
+            "bannerURL": latest['banner']
+        })
+
+    final_dylibs.sort(key=lambda x: x['name'].lower())
+
     gen_time = datetime.datetime.now(datetime.timezone.utc).isoformat()
 
-    # 4. FIX ĐƯỜNG DẪN: Xuất file wikidylibs.json ra thẳng thư mục WIKI thay vì REPO_OUTPUT_DIR
+    # 7. Xuất wikidylibs.json (cache thô) vào thư mục wiki
     wiki_dir_path = getattr(config, "WIKI_DIR", os.path.join(os.path.dirname(config.REPO_OUTPUT_DIR), "wiki"))
     os.makedirs(wiki_dir_path, exist_ok=True)
-    
     wiki_output_path = os.path.join(wiki_dir_path, 'wikidylibs.json')
     try:
         with open(wiki_output_path, 'w', encoding='utf-8') as f:
@@ -241,12 +430,14 @@ def run_dylib_engine(release_assets, system_db):
     except Exception as e:
         logger.error(f"❌ Lỗi ghi tệp wikidylibs.json vào wiki: {e}")
 
-    # 5. Kết xuất file cấu trúc dylibs.json ra thẳng root repo output
+    # 8. Xuất dylibs.json hoàn chỉnh ra repo root (nguồn cho dylib.html)
     dylibs_output_path = os.path.join(config.REPO_OUTPUT_DIR, 'dylibs.json')
     output_json = {
-        "dylibs": dylibs_list_data,
+        "name": config.REPO_NAME,
+        "identifier": config.SOURCE_IDENTIFIER,
+        "dylibs": final_dylibs,
         "generated_at": gen_time,
-        "total": len(dylibs_list_data)
+        "total": len(final_dylibs)
     }
     try:
         with open(dylibs_output_path, 'w', encoding='utf-8') as f:
