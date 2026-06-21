@@ -77,6 +77,71 @@ def _iso_to_epoch(value):
         return None
 
 
+# ──────────────────────────────────────────────────────────────────
+# FIX: config.py hiện chỉ có các thuộc tính/hàm dành riêng cho TWEAK
+# (vd: TWEAK_DESC_DIR) chứ chưa có bản tương đương cho DYLIB. Các hàm
+# dưới đây dùng getattr() để ƯU TIÊN định nghĩa thật trong config.py
+# nếu sau này bạn thêm vào (mirror theo TWEAK_*), nhưng vẫn có fallback
+# hợp lý ngay bây giờ để script không crash vì AttributeError.
+# ──────────────────────────────────────────────────────────────────
+
+def _dylib_desc_dir():
+    default = os.path.join(getattr(config, "REPO_OUTPUT_DIR", "."), "data", "desc", "dylibs")
+    return getattr(config, "DYLIB_DESC_DIR", default)
+
+
+def _resolve_dylib_images_dir(dylib_name):
+    fn = getattr(config, "get_dylib_images_dir", None)
+    if callable(fn):
+        return fn(dylib_name)
+    # FIX BUG: trước đây ráp REPO_OUTPUT_DIR (.../repo) + IMG_DIR_NAME
+    # (vốn đã có sẵn tiền tố "repo/...") gây trùng lặp thành
+    # ".../repo/repo/data/images/...". Dùng thẳng config.IMG_DIR (absolute
+    # path đã tính sẵn, đúng chuẩn) giống hệt get_tweak_images_dir().
+    img_dir = getattr(config, "IMG_DIR", os.path.join(getattr(config, "REPO_OUTPUT_DIR", "."), "data", "images"))
+    return os.path.join(img_dir, dylib_name)
+
+
+def _resolve_dylib_depiction_path(dylib_name, safe_filename):
+    fn = getattr(config, "get_dylib_depiction_path", None)
+    if callable(fn):
+        return fn(dylib_name, safe_filename)
+    target_folder = os.path.join(_dylib_desc_dir(), dylib_name)
+    return target_folder, f"{safe_filename}.json"
+
+
+def _resolve_optimized_dylib_description(dylib_name, version, fallback=None):
+    fn = getattr(config, "get_optimized_dylib_description", None)
+    if callable(fn):
+        try:
+            result = fn(dylib_name, version)
+            if result:
+                return result
+        except Exception as e:
+            logger.warning(f"⚠️ Lỗi gọi config.get_optimized_dylib_description: {e}")
+    return fallback
+
+
+def _resolve_dylib_changelog_history(dylib_name, version):
+    fn = getattr(config, "get_dylib_changelog_history", None)
+    if callable(fn):
+        try:
+            result = fn(dylib_name, version)
+            if result:
+                return result
+        except Exception as e:
+            logger.warning(f"⚠️ Lỗi gọi config.get_dylib_changelog_history: {e}")
+    # Fallback: đọc trực tiếp file changelog .txt đã lưu sẵn cho version này
+    try:
+        path = os.path.join(_dylib_desc_dir(), dylib_name, f"v{version}.txt")
+        if os.path.exists(path):
+            with open(path, 'r', encoding='utf-8') as f:
+                return f.read().strip()
+    except Exception:
+        pass
+    return ""
+
+
 def calculate_hashes_from_local(path):
     """Tính hash chuẩn cho file .dylib cục bộ (streaming tránh tràn RAM)"""
     md5 = hashlib.md5()
@@ -197,7 +262,7 @@ def get_dylib_assets(dylib_name, deb_match):
         return f"{config.RAW_URL.rstrip('/')}/{config.IMG_DIR_NAME.strip('/')}/{dylib_name}/{file_name}"
 
     local_icons = os.listdir(config.ICON_DIR) if os.path.exists(config.ICON_DIR) else []
-    dylib_img_dir = config.get_dylib_images_dir(dylib_name)
+    dylib_img_dir = _resolve_dylib_images_dir(dylib_name)
     local_images = os.listdir(dylib_img_dir) if os.path.exists(dylib_img_dir) else []
 
     icon_url, banner_url, screens = None, None, []
@@ -292,11 +357,11 @@ def build_dylib_depiction_json(safe_filename, dylib_name, version, description, 
 
     Cấu trúc: repo/data/desc/dylibs/<DylibName>/<safe_filename>.json
     """
-    optimized_desc = config.get_optimized_dylib_description(dylib_name, version)
+    optimized_desc = _resolve_optimized_dylib_description(dylib_name, version, fallback=description)
     final_description = optimized_desc if optimized_desc else description
-    changelog_markdown = config.get_dylib_changelog_history(dylib_name, version)
+    changelog_markdown = _resolve_dylib_changelog_history(dylib_name, version)
 
-    target_folder, json_filename = config.get_dylib_depiction_path(dylib_name, safe_filename)
+    target_folder, json_filename = _resolve_dylib_depiction_path(dylib_name, safe_filename)
     os.makedirs(target_folder, exist_ok=True)
     file_path = os.path.join(target_folder, json_filename)
 
@@ -433,7 +498,7 @@ def run_dylib_engine(release_assets, system_db):
         # 2. FIX MỚI: Lưu changelog v{version}.txt riêng cho dylib — ưu
         # tiên Description từ deb_match làm nội dung (nếu chưa có file
         # sẵn từ trước), giống cơ chế release_note của sileo_engine.
-        dylib_desc_dir = os.path.join(config.DYLIB_DESC_DIR, dylib_name)
+        dylib_desc_dir = os.path.join(_dylib_desc_dir(), dylib_name)
         version_file = os.path.join(dylib_desc_dir, f"v{version}.txt")
         if raw_description and len(str(raw_description).strip()) > 10 and not os.path.exists(version_file):
             os.makedirs(dylib_desc_dir, exist_ok=True)
@@ -474,7 +539,7 @@ def run_dylib_engine(release_assets, system_db):
             "author": author, "icon": assets["icon"], "banner": assets["banner"],
             "screenshots": assets["screenshots"], "depictionURL": depiction_url,
             "safe_file": safe_filename,
-            "description": config.get_optimized_dylib_description(dylib_name, version)
+            "description": _resolve_optimized_dylib_description(dylib_name, version, fallback=raw_description)
         })
 
     # 6. FIX MỚI: Xuất dylibs.json theo ĐÚNG cấu trúc apps.json chuẩn
