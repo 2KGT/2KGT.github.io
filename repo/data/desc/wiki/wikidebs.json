@@ -1883,6 +1883,17 @@
       "Depiction": "https://poomsmart.github.io/repo/depictions/ytvideooverlay.html",
       "SileoDepiction": "https://poomsmart.github.io/repo/sileodepictions/ytvideooverlay.json",
       "Installed-Size": "128"
+    },
+    "https://github.com/2KGT/2KGT.github.io/releases/download/v1.4.3/com.w3ltyyy.lead_1.4.3_iphoneos-arm.deb": {
+      "Package": "com.w3ltyyy.lead",
+      "Name": "Lead",
+      "Version": "1.4.3",
+      "Description": "The best Tweak For Telegram iOS",
+      "Author": "w3ltyyy",
+      "Section": "Tweaks",
+      "Architecture": "iphoneos-arm",
+      "Maintainer": "w3ltyyy",
+      "Installed-Size": "25176"
     }
   }
 }

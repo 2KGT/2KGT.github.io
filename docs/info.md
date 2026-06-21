@@ -1,5 +1,7 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 21/06/2026 14:55:14 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 21/06/2026 15:25:39 (Giờ Hà Nội)*
+
+📝 *Thay đổi thư mục so với lần quét trước: ✨ +1 thư mục mới* — xem chi tiết tại `docs/CHANGELOG.md`
 
 ```text
 🗺️ Root/
@@ -137,6 +139,9 @@
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
     │   │   │   ├── 📂 ccappicon/
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
+    │   │   │   ├── 📂 com.w3ltyyy.lead/
+    │   │   │   │   ├── v1.4.3.txt
+    │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │   │   │   ├── 📂 fastlock/
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 9 file ]
     │   │   │   ├── 📂 flow/

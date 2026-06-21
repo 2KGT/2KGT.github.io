@@ -533,12 +533,12 @@
     {
       "name": "Lead",
       "bundle": "com.w3ltyyy.lead",
-      "version": "1.4.2",
+      "version": "1.4.3",
       "section": "Tweaks",
       "author": "w3ltyyy",
       "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
-      "size": 4163898,
-      "downloadURL": "debs/Lead/com.w3ltyyy.lead_1.4.2_iphoneos-arm.deb"
+      "size": 4175424,
+      "downloadURL": "https://github.com/2KGT/2KGT.github.io/releases/download/v1.4.3/com.w3ltyyy.lead_1.4.3_iphoneos-arm.deb"
     },
     {
       "name": "YouMod",
@@ -581,5 +581,5 @@
       "downloadURL": "debs/yt-native-share/me.jkhsjdhjs.youtube-native-share_0.2.7_iphoneos-arm64e.deb"
     }
   ],
-  "generated_at": "2026-06-21T07:55:05.257681+00:00"
+  "generated_at": "2026-06-21T08:25:30.663950+00:00"
 }

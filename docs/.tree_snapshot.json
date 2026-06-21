@@ -41,6 +41,7 @@
     "repo/data/desc/tweaks/YoutubeX",
     "repo/data/desc/tweaks/cc18",
     "repo/data/desc/tweaks/ccappicon",
+    "repo/data/desc/tweaks/com.w3ltyyy.lead",
     "repo/data/desc/tweaks/fastlock",
     "repo/data/desc/tweaks/flow",
     "repo/data/desc/tweaks/glow",
@@ -443,6 +444,10 @@
       "com.choco.tgextra_227_1.7.6_iphoneos-arm.json",
       "com.choco.tgextra_227_1.7.6_iphoneos-arm64.json",
       "com.choco.tgextra_227_1.7.6_iphoneos-arm64e.json"
+    ],
+    "repo/data/desc/tweaks/com.w3ltyyy.lead": [
+      "com.w3ltyyy.lead_1.4.3_iphoneos-arm.json",
+      "v1.4.3.txt"
     ],
     "repo/data/desc/tweaks/ytvideooverlay": [
       "com.ps.ytvideooverlay_2.3.6_iphoneos-arm.json",

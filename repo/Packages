@@ -795,18 +795,18 @@ SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/YoutubeX/YoutubeX_1
 
 Package: com.w3ltyyy.lead
 Name: Lead
-Version: 1.4.2
+Version: 1.4.3
 Architecture: iphoneos-arm
-Filename: debs/Lead/com.w3ltyyy.lead_1.4.2_iphoneos-arm.deb
-Size: 4163898
-MD5sum: 8e87d9730a4d64ed22036c551f1b88b8
-SHA1: b3e4ad3701c4936aa0ea883692377ad7df568504
-SHA256: befc1402dc51994d594f5940289723f38906ff58c8b397da0f8f8ded782dc8e5
+Filename: https://github.com/2KGT/2KGT.github.io/releases/download/v1.4.3/com.w3ltyyy.lead_1.4.3_iphoneos-arm.deb
+Size: 4175424
+MD5sum: 2f55cf399a256baf2d8fb32d8251772a
+SHA1: f2c96f2ecbc03f3b42cfb5f67a5c838d0da72996
+SHA256: 1e85d25832f1339d526738a8f94e0d4cfe839da651c9ac076399c5b8433d6c88
 Author: w3ltyyy
 Description: The best Tweak For Telegram iOS
 Section: Tweaks
 Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png
-SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/Lead/com.w3ltyyy.lead_1.4.2_iphoneos-arm.json
+SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/com.w3ltyyy.lead/com.w3ltyyy.lead_1.4.3_iphoneos-arm.json
 
 Package: dev.water888.youmod
 Name: YouMod
