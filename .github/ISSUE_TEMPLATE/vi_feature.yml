@@ -1,0 +1,52 @@
+name: "🦎 Đề xuất"
+description: "Sử dụng mẫu này để gợi ý các cải tiến mới hoặc yêu cầu thêm tweak/app vào repo."
+title: "[FR]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Ý tưởng của bạn là động lực để phát triển dự án! Hãy mô tả chi tiết mong muốn của bạn dưới đây.
+
+  - type: dropdown
+    id: target-project
+    attributes:
+      label: "🎯 Đề xuất áp dụng cho"
+      description: "Chọn dự án hoặc mục mà bạn muốn bổ sung tính năng/tweak này."
+      options:
+        - "Ứng dụng Feather (Sideload)"
+        - "Hệ thống Repo Sileo"
+        - "Cập nhật / Thêm Tweak mới vào nguồn"
+        - "Khác"
+    validations:
+      required: true
+
+  - type: textarea
+    id: feature-reason
+    attributes:
+      label: "🤔 Tính năng này giải quyết vấn đề gì?"
+      description: "Tại sao tính năng này lại cần thiết? Nó giúp ích gì cho trải nghiệm người dùng hiện tại?"
+      placeholder: "Hiện tại hệ thống đang thiếu..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: feature-details
+    attributes:
+      label: "🚀 Mô tả chi tiết tính năng mong muốn"
+      description: "Giải thích rõ cách thức hoạt động của tính năng này theo ý tưởng của bạn."
+      placeholder: "Tôi mong muốn có thêm một nút bấm cho phép..."
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: "🚨 Cam kết quy định"
+      options:
+        - label: "Tôi xác nhận ý tưởng này là thực tế và mang lại giá trị chung cho cộng đồng."
+          required: true
+        - label: "Tôi đã kiểm tra kỹ xem có ai từng đề xuất ý tưởng tương tự chưa."
+          required: true
+        - label: "Tôi xác nhận các thông tin trên được viết rõ ràng và nghiêm túc."
+          required: true

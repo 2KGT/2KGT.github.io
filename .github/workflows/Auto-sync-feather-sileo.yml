@@ -1,0 +1,108 @@
+name: "Auto sync feather sileo"
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'repo/apps/**'
+      - 'repo/debs/**'
+      - 'repo/depictions/**'
+      - '.github/scripts/**'
+  release:
+    types: [published, created, edited]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: "📥 Checkout Repository"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "🐍 Setup Python"
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: "📦 Cache Python dependencies"
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          # FIX: Dùng key cố định vì đã bỏ requests, không còn requirements.txt
+          key: ${{ runner.os }}-pip-stdlib-v1
+
+      - name: "🗂️ Sẵn sàng khởi tạo thư mục"
+        run: |
+          # FIX: Bỏ pip install requests — đã thay bằng urllib thuần trong tất cả script
+          # Chỉ tạo thư mục cần thiết; repo/apps/desc tự tạo bởi config.py khi chạy
+          mkdir -p \
+            repo/apps \
+            repo/debs \
+            repo/depictions/icons \
+            repo/depictions/images \
+            repo/depictions/metadata \
+            repo/depictions/default
+
+      - name: "🚀 Khởi chạy tự động hóa (Core Engine)"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          PYTHONUNBUFFERED: "1"
+          PYTHONPATH: "${{ github.workspace }}/.github/scripts"
+        run: |
+          python3 .github/scripts/main.py
+
+      - name: Generate All Views Web html
+        run: |
+          cd .github/scripts
+          python views.py
+        continue-on-error: true  # Không fail nếu dylib empty
+
+      - name: "📊 Sinh cây thư mục & Changelog"
+        run: |
+          mkdir -p docs
+          python3 .github/scripts/logs.py
+        continue-on-error: true  # Không fail toàn bộ job nếu bước log gặp lỗi
+
+      - name: "📤 Commit và Push dữ liệu mới"
+        run: |
+          set -e
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          # 1. Add tất cả thay đổi TRƯỚC, để working tree sạch trước khi pull
+          git add -A
+
+          # 2. Thoát sớm nếu không có thay đổi
+          if git diff --cached --quiet; then
+            echo "✅ Không có thay đổi dữ liệu nào để commit."
+            exit 0
+          fi
+
+          # 3. Commit thay đổi local thành 1 commit duy nhất
+          COMMIT_MSG="🔄 Tối ưu hóa hệ thống & Đồng bộ kho lưu trữ định kỳ [skip ci]"
+          if [ -f ".commit_msg" ]; then
+            COMMIT_MSG="$(cat .commit_msg) [skip ci]"
+          fi
+          git commit -m "$COMMIT_MSG"
+
+          # 4. Đồng bộ với remote bằng REBASE. Vì repo/apps.json, repo/dylibs.json,
+          #    repo/sileo.json... đều được main.py SINH LẠI HOÀN TOÀN mỗi lần chạy
+          #    (không phải patch tăng dần), nếu có conflict thì bản của lần chạy
+          #    HIỆN TẠI luôn đầy đủ và mới hơn nên được ưu tiên giữ lại.
+          #    Lưu ý: trong git rebase, "ours" = nhánh remote đang replay lên,
+          #    "theirs" = commit local của ta -> phải dùng -X theirs để local thắng.
+          git pull --rebase -X theirs origin main
+
+          # 5. Push lên
+          git push origin HEAD:main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

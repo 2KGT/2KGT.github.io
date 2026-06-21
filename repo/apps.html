@@ -1,0 +1,2436 @@
+<!DOCTYPE html>
+<html lang="vi" data-lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#0f0f1e">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Apps - Kyic Premium Store</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        /* ─────────────────────────── PHẢN HỒI NHẤN TOÀN HỆ THỐNG ───────────────────────────
+           Áp dụng nhất quán cho mọi nút/phần tử có thể nhấn: thu nhỏ nhẹ + tối hơn một chút
+           khi nhấn giữ, nhả ra phục hồi mượt. Các class có hiệu ứng đặc thù riêng (transform
+           khác, scale khác) khai báo sau trong file sẽ tự override nhờ thứ tự CSS. */
+        .icon-btn, .tab-btn, .search-clear, .item, .item-action, .page-btn,
+        .screenshot, .lightbox-close, .lightbox-nav, .detail-section-header,
+        .version-item, .action-btn, .action-btn-icon, .modal-close,
+        .settings-close, .settings-item, .pill-btn, .action-btn-version,
+        .version-picker-item, .confirm-btn {
+            transition: transform 0.12s cubic-bezier(0.4, 0, 0.2, 1),
+                        filter 0.12s cubic-bezier(0.4, 0, 0.2, 1),
+                        background 0.2s ease, opacity 0.2s ease;
+        }
+
+        .icon-btn:active, .tab-btn:active, .search-clear:active, .item:active,
+        .item-action:active, .page-btn:active, .screenshot:active,
+        .lightbox-close:active, .lightbox-nav:active, .detail-section-header:active,
+        .version-item:active, .action-btn:active, .action-btn-icon:active,
+        .modal-close:active, .settings-close:active, .settings-item:active,
+        .pill-btn:active, .action-btn-version:active, .version-picker-item:active,
+        .confirm-btn:active {
+            transform: scale(0.95);
+            filter: brightness(0.92);
+        }
+
+        :root {
+            --bg: #0f0f1e;
+            --card: #1a1a2e;
+            --text: #ffffff;
+            --text-secondary: #8e8e93;
+            --tint: #848ef9;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        /* ─────────────────────────── DARK MODE (DEFAULT) ─────────────────────────── */
+        html {
+            color-scheme: dark;
+            background: #0f0f1e;
+            height: 100%;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI", sans-serif;
+            background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #0f0f1e 100%);
+            color: var(--text);
+            min-height: 100%;
+            min-height: 100dvh;
+            overflow-x: hidden;
+            padding-bottom: env(safe-area-inset-bottom, 0);
+            padding-left: env(safe-area-inset-left, 0);
+            padding-right: env(safe-area-inset-right, 0);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ─────────────────────────── LIGHT MODE ─────────────────────────── */
+        html[data-theme="light"] {
+            --bg: #f5f5f7;
+            --card: #ffffff;
+            --text: #000000;
+            --text-secondary: #86868b;
+            --border: rgba(0, 0, 0, 0.08);
+            color-scheme: light;
+            background: #f5f5f7;
+        }
+
+        html[data-theme="light"] body {
+            background: linear-gradient(135deg, #f5f5f7 0%, #ffffff 50%, #f0f0f2 100%);
+        }
+
+        /* ─────────────────────────── NAV SHELL (HEADER) ─────────────────────────── */
+        .nav-shell {
+            position: fixed;
+            top: calc(env(safe-area-inset-top, 0px) + 10px);
+            left: 0;
+            right: 0;
+            z-index: 50;
+            margin: 0 auto;
+            max-width: 500px;
+            width: calc(100% - 20px);
+            padding: 0;
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            background: rgba(28, 28, 46, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 26px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease;
+            will-change: transform;
+            transform: translateZ(0);
+        }
+
+        .nav-shell.nav-hidden {
+            transform: translateY(-130%) translateZ(0);
+            opacity: 0;
+        }
+
+        html[data-theme="light"] .nav-shell {
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        }
+
+        .nav-inner {
+            margin: 0 auto;
+            padding: 0 8px 6px;
+        }
+
+        .header-row {
+            display: grid;
+            grid-template-columns: 36px 1fr 36px;
+            align-items: center;
+            height: 50px;
+            padding: 0 6px;
+        }
+
+        .nav-repo-name {
+            text-align: center;
+            font-weight: 800;
+            font-size: 1.18em;
+            line-height: 1.2;
+            letter-spacing: 0.2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            background: linear-gradient(90deg, var(--tint), #b39cff 55%, #ff9cd9);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: var(--tint);
+            text-shadow: 0 1px 18px rgba(132, 142, 249, 0.35);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .icon-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border);
+            color: var(--text);
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1em;
+            transition: all 0.2s;
+        }
+
+        html[data-theme="light"] .icon-btn {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .icon-btn:active {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(0.93);
+        }
+
+        html[data-theme="light"] .icon-btn:active {
+            background: rgba(0, 0, 0, 0.12);
+        }
+
+        /* ─────────────────────────── TABS ─────────────────────────── */
+        .tabs-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            padding: 0 4px 10px;
+        }
+
+        .nav-inner .search-box {
+            margin: 0 4px 12px;
+        }
+
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 10px 6px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.86em;
+            transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                        color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                        border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                        transform 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+                        box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+            will-change: transform;
+        }
+
+        html[data-theme="light"] .tab-btn {
+            background: rgba(0, 0, 0, 0.03);
+        }
+
+        .tab-btn.active {
+            background: rgba(132, 142, 249, 0.2);
+            color: var(--text);
+            border-color: var(--tint);
+            box-shadow: 0 4px 14px rgba(132, 142, 249, 0.25);
+            transform: scale(1.02);
+        }
+
+        html[data-theme="light"] .tab-btn.active {
+            background: rgba(132, 142, 249, 0.15);
+        }
+
+        .tab-btn:active {
+            transform: scale(0.95);
+            transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ─────────────────────────── CONTAINER ─────────────────────────── */
+        .container {
+            max-width: 500px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 16px 16px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Khoảng đệm cố định để item đầu list không bị nav-shell (fixed) che */
+        .nav-spacer {
+            height: calc(178px + env(safe-area-inset-top, 0px));
+            margin-bottom: 12px;
+            flex-shrink: 0;
+        }
+
+        /* ─────────────────────────── SEARCH ─────────────────────────── */
+        .search-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        html[data-theme="light"] .search-box {
+            background: rgba(0, 0, 0, 0.04);
+        }
+
+        .search-box input {
+            background: transparent;
+            border: none;
+            color: var(--text);
+            width: 100%;
+            outline: none;
+            font-size: 1em;
+        }
+
+        .search-box input::placeholder { color: var(--text-secondary); }
+
+        .search-clear {
+            background: rgba(255, 255, 255, 0.12);
+            border: none;
+            color: var(--text-secondary);
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            cursor: pointer;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.72em;
+            line-height: 1;
+            transition: all 0.15s;
+        }
+
+        html[data-theme="light"] .search-clear {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .search-clear:active {
+            background: rgba(255, 255, 255, 0.22);
+            transform: scale(0.9);
+        }
+
+        html[data-theme="light"] .search-clear:active {
+            background: rgba(0, 0, 0, 0.18);
+        }
+
+        /* ─────────────────────────── LIST ─────────────────────────── */
+        .list { display: flex; flex-direction: column; gap: 12px; min-height: 200px; flex-shrink: 0; }
+
+        .item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+            animation: itemDropIn 0.36s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+            animation-delay: calc(var(--item-i, 0) * 35ms);
+        }
+
+        @keyframes itemDropIn {
+            from { opacity: 0; transform: translateY(10px) scale(0.97); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        html[data-theme="light"] .item {
+            background: rgba(0, 0, 0, 0.04);
+        }
+
+        .item:active { background: rgba(255, 255, 255, 0.1); transform: scale(0.99); }
+
+        .item-icon {
+            width: 56px; height: 56px; border-radius: 12px;
+            object-fit: cover; flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .item-info { flex: 1; min-width: 0; }
+
+        .item-name {
+            font-weight: 600; font-size: 1em; margin-bottom: 4px;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+
+        .item-id {
+            font-size: 0.85em; color: var(--text-secondary);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+
+        .item-version { font-size: 0.8em; color: var(--text-secondary); margin-top: 2px; }
+
+        .item-action {
+            background: var(--tint); color: white; border: none;
+            padding: 9px 20px; border-radius: 20px; font-weight: 600;
+            cursor: pointer; font-size: 0.9em; white-space: nowrap;
+            transition: all 0.2s; flex-shrink: 0;
+        }
+
+        .item-action:active { transform: scale(0.93); opacity: 0.85; }
+
+        .item-action.loading { opacity: 0.6; pointer-events: none; }
+
+        /* ─────────────────────────── PAGINATION ─────────────────────────── */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            padding-top: 6px;
+            flex-shrink: 0;
+        }
+
+        .page-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--text);
+            min-width: 38px;
+            height: 38px;
+            padding: 0 6px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+        }
+
+        html[data-theme="light"] .page-btn {
+            background: rgba(0, 0, 0, 0.04);
+        }
+
+        .page-btn.active {
+            background: rgba(132, 142, 249, 0.25);
+            border-color: var(--tint);
+        }
+
+        .page-btn:disabled {
+            opacity: 0.35;
+            pointer-events: none;
+        }
+
+        .page-btn:active { transform: scale(0.92); }
+
+        .page-info {
+            width: 100%;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.8em;
+            margin-top: 8px;
+        }
+
+        /* ─────────────────────────── FOOTER ─────────────────────────── */
+        .repo-footer {
+            text-align: center;
+            margin-top: auto;
+            padding: 28px 12px 0;
+            flex-shrink: 0;
+        }
+
+        .repo-footer p {
+            color: var(--text-secondary);
+            font-size: 0.8em;
+            line-height: 1.6;
+            max-width: 380px;
+            margin: 0 auto;
+        }
+
+        .repo-footer-divider {
+            margin: 14px auto;
+            font-size: 0.85em;
+            letter-spacing: 1px;
+            color: var(--tint);
+            opacity: 0.55;
+        }
+
+        .repo-footer-credit {
+            font-weight: 600;
+            font-size: 0.82em !important;
+            color: var(--text-secondary);
+            opacity: 0.8;
+        }
+
+        /* ─────────────────────────── MODAL ─────────────────────────── */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            padding: 0;
+            will-change: opacity;
+        }
+
+        .modal.active { display: flex; align-items: flex-end; }
+
+        .modal-content {
+            position: relative;
+            background: linear-gradient(135deg, #1a1a2e, #252540);
+            border: 1px solid var(--border);
+            border-radius: 24px 24px 0 0;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            max-height: 88vh;
+            display: flex;
+            flex-direction: column;
+            animation: slideUp 0.25s ease;
+            overflow: hidden;
+            will-change: transform;
+        }
+
+        html[data-theme="light"] .modal-content {
+            background: linear-gradient(135deg, #ffffff, #f9f9fb);
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        /* Header CỐ ĐỊNH — không cuộn theo nội dung */
+        .modal-fixed-header {
+            position: sticky;
+            top: 0;
+            z-index: 5;
+            background: linear-gradient(135deg, #1a1a2e, #252540);
+            padding: 18px 20px 14px;
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        html[data-theme="light"] .modal-fixed-header {
+            background: linear-gradient(135deg, #ffffff, #f9f9fb);
+        }
+
+        .modal-scroll-body {
+            overflow-y: auto;
+            overscroll-behavior: contain;
+            padding: 18px 20px 20px;
+            flex: 1;
+        }
+
+        .modal-header {
+            display: flex; gap: 16px;
+            align-items: flex-start; padding-right: 40px;
+        }
+
+        .modal-icon { width: 76px; height: 76px; border-radius: 18px; object-fit: cover; flex-shrink: 0; }
+
+        .modal-title-block { flex: 1; min-width: 0; }
+
+        .modal-name {
+            font-size: 1.3em; font-weight: 700; margin-bottom: 4px;
+            overflow-wrap: break-word;
+        }
+
+        .modal-id { color: var(--text-secondary); font-size: 0.88em; margin-bottom: 6px; word-break: break-all; }
+
+        .modal-version { color: var(--tint); font-size: 0.95em; font-weight: 600; }
+
+        /* X giờ neo theo modal-fixed-header (luôn đứng yên) */
+        .modal-close {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid var(--border);
+            width: 34px; height: 34px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3em; color: var(--text);
+            z-index: 6;
+        }
+
+        html[data-theme="light"] .modal-close {
+            background: rgba(0, 0, 0, 0.08);
+        }
+
+        .modal-close:active { background: rgba(255, 255, 255, 0.25); }
+
+        /* ─────────────────────────── SCREENSHOTS ─────────────────────────── */
+        .screenshots { display: flex; gap: 10px; overflow-x: auto; margin-bottom: 4px; padding-bottom: 6px; scroll-snap-type: x proximity; }
+
+        .screenshot {
+            width: 140px; height: 248px; border-radius: 14px; object-fit: cover;
+            flex-shrink: 0; border: 1px solid var(--border);
+            cursor: pointer; transition: transform 0.15s;
+            scroll-snap-align: start;
+        }
+
+        .screenshot:active { transform: scale(0.96); }
+
+        /* LIGHTBOX */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.92);
+            z-index: 300;
+            align-items: center;
+            justify-content: center;
+            touch-action: pan-y;
+        }
+
+        .lightbox.active { display: flex; }
+
+        .lightbox-img {
+            max-width: 92vw;
+            max-height: 80vh;
+            border-radius: 14px;
+            object-fit: contain;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        .lightbox-close {
+            position: absolute; top: 18px; right: 18px;
+            width: 40px; height: 40px; border-radius: 12px;
+            background: rgba(255,255,255,0.12); border: 1px solid var(--border);
+            color: var(--text); font-size: 1.3em;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+        }
+
+        .lightbox-nav {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            width: 44px; height: 44px; border-radius: 50%;
+            background: rgba(255,255,255,0.12); border: 1px solid var(--border);
+            color: var(--text); font-size: 1.3em;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+        }
+
+        .lightbox-prev { left: 14px; }
+        .lightbox-next { right: 14px; }
+
+        .lightbox-counter {
+            position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);
+            color: var(--text-secondary); font-size: 0.85em;
+            background: rgba(255,255,255,0.08); padding: 5px 12px; border-radius: 20px;
+        }
+
+        /* ─────────────────────────── ACCORDION SECTIONS ─────────────────────────── */
+        .detail-section {
+            margin-top: 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        html[data-theme="light"] .detail-section {
+            background: rgba(0, 0, 0, 0.03);
+        }
+
+        .detail-section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 13px 14px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .detail-section-title {
+            font-weight: 600; color: var(--text); font-size: 0.92em;
+            display: flex; align-items: center; gap: 8px;
+        }
+
+        .detail-section-toggle {
+            font-size: 0.85em;
+            color: var(--text-secondary);
+            width: 26px; height: 26px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.06);
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            transition: transform 0.2s;
+        }
+
+        html[data-theme="light"] .detail-section-toggle {
+            background: rgba(0, 0, 0, 0.06);
+        }
+
+        .detail-section-body {
+            display: grid;
+            grid-template-rows: 0fr;
+            overflow: hidden;
+            transition: grid-template-rows 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 0 14px;
+        }
+
+        .detail-section-body > * {
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        .detail-section.open .detail-section-body {
+            grid-template-rows: 1fr;
+            padding: 0 14px 14px;
+        }
+
+        .detail-section.open .detail-section-toggle { transform: rotate(180deg); }
+
+        .detail-section-content { color: var(--text); font-size: 0.93em; line-height: 1.55; }
+
+        /* Version list bên trong accordion */
+        .version-history {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px; padding: 4px;
+        }
+
+        html[data-theme="light"] .version-history {
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .version-item {
+            padding: 11px 12px;
+            border: 1.5px solid transparent;
+            border-radius: 10px;
+            margin-bottom: 4px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .version-item:active { background: rgba(255, 255, 255, 0.06); }
+
+        html[data-theme="light"] .version-item:active { background: rgba(0, 0, 0, 0.06); }
+
+        .version-item.selected {
+            border-color: var(--tint);
+            background: rgba(132, 142, 249, 0.12);
+        }
+
+        .version-item-left { flex: 1; min-width: 0; }
+
+        .version-num { font-weight: 600; color: var(--tint); }
+
+        .version-check {
+            font-size: 1.1em; color: var(--tint);
+            opacity: 0; transition: opacity 0.15s; flex-shrink: 0;
+        }
+
+        .version-item.selected .version-check { opacity: 1; }
+
+        .permissions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+        .permission-item {
+            background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border);
+            border-radius: 8px; padding: 10px; font-size: 0.85em; color: var(--text-secondary);
+        }
+
+        html[data-theme="light"] .permission-item {
+            background: rgba(0, 0, 0, 0.04);
+        }
+
+        /* Khối thông tin phiên bản đang chọn — luôn hiện, không thu gọn */
+        .info-box {
+            margin-top: 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 13px 14px;
+        }
+
+        html[data-theme="light"] .info-box {
+            background: rgba(0, 0, 0, 0.03);
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 12px;
+            padding: 5px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .info-row:last-child { border-bottom: none; padding-bottom: 0; }
+        .info-row:first-child { padding-top: 0; }
+
+        .info-row.info-row-wrap {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 3px;
+        }
+
+        .info-label {
+            font-weight: 600;
+            font-size: 0.85em;
+            color: var(--text-secondary);
+            flex-shrink: 0;
+        }
+
+        .info-value {
+            color: var(--text);
+            font-size: 0.9em;
+            text-align: right;
+            word-break: break-word;
+        }
+
+        .info-row-wrap .info-value {
+            text-align: left;
+            line-height: 1.5;
+        }
+
+        /* ─────────────────────────── ACTION BAR ─────────────────────────── */
+        .action-buttons {
+            display: flex; gap: 8px;
+            flex-shrink: 0;
+            padding: 12px 20px calc(14px + env(safe-area-inset-bottom, 0px));
+            border-top: 1px solid var(--border);
+            background: var(--card);
+        }
+
+        .action-btn {
+            flex: 1 1 auto;
+            min-width: 0;
+            background: var(--tint); color: white; border: none;
+            padding: 14px 12px; border-radius: 14px; font-weight: 700;
+            cursor: pointer; font-size: 1em; transition: all 0.15s;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+
+        .action-btn:active { transform: scale(0.97); opacity: 0.9; }
+
+        .action-btn.loading { opacity: 0.6; pointer-events: none; }
+
+        .action-btn-version {
+            flex: 0 0 auto;
+            max-width: 34%;
+            background: rgba(132, 142, 249, 0.16);
+            color: var(--tint); border: 1.5px solid var(--tint);
+            padding: 14px 12px; border-radius: 14px; font-weight: 700;
+            font-size: 0.92em; cursor: pointer; transition: all 0.15s;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+
+        .action-btn-version:active { transform: scale(0.97); opacity: 0.9; }
+
+        .action-btn-icon {
+            width: 50px; flex: 0 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text); border: 1px solid var(--border);
+            border-radius: 14px; font-size: 1.2em; cursor: pointer;
+        }
+
+        html[data-theme="light"] .action-btn-icon {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .action-btn-icon:active { background: rgba(255, 255, 255, 0.2); }
+
+        /* ─────────────────────────── LOADING / EMPTY ─────────────────────────── */
+        .loading, .empty-state { text-align: center; color: var(--text-secondary); padding: 50px 20px; }
+
+        .spinner {
+            width: 38px; height: 38px; border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--tint); border-radius: 50%;
+            animation: spin 0.9s linear infinite; margin: 0 auto 18px;
+        }
+
+        html[data-theme="light"] .spinner {
+            border-color: rgba(0, 0, 0, 0.1);
+            border-top-color: var(--tint);
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .toast {
+            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+            background: rgba(28,28,46,0.95); border: 1px solid var(--border);
+            padding: 12px 20px; border-radius: 12px; font-size: 0.9em;
+            z-index: 200; opacity: 0; transition: opacity 0.25s; pointer-events: none;
+            max-width: 86vw; text-align: center;
+        }
+
+        html[data-theme="light"] .toast {
+            background: rgba(255,255,255,0.95);
+        }
+
+        .toast.show { opacity: 1; }
+
+        /* ─────────────────────────── SETTINGS PANEL (layer trượt từ phải) ─────────────────────────── */
+        .settings-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(2px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 300;
+            will-change: opacity;
+            transform: translateZ(0);
+        }
+
+        .settings-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .settings-panel {
+            position: fixed;
+            top: max(16px, env(safe-area-inset-top, 16px));
+            right: 12px;
+            max-height: calc(100vh - 32px);
+            width: 72%;
+            max-width: 280px;
+            background: rgba(28, 28, 46, 0.82);
+            backdrop-filter: blur(30px) saturate(180%);
+            -webkit-backdrop-filter: blur(30px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 28px;
+            box-shadow: 0 14px 50px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            transform: translateX(calc(100% + 24px)) translateZ(0);
+            transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 301;
+            display: flex;
+            flex-direction: column;
+            padding: 6px 0 10px;
+            overflow: hidden;
+            will-change: transform;
+        }
+
+        html[data-theme="light"] .settings-panel {
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid rgba(0, 0, 0, 0.07);
+        }
+
+        .settings-panel.active {
+            transform: translateX(0) translateZ(0);
+        }
+
+        /* ─────────────────────────── VERSION PICKER ─────────────────────────── */
+        .version-picker-panel {
+            max-width: 320px;
+            z-index: 401;
+        }
+
+        #versionPickerOverlay { z-index: 400; }
+
+        .version-picker-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1.5px solid var(--border);
+            border-radius: 15px;
+            padding: 12px 14px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        html[data-theme="light"] .version-picker-item {
+            background: rgba(0, 0, 0, 0.035);
+        }
+
+        .version-picker-item.selected {
+            border-color: var(--tint);
+            background: rgba(132, 142, 249, 0.14);
+        }
+
+        .version-picker-label {
+            font-weight: 600;
+            font-size: 0.92em;
+            color: var(--text);
+        }
+
+        .version-picker-check {
+            color: var(--tint);
+            font-weight: 700;
+            opacity: 0;
+        }
+
+        .version-picker-item.selected .version-picker-check { opacity: 1; }
+
+        /* ─────────────────────────── VERSION POPOVER (neo tại chỗ, dùng cho nút Nhận) ─────────────────────────── */
+        .version-popover-overlay {
+            position: fixed;
+            inset: 0;
+            background: transparent;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 400;
+        }
+
+        .version-popover-overlay.active { pointer-events: auto; }
+
+        .version-popover {
+            position: fixed;
+            width: min(260px, calc(100vw - 32px));
+            max-height: 280px;
+            background: rgba(28, 28, 46, 0.92);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 18px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            padding: 8px;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.9);
+            transition: opacity 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+                        transform 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: var(--popover-origin-x, 100%) var(--popover-origin-y, 0%);
+            z-index: 401;
+            overflow-y: auto;
+            overscroll-behavior: contain;
+        }
+
+        html[data-theme="light"] .version-popover {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .version-popover.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1);
+        }
+
+        .version-popover .version-popover-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .version-popover .version-picker-item {
+            padding: 10px 12px;
+            border-radius: 12px;
+        }
+
+        .version-popover .version-picker-label {
+            font-size: 0.86em;
+        }
+
+        /* ─────────────────────────── CONFIRM DIALOG ─────────────────────────── */
+        .confirm-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(3px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+            z-index: 500;
+        }
+
+        .confirm-overlay.active { opacity: 1; pointer-events: auto; }
+
+        .confirm-dialog {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0.92);
+            width: calc(100% - 64px);
+            max-width: 300px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            padding: 26px 22px 18px;
+            text-align: center;
+            box-shadow: 0 16px 50px rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+                        transform 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 501;
+        }
+
+        .confirm-dialog.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .confirm-icon { font-size: 2.2em; margin-bottom: 8px; }
+
+        .confirm-title { font-weight: 700; font-size: 1.05em; margin-bottom: 6px; }
+
+        .confirm-message {
+            color: var(--text-secondary);
+            font-size: 0.86em;
+            line-height: 1.5;
+            margin-bottom: 18px;
+        }
+
+        .confirm-actions { display: flex; gap: 8px; }
+
+        .confirm-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 13px;
+            font-weight: 700;
+            font-size: 0.92em;
+            cursor: pointer;
+            border: none;
+        }
+
+        .confirm-btn-cancel {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        html[data-theme="light"] .confirm-btn-cancel {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .confirm-btn-ok {
+            background: var(--tint);
+            color: white;
+        }
+
+        .settings-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .settings-header h3 {
+            font-size: 0.98em;
+            font-weight: 700;
+        }
+
+        .settings-close {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border);
+            color: var(--text);
+            width: 28px; height: 28px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        html[data-theme="light"] .settings-close {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .settings-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 12px 10px;
+            overflow-y: auto;
+            overscroll-behavior: contain;
+        }
+
+        .settings-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 11px 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        html[data-theme="light"] .settings-item {
+            background: rgba(0, 0, 0, 0.035);
+        }
+
+        .settings-item:active {
+            background: rgba(255, 255, 255, 0.14);
+            transform: scale(0.98);
+        }
+
+        html[data-theme="light"] .settings-item:active {
+            background: rgba(0, 0, 0, 0.08);
+        }
+
+        .settings-item-icon {
+            font-size: 1.15em;
+            width: 24px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .settings-item-text {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .settings-item-title {
+            font-weight: 600;
+            font-size: 0.88em;
+        }
+
+        .settings-item-sub {
+            font-size: 0.72em;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 0 12px 12px; }
+            .modal-icon { width: 64px; height: 64px; }
+            .modal-name { font-size: 1.15em; }
+            .permissions-grid { grid-template-columns: 1fr; }
+            .screenshot { width: 120px; height: 213px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV SHELL -->
+<div class="nav-shell" id="navShell">
+    <div class="nav-inner">
+        <div class="header-row">
+            <button class="icon-btn" onclick="location.href='./index.html'" title="Trang chủ">🏠</button>
+            <div class="nav-repo-name">Kyic Premium Store</div>
+            <button class="icon-btn" onclick="toggleSettings()" title="Cài đặt">⚙️</button>
+        </div>
+
+        <div class="tabs-header">
+            <button class="tab-btn active" onclick="navigateTab('apps.html', this)">📱 Apps</button>
+            <button class="tab-btn " onclick="navigateTab('tweaks.html', this)">🔧 Tweaks</button>
+            <button class="tab-btn " onclick="navigateTab('dylibs.html', this)">📚 Dylibs</button>
+        </div>
+
+        <div class="search-box">
+            <span>🔍</span>
+            <input type="text" id="searchInput" placeholder="Tìm kiếm..." oninput="onSearchInput()">
+            <button class="search-clear" id="searchClear" onclick="clearSearch()" title="Xoá" style="display:none;">✕</button>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="nav-spacer" aria-hidden="true"></div>
+    <div id="list" class="list">
+        <div class="loading">
+            <div class="spinner"></div>
+            <p>Đang tải dữ liệu...</p>
+        </div>
+    </div>
+
+    <div class="pagination" id="pagination" style="display:none;"></div>
+
+    <div class="repo-footer">
+        <p>Đây là Static Distribution Zone — kho lưu trữ tĩnh phục vụ phân phối Tweak &amp; IPA chất lượng cao cho iOS, được đồng bộ và tối ưu hóa tự động.</p>
+        <div class="repo-footer-divider">──⋆⋅☆⋅⋆જ⁀➴ₖ🦎ᵢ꜀︵✰⋆⋅☆⋅⋆──</div>
+        <p class="repo-footer-credit">Made with ❤️ by Kyic</p>
+    </div>
+</div>
+
+<!-- SETTINGS PANEL -->
+<div class="settings-overlay" id="settingsOverlay" onclick="closeSettings()"></div>
+<div class="settings-panel" id="settingsPanel">
+    <div class="settings-header">
+        <h3 id="settingsTitle">⚙️ Cài đặt</h3>
+        <button class="settings-close" onclick="closeSettings()">✕</button>
+    </div>
+    <div class="settings-list">
+        <div class="settings-item" onclick="toggleLanguage()">
+            <div class="settings-item-icon">🌐</div>
+            <div class="settings-item-text">
+                <div class="settings-item-title" id="settingsLangTitle">Ngôn ngữ</div>
+                <div class="settings-item-sub" id="settingsLangSub">Tiếng Việt</div>
+            </div>
+        </div>
+        <div class="settings-item" onclick="toggleDarkMode()">
+            <div class="settings-item-icon">🌓</div>
+            <div class="settings-item-text">
+                <div class="settings-item-title" id="settingsThemeTitle">Chủ đề</div>
+                <div class="settings-item-sub" id="settingsThemeSub">Tối</div>
+            </div>
+        </div>
+        <a class="settings-item" href="https://t.me/+uhoygGN-1Gc4NzZl" target="_blank" rel="noopener noreferrer">
+            <div class="settings-item-icon">💬</div>
+            <div class="settings-item-text">
+                <div class="settings-item-title" id="settingsChatTitle">Nhắn tin</div>
+                <div class="settings-item-sub" id="settingsChatSub">Tham gia kênh Telegram</div>
+            </div>
+        </a>
+        <a class="settings-item" href="https://nativex.edu.vn/wp-content/uploads/2019/12/thanks-1024x576.jpg" target="_blank" rel="noopener noreferrer">
+            <div class="settings-item-icon">☕️</div>
+            <div class="settings-item-text">
+                <div class="settings-item-title" id="settingsDonateTitle">Donate</div>
+                <div class="settings-item-sub" id="settingsDonateSub">Ủng hộ một ly cà phê</div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<!-- VERSION PICKER (MODAL) — layer trượt từ phải, dùng cho nút [Version] trong modal chi tiết -->
+<div class="settings-overlay" id="versionPickerOverlay" onclick="closeVersionPicker()"></div>
+<div class="settings-panel version-picker-panel" id="versionPickerPanel">
+    <div class="settings-header">
+        <h3 id="versionPickerTitle">✨ Chọn phiên bản</h3>
+        <button class="settings-close" onclick="closeVersionPicker()">✕</button>
+    </div>
+    <div class="settings-list" id="versionPickerList"></div>
+</div>
+
+<!-- VERSION POPOVER (LIST) — popover nhỏ neo tại chỗ ngay cạnh nút "Nhận" vừa nhấn -->
+<div class="version-popover-overlay" id="versionPopoverOverlay" onclick="closeVersionPopover()"></div>
+<div class="version-popover" id="versionPopover">
+    <div class="version-popover-list" id="versionPopoverList"></div>
+</div>
+
+<!-- CONFIRM DOWNLOAD DIALOG -->
+<div class="confirm-overlay" id="confirmOverlay" onclick="closeConfirmDownload()"></div>
+<div class="confirm-dialog" id="confirmDialog">
+    <div class="confirm-icon" id="confirmIcon">⬇️</div>
+    <div class="confirm-title" id="confirmTitle">Tải xuống</div>
+    <div class="confirm-message" id="confirmMessage">Bạn có muốn tải phiên bản này?</div>
+    <div class="confirm-actions">
+        <button class="confirm-btn confirm-btn-cancel" onclick="closeConfirmDownload()">Huỷ</button>
+        <button class="confirm-btn confirm-btn-ok" id="confirmOkBtn" onclick="confirmDownloadProceed()">Tải xuống</button>
+    </div>
+</div>
+
+<!-- MODAL -->
+<div id="modal" class="modal" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+
+        <div class="modal-fixed-header">
+            <button class="modal-close" onclick="closeModal()">✕</button>
+            <div class="modal-header">
+                <img id="modalIcon" class="modal-icon" src="" alt="Icon">
+                <div class="modal-title-block">
+                    <div class="modal-name" id="modalName"></div>
+                    <div class="modal-id" id="modalId"></div>
+                    <div class="modal-version" id="modalVersion"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-scroll-body">
+
+            <div id="screenshotsSection" style="display:none;">
+                <div class="detail-section-title" style="margin-bottom:8px;">📸 Ảnh chụp màn hình</div>
+                <div class="screenshots" id="screenshots"></div>
+            </div>
+
+            <div class="info-box">
+                <div class="detail-section-title" style="margin-bottom:10px;">ℹ️ Thông tin</div>
+                <div class="detail-section-content">
+                    <div class="info-row" id="rowAuthor">
+                        <div class="info-label">Tác giả</div>
+                        <div class="info-value" id="infoAuthor">—</div>
+                    </div>
+                    <div class="info-row" id="rowProvider">
+                        <div class="info-label">Nhà cung cấp</div>
+                        <div class="info-value" id="infoProvider">—</div>
+                    </div>
+                    <div class="info-row" id="rowSection">
+                        <div class="info-label">Phân loại</div>
+                        <div class="info-value" id="infoSection">—</div>
+                    </div>
+                    <div class="info-row" id="rowVersion">
+                        <div class="info-label">Phiên bản</div>
+                        <div class="info-value" id="infoVersion">—</div>
+                    </div>
+                    <div class="info-row" id="rowAgeRating">
+                        <div class="info-label">Độ tuổi</div>
+                        <div class="info-value" id="infoAgeRating">—</div>
+                    </div>
+                    <div class="info-row" id="rowCategory">
+                        <div class="info-label">Loại tệp</div>
+                        <div class="info-value" id="infoCategory">—</div>
+                    </div>
+                    <div class="info-row" id="rowArch">
+                        <div class="info-label">Kiến trúc</div>
+                        <div class="info-value" id="infoArch">—</div>
+                    </div>
+                    <div class="info-row" id="rowSize">
+                        <div class="info-label">Dung lượng</div>
+                        <div class="info-value" id="infoSize">—</div>
+                    </div>
+                    <div class="info-row" id="rowInstalledSize">
+                        <div class="info-label">Dung lượng cài đặt</div>
+                        <div class="info-value" id="infoInstalledSize">—</div>
+                    </div>
+                    <div class="info-row" id="rowCompat">
+                        <div class="info-label">Tương thích</div>
+                        <div class="info-value" id="infoCompat">—</div>
+                    </div>
+                    <div class="info-row info-row-wrap" id="rowDepends">
+                        <div class="info-label">Phụ thuộc</div>
+                        <div class="info-value" id="infoDepends">—</div>
+                    </div>
+                    <div class="info-row" id="rowBundleId">
+                        <div class="info-label">Định danh</div>
+                        <div class="info-value" id="infoBundleId">—</div>
+                    </div>
+                    <div class="info-row" id="rowUpdateDate">
+                        <div class="info-label">Ngày cập nhật</div>
+                        <div class="info-value" id="infoUpdateDate">—</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box" id="changelogBox" style="display:none;">
+                <div class="detail-section-title" style="margin-bottom:10px;">🆕 Có gì mới</div>
+                <div class="detail-section-content" id="modalChangelog"></div>
+            </div>
+
+            <div id="descSection" class="detail-section" style="display:none;">
+                <div class="detail-section-header" onclick="toggleSection('descSection')">
+                    <div class="detail-section-title">📝 Mô tả</div>
+                    <div class="detail-section-toggle">🔽</div>
+                </div>
+                <div class="detail-section-body">
+                    <div class="detail-section-content" id="modalDesc"></div>
+                </div>
+            </div>
+
+            <div id="permSection" class="detail-section" style="display:none;">
+                <div class="detail-section-header" onclick="toggleSection('permSection')">
+                    <div class="detail-section-title">🔐 Quyền hạn</div>
+                    <div class="detail-section-toggle">🔽</div>
+                </div>
+                <div class="detail-section-body">
+                    <div class="permissions-grid" id="permissions"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="action-buttons">
+            <button class="action-btn-version" id="versionPickerBtn" onclick="openVersionPicker()">
+                <span id="versionPickerLabel">Version</span>
+            </button>
+            <button class="action-btn-icon" onclick="copySelected()" title="Sao chép link">📋</button>
+            <button class="action-btn" id="downloadBtn" onclick="downloadSelected()">⬇️ Tải xuống</button>
+        </div>
+    </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" class="lightbox" onclick="lightboxBackdropClick(event)">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <button class="lightbox-nav lightbox-prev" onclick="lightboxNav(-1, event)">‹</button>
+    <img id="lightboxImg" class="lightbox-img" src="" alt="Screenshot" onclick="event.stopPropagation()">
+    <button class="lightbox-nav lightbox-next" onclick="lightboxNav(1, event)">›</button>
+    <div class="lightbox-counter" id="lightboxCounter"></div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+    // ════════════════════════════════════════════════════════════
+    // I18N & THEME SETUP
+    // ════════════════════════════════════════════════════════════
+    const I18N = {
+        vi: {
+            "loading": "Đang tải dữ liệu...",
+            "no_results": "😕 Không tìm thấy kết quả",
+            "no_data": "📭 Chưa có dữ liệu",
+            "error": "❌ Lỗi tải dữ liệu: ",
+            "page": "Trang",
+            "results": "kết quả",
+            "no_version": "❌ Không có phiên bản nào để tải",
+            "no_link": "❌ Không tìm thấy link tải về",
+            "no_results_copy": "❌ Không có link để sao chép",
+            "download_start": "⏳ Đang tải...",
+            "download_success": "✅ Đang tải xuống...",
+            "download_fallback": "⚠️ Đang mở link tải (chế độ dự phòng)",
+            "copy_success": "✅ Đã sao chép link!",
+            "copy_error": "❌ Sao chép thất bại",
+            "settings": "⚙️ Cài đặt (sẽ cập nhật sau)"
+        },
+        en: {
+            "loading": "Loading data...",
+            "no_results": "😕 No results found",
+            "no_data": "📭 No data",
+            "error": "❌ Error loading data: ",
+            "page": "Page",
+            "results": "results",
+            "no_version": "❌ No version to download",
+            "no_link": "❌ No download link found",
+            "no_results_copy": "❌ No link to copy",
+            "download_start": "⏳ Downloading...",
+            "download_success": "✅ Downloading...",
+            "download_fallback": "⚠️ Opening link (fallback mode)",
+            "copy_success": "✅ Link copied!",
+            "copy_error": "❌ Copy failed",
+            "settings": "⚙️ Settings (coming soon)"
+        }
+    };
+
+    function getLang() {
+        return document.documentElement.getAttribute('data-lang') || 'vi';
+    }
+
+    function t(key) {
+        const lang = getLang();
+        return (I18N[lang] || I18N.vi)[key] || key;
+    }
+
+    function toggleLanguage() {
+        const current = getLang();
+        const next = current === 'vi' ? 'en' : 'vi';
+        document.documentElement.setAttribute('data-lang', next);
+        document.documentElement.lang = next;
+        localStorage.setItem('lang', next);
+        sessionStorage.setItem('reopenSettings', '1');
+        location.reload();
+    }
+
+    function initTheme() {
+        const saved = localStorage.getItem('darkMode');
+        if (saved !== null) {
+            const isDark = saved === 'true';
+            document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+        } else {
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+        }
+
+        // Nếu người dùng chưa từng tự chỉnh tay, theo dõi và tự cập nhật
+        // ngay khi thiết bị đổi chế độ sáng/tối (không cần tải lại trang).
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (localStorage.getItem('darkMode') !== null) return;
+            document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+            updateSettingsPanelTexts();
+        });
+    }
+
+    function toggleDarkMode() {
+        const current = document.documentElement.getAttribute('data-theme') || 'dark';
+        const next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('darkMode', next === 'dark');
+        updateSettingsPanelTexts();
+    }
+
+    function navigateTab(url, btn) {
+        if (btn && btn.classList.contains('active')) return;
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        if (btn) btn.classList.add('active');
+        location.href = url;
+    }
+
+    let scrollLockY = 0;
+    let scrollLockCount = 0;
+
+    function lockBodyScroll() {
+        if (scrollLockCount === 0) {
+            scrollLockY = window.scrollY;
+            document.body.style.position = 'fixed';
+            document.body.style.top = (-scrollLockY) + 'px';
+            document.body.style.left = '0';
+            document.body.style.right = '0';
+            document.body.style.width = '100%';
+        }
+        scrollLockCount++;
+    }
+
+    function unlockBodyScroll() {
+        scrollLockCount = Math.max(0, scrollLockCount - 1);
+        if (scrollLockCount === 0) {
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.left = '';
+            document.body.style.right = '';
+            document.body.style.width = '';
+            window.scrollTo(0, scrollLockY);
+        }
+    }
+
+    function toggleSettings() {
+        const panel = document.getElementById('settingsPanel');
+        const overlay = document.getElementById('settingsOverlay');
+        const isOpen = panel.classList.contains('active');
+        if (isOpen) {
+            closeSettings();
+        } else {
+            updateSettingsPanelTexts();
+            lockBodyScroll();
+            panel.classList.add('active');
+            overlay.classList.add('active');
+        }
+    }
+
+    function closeSettings() {
+        document.getElementById('settingsPanel').classList.remove('active');
+        document.getElementById('settingsOverlay').classList.remove('active');
+        unlockBodyScroll();
+    }
+
+    function updateSettingsPanelTexts() {
+        const lang = getLang();
+        const isDark = (document.documentElement.getAttribute('data-theme') || 'dark') === 'dark';
+        const isVi = lang === 'vi';
+
+        document.getElementById('settingsTitle').textContent = isVi ? '⚙️ Cài đặt' : '⚙️ Settings';
+        document.getElementById('settingsLangTitle').textContent = isVi ? 'Ngôn ngữ' : 'Language';
+        document.getElementById('settingsLangSub').textContent = isVi ? 'Tiếng Việt (nhấn để đổi sang English)' : 'English (tap to switch to Vietnamese)';
+        document.getElementById('settingsThemeTitle').textContent = isVi ? 'Chủ đề' : 'Theme';
+        document.getElementById('settingsThemeSub').textContent = isVi
+            ? (isDark ? 'Tối (nhấn để chuyển sang Sáng)' : 'Sáng (nhấn để chuyển sang Tối)')
+            : (isDark ? 'Dark (tap to switch to Light)' : 'Light (tap to switch to Dark)');
+        document.getElementById('settingsChatTitle').textContent = isVi ? 'Nhắn tin' : 'Message us';
+        document.getElementById('settingsChatSub').textContent = isVi ? 'Tham gia kênh Telegram' : 'Join our Telegram channel';
+        document.getElementById('settingsDonateTitle').textContent = 'Donate';
+        document.getElementById('settingsDonateSub').textContent = isVi ? 'Ủng hộ một ly cà phê ☕️' : 'Buy us a coffee ☕️';
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // STATE & CONSTANTS
+    // ════════════════════════════════════════════════════════════
+    let rawItems = [];
+    let groupedItems = [];
+    let filteredItems = [];
+    let currentGroup = null;
+    let selectedVersionIdx = 0;
+    let versionManuallyPicked = false;
+
+    const PAGE_SIZE = 10;  // FIX: 15 → 10
+    let currentPage = 0;
+
+    let lightboxList = [];
+    let lightboxIdx = 0;
+
+    const DEFAULT_ICON = 'https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png';
+    const DATA_KEY = 'apps';
+    const REPO_TYPE = 'apps';  // "apps", "tweaks", "dylibs"
+
+    const DIGIT_EMOJI = ['0️⃣','1️⃣','2️⃣','3️⃣','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣'];
+
+    // ════════════════════════════════════════════════════════════
+    // UTILITIES
+    // ════════════════════════════════════════════════════════════
+    function formatSize(bytes) {
+        if (!bytes || bytes <= 0) return 'Không rõ';
+        const k = 1024;
+        const sizes = ['B', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return (bytes / Math.pow(k, i)).toFixed(2) + ' ' + sizes[i];
+    }
+
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 2200);
+    }
+
+    function toggleSection(sectionId) {
+        const el = document.getElementById(sectionId);
+        if (el) el.classList.toggle('open');
+    }
+
+    function parseVersion(v) {
+        return String(v || '0').split(/[.\-_]/).map(x => parseInt(x) || 0);
+    }
+
+    function compareVersions(a, b) {
+        const pa = parseVersion(a), pb = parseVersion(b);
+        const len = Math.max(pa.length, pb.length);
+        for (let i = 0; i < len; i++) {
+            const diff = (pb[i] || 0) - (pa[i] || 0);
+            if (diff !== 0) return diff;
+        }
+        return 0;
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // GROUPING & UNIVERSAL BUNDLING
+    // ════════════════════════════════════════════════════════════
+    function groupByBundle(items) {
+        const map = new Map();
+
+        items.forEach(raw => {
+            const bundleKey = raw.bundle || raw.bundleIdentifier || raw.bid ||
+                               raw.Package || raw.package || raw.id || raw.name;
+            if (!bundleKey) return;
+
+            if (!map.has(bundleKey)) {
+                map.set(bundleKey, {
+                    name: raw.name || raw.Name || 'Unknown',
+                    bundle: bundleKey,
+                    icon: raw.icon || raw.iconURL || raw.Icon || DEFAULT_ICON,
+                    desc: raw.desc || raw.description || raw.localizedDescription || raw.Description || '',
+                    author: raw.author || raw.Author || 'Kyic Store',
+                    provider: raw.provider || raw.developer || raw.seller || raw.publisher || '',
+                    ageRating: raw.ageRating || raw.contentRating || raw.rating || '',
+                    screenshots: raw.screenshots || raw.screenshotURLs || [],
+                    permissions: raw.appPermissions || raw.permissions || {},
+                    versions: []
+                });
+            }
+
+            const group = map.get(bundleKey);
+            const curDesc = raw.desc || raw.description || raw.localizedDescription || '';
+            if (curDesc.length > (group.desc || '').length) {
+                group.desc = curDesc;
+                group.icon = raw.icon || raw.iconURL || raw.Icon || group.icon;
+            }
+            if ((raw.screenshots || raw.screenshotURLs || []).length > group.screenshots.length) {
+                group.screenshots = raw.screenshots || raw.screenshotURLs || [];
+            }
+
+            const arch = raw.architecture || raw.Architecture || raw.arch || '';
+            const ver = raw.version || raw.Version || raw.ver || '1.0';
+            const dlUrl = raw.downloadURL || raw.dl || raw.url || raw.download || raw.downloadUrl || '';
+
+            const exists = group.versions.find(v => v.version === ver && v.arch === arch && v.downloadURL === dlUrl);
+            if (!exists) {
+                group.versions.push({
+                    version: ver,
+                    arch: arch,
+                    size: raw.size || 0,
+                    downloadURL: dlUrl,
+                    filename: raw.filename || raw.name || '',
+                    date: raw.date || raw.releaseDate || raw.pubDate || '',
+                    note: raw.changelog || raw.releaseNotes || raw.whatsNew || raw['Whats New'] || '',
+                    section: raw.section || raw.Section || '',
+                    installedSize: raw.installedSize || raw['Installed-Size'] || raw.installed_size || '',
+                    compatibilityRaw: raw.compatibility || raw.Compatibility || raw.minVersion || '',
+                    depends: raw.depends || raw.Depends || '',
+                    devices: raw.devices || raw.supportedDevices || raw.Devices || '',
+                    minOS: raw.minOSVersion || raw.minIOSVersion || raw.minOS || '',
+                    maxOS: raw.maxOSVersion || raw.maxIOSVersion || raw.maxOS || '',
+                    jbVersion: raw.jailbreakVersion || raw.jbVersion || raw.minJailbreak || '',
+                    jbTool: raw.jailbreakTool || raw.jbTool || raw.tool || ''
+                });
+            }
+        });
+
+        const result = Array.from(map.values());
+        result.forEach(g => {
+            g.versions.sort((a, b) => compareVersions(a.version, b.version) || a.arch.localeCompare(b.arch));
+        });
+        result.sort((a, b) => a.name.localeCompare(b.name));
+        return result;
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // LOẠI TỆP — scan filename/downloadURL/bundle để xác định nền tảng
+    // (iOS/macOS) và kiến trúc (arm/arm64/arm64e) thực tế, thay vì chỉ
+    // đọc field có sẵn trong JSON (có thể thiếu hoặc không chính xác).
+    // ════════════════════════════════════════════════════════════
+    function detectFileExt(version) {
+        const src = ((version?.filename || '') + ' ' + (version?.downloadURL || '')).toLowerCase();
+        const match = src.match(/\.(ipa|deb|dylib|zip|tar|tipa)(\?|$|[\s"'])/);
+        if (match) return match[1];
+        const repoType = REPO_TYPE || 'apps';
+        if (repoType === 'tweaks') return 'deb';
+        if (repoType === 'dylibs') return 'dylib';
+        return 'ipa';
+    }
+
+    function detectPlatform(group, version) {
+        const src = ((version?.filename || '') + ' ' + (version?.downloadURL || '') + ' ' +
+                     (group?.bundle || '') + ' ' + (group?.name || '')).toLowerCase();
+        if (/(^|[^a-z0-9])(macos|osx|darwin|mac)([^a-z0-9]|$)/.test(src)) return 'mac';
+        return 'ios';
+    }
+
+    function detectArch(version) {
+        const src = ((version?.arch || '') + ' ' + (version?.filename || '') + ' ' +
+                     (version?.downloadURL || '')).toLowerCase();
+        const archPattern = /(^|[^a-z0-9])(arm64e|arm64|armv7s|armv7|arm)([^a-z0-9]|$)/g;
+        const found = [];
+        let m;
+        while ((m = archPattern.exec(src)) !== null) {
+            let token = m[2];
+            if (token === 'armv7s' || token === 'armv7') token = 'arm';
+            if (!found.includes(token)) found.push(token);
+            archPattern.lastIndex = m.index + m[1].length + token.length;
+        }
+        if (found.length === 0) {
+            if (version?.arch && version.arch !== 'universal') return version.arch;
+            return 'universal';
+        }
+        return found.join('_');
+    }
+
+    function getCategory(group, version) {
+        const repoType = REPO_TYPE || 'apps';
+        const ext = detectFileExt(version);
+
+        if (repoType === 'apps') {
+            const platform = detectPlatform(group, version);
+            return platform + '-' + ext;
+        }
+        const arch = detectArch(version);
+        return arch + '-' + ext;
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // TƯƠNG THÍCH — hợp nhất kiểu App Store (thiết bị + phiên bản iOS)
+    // cho Apps, và kiểu Sileo/Cydia (thiết bị + phiên bản Jailbreak +
+    // công cụ Jailbreak) cho Tweaks/Dylibs. Fallback về dữ liệu Debian
+    // gốc (compatibilityRaw) khi JSON nguồn không có field chi tiết hơn.
+    // ════════════════════════════════════════════════════════════
+    function buildCompatibilityText(version) {
+        const repoType = REPO_TYPE || 'apps';
+        const parts = [];
+
+        if (version.devices) parts.push(version.devices);
+        else parts.push(repoType === 'apps' ? 'iPhone, iPad' : 'Thiết bị jailbreak');
+
+        if (repoType === 'apps') {
+            if (version.minOS) {
+                parts.push('yêu cầu iOS ' + version.minOS + (version.maxOS ? ' – ' + version.maxOS : '+'));
+            }
+        } else {
+            if (version.jbVersion) parts.push('iOS ' + version.jbVersion);
+            if (version.jbTool) parts.push(version.jbTool);
+        }
+
+        if (parts.length <= 1 && version.compatibilityRaw) {
+            return version.compatibilityRaw;
+        }
+        if (parts.length <= 1) return '';
+        return parts.join(' • ');
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // SEARCH & PAGINATION
+    // ════════════════════════════════════════════════════════════
+    function onSearchInput() {
+        currentPage = 0;
+        const clearBtn = document.getElementById('searchClear');
+        const hasText = (document.getElementById('searchInput').value || '').length > 0;
+        if (clearBtn) clearBtn.style.display = hasText ? 'flex' : 'none';
+        renderList();
+    }
+
+    function clearSearch() {
+        const input = document.getElementById('searchInput');
+        input.value = '';
+        input.focus();
+        document.getElementById('searchClear').style.display = 'none';
+        currentPage = 0;
+        renderList();
+    }
+
+    // Khoảng cách Levenshtein — dùng để chấm điểm "gần đúng" cho tìm kiếm mờ (fuzzy)
+    function levenshtein(a, b) {
+        if (a === b) return 0;
+        if (!a.length) return b.length;
+        if (!b.length) return a.length;
+        const prev = new Array(b.length + 1);
+        const curr = new Array(b.length + 1);
+        for (let j = 0; j <= b.length; j++) prev[j] = j;
+        for (let i = 1; i <= a.length; i++) {
+            curr[0] = i;
+            for (let j = 1; j <= b.length; j++) {
+                const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+                curr[j] = Math.min(curr[j - 1] + 1, prev[j] + 1, prev[j - 1] + cost);
+            }
+            for (let j = 0; j <= b.length; j++) prev[j] = curr[j];
+        }
+        return prev[b.length];
+    }
+
+    // Kiểm tra "gần đúng": khớp chuỗi con (ưu tiên cao) hoặc khoảng cách Levenshtein
+    // trên từng từ đủ nhỏ so với độ dài từ (cho phép gõ sai vài ký tự / thiếu dấu).
+    function fuzzyMatch(text, query) {
+        if (!query) return true;
+        text = text.toLowerCase();
+        query = query.toLowerCase().trim();
+        if (!query) return true;
+
+        if (text.includes(query)) return true;
+
+        const words = text.split(/\s+/);
+        const threshold = query.length <= 4 ? 1 : (query.length <= 8 ? 2 : 3);
+
+        for (const w of words) {
+            if (w.startsWith(query.slice(0, Math.max(1, query.length - threshold)))) return true;
+            if (levenshtein(w, query) <= threshold) return true;
+        }
+
+        // So khớp cả câu rút gọn (bỏ khoảng trắng) cho trường hợp gõ liền không dấu cách
+        const compact = text.replace(/\s+/g, '');
+        if (compact.includes(query.replace(/\s+/g, ''))) return true;
+
+        return false;
+    }
+
+    function applyFilter() {
+        const query = (document.getElementById('searchInput').value || '').trim();
+        if (!query) {
+            filteredItems = groupedItems;
+            return;
+        }
+        filteredItems = groupedItems.filter(g =>
+            fuzzyMatch(g.name || '', query) || fuzzyMatch(g.bundle || '', query)
+        );
+    }
+
+    function totalPages() {
+        return Math.max(1, Math.ceil(filteredItems.length / PAGE_SIZE));
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // RENDER LIST
+    // ════════════════════════════════════════════════════════════
+    function renderList() {
+        applyFilter();
+
+        if (filteredItems.length === 0) {
+            document.getElementById('list').innerHTML =
+                '<div class="empty-state">' + t('no_results') + '</div>';
+            document.getElementById('pagination').style.display = 'none';
+            return;
+        }
+
+        const pages = totalPages();
+        if (currentPage >= pages) currentPage = pages - 1;
+        if (currentPage < 0) currentPage = 0;
+
+        const start = currentPage * PAGE_SIZE;
+        const pageItems = filteredItems.slice(start, start + PAGE_SIZE);
+
+        const html = pageItems.map((g, i) => {
+            const idx = groupedItems.indexOf(g);
+            const latest = g.versions[0] || {};
+            return `
+                <div class="item" style="--item-i:${i}" onclick="openModal(${idx})">
+                    <img class="item-icon" src="${g.icon}" alt="${g.name}" loading="lazy" onerror="this.onerror=null;this.src='${DEFAULT_ICON}'">
+                    <div class="item-info">
+                        <div class="item-name">${g.name}</div>
+                        <div class="item-id">${g.bundle}</div>
+                        <div class="item-version">v${latest.version || '1.0'}${g.versions.length > 1 ? ' · ' + g.versions.length + ' bản' : ''}</div>
+                    </div>
+                    <button class="item-action" id="quickbtn-${idx}" onclick="event.stopPropagation(); openVersionPopover(${idx}, this)">Nhận</button>
+                </div>
+            `;
+        }).join('');
+
+        document.getElementById('list').innerHTML = html;
+        window.scrollTo({ top: document.querySelector('.container').offsetTop - 8, behavior: 'instant' });
+
+        renderPagination();
+    }
+
+    function renderPagination() {
+        const pages = totalPages();
+        const pag = document.getElementById('pagination');
+
+        if (pages <= 1) {
+            pag.style.display = 'none';
+            return;
+        }
+        pag.style.display = 'flex';
+
+        const windowSize = 10;
+        let windowStart = Math.max(0, currentPage - Math.floor(windowSize / 2));
+        let windowEnd = Math.min(pages, windowStart + windowSize);
+        windowStart = Math.max(0, windowEnd - windowSize);
+
+        let html = `<button class="page-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 0 ? 'disabled' : ''}>◀️</button>`;
+
+        for (let p = windowStart; p < windowEnd; p++) {
+            const digit = DIGIT_EMOJI[p % 10];
+            html += `<button class="page-btn ${p === currentPage ? 'active' : ''}" onclick="goToPage(${p})">${digit}</button>`;
+        }
+
+        html += `<button class="page-btn" onclick="goToPage(${currentPage + 1})" ${currentPage >= pages - 1 ? 'disabled' : ''}>▶️</button>`;
+        html += `<div class="page-info">` + t('page') + ` ${currentPage + 1} / ${pages} · ${filteredItems.length} ` + t('results') + `</div>`;
+
+        pag.innerHTML = html;
+    }
+
+    function goToPage(p) {
+        const pages = totalPages();
+        if (p < 0 || p >= pages) return;
+        currentPage = p;
+        renderList();
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // MODAL
+    // ════════════════════════════════════════════════════════════
+    function openModal(idx) {
+        currentGroup = groupedItems[idx];
+        if (!currentGroup) return;
+        selectedVersionIdx = 0;
+        versionManuallyPicked = false;
+
+        document.getElementById('modalIcon').src = currentGroup.icon;
+        document.getElementById('modalIcon').onerror = function() { this.onerror = null; this.src = DEFAULT_ICON; };
+        document.getElementById('modalName').textContent = currentGroup.name;
+        document.getElementById('modalId').textContent = currentGroup.bundle;
+
+        // Description
+        const descSection = document.getElementById('descSection');
+        if (currentGroup.desc) {
+            descSection.style.display = 'block';
+            descSection.classList.remove('open');
+            document.getElementById('modalDesc').textContent = currentGroup.desc;
+        } else {
+            descSection.style.display = 'none';
+        }
+
+        // Có gì mới — nội dung theo phiên bản đang chọn, cập nhật
+        // trong updateSelectedVersionDisplay() mỗi khi người dùng đổi phiên bản
+        const changelogBox = document.getElementById('changelogBox');
+        const hasAnyChangelog = (currentGroup.versions || []).some(v => v.note);
+        changelogBox.style.display = hasAnyChangelog ? 'block' : 'none';
+
+        // Nút chọn phiên bản (thanh hành động cố định đáy modal)
+        const versionPickerBtn = document.getElementById('versionPickerBtn');
+        if (currentGroup.versions && currentGroup.versions.length > 0) {
+            versionPickerBtn.style.display = '';
+        } else {
+            versionPickerBtn.style.display = 'none';
+        }
+
+        // Screenshots
+        if (currentGroup.screenshots && currentGroup.screenshots.length > 0) {
+            lightboxList = currentGroup.screenshots;
+            document.getElementById('screenshotsSection').style.display = 'block';
+            document.getElementById('screenshots').innerHTML = currentGroup.screenshots.map((s, i) =>
+                `<img class="screenshot" src="${s}" alt="Screenshot" loading="lazy" onclick="openLightbox(${i})" onerror="this.style.display='none'">`
+            ).join('');
+        } else {
+            lightboxList = [];
+            document.getElementById('screenshotsSection').style.display = 'none';
+        }
+
+        // Permissions
+        const permSection = document.getElementById('permSection');
+        const permKeys = Object.keys(currentGroup.permissions || {});
+        if (permKeys.length > 0) {
+            permSection.style.display = 'block';
+            permSection.classList.remove('open');
+            document.getElementById('permissions').innerHTML = permKeys.map(k =>
+                `<div class="permission-item">${k}</div>`
+            ).join('');
+        } else {
+            permSection.style.display = 'none';
+        }
+
+        updateSelectedVersionDisplay();
+
+        const scrollBody = document.querySelector('.modal-scroll-body');
+        if (scrollBody) scrollBody.scrollTop = 0;
+
+        lockBodyScroll();
+        document.getElementById('modal').classList.add('active');
+    }
+
+    // Phiên bản — danh sách để chọn tải
+    // ════════════════════════════════════════════════════════════
+    // VERSION PICKER (MODAL) — panel trượt từ phải, dùng cho nút [Version] trong modal
+    // ════════════════════════════════════════════════════════════
+    function openVersionPicker() {
+        const group = currentGroup;
+        if (!group || !group.versions || group.versions.length === 0) {
+            showToast(t('no_version'));
+            return;
+        }
+
+        document.getElementById('versionPickerTitle').textContent = '✨ ' + group.name;
+        const html = group.versions.map((v, i) => {
+            const label = 'v' + v.version + ' - ' + getCategory(group, v);
+            return `
+                <div class="version-picker-item ${i === selectedVersionIdx ? 'selected' : ''}" onclick="pickModalVersion(${i})">
+                    <div class="version-picker-label">${label}</div>
+                    <div class="version-picker-check">✓</div>
+                </div>
+            `;
+        }).join('');
+        document.getElementById('versionPickerList').innerHTML = html;
+
+        lockBodyScroll();
+        document.getElementById('versionPickerPanel').classList.add('active');
+        document.getElementById('versionPickerOverlay').classList.add('active');
+    }
+
+    function closeVersionPicker() {
+        document.getElementById('versionPickerPanel').classList.remove('active');
+        document.getElementById('versionPickerOverlay').classList.remove('active');
+        unlockBodyScroll();
+    }
+
+    function pickModalVersion(i) {
+        if (!currentGroup || !currentGroup.versions[i]) return;
+        selectedVersionIdx = i;
+        versionManuallyPicked = true;
+        updateSelectedVersionDisplay();
+        closeVersionPicker();
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // VERSION POPOVER (LIST) — popover nhỏ neo ngay cạnh nút "Nhận" vừa nhấn
+    // ════════════════════════════════════════════════════════════
+    let popoverGroup = null;
+    let popoverListIdx = null;
+    let popoverAnchorBtn = null;
+
+    function openVersionPopover(idx, btnEl) {
+        const group = groupedItems[idx];
+        if (!group || !group.versions || group.versions.length === 0) {
+            showToast(t('no_version'));
+            return;
+        }
+
+        // Nếu nav đang ẩn (item nằm khuất dưới do đã cuộn xuống), bật nav hiện lại
+        // ngay lập tức cùng lúc popover mở ra, tránh độ trễ gây cảm giác giật/lệch.
+        const navShell = document.getElementById('navShell');
+        if (navShell) navShell.classList.remove('nav-hidden');
+
+        popoverGroup = group;
+        popoverListIdx = idx;
+        popoverAnchorBtn = btnEl;
+
+        const html = group.versions.map((v, i) => {
+            const label = 'v' + v.version + ' - ' + getCategory(group, v);
+            return `
+                <div class="version-picker-item ${i === 0 ? 'selected' : ''}" onclick="pickPopoverVersion(${i})">
+                    <div class="version-picker-label">${label}</div>
+                    <div class="version-picker-check">✓</div>
+                </div>
+            `;
+        }).join('');
+        document.getElementById('versionPopoverList').innerHTML = html;
+
+        positionVersionPopover(btnEl);
+
+        document.getElementById('versionPopover').classList.add('active');
+        document.getElementById('versionPopoverOverlay').classList.add('active');
+    }
+
+    function positionVersionPopover(btnEl) {
+        const popover = document.getElementById('versionPopover');
+        const rect = btnEl.getBoundingClientRect();
+        const margin = 10;
+        const popoverWidth = Math.min(260, window.innerWidth - 32);
+        const popoverMaxHeight = 280;
+
+        // Mặc định: bung lên phía trên nút, căn phải trùng mép phải nút
+        let left = rect.right - popoverWidth;
+        let top = rect.top - popoverMaxHeight - margin;
+        let originY = '100%';
+
+        // Nếu không đủ chỗ phía trên, bung xuống phía dưới nút thay vào đó
+        if (top < margin) {
+            top = rect.bottom + margin;
+            originY = '0%';
+        }
+        // Giữ popover trong khung nhìn theo chiều ngang
+        left = Math.max(margin, Math.min(left, window.innerWidth - popoverWidth - margin));
+
+        popover.style.left = left + 'px';
+        popover.style.top = top + 'px';
+        const originX = ((rect.right - left) / popoverWidth * 100).toFixed(0) + '%';
+        popover.style.setProperty('--popover-origin-x', originX);
+        popover.style.setProperty('--popover-origin-y', originY);
+    }
+
+    function closeVersionPopover() {
+        document.getElementById('versionPopover').classList.remove('active');
+        document.getElementById('versionPopoverOverlay').classList.remove('active');
+    }
+
+    function pickPopoverVersion(i) {
+        const group = popoverGroup;
+        const v = group.versions[i];
+        if (!v) return;
+        closeVersionPopover();
+        openConfirmDownload(group, v, document.getElementById('quickbtn-' + popoverListIdx));
+    }
+
+    window.addEventListener('resize', () => {
+        if (popoverAnchorBtn && document.getElementById('versionPopover').classList.contains('active')) {
+            positionVersionPopover(popoverAnchorBtn);
+        }
+    });
+
+    // ════════════════════════════════════════════════════════════
+    // CONFIRM DOWNLOAD DIALOG
+    // ════════════════════════════════════════════════════════════
+    let confirmDownloadData = null;
+
+    function openConfirmDownload(group, version, btnEl) {
+        const label = 'v' + version.version + ' - ' + getCategory(group, version);
+        document.getElementById('confirmTitle').textContent = 'Tải xuống';
+        document.getElementById('confirmMessage').textContent =
+            group.name + ' — ' + label + (version.size ? ' (' + formatSize(version.size) + ')' : '');
+
+        confirmDownloadData = { group, version, btnEl };
+
+        lockBodyScroll();
+        document.getElementById('confirmDialog').classList.add('active');
+        document.getElementById('confirmOverlay').classList.add('active');
+    }
+
+    function closeConfirmDownload() {
+        document.getElementById('confirmDialog').classList.remove('active');
+        document.getElementById('confirmOverlay').classList.remove('active');
+        unlockBodyScroll();
+        confirmDownloadData = null;
+    }
+
+    function confirmDownloadProceed() {
+        if (!confirmDownloadData) return;
+        const { group, version, btnEl } = confirmDownloadData;
+        const filename = version.filename || (group.name + '_v' + version.version);
+
+        document.getElementById('confirmDialog').classList.remove('active');
+        document.getElementById('confirmOverlay').classList.remove('active');
+        unlockBodyScroll();
+
+        triggerDownload(version.downloadURL, filename, btnEl);
+        confirmDownloadData = null;
+    }
+
+    function setInfoRow(rowId, valueId, value) {
+        const row = document.getElementById(rowId);
+        const el = document.getElementById(valueId);
+        if (value === undefined || value === null || value === '') {
+            row.style.display = 'none';
+            return;
+        }
+        row.style.display = '';
+        el.textContent = value;
+    }
+
+    function updateSelectedVersionDisplay() {
+        const v = currentGroup.versions[selectedVersionIdx] || {};
+        document.getElementById('modalVersion').textContent = 'v' + (v.version || '1.0');
+
+        const versionPickerLabel = document.getElementById('versionPickerLabel');
+        if (versionPickerLabel) {
+            versionPickerLabel.textContent = versionManuallyPicked ? ('v' + (v.version || '1.0')) : 'Version';
+        }
+
+        setInfoRow('rowAuthor', 'infoAuthor', currentGroup.author);
+        setInfoRow('rowProvider', 'infoProvider', currentGroup.provider);
+        setInfoRow('rowAgeRating', 'infoAgeRating', currentGroup.ageRating);
+        setInfoRow('rowSection', 'infoSection', v.section);
+        setInfoRow('rowVersion', 'infoVersion', v.version || '1.0');
+        setInfoRow('rowCategory', 'infoCategory', getCategory(currentGroup, v));
+        setInfoRow('rowArch', 'infoArch', v.arch);
+        setInfoRow('rowSize', 'infoSize', v.size ? formatSize(v.size) : '');
+        setInfoRow('rowInstalledSize', 'infoInstalledSize', v.installedSize);
+        setInfoRow('rowCompat', 'infoCompat', buildCompatibilityText(v));
+        setInfoRow('rowDepends', 'infoDepends', v.depends);
+        setInfoRow('rowBundleId', 'infoBundleId', currentGroup.bundle);
+        setInfoRow('rowUpdateDate', 'infoUpdateDate', v.date);
+
+        const modalChangelog = document.getElementById('modalChangelog');
+        if (modalChangelog) {
+            modalChangelog.textContent = v.note || 'Phiên bản này chưa có thông tin cập nhật';
+        }
+    }
+
+    function closeModal(e) {
+        if (e && e.target.id !== 'modal') return;
+        document.getElementById('modal').classList.remove('active');
+        currentGroup = null;
+        unlockBodyScroll();
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // LIGHTBOX
+    // ════════════════════════════════════════════════════════════
+    let touchStartX = 0;
+
+    function openLightbox(i) {
+        if (!lightboxList.length) return;
+        lightboxIdx = i;
+        updateLightboxImg();
+        document.getElementById('lightbox').classList.add('active');
+    }
+
+    function closeLightbox() {
+        document.getElementById('lightbox').classList.remove('active');
+    }
+
+    function lightboxBackdropClick(e) {
+        if (e.target.id === 'lightbox') closeLightbox();
+    }
+
+    function lightboxNav(dir, e) {
+        if (e) e.stopPropagation();
+        if (!lightboxList.length) return;
+        lightboxIdx = (lightboxIdx + dir + lightboxList.length) % lightboxList.length;
+        updateLightboxImg();
+    }
+
+    function updateLightboxImg() {
+        document.getElementById('lightboxImg').src = lightboxList[lightboxIdx];
+        document.getElementById('lightboxCounter').textContent = (lightboxIdx + 1) + ' / ' + lightboxList.length;
+    }
+
+    document.getElementById('lightbox').addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    document.getElementById('lightbox').addEventListener('touchend', e => {
+        const dx = e.changedTouches[0].screenX - touchStartX;
+        if (Math.abs(dx) > 40) {
+            lightboxNav(dx > 0 ? -1 : 1);
+        }
+    }, { passive: true });
+
+    // ════════════════════════════════════════════════════════════
+    // DOWNLOAD
+    // ════════════════════════════════════════════════════════════
+    async function triggerDownload(url, filename, btnEl) {
+        if (!url) {
+            showToast(t('no_link'));
+            return;
+        }
+
+        const originalText = btnEl ? btnEl.textContent : null;
+        if (btnEl) { btnEl.textContent = t('download_start'); btnEl.classList.add('loading'); }
+
+        try {
+            const res = await fetch(url, { mode: 'cors' });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const blob = await res.blob();
+            const blobUrl = URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            a.href = blobUrl;
+            a.download = filename || 'download';
+            a.rel = 'noopener';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
+            setTimeout(() => URL.revokeObjectURL(blobUrl), 8000);
+            showToast(t('download_success'));
+        } catch (err) {
+            console.warn('Blob download failed:', err);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename || '';
+            a.rel = 'noopener noreferrer';
+            a.target = '_self';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            showToast(t('download_fallback'));
+        } finally {
+            if (btnEl) { btnEl.textContent = originalText; btnEl.classList.remove('loading'); }
+        }
+    }
+
+    function downloadSelected() {
+        if (!currentGroup) return;
+        const v = currentGroup.versions[selectedVersionIdx];
+        if (!v) { showToast(t('no_version')); return; }
+        const filename = v.filename || (currentGroup.name + '_v' + v.version);
+        triggerDownload(v.downloadURL, filename, document.getElementById('downloadBtn'));
+    }
+
+    function copySelected() {
+        if (!currentGroup) return;
+        const v = currentGroup.versions[selectedVersionIdx];
+        if (!v || !v.downloadURL) { showToast(t('no_results_copy')); return; }
+        navigator.clipboard.writeText(v.downloadURL).then(() => {
+            showToast(t('copy_success'));
+        }).catch(() => {
+            showToast(t('copy_error'));
+        });
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // LOAD DATA
+    // ════════════════════════════════════════════════════════════
+    async function loadData() {
+        try {
+            const res = await fetch('apps.json');
+            const data = await res.json();
+            const items = data[DATA_KEY];
+            rawItems = Array.isArray(items) ? items : Object.values(items || {});
+
+            groupedItems = groupByBundle(rawItems);
+
+            if (groupedItems.length === 0) {
+                document.getElementById('list').innerHTML =
+                    '<div class="empty-state">' + t('no_data') + '</div>';
+                return;
+            }
+
+            currentPage = 0;
+            renderList();
+        } catch (e) {
+            document.getElementById('list').innerHTML =
+                '<div class="empty-state" style="color:#ff6b6b;">' + t('error') + e.message + '</div>';
+        }
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // NAV SHELL: hiện ngay khi người dùng bắt đầu kéo xuống (xem lại phía
+    // trên) dù chỉ một chút, ở bất kỳ đâu trên trang — không cần kéo hết về
+    // đầu. Ẩn ngay khi kéo lên (xem tiếp nội dung dưới). Không có auto-show
+    // theo thời gian/đứng yên — nav chỉ phản hồi trực tiếp theo thao tác.
+    // ════════════════════════════════════════════════════════════
+    (function setupNavAutoHide() {
+        const navShell = document.getElementById('navShell');
+        if (!navShell) return;
+
+        let lastScrollY = window.scrollY;
+        let isHidden = false;
+        let ticking = false;
+        const TOP_THRESHOLD = 12;
+        const SHOW_DELTA = 4;
+
+        function setNavHidden(hidden) {
+            if (isHidden === hidden) return;
+            isHidden = hidden;
+            navShell.classList.toggle('nav-hidden', hidden);
+        }
+
+        function onScroll() {
+            const currentY = Math.max(0, window.scrollY);
+            const delta = currentY - lastScrollY;
+
+            if (currentY <= TOP_THRESHOLD) {
+                setNavHidden(false);
+            } else if (delta <= -SHOW_DELTA) {
+                setNavHidden(false);
+            } else if (delta > 0) {
+                setNavHidden(true);
+            }
+
+            lastScrollY = currentY;
+            ticking = false;
+        }
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(onScroll);
+                ticking = true;
+            }
+        }, { passive: true });
+    })();
+
+    // ════════════════════════════════════════════════════════════
+    // INIT
+    // ════════════════════════════════════════════════════════════
+    initTheme();
+
+    const saved_lang = localStorage.getItem('lang');
+    if (saved_lang) {
+        document.documentElement.setAttribute('data-lang', saved_lang);
+    }
+
+    if (sessionStorage.getItem('reopenSettings') === '1') {
+        sessionStorage.removeItem('reopenSettings');
+        updateSettingsPanelTexts();
+        document.getElementById('settingsPanel').classList.add('active');
+        document.getElementById('settingsOverlay').classList.add('active');
+    }
+
+    loadData();
+</script>
+
+</body>
+</html>
