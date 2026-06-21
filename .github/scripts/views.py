@@ -60,15 +60,25 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             color-scheme: dark;
             background: #0f0f1e;
             height: 100%;
+            min-height: 100vh;
+            min-height: 100dvh;
         }}
 
         body {{
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI", sans-serif;
             background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #0f0f1e 100%);
             color: var(--text);
+            /* FIX: Trước đây chỉ có min-height: 100dvh — trên Safari iOS, dvh được
+               tính tại thời điểm load (lúc thanh địa chỉ còn full), nhưng khi cuộn
+               làm thanh địa chỉ co lại (viewport thực tế lớn hơn), body không giãn
+               lại kịp -> hở viền trên/dưới lộ màu nền mặc định của trình duyệt.
+               Dùng cả 100% (ăn theo html đã có height cố định) làm nền tảng, rồi
+               100dvh chỉ bổ sung cho trường hợp dvh lớn hơn 100%. */
+            height: 100%;
             min-height: 100%;
             min-height: 100dvh;
             overflow-x: hidden;
+            padding-top: env(safe-area-inset-top, 0);
             padding-bottom: env(safe-area-inset-bottom, 0);
             padding-left: env(safe-area-inset-left, 0);
             padding-right: env(safe-area-inset-right, 0);
@@ -249,9 +259,12 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             flex-direction: column;
         }}
 
-        /* Khoảng đệm cố định để item đầu list không bị nav-shell (fixed) che */
+        /* Khoảng đệm cố định để item đầu list không bị nav-shell (fixed) che.
+           FIX: body đã có padding-top: env(safe-area-inset-top) riêng, nên ở
+           đây chỉ cần cộng thêm phần chiều cao thực của nav-shell (178px),
+           không cộng lại env(safe-area-inset-top) lần 2 (tránh dư khoảng trống). */
         .nav-spacer {{
-            height: calc(178px + env(safe-area-inset-top, 0px));
+            height: 178px;
             margin-bottom: 12px;
             flex-shrink: 0;
         }}
@@ -463,7 +476,13 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(10px);
             z-index: 100;
-            padding: 0;
+            /* FIX: Trước đây padding: 0 khiến modal-content dính sát mép dưới và
+               2 bên màn hình -> chỉ bo được 2 góc trên, 2 góc dưới buộc phải vuông.
+               Giờ thêm padding đều quanh để modal "lơ lửng" cách mép, cho phép bo
+               tròn đủ cả 4 góc. Vẫn giữ animation trượt lên từ dưới như trước. */
+            padding: 16px;
+            padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+            box-sizing: border-box;
             will-change: opacity;
         }}
 
@@ -473,11 +492,11 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             position: relative;
             background: linear-gradient(135deg, #1a1a2e, #252540);
             border: 1px solid var(--border);
-            border-radius: 24px 24px 0 0;
+            border-radius: 24px;
             width: 100%;
             max-width: 500px;
             margin: 0 auto;
-            max-height: 88vh;
+            max-height: calc(88vh - 32px);
             display: flex;
             flex-direction: column;
             animation: slideUp 0.25s ease;
@@ -799,7 +818,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             flex: 1 1 auto;
             min-width: 0;
             background: var(--tint); color: white; border: none;
-            padding: 14px 12px; border-radius: 14px; font-weight: 700;
+            padding: 14px 12px; border-radius: 999px; font-weight: 700;
             cursor: pointer; font-size: 1em; transition: all 0.15s;
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }}
@@ -813,7 +832,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             max-width: 34%;
             background: rgba(132, 142, 249, 0.16);
             color: var(--tint); border: 1.5px solid var(--tint);
-            padding: 14px 12px; border-radius: 14px; font-weight: 700;
+            padding: 14px 12px; border-radius: 999px; font-weight: 700;
             font-size: 0.92em; cursor: pointer; transition: all 0.15s;
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }}
@@ -824,7 +843,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             width: 50px; flex: 0 0 auto;
             background: rgba(255, 255, 255, 0.1);
             color: var(--text); border: 1px solid var(--border);
-            border-radius: 14px; font-size: 1.2em; cursor: pointer;
+            border-radius: 999px; font-size: 1.2em; cursor: pointer;
         }}
 
         html[data-theme="light"] .action-btn-icon {{
