@@ -82,8 +82,8 @@ DYLIBS_JSON_PATH = os.path.join(REPO_ROOT, "repo/dylibs.json")
 # Cấu trúc vị trí mô tả desc/data/…
 # Cấu trúc: main(root)/repo/data/desc/apps/<AppName>/v1.0.txt
 # Cấu trúc: main(root)/repo/data/desc/tweaks/<TweakName>/v1.0.txt
-DESC_DIR = os.path.join(DEPICTION_DIR, "desc", "apps")
-TWEAK_DESC_DIR = os.path.join(DEPICTION_DIR, "desc", "tweaks")
+DESC_DIR = os.path.join(DEPICTION_DIR, "apps")
+TWEAK_DESC_DIR = os.path.join(DEPICTION_DIR, "tweaks")
 
 # --- Tài nguyên mặc định ---
 SOURCE_LOGO = f"{RAW_URL}{DEFAULT_DIR_NAME}/Kyic.png"
