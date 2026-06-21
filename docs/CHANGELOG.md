@@ -6,6 +6,19 @@
 
 | Tiêu đề | Nội dung |
 |---|---|
+| ⏱️ Time | 21/06/2026 13:22 |
+| 👤 Author | 2K |
+| 💬 Commit | Update logs.py |
+| 📊 Overview | 4 file · 111 thư mục thay đổi |
+| 🛠️ Các thay đổi | ✏️ Sửa (4)<br>`.commit_msg`<br>`repo/apps.json`<br>`repo/dylibs.json`<br>`repo/sileo.json`<br><details><summary>✨ Thêm thư mục (111)</summary><br>`FAQs/`<br>`repo/`<br>`repo/apps/`<br>`repo/apps/AllSign/`<br>`repo/apps/ESign/`<br>`repo/apps/Feather/`<br>`repo/apps/GBox/`<br>`repo/apps/LCSign/`<br>`repo/apps/Lithium/`<br>`repo/apps/MuteOTA/`<br>`repo/apps/Pocket/`<br>`repo/apps/PostBox/`<br>`repo/apps/Zebra/`<br>`repo/data/`<br>`repo/data/default/`<br>`repo/data/desc/`<br>`repo/data/desc/apps/`<br>`repo/data/desc/apps/BiliBili/`<br>`repo/data/desc/apps/DLiPA/`<br>`repo/data/desc/apps/ESign/`<br>`repo/data/desc/apps/Facebook/`<br>`repo/data/desc/apps/Feather/`<br>`repo/data/desc/apps/Instagram/`<br>`repo/data/desc/apps/LCSign/`<br>`repo/data/desc/apps/MuteOTA/`<br>`repo/data/desc/apps/Phim4K/`<br>`repo/data/desc/apps/Pocket/`<br>`repo/data/desc/apps/SPAMSMS/`<br>`repo/data/desc/apps/Stay/`<br>`repo/data/desc/apps/Telegram/`<br>`repo/data/desc/apps/Turrit/`<br>`repo/data/desc/apps/UnKeySign/`<br>`repo/data/desc/apps/YouTube/`<br>`repo/data/desc/apps/Zebra/`<br>`repo/data/desc/apps/全能签/`<br>`repo/data/desc/tweaks/`<br>`repo/data/desc/tweaks/Lead/`<br>`repo/data/desc/tweaks/TGExtra/`<br>`repo/data/desc/tweaks/YoutubeX/`<br>`repo/data/desc/tweaks/cc18/`<br>`repo/data/desc/tweaks/ccappicon/`<br>`repo/data/desc/tweaks/fastlock/`<br>`repo/data/desc/tweaks/flow/`<br>`repo/data/desc/tweaks/glow/`<br>`repo/data/desc/tweaks/infuseplus/`<br>`repo/data/desc/tweaks/noytpremium/`<br>`repo/data/desc/tweaks/oledkeyboard/`<br>`repo/data/desc/tweaks/orwellvk/`<br>`repo/data/desc/tweaks/tweach/`<br>`repo/data/desc/tweaks/twlegacy/`<br>`repo/data/desc/tweaks/yougroupsettings/`<br>`repo/data/desc/tweaks/youmod/`<br>`repo/data/desc/tweaks/youmute/`<br>`repo/data/desc/tweaks/youpip/`<br>`repo/data/desc/tweaks/youspeed/`<br>`repo/data/desc/tweaks/youtubefix/`<br>`repo/data/desc/tweaks/yt-native-share/`<br>`repo/data/desc/tweaks/ytmu/`<br>`repo/data/desc/tweaks/ytplus/`<br>`repo/data/desc/tweaks/ytuhd/`<br>`repo/data/desc/tweaks/ytunshorts/`<br>`repo/data/desc/tweaks/ytvideooverlay/`<br>`repo/data/desc/wiki/`<br>`repo/data/icons/`<br>`repo/data/images/`<br>`repo/data/images/AutoAC/`<br>`repo/data/images/DLiPA/`<br>`repo/data/images/Facebook/`<br>`repo/data/images/Feather/`<br>`repo/data/images/Instagram/`<br>`repo/data/images/Lead/`<br>`repo/data/images/Stay/`<br>`repo/data/images/TGEXtra/`<br>`repo/data/images/Telegram/`<br>`repo/data/images/Turrit/`<br>`repo/data/images/YouTube/`<br>`repo/data/images/ytplus/`<br>`repo/debs/`<br>`repo/debs/Lead/`<br>`repo/debs/TGExtra/`<br>`repo/debs/YoutubeX/`<br>`repo/debs/cc18/`<br>`repo/debs/ccappicon/`<br>`repo/debs/fastlock/`<br>`repo/debs/flow/`<br>`repo/debs/glow/`<br>`repo/debs/infuseplus/`<br>`repo/debs/noytpremium/`<br>`repo/debs/oledkeyboard/`<br>`repo/debs/orwellvk/`<br>`repo/debs/tweach/`<br>`repo/debs/twlegacy/`<br>`repo/debs/yougroupsettings/`<br>`repo/debs/youmod/`<br>`repo/debs/youmute/`<br>`repo/debs/youpip/`<br>`repo/debs/youspeed/`<br>`repo/debs/youtubefix/`<br>`repo/debs/yt-native-share/`<br>`repo/debs/ytmu/`<br>`repo/debs/ytplus/`<br>`repo/debs/ytuhd/`<br>`repo/debs/ytunshorts/`<br>`repo/debs/ytvideooverlay/`<br>`repo/depictions/`<br>`repo/depictions/default/`<br>`repo/depictions/icons/`<br>`repo/depictions/images/`<br>`repo/depictions/metadata/`<br>`repo/dylibs/`<br>`repo/dylibs/Lead/`</details> |
+| ❓ Nguyên nhân | Hệ thống tự động kích hoạt khi có push lên nhánh main · Cập nhật cấu hình · Commit: Update logs.py |
+| 🎯 Kết quả | ✅ Hoàn tất<br><br>📄 File (4): ✏️ Sửa 4<br>📂 Thư mục (111): ✨ Thêm 111 |
+
+---
+
+
+| Tiêu đề | Nội dung |
+|---|---|
 | ⏱️ Time | 21/06/2026 13:16 |
 | 👤 Author | 2K |
 | 💬 Commit | Update config.py |
