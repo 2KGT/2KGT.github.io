@@ -1,7 +1,0 @@
-Lead
-
-Update: v1.4.3
-• Đã sửa:Một biểu tượng "đã chỉnh sửa" giả mạo xuất hiện trên các biểu tượng cảm xúc và tin nhắn thông thường.
-• Đã sửa:Chức năng chống thu hồi không hoạt động trong các nhóm và kênh.
-• Đã sửa:Biểu tượng phương tiện dùng một lần đã biến mất sau khi thoát và vào lại cuộc trò chuyện.
-• Đã cập nhậtCác hook dành cho phiên bản Telegram mới nhất
