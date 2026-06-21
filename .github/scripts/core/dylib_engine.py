@@ -6,6 +6,7 @@ import logging
 import hashlib
 import re
 import datetime
+from urllib.parse import urlparse
 import config
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -82,19 +83,23 @@ def resolve_display_name(deb_match, fallback_id):
     return base[:1].upper() + base[1:] if base else base
 
 
-def _extract_deb_filename(deb_info, dict_key):
+def _extract_deb_filename(dict_key):
     """
-    Lấy tên tệp .deb gốc từ một record trong system_db["tweaks"].
-    Tuỳ pipeline (sileo_engine) mà tên tệp có thể nằm ở field
-    'Filename' (chuẩn control file Debian, có thể kèm path con/
-    pool/...), hoặc các biến thể field khác, hoặc đôi khi chính
-    dict_key đã là tên tệp .deb. Thử lần lượt cho chắc.
+    Lấy tên tệp .deb gốc từ 1 record trong system_db["tweaks"].
+
+    ĐỐI CHIẾU THỰC TẾ với sileo_engine.py: `system_db["tweaks"][f_url] =
+    deb_info` — value (deb_info) chỉ là control data thuần (Package/Name/
+    Version/Architecture/Description/...), KHÔNG có field "Filename" nào.
+    Tên tệp .deb thật ra nằm ở chính KEY của dict (f_url): với .deb cloud,
+    f_url = asset["url"] (link release asset, có thể kèm query string
+    token); với .deb local, f_url = BASE_URL + relative_path (kết thúc
+    bằng đúng tên tệp). Nên lấy basename từ phần path của key, bỏ qua
+    query string (?...) nếu có.
     """
-    for field in ("Filename", "filename", "File", "file", "FileName"):
-        val = deb_info.get(field)
-        if val:
-            return os.path.basename(str(val).strip())
-    return os.path.basename(str(dict_key)) if dict_key else ""
+    if not dict_key:
+        return ""
+    path_part = urlparse(str(dict_key)).path or str(dict_key)
+    return os.path.basename(path_part)
 
 
 def find_matching_deb_data(f_name, system_db):
@@ -116,7 +121,7 @@ def find_matching_deb_data(f_name, system_db):
 
     # 1) Khớp CHÍNH: toàn bộ tên tệp (chỉ khác đuôi .deb/.dylib)
     for key, deb_info in tweaks_dict.items():
-        deb_filename = _extract_deb_filename(deb_info, key)
+        deb_filename = _extract_deb_filename(key)
         deb_base = clean_string_for_match(os.path.splitext(deb_filename)[0])
         if deb_base and deb_base == dylib_base:
             return deb_info
