@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 21/06/2026 21:07:01 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 21/06/2026 23:52:55 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -28,7 +28,6 @@
 │   │   └── views.py
 │   └── 📂 workflows/
 │       ├── Auto-sync-feather-sileo.yml
-│       ├── Auto-sync-generate-info.yml
 │       ├── Clean-commit-run-logs.yml
 │       └── Clean-theos-stubborn.yml
 ├── .gitignore
