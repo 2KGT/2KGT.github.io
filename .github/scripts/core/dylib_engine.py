@@ -23,6 +23,73 @@ def clean_string_for_match(text):
     return re.sub(r'[^a-z0-9]', '', text.lower())
 
 
+def _iso8601_z(dt):
+    """
+    🔑 FIX QUAN TRỌNG: Định dạng ISO8601 chuẩn 'Z' (không micro-giây).
+    Python's `datetime.isoformat()` mặc định trả về dạng '+00:00' kèm
+    micro-giây (vd: 2026-06-21T12:34:56.789012+00:00) — Swift's mặc định
+    ISO8601DateFormatter (mà Feather/AltStore dùng để decode versionDate)
+    KHÔNG parse được dạng này, chỉ chấp nhận đúng hậu tố 'Z' không phần
+    thập phân (vd: 2026-06-21T12:34:56Z). Đây là nguyên nhân chính khiến
+    Feather báo "không thể đọc dữ liệu vì định dạng không đúng".
+    """
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=datetime.timezone.utc)
+    dt = dt.astimezone(datetime.timezone.utc)
+    return dt.strftime('%Y-%m-%dT%H:%M:%SZ')
+
+
+def _now_iso8601_z():
+    return _iso8601_z(datetime.datetime.now(datetime.timezone.utc))
+
+
+def _file_mtime_iso8601_z(path):
+    """Lấy ngày sửa đổi cuối của tệp .dylib cục bộ làm 'versionDate'."""
+    try:
+        ts = os.path.getmtime(path)
+        return _iso8601_z(datetime.datetime.fromtimestamp(ts, tz=datetime.timezone.utc))
+    except Exception:
+        return _now_iso8601_z()
+
+
+def _arch_rank(arch):
+    """Thứ tự ưu tiên kiến trúc khi xếp 'bản mới nhất' đại diện cho app
+    (top-level name/icon/version...) — arm64e/arm64 phổ biến trên thiết
+    bị đời mới nên ưu tiên hiển thị trước, nhưng KHÔNG dùng để loại bỏ
+    kiến trúc nào, vì mỗi kiến trúc vẫn giữ 1 entry riêng trong versions[]."""
+    a = (arch or "").lower()
+    if "arm64e" in a:
+        return 0
+    if "arm64" in a:
+        return 1
+    if "arm" in a:
+        return 2
+    return 3
+
+
+def _arch_suffix(arch):
+    """
+    🔑 Rút gọn chuỗi kiến trúc đầy đủ (vd 'iphoneos-arm64e') thành hậu
+    tố ngắn gọn (vd 'arm64e') để gắn vào chuỗi version — biến mỗi cặp
+    (version, kiến trúc) thành 1 'version' RIÊNG BIỆT trong Feather:
+        com.w3ltyyy.lead_1.3.1_iphoneos-arm.dylib    -> "1.3.1-arm"
+        com.w3ltyyy.lead_1.3.1_iphoneos-arm64.dylib  -> "1.3.1-arm64"
+        com.w3ltyyy.lead_1.3.1_iphoneos-arm64e.dylib -> "1.3.1-arm64e"
+    => Không cần "chọn 1 bản đại diện rồi bỏ các bản còn lại" như trước —
+    GOM ĐỦ cả 3 kiến trúc, không mất dữ liệu nào.
+    """
+    a = (arch or "").strip()
+    if not a:
+        return "arm"
+    suffix = a.split('-')[-1] if '-' in a else a
+    return suffix.lower() or "arm"
+
+
+def _composite_version(ver, arch):
+    """Ghép version + hậu tố kiến trúc, vd '1.3.1' + 'iphoneos-arm' -> '1.3.1-arm'."""
+    return f"{ver}-{_arch_suffix(arch)}"
+
+
 def calculate_hashes_from_local(path):
     """Tính hash chuẩn cho file .dylib cục bộ (streaming tránh tràn RAM)"""
     md5 = hashlib.md5()
@@ -188,7 +255,7 @@ def get_dylib_assets(dylib_name, deb_match):
     dylib_img_dir = config.get_dylib_images_dir(dylib_name)
     local_images = os.listdir(dylib_img_dir) if os.path.exists(dylib_img_dir) else []
 
-    icon_url, banner_url, screens = None, None, []
+    icon_url, banner_url, video_url, screens = None, None, None, []
 
     if deb_match:
         remote_icon = deb_match.get('Icon') or deb_match.get('icon')
@@ -201,6 +268,12 @@ def get_dylib_assets(dylib_name, deb_match):
             os.makedirs(dylib_img_dir, exist_ok=True)
             if utils.download_resource_to_local(remote_banner, os.path.join(dylib_img_dir, f"{base_variant}_banner.jpg")):
                 banner_url = build_image_url(f"{base_variant}_banner.jpg")
+
+        remote_video = deb_match.get('Video') or deb_match.get('video')
+        if remote_video and str(remote_video).startswith("http"):
+            os.makedirs(dylib_img_dir, exist_ok=True)
+            if utils.download_resource_to_local(remote_video, os.path.join(dylib_img_dir, f"{base_variant}.mp4")):
+                video_url = build_image_url(f"{base_variant}.mp4")
 
         raw_screens_data = (
             deb_match.get('Screenshots') or deb_match.get('screenshots')
@@ -246,6 +319,14 @@ def get_dylib_assets(dylib_name, deb_match):
         if matched:
             banner_url = build_image_url(matched)
 
+    if not video_url:
+        matched = next(
+            (f for f in local_images if clean_string_for_match(f) == f"{base_variant}.mp4"),
+            None
+        )
+        if matched:
+            video_url = build_image_url(matched)
+
     if not screens:
         for i in range(1, 16):
             matched = next(
@@ -261,12 +342,15 @@ def get_dylib_assets(dylib_name, deb_match):
         icon_url = config.SOURCE_LOGO
     if not banner_url:
         banner_url = config.DEFAULT_BANNER
+    if not video_url:
+        video_url = config.DEFAULT_VIDEO
     if not screens:
         screens = utils.get_default_screens()
 
     return {
         "icon": utils.clean_github_url(icon_url),
         "banner": utils.clean_github_url(banner_url),
+        "video": utils.clean_github_url(video_url),
         "screenshots": [utils.clean_github_url(s) for s in screens if s]
     }
 
@@ -300,13 +384,15 @@ def build_dylib_depiction_json(safe_filename, dylib_name, version, description, 
         "changelog": changelog_markdown,
         "icon": assets["icon"],
         "banner": assets["banner"],
+        "video": assets.get("video"),
         "screenshots": assets["screenshots"],
         "size": extra.get("size", 0),
         "md5": extra.get("md5", ""),
         "sha1": extra.get("sha1", ""),
         "sha256": extra.get("sha256", ""),
         "downloadURL": extra.get("downloadURL", ""),
-        "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat()
+        "versionDate": extra.get("date") or _now_iso8601_z(),
+        "generated_at": _now_iso8601_z()
     }
 
     try:
@@ -360,6 +446,8 @@ def run_dylib_engine(release_assets, system_db):
         file_size = int(os.path.getsize(path))
         relative_path = os.path.relpath(path, config.REPO_OUTPUT_DIR).replace("\\", "/")
         download_url = f"{config.BASE_URL.rstrip('/')}/{relative_path.lstrip('/')}"
+        version_date = _file_mtime_iso8601_z(path)
+        permissions = utils.format_permissions(deb_match.get('Permissions', {})) if deb_match else {}
 
         # FIX: tên đẹp — ưu tiên Name từ deb_match, fallback đoạn cuối bundle ID
         dylib_name = resolve_display_name(deb_match, id_or_name)
@@ -399,17 +487,21 @@ def run_dylib_engine(release_assets, system_db):
         # 4. FIX MỚI: Depiction JSON riêng từng version+arch
         depiction_url = build_dylib_depiction_json(
             safe_filename, dylib_name, version, raw_description, assets, author, bundle, architecture,
-            extra={"size": file_size, "md5": md5, "sha1": sha1, "sha256": sha256, "downloadURL": download_url}
+            extra={"size": file_size, "md5": md5, "sha1": sha1, "sha256": sha256, "downloadURL": download_url, "date": version_date}
         )
 
         # 5. Cache thô đầy đủ thuộc tính — giữ wikidylibs.json để tránh
-        # tính lại hash mỗi lần chạy (như cơ chế cache của feather/sileo)
+        # tính lại hash mỗi lần chạy (như cơ chế cache của feather/sileo).
+        # Đây là cache NỘI BỘ, không phải file Feather đọc trực tiếp, nên
+        # vẫn giữ đầy đủ field thô (Architecture/Banner/Video/Permissions...)
+        # dù dylibs.json public ra ngoài đã lược bớt theo chuẩn apps.json.
         wiki_dylibs_data[download_url] = {
             "Package": bundle, "Name": dylib_name, "Version": version,
             "Architecture": architecture, "Section": section, "Author": author,
             "Description": raw_description, "Icon": assets["icon"], "Banner": assets["banner"],
-            "Screenshots": assets["screenshots"], "Size": file_size,
-            "MD5": md5, "SHA1": sha1, "SHA256": sha256, "Dylib_File": f_name
+            "Video": assets.get("video"), "Screenshots": assets["screenshots"], "Size": file_size,
+            "MD5": md5, "SHA1": sha1, "SHA256": sha256, "Dylib_File": f_name,
+            "VersionDate": version_date, "Permissions": permissions
         }
 
         dylibs_map[bundle].append({
@@ -417,52 +509,76 @@ def run_dylib_engine(release_assets, system_db):
             "architecture": architecture, "size": file_size,
             "downloadURL": download_url, "md5": md5, "sha256": sha256,
             "author": author, "icon": assets["icon"], "banner": assets["banner"],
-            "screenshots": assets["screenshots"], "depictionURL": depiction_url,
+            "video": assets.get("video"), "screenshots": assets["screenshots"],
+            "depictionURL": depiction_url, "date": version_date, "permissions": permissions,
             "safe_file": safe_filename,
             "description": config.get_optimized_dylib_description(dylib_name, version)
         })
 
-    # 6. FIX MỚI: Xuất dylibs.json theo cấu trúc giống apps.json của
-    # Feather — group theo bundle, mỗi entry có "versions[]" đầy đủ,
-    # nhưng nội dung (name/author/icon/description) lấy theo style sileo.
+    # 6. FIX MỚI: Chuẩn hoá output theo ĐÚNG cấu trúc Feather apps.json —
+    # root: name/identifier/iconURL/apps/news; mỗi app: name/
+    # bundleIdentifier/developerName/subtitle/localizedDescription/
+    # iconURL/tintColor/version/versionDate/size/downloadURL/versions[]/
+    # screenshotURLs/videoURL/appPermissions. KHÔNG kèm field lạ
+    # (architecture/depictionURL/bannerURL) — field lạ + ngày sai chuẩn
+    # ISO8601 ('+00:00' thay vì 'Z') là nguyên nhân Feather báo lỗi
+    # "không thể đọc dữ liệu vì định dạng không đúng".
+    # Lưu ý kiến trúc: dylib có 3 bản arm/arm64/arm64e cùng version số —
+    # thay vì chọn 1 bản đại diện rồi bỏ phí các bản còn lại, ta NHÚNG
+    # kiến trúc vào chuỗi "version" (vd "1.3.1-arm", "1.3.1-arm64",
+    # "1.3.1-arm64e") để mỗi kiến trúc trở thành 1 entry RIÊNG trong
+    # versions[] — Feather vẫn đọc tốt vì "version" chỉ là chuỗi tự do,
+    # không validate theo semver. Không mất dữ liệu kiến trúc nào.
     final_dylibs = []
     for bundle, versions in dylibs_map.items():
-        unique_versions = sorted(versions, key=lambda v: utils.parse_version_tuple(v['ver']), reverse=True)
-        latest = unique_versions[0]
+        # Sắp xếp: version số mới nhất trước; cùng version số thì kiến
+        # trúc tốt nhất (arm64e > arm64 > arm) lên trước — chỉ ảnh hưởng
+        # thứ tự hiển thị, KHÔNG loại bỏ bản nào.
+        sorted_versions = sorted(
+            versions,
+            key=lambda v: (utils.parse_version_tuple(v['ver']), -_arch_rank(v['architecture'])),
+            reverse=True
+        )
+        latest = sorted_versions[0]
+
+        def _describe(v):
+            return f"{v['description']}\n\nKiến trúc: {v['architecture']}"
 
         final_dylibs.append({
             "name": latest['name'],
             "bundleIdentifier": bundle,
             "developerName": latest['author'],
             "subtitle": "Dylib Sideload",
-            "localizedDescription": latest['description'],
+            "localizedDescription": _describe(latest),
             "iconURL": latest['icon'],
             "tintColor": config.TINT_COLOR,
-            "version": latest['ver'],
-            "architecture": latest['architecture'],
+            "version": _composite_version(latest['ver'], latest['architecture']),
+            "versionDate": latest['date'],
             "size": latest['size'],
             "downloadURL": latest['downloadURL'],
-            "depictionURL": latest['depictionURL'],
             "versions": [
                 {
-                    "version": v['ver'],
-                    "architecture": v['architecture'],
+                    "version": _composite_version(v['ver'], v['architecture']),
+                    "date": v['date'],
                     "size": v['size'],
                     "downloadURL": v['downloadURL'],
-                    "depictionURL": v['depictionURL'],
-                    "localizedDescription": v['description']
+                    "localizedDescription": _describe(v)
                 }
-                for v in unique_versions
+                for v in sorted_versions
             ],
             "screenshotURLs": latest['screenshots'],
-            "bannerURL": latest['banner']
+            "videoURL": latest['video'],
+            "appPermissions": latest['permissions']
         })
 
     final_dylibs.sort(key=lambda x: x['name'].lower())
 
-    gen_time = datetime.datetime.now(datetime.timezone.utc).isoformat()
+    gen_time = _now_iso8601_z()
 
-    # 7. Xuất wikidylibs.json (cache thô) vào thư mục wiki
+    # 7. Xuất wikidylibs.json (cache thô) vào thư mục wiki — vẫn giữ
+    # NGUYÊN VẸN field thô (Architecture/Banner/Video/Permissions/MD5...)
+    # vì đây là cache nội bộ phục vụ build lại, không bị ràng buộc theo
+    # chuẩn apps.json mà Feather/AltStore đọc trực tiếp.
     wiki_dir_path = getattr(config, "WIKI_DIR", os.path.join(os.path.dirname(config.REPO_OUTPUT_DIR), "wiki"))
     os.makedirs(wiki_dir_path, exist_ok=True)
     wiki_output_path = os.path.join(wiki_dir_path, 'wikidylibs.json')
@@ -473,14 +589,16 @@ def run_dylib_engine(release_assets, system_db):
     except Exception as e:
         logger.error(f"❌ Lỗi ghi tệp wikidylibs.json vào wiki: {e}")
 
-    # 8. Xuất dylibs.json hoàn chỉnh ra repo root (nguồn cho dylib.html)
+    # 8. Xuất dylibs.json hoàn chỉnh ra repo root — ĐÚNG schema Feather
+    # apps.json (root key "apps" thay vì "dylibs", có "iconURL" + "news")
+    # để Feather/AltStore-based app đọc nguồn này không báo lỗi định dạng.
     dylibs_output_path = os.path.join(config.REPO_OUTPUT_DIR, 'dylibs.json')
     output_json = {
         "name": config.REPO_NAME,
         "identifier": config.SOURCE_IDENTIFIER,
-        "dylibs": final_dylibs,
-        "generated_at": gen_time,
-        "total": len(final_dylibs)
+        "iconURL": config.SOURCE_LOGO,
+        "apps": final_dylibs,
+        "news": []
     }
     try:
         with open(dylibs_output_path, 'w', encoding='utf-8') as f:
