@@ -59,6 +59,33 @@ def parse_dylib_filename(filename):
     return id_or_name, ver, arch
 
 
+def resolve_display_name(deb_match, fallback_id):
+    """
+    FIX: Suy ra "tên đẹp" cho dylib, đồng bộ logic với sileo_engine.py.
+
+    Thứ tự ưu tiên:
+    1. Field 'Name' từ deb_match (dữ liệu DEB đã đối chiếu được) — nếu
+       hợp lệ và KHÔNG phải là bundle ID trá hình (Name == Package).
+    2. Fallback: lấy đoạn cuối cùng của bundle ID/tên file dylib
+       (com.w3ltyyy.lead → lead → Lead), viết hoa chữ cái đầu.
+
+    Không tự early-return name rỗng/None — luôn rơi xuống fallback.
+    """
+    def _looks_like_bundle_id(s):
+        # com.x.y kiểu domain ngược — nhiều dấu chấm + toàn chữ thường/số
+        return bool(re.match(r'^[a-z0-9]+(\.[a-z0-9]+){2,}$', s.strip()))
+
+    name = (deb_match or {}).get("Name", "")
+    name = name.strip() if isinstance(name, str) else ""
+
+    if name and not _looks_like_bundle_id(name):
+        return name
+
+    base = fallback_id.strip().split('.')[-1] if fallback_id else fallback_id
+    base = base or fallback_id or "tweak"
+    return base[:1].upper() + base[1:] if base else base
+
+
 def find_matching_deb_data(f_name, system_db):
     """
     Thuật toán khớp mật mã cải tiến: Đối chiếu chuẩn xác theo Tên hoặc Package ID
@@ -135,8 +162,12 @@ def run_dylib_engine(release_assets, system_db):
         download_url = f"{config.BASE_URL.rstrip('/')}/{relative_path.lstrip('/')}"
         
         # Định hình dữ liệu cơ sở dựa trên việc đối chiếu kết quả
+        # FIX: dùng resolve_display_name() để tên đẹp nhất quán với
+        # sileo_engine.py — tránh hiển thị bundle ID thô (com.w3ltyyy.lead)
+        # khi deb_match["Name"] vô tình trùng bundle ID, và viết hoa chữ
+        # đầu khi phải fallback về đoạn cuối id_or_name.
         if deb_match:
-            name = deb_match.get("Name", id_or_name.split('.')[-1])
+            name = resolve_display_name(deb_match, id_or_name)
             bundle = deb_match.get("Package", id_or_name)
             version = dylib_ver if dylib_ver else deb_match.get("Version", "1.0")
             architecture = dylib_arch if dylib_arch else deb_match.get("Architecture", "iphoneos-arm64")
@@ -144,7 +175,7 @@ def run_dylib_engine(release_assets, system_db):
             author = deb_match.get("Author", "Kyic Store")
             description = deb_match.get("Description", "Tinh chỉnh cấu trúc dylib.")
         else:
-            name = id_or_name.split('.')[-1]
+            name = resolve_display_name(None, id_or_name)
             bundle = id_or_name if '.' in id_or_name else f"com.kyic.{id_or_name.lower()}"
             version = dylib_ver if dylib_ver else "1.0"
             architecture = dylib_arch if dylib_arch else "iphoneos-arm64"
