@@ -1,15 +1,14 @@
 {
   "name": "Lead",
-  "bundleIdentifier": "com.w3ltyyy.lead",
+  "bundle": "com.w3ltyyy.lead",
   "version": "1.4.3",
-  "versionDate": "2026-06-21T11:23:45Z",
   "architecture": "iphoneos-arm",
-  "developerName": "w3ltyyy",
-  "localizedDescription": "The best Tweak For Telegram iOS",
+  "author": "w3ltyyy",
+  "description": "The best Tweak For Telegram iOS",
   "changelog": "### v1.4.3 (hiện tại)\nThe best Tweak For Telegram iOS\n\n### v1.4.2\nThe best Tweak For Telegram iOS\n\n### v1.3.3\nThe best Tweak For Telegram iOS",
-  "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
-  "bannerURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_banner.png",
-  "screenshotURLs": [
+  "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
+  "banner": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_banner.png",
+  "screenshots": [
     "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Lead/Lead_1.jpg"
   ],
   "size": 25685712,
@@ -17,5 +16,5 @@
   "sha1": "49f72145b3a7bc571ee86b39a127fa71ccf37d8a",
   "sha256": "c2b3a859862071bede8fc026cf61e09887c676dc124ab3782307cec21a203e87",
   "downloadURL": "https://2kgt.github.io/repo/dylibs/com.w3ltyyy.lead_1.4.3_iphoneos-arm.dylib",
-  "generated_at": "2026-06-21T11:23:47Z"
+  "generated_at": "2026-06-21T12:32:29.306658+00:00"
 }
