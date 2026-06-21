@@ -12,13 +12,13 @@
       "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
       "tintColor": "848ef9",
       "version": "1.4.3",
-      "versionDate": "2026-06-21T11:23:09Z",
+      "versionDate": "2026-06-21T11:23:45Z",
       "size": 25685712,
       "downloadURL": "https://2kgt.github.io/repo/dylibs/com.w3ltyyy.lead_1.4.3_iphoneos-arm.dylib",
       "versions": [
         {
           "version": "1.4.3",
-          "date": "2026-06-21T11:23:09Z",
+          "date": "2026-06-21T11:23:45Z",
           "size": 25685712,
           "downloadURL": "https://2kgt.github.io/repo/dylibs/com.w3ltyyy.lead_1.4.3_iphoneos-arm.dylib",
           "localizedDescription": "The best Tweak For Telegram iOS",
@@ -27,7 +27,7 @@
         },
         {
           "version": "1.4.2",
-          "date": "2026-06-21T11:23:10Z",
+          "date": "2026-06-21T11:23:46Z",
           "size": 25669104,
           "downloadURL": "https://2kgt.github.io/repo/dylibs/com.w3ltyyy.lead_1.4.2_iphoneos-arm.dylib",
           "localizedDescription": "The best Tweak For Telegram iOS",
@@ -36,7 +36,7 @@
         },
         {
           "version": "1.3.3",
-          "date": "2026-06-21T11:23:10Z",
+          "date": "2026-06-21T11:23:47Z",
           "size": 25524416,
           "downloadURL": "https://2kgt.github.io/repo/dylibs/com.w3ltyyy.lead_1.3.3_iphoneos-arm.dylib",
           "localizedDescription": "The best Tweak For Telegram iOS",
@@ -53,6 +53,6 @@
       "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_video.mp4"
     }
   ],
-  "generated_at": "2026-06-21T11:23:11Z",
+  "generated_at": "2026-06-21T11:23:47Z",
   "total": 1
 }
