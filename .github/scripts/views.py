@@ -2566,6 +2566,13 @@ if __name__ == "__main__":
 
     build_view(os.path.join(config.REPO_OUTPUT_DIR, "apps.html"), "Apps", path_apps, "apps", "apps", "apps")
     build_view(os.path.join(config.REPO_OUTPUT_DIR, "tweaks.html"), "Tweaks", path_tweaks, "tweaks", "tweaks", "tweaks")
-    build_view(os.path.join(config.REPO_OUTPUT_DIR, "dylibs.html"), "Dylibs", path_dylibs, "dylibs", "dylibs", "dylibs")
+    # FIX: dylibs.json do dylib_engine.py xuất theo ĐÚNG chuẩn Feather
+    # apps.json (root key "apps", không phải "dylibs") — xem dylib_engine.py
+    # run_dylib_engine(): output_json = {"name":..., "apps": final_dylibs, "news": []}.
+    # Trước đây data_key truyền là "dylibs" khiến trang web đọc data['dylibs']
+    # -> undefined -> rawItems rỗng -> luôn hiện "📭 Chưa có dữ liệu" dù
+    # dylibs.json có data thật. repo_type vẫn giữ "dylibs" để các hàm khác
+    # (computeCategory, icon mặc định...) hoạt động đúng như cũ.
+    build_view(os.path.join(config.REPO_OUTPUT_DIR, "dylibs.html"), "Dylibs", path_dylibs, "apps", "dylibs", "dylibs")
 
     print("🎉 Tất cả HTML views v4 đã được tạo thành công!")
