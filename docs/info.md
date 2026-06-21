@@ -1,7 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 21/06/2026 16:31:37 (Giờ Hà Nội)*
-
-📝 *Thay đổi thư mục so với lần quét trước: 🗑️ -1 thư mục đã xoá* — xem chi tiết tại `docs/CHANGELOG.md`
+⏱️ *Cập nhật tự động lúc: 21/06/2026 17:16:38 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
