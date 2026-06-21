@@ -151,6 +151,41 @@ def extract_tweak_name_from_filename(filename):
     return tweak_name if tweak_name else name_no_ext
 
 
+def resolve_display_name(deb_info, fallback_id):
+    """
+    FIX: Suy ra "tên đẹp" để dùng làm TÊN THƯ MỤC (desc/ + depiction/),
+    thay vì dùng thẳng bundle ID thô (com.w3ltyyy.lead) như trước đây.
+
+    Thứ tự ưu tiên:
+    1. Field 'Name' đọc được từ control file của .deb — đây là tên đẹp
+       nhà phát triển khai báo (ví dụ: "Lead").
+    2. Fallback: lấy đoạn cuối cùng của bundle ID/tên file
+       (com.w3ltyyy.lead → lead → Lead).
+
+    FIX: Loại trừ trường hợp 'Name' vô tình CHÍNH LÀ bundle ID đầy đủ
+    (một số .deb build ẩu set Name = Package) — nếu vậy vẫn fallback
+    về đoạn cuối, tránh thư mục lại ra "com.w3ltyyy.lead" y như cũ.
+
+    Tên cuối được viết hoa chữ cái đầu để hiển thị đẹp hơn, nhưng KHÔNG
+    đổi nếu Name gốc đã có hoa/thường tùy ý (giữ nguyên style nhà phát
+    triển đặt).
+    """
+    def _looks_like_bundle_id(s):
+        # com.x.y kiểu domain ngược — nhiều dấu chấm + toàn chữ thường/số
+        return bool(re.match(r'^[a-z0-9]+(\.[a-z0-9]+){2,}$', s.strip()))
+
+    name = (deb_info or {}).get("Name", "")
+    name = name.strip() if isinstance(name, str) else ""
+
+    if name and not _looks_like_bundle_id(name):
+        return name
+
+    # Fallback: lấy đoạn cuối cùng sau dấu '.' của bundle ID / tên file gốc
+    base = fallback_id.strip().split('.')[-1] if fallback_id else fallback_id
+    base = base or fallback_id or "tweak"
+    return base[:1].upper() + base[1:] if base else base
+
+
 def get_tweak_assets(tweak_name, deb_info):
     """
     FIX: Ảnh (banner/video/screenshots) lấy TRỰC TIẾP từ control field
@@ -413,28 +448,15 @@ def run_sileo_engine(release_assets, system_db):
         processed_safenames.add(safe_filename)
 
         parts = safe_filename.split('_')
-        tweak_title = parts[0] if parts else safe_filename
+        raw_id = parts[0] if parts else safe_filename
         ver = parts[1] if len(parts) > 1 else "1.0"
         arch = parts[2] if len(parts) > 2 else "iphoneos-arm"
 
-        # FIX 4: Tải và đọc control data thực tế từ cloud .deb
-        # thay vì tự đặt bid/info từ tên file
-        logger.info(f"-> Đang quét Cloud Tweak: {tweak_title} [{arch}]")
-        processed_tweaks_titles.append(tweak_title)
-
-        # FIX MỚI: Lấy Release Note (body) từ GitHub Release — tương tự Feather
-        # Lưu vào v{version}.txt để `get_optimized_tweak_description()` dùng
-        release_note = asset.get("body", "")
-        if release_note and len(release_note.strip()) > 10:
-            tweak_desc_dir = os.path.join(config.TWEAK_DESC_DIR, tweak_title)
-            os.makedirs(tweak_desc_dir, exist_ok=True)
-            version_file = os.path.join(tweak_desc_dir, f"v{ver}.txt")
-            try:
-                with open(version_file, 'w', encoding='utf-8') as f:
-                    f.write(release_note.strip())
-                logger.info(f"💾 Lưu changelog: {version_file}")
-            except Exception as e:
-                logger.warning(f"⚠️ Không lưu changelog cho {tweak_title} v{ver}: {e}")
+        # FIX 4: Tải và đọc control data thực tế từ cloud .deb TRƯỚC,
+        # để biết field 'Name' đẹp trước khi quyết định tên thư mục
+        # (changelog .txt + depiction .json) — tránh dùng nhầm bundle ID
+        # thô (com.w3ltyyy.lead) làm tên thư mục như cách cũ.
+        logger.info(f"-> Đang quét Cloud Tweak: {raw_id} [{arch}]")
 
         md5, sha1, sha256 = calculate_hashes_from_url(f_url)
 
@@ -449,15 +471,36 @@ def run_sileo_engine(release_assets, system_db):
             deb_info = extract_deb_control_data(temp_deb_path)
             os.remove(temp_deb_path)
         except Exception as e:
-            logger.warning(f"⚠️ Không đọc được control từ cloud .deb [{tweak_title}]: {e}")
+            logger.warning(f"⚠️ Không đọc được control từ cloud .deb [{raw_id}]: {e}")
 
         if not deb_info:
-            bid = f"com.kyic.{clean_string_for_match(tweak_title)}"
+            bid = f"com.kyic.{clean_string_for_match(raw_id)}"
             deb_info = {
-                "Package": bid, "Name": tweak_title, "Version": ver,
-                "Description": f"Tweak {tweak_title} từ Kyic Store.",
+                "Package": bid, "Name": raw_id, "Version": ver,
+                "Description": f"Tweak {raw_id} từ Kyic Store.",
                 "Author": "Kyic Store", "Section": "Tweaks", "Architecture": arch
             }
+
+        # FIX: tên thư mục đẹp — ưu tiên deb_info["Name"], fallback đoạn
+        # cuối bundle ID/tên file (com.w3ltyyy.lead → Lead)
+        tweak_title = resolve_display_name(deb_info, raw_id)
+        processed_tweaks_titles.append(tweak_title)
+
+        # FIX MỚI: Lấy Release Note (body) từ GitHub Release — tương tự Feather
+        # Lưu vào v{version}.txt để `get_optimized_tweak_description()` dùng
+        # FIX: dùng tweak_title (tên đẹp) thay vì raw_id (bundle ID thô)
+        # làm tên thư mục, để đồng bộ với thư mục depiction bên dưới.
+        release_note = asset.get("body", "")
+        if release_note and len(release_note.strip()) > 10:
+            tweak_desc_dir = os.path.join(config.TWEAK_DESC_DIR, tweak_title)
+            os.makedirs(tweak_desc_dir, exist_ok=True)
+            version_file = os.path.join(tweak_desc_dir, f"v{ver}.txt")
+            try:
+                with open(version_file, 'w', encoding='utf-8') as f:
+                    f.write(release_note.strip())
+                logger.info(f"💾 Lưu changelog: {version_file}")
+            except Exception as e:
+                logger.warning(f"⚠️ Không lưu changelog cho {tweak_title} v{ver}: {e}")
 
         system_db["tweaks"][f_url] = deb_info
         assets = get_tweak_assets(tweak_title, deb_info)
@@ -508,6 +551,14 @@ def run_sileo_engine(release_assets, system_db):
                 relative_path = os.path.relpath(path, config.REPO_OUTPUT_DIR).replace("\\", "/")
                 f_url = f"{config.BASE_URL}{relative_path}"
                 deb_info = extract_deb_control_data(path)
+
+                # FIX: tên thư mục đẹp — CHỈ áp dụng khi tweak_title đang
+                # là bundle ID thô từ tên file phẳng (backward-compat,
+                # repo/debs/<file>.deb không có folder riêng). Khi .deb
+                # đã nằm trong folder riêng (repo/debs/<TweakName>/),
+                # giữ nguyên tên folder admin đã đặt — không ghi đè.
+                if tweak_title == extract_tweak_name_from_filename(f_name):
+                    tweak_title = resolve_display_name(deb_info, tweak_title)
 
                 logger.info(f"-> Đang quét Local Tweak: {deb_info['Name']} [{tweak_title}/{deb_info['Architecture']}/v{deb_info['Version']}]")
                 processed_tweaks_titles.append(deb_info['Name'])
