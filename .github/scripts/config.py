@@ -84,6 +84,7 @@ DYLIBS_JSON_PATH = os.path.join(REPO_ROOT, "repo/dylibs.json")
 # Cấu trúc: main(root)/repo/data/desc/tweaks/<TweakName>/v1.0.txt
 DESC_DIR = os.path.join(DEPICTION_DIR, "apps")
 TWEAK_DESC_DIR = os.path.join(DEPICTION_DIR, "tweaks")
+DYLIB_DESC_DIR = os.path.join(DEPICTION_DIR, "dylibs")
 
 # --- Tài nguyên mặc định ---
 SOURCE_LOGO = f"{RAW_URL}{DEFAULT_DIR_NAME}/Kyic.png"
@@ -331,9 +332,118 @@ def get_tweak_images_dir(tweak_name):
     return os.path.join(IMG_DIR, tweak_name)
 
 
+def get_dylib_images_dir(dylib_name):
+    """
+    FIX: Lấy thư mục images theo dylib name (mirror get_tweak_images_dir).
+
+    Cấu trúc: repo/data/images/<dylib_name>/
+    Ví dụ: repo/data/images/Lead/
+    - Lead_banner.png
+    - Lead_1.png
+    - Lead_2.png
+    """
+    return os.path.join(IMG_DIR, dylib_name)
+
+
+def get_dylib_depiction_path(dylib_name, safe_filename):
+    """
+    FIX: Lấy đường dẫn depiction riêng từng version+arch cho dylib (mirror
+    get_depiction_path_by_filename của tweak) — KHÔNG dùng chung 1 file
+    cho mọi version/arch để tránh xung đột đè dữ liệu.
+
+    Cấu trúc: repo/data/desc/dylibs/<DylibName>/<safe_filename>.json
+    Ví dụ: repo/data/desc/dylibs/Lead/com.kyic.glow_1.3.1_iphoneos-arm.json
+
+    Return: (target_folder, json_filename)
+    """
+    target_folder = os.path.join(DYLIB_DESC_DIR, dylib_name)
+    json_filename = f"{safe_filename}.json"
+    return target_folder, json_filename
+
+
+def get_optimized_dylib_description(dylib_name, version):
+    """
+    FIX: Mirror của get_optimized_tweak_description() nhưng cho dylib.
+
+    Thứ tự ưu tiên:
+    1. File v<version>.txt (ví dụ: v1.3.3.txt)
+    2. File default.txt (mô tả mặc định)
+    3. Chuỗi mặc định
+
+    Cấu trúc: repo/data/desc/dylibs/<DylibName>/v<version>.txt
+    """
+    dylib_desc_dir = os.path.join(DYLIB_DESC_DIR, dylib_name)
+    os.makedirs(dylib_desc_dir, exist_ok=True)
+    version_file = os.path.join(dylib_desc_dir, f"v{version}.txt")
+    default_file = os.path.join(dylib_desc_dir, "default.txt")
+
+    if os.path.exists(version_file):
+        try:
+            with open(version_file, 'r', encoding='utf-8') as f:
+                return f.read().strip()
+        except Exception:
+            pass
+
+    if os.path.exists(default_file):
+        try:
+            with open(default_file, 'r', encoding='utf-8') as f:
+                return f.read().strip()
+        except Exception:
+            pass
+
+    return f"Cập nhật phiên bản Dylib v{version} từ Kyic Store."
+
+
+def get_dylib_changelog_history(dylib_name, current_version, limit=10):
+    """
+    FIX: Mirror của get_tweak_changelog_history() nhưng cho dylib — gom
+    lịch sử nhiều phiên bản (đọc từ các file v<version>.txt đã lưu trong
+    repo/data/desc/dylibs/<DylibName>/) thành 1 khối markdown changelog.
+    """
+    dylib_desc_dir = os.path.join(DYLIB_DESC_DIR, dylib_name)
+    if not os.path.exists(dylib_desc_dir):
+        return f"### v{current_version}\nCập nhật phiên bản v{current_version} từ Kyic Store."
+
+    version_entries = []
+    try:
+        for fname in os.listdir(dylib_desc_dir):
+            match = re.match(r'^v(.+)\.txt$', fname)
+            if not match:
+                continue
+            ver = match.group(1)
+            fpath = os.path.join(dylib_desc_dir, fname)
+            try:
+                with open(fpath, 'r', encoding='utf-8') as f:
+                    content = f.read().strip()
+                if content:
+                    version_entries.append((ver, content))
+            except Exception:
+                continue
+    except Exception as e:
+        sys_logger.error(f"⚠️ Lỗi quét changelog history cho {dylib_name}: {e}")
+
+    if not version_entries:
+        return f"### v{current_version}\nCập nhật phiên bản v{current_version} từ Kyic Store."
+
+    def _ver_tuple(v):
+        try:
+            return tuple(int(x) for x in str(v).split('.'))
+        except Exception:
+            return (0,)
+
+    version_entries.sort(key=lambda x: _ver_tuple(x[0]), reverse=True)
+    version_entries = version_entries[:limit]
+
+    blocks = []
+    for ver, content in version_entries:
+        label = f"### v{ver} (hiện tại)" if ver == str(current_version) else f"### v{ver}"
+        blocks.append(f"{label}\n{content}")
+
+    return "\n\n".join(blocks)
+
+
 # --- Tạo thư mục tự động ---
-for d in [APPS_INPUT_DIR, DEBS_INPUT_DIR, DYLIBS_INPUT_DIR, DESC_DIR, TWEAK_DESC_DIR, DEPICTION_DIR, WIKI_DIR, ICON_DIR, IMG_DIR, DEFAULT_DIR, REPO_OUTPUT_DIR]:
+for d in [APPS_INPUT_DIR, DEBS_INPUT_DIR, DYLIBS_INPUT_DIR, DESC_DIR, TWEAK_DESC_DIR, DYLIB_DESC_DIR, DEPICTION_DIR, WIKI_DIR, ICON_DIR, IMG_DIR, DEFAULT_DIR, REPO_OUTPUT_DIR]:
     if not os.path.exists(d):
         os.makedirs(d, exist_ok=True)
         sys_logger.info(f"Đã tạo thư mục thành công: {d}")
-
