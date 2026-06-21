@@ -1153,6 +1153,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             font-size: 0.86em;
             line-height: 1.5;
             margin-bottom: 18px;
+            white-space: pre-line;
         }}
 
         .confirm-actions {{ display: flex; gap: 8px; }}
@@ -1396,6 +1397,28 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     </div>
 </div>
 
+<!-- DOWNLOAD ERROR DIALOG -->
+<!-- FIX: Popup riêng báo lỗi tải xuống chi tiết khi fetch blob thất bại
+     thật sự (mất mạng, link hỏng, hết hạn...) — thay cho việc rơi xuống
+     fallback điều hướng <a href> cũ gây hiện tượng "nhảy trang" khi tải.
+     Dùng ID riêng (errorOverlay/errorDialog), không trùng với
+     confirmOverlay/confirmDialog ở trên, để không xung đột state khi
+     2 dialog có thể được dùng độc lập nhau. -->
+<div class="confirm-overlay" id="errorOverlay" onclick="closeDownloadError()"></div>
+<div class="confirm-dialog" id="errorDialog">
+    <div class="confirm-icon">⚠️</div>
+    <div class="confirm-title">Tải xuống thất bại</div>
+    <div class="confirm-message" id="errorMessage">Đã có lỗi xảy ra.</div>
+    <div class="confirm-message" style="font-size:0.8em; opacity:0.75; margin-top:-10px;">
+        Nếu lỗi này lặp lại, vui lòng mở ⚙️ Cài đặt và chọn 💬 Nhắn tin để báo lỗi cho chúng tôi.
+    </div>
+    <div class="confirm-actions">
+        <button class="confirm-btn confirm-btn-cancel" onclick="closeDownloadError()">Đóng</button>
+        <button class="confirm-btn confirm-btn-ok" onclick="closeDownloadError(); toggleSettings();">⚙️ Cài đặt</button>
+    </div>
+</div>
+
+
 <!-- MODAL -->
 <div id="modal" class="modal" onclick="closeModal(event)">
     <div class="modal-content" onclick="event.stopPropagation()">
@@ -1514,7 +1537,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 <span id="versionPickerLabel">Version</span>
             </button>
             <button class="action-btn-icon" onclick="copySelected()" title="Sao chép link">📋</button>
-            <button class="action-btn" id="downloadBtn" onclick="downloadSelected()">⬇️ Tải xuống</button>
+            <button class="action-btn" id="downloadBtn" onclick="downloadSelected()">Tải xuống</button>
         </div>
     </div>
 </div>
@@ -1547,7 +1570,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             "no_results_copy": "❌ Không có link để sao chép",
             "download_start": "⏳ Đang tải...",
             "download_success": "✅ Đang tải xuống...",
-            "download_fallback": "⚠️ Đang mở link tải (chế độ dự phòng)",
             "copy_success": "✅ Đã sao chép link!",
             "copy_error": "❌ Sao chép thất bại",
             "settings": "⚙️ Cài đặt (sẽ cập nhật sau)"
@@ -1564,7 +1586,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             "no_results_copy": "❌ No link to copy",
             "download_start": "⏳ Downloading...",
             "download_success": "✅ Downloading...",
-            "download_fallback": "⚠️ Opening link (fallback mode)",
             "copy_success": "✅ Link copied!",
             "copy_error": "❌ Copy failed",
             "settings": "⚙️ Settings (coming soon)"
@@ -2283,6 +2304,22 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         confirmDownloadData = null;
     }}
 
+    // ════════════════════════════════════════════════════════════
+    // DOWNLOAD ERROR DIALOG
+    // ════════════════════════════════════════════════════════════
+    function openDownloadError(message) {{
+        document.getElementById('errorMessage').textContent = message || 'Đã có lỗi xảy ra.';
+        lockBodyScroll();
+        document.getElementById('errorDialog').classList.add('active');
+        document.getElementById('errorOverlay').classList.add('active');
+    }}
+
+    function closeDownloadError() {{
+        document.getElementById('errorDialog').classList.remove('active');
+        document.getElementById('errorOverlay').classList.remove('active');
+        unlockBodyScroll();
+    }}
+
     function setInfoRow(rowId, valueId, value) {{
         const row = document.getElementById(rowId);
         const el = document.getElementById(valueId);
@@ -2402,16 +2439,15 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             setTimeout(() => URL.revokeObjectURL(blobUrl), 8000);
             showToast(t('download_success'));
         }} catch (err) {{
-            console.warn('Blob download failed:', err);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = filename || '';
-            a.rel = 'noopener noreferrer';
-            a.target = '_self';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            showToast(t('download_fallback'));
+            // FIX: KHÔNG còn fallback điều hướng qua thẻ <a href=url> nữa —
+            // thuộc tính `download` bị trình duyệt bỏ qua khi URL khác origin
+            // (GitHub Pages không trả header Content-Disposition), nên trước
+            // đây bấm Tải xuống/Nhận hay bị "nhảy trang" sang thẳng link gốc
+            // thay vì tải file. Giờ khi fetch lỗi thật sự, hiện popup báo lỗi
+            // chi tiết để người dùng biết chuyện gì xảy ra, không tự ý điều hướng.
+            console.warn('Download failed:', err);
+            const detail = (err && err.message) ? err.message : String(err);
+            openDownloadError('Không thể tải tệp này.\n\nChi tiết lỗi: ' + detail + '\n\nĐường dẫn: ' + url);
         }} finally {{
             if (btnEl) {{ btnEl.textContent = originalText; btnEl.classList.remove('loading'); }}
         }}
