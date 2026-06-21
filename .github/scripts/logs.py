@@ -1,5 +1,6 @@
 # .github/scripts/logs.py
 import os
+import json
 import subprocess
 import datetime
 
@@ -12,6 +13,99 @@ except Exception:
 
 def now_hanoi():
     return datetime.datetime.now(HANOI_TZ)
+
+
+# ==========================================
+# PHẦN 0: SNAPSHOT CÂY THƯ MỤC (dùng chung cho changelog + info.md)
+# ==========================================
+# Vì git không track thư mục rỗng, ta tự chụp ảnh toàn bộ cây thư mục mỗi
+# lần chạy và so sánh với ảnh chụp lần trước để phát hiện thư mục mới /
+# thư mục bị xoá / thư mục đổi tên — độc lập hoàn toàn với git status.
+
+SNAPSHOT_PATH = "docs/.tree_snapshot.json"
+EXCLUDE_DIRS = {'.git', 'docs', 'node_modules', '.venv', '__pycache__'}
+
+
+def scan_directory_tree(root="."):
+    """
+    Quét đệ quy toàn bộ thư mục, trả về:
+    - dirs: set các đường dẫn thư mục (tương đối, dùng '/' làm phân tách)
+    - dir_children: dict {đường dẫn thư mục: sorted set tên file con trực tiếp}
+      (dùng để suy luận đổi tên thư mục bằng cách so khớp nội dung)
+    """
+    dirs = set()
+    dir_children = {}
+
+    for current_root, subdirs, files in os.walk(root):
+        subdirs[:] = [d for d in subdirs if d not in EXCLUDE_DIRS and not d.startswith('.')]
+
+        rel_root = os.path.relpath(current_root, root)
+        rel_root = "" if rel_root == "." else rel_root.replace(os.sep, "/")
+
+        if rel_root != "":
+            dirs.add(rel_root)
+            dir_children[rel_root] = sorted(files)
+
+        for d in subdirs:
+            child_path = f"{rel_root}/{d}" if rel_root else d
+            dirs.add(child_path)
+
+    return dirs, dir_children
+
+
+def load_previous_snapshot():
+    if not os.path.exists(SNAPSHOT_PATH):
+        return set(), {}
+    try:
+        with open(SNAPSHOT_PATH, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return set(data.get("dirs", [])), data.get("dir_children", {})
+    except Exception:
+        return set(), {}
+
+
+def save_snapshot(dirs, dir_children):
+    os.makedirs(os.path.dirname(SNAPSHOT_PATH), exist_ok=True)
+    with open(SNAPSHOT_PATH, "w", encoding="utf-8") as f:
+        json.dump({"dirs": sorted(dirs), "dir_children": dir_children}, f, ensure_ascii=False, indent=2)
+
+
+def diff_directory_changes(old_dirs, old_children, new_dirs, new_children):
+    """
+    So sánh 2 ảnh chụp cây thư mục, trả về dict:
+    {
+      "added": [...],       # thư mục mới hoàn toàn
+      "removed": [...],     # thư mục bị xoá hoàn toàn
+      "renamed": [(old, new)],  # suy luận đổi tên (nội dung file con khớp nhau)
+    }
+    Một thư mục "added" có thể được tái phân loại thành "renamed" nếu một
+    thư mục "removed" có cùng tập file con trực tiếp (basename) — dấu hiệu
+    mạnh cho thấy đây là cùng 1 thư mục bị đổi tên/di chuyển.
+    """
+    added = sorted(new_dirs - old_dirs)
+    removed = sorted(old_dirs - new_dirs)
+
+    renamed = []
+    matched_added = set()
+    matched_removed = set()
+
+    for r in removed:
+        r_children = tuple(old_children.get(r, []))
+        if not r_children:
+            continue
+        for a in added:
+            if a in matched_added:
+                continue
+            if tuple(new_children.get(a, [])) == r_children:
+                renamed.append((r, a))
+                matched_added.add(a)
+                matched_removed.add(r)
+                break
+
+    added = [a for a in added if a not in matched_added]
+    removed = [r for r in removed if r not in matched_removed]
+
+    return {"added": added, "removed": removed, "renamed": renamed}
 
 
 # ==========================================
@@ -131,30 +225,145 @@ def guess_cause(all_paths, trigger_event, commit_msg):
     return " · ".join(parts)
 
 
-def guess_result():
+# --- Cấu hình các step CI cần theo dõi trạng thái ---
+# Mỗi step: (tên hiển thị, tên biến môi trường trạng thái, tên biến môi trường thời gian [tùy chọn])
+CI_STEPS = [
+    ("Core Engine", "MAIN_STATUS", "MAIN_DURATION"),
+    ("Generate Views", "VIEWS_STATUS", "VIEWS_DURATION"),
+    ("Validate Repo", "VALIDATE_STATUS", "VALIDATE_DURATION"),
+    ("Deploy Pages", "DEPLOY_STATUS", "DEPLOY_DURATION"),
+]
+
+
+def build_ci_status_table():
     """
-    Cột "Kết quả": chỉ phản ánh trạng thái KỸ THUẬT, lấy từ biến môi trường
-    do workflow YAML truyền vào (kết quả của các step trước đó).
-    Không tự suy đoán tích cực/tiêu cực về mặt nội dung.
+    Bảng trạng thái từng step CI, chỉ hiện những step có biến môi trường
+    được workflow YAML truyền vào (step không tồn tại trong lần chạy này
+    thì không hiện dòng, tránh gây hiểu lầm là 'đã chạy nhưng thành công').
     """
-    main_status = os.environ.get("MAIN_STATUS", "success")
-    views_status = os.environ.get("VIEWS_STATUS", "success")
+    rows = []
+    any_failed = False
 
-    failed_steps = []
-    if main_status not in ("success", ""):
-        failed_steps.append("Core Engine")
-    if views_status not in ("success", ""):
-        failed_steps.append("Generate Views")
+    for label, status_var, duration_var in CI_STEPS:
+        status_val = os.environ.get(status_var)
+        if status_val is None:
+            continue  # step này không tồn tại / không báo cáo trong lần chạy
 
-    if failed_steps:
-        return f"⚠️ Có lỗi ở bước: {', '.join(failed_steps)}"
-    return "✅ Hoàn tất"
+        if status_val == "success":
+            icon = "✅"
+        elif status_val in ("skipped", "cancelled"):
+            icon = "⏭️"
+        else:
+            icon = "❌"
+            any_failed = True
+
+        duration_val = os.environ.get(duration_var, "") if duration_var else ""
+        duration_text = f" · {duration_val}" if duration_val else ""
+
+        rows.append(f"{icon} {label}: `{status_val}`{duration_text}")
+
+    return rows, any_failed
 
 
-def build_changelog_entry():
+def build_change_stats(grouped, dir_diff):
+    """
+    Thống kê số liệu thay đổi: số file theo từng loại hành động + số thư
+    mục thêm/xoá/đổi tên phát hiện được qua snapshot cây.
+    """
+    stats = []
+    file_total = sum(len(v) for v in grouped.values())
+
+    # Gộp theo label (A và ? đều là "Thêm") để khớp với cách hiển thị ở
+    # change_blocks, tránh thống kê 2 dòng "Thêm" tách rời nhau
+    label_counts = {}
+    for code in ACTION_ORDER:
+        if code in grouped:
+            label = ACTION_LABELS[code]
+            label_counts[label] = label_counts.get(label, 0) + len(grouped[code])
+
+    file_parts = [f"{label} {count}" for label, count in label_counts.items()]
+    if file_parts:
+        stats.append(f"📄 File ({file_total}): " + ", ".join(file_parts))
+
+    dir_added = len(dir_diff["added"])
+    dir_removed = len(dir_diff["removed"])
+    dir_renamed = len(dir_diff["renamed"])
+    dir_total = dir_added + dir_removed + dir_renamed
+
+    if dir_total:
+        dir_parts = []
+        if dir_added:
+            dir_parts.append(f"✨ Thêm {dir_added}")
+        if dir_removed:
+            dir_parts.append(f"🗑️ Xoá {dir_removed}")
+        if dir_renamed:
+            dir_parts.append(f"🔀 Đổi tên {dir_renamed}")
+        stats.append(f"📂 Thư mục ({dir_total}): " + ", ".join(dir_parts))
+
+    return stats
+
+
+def build_result_cell(grouped, dir_diff):
+    """
+    Cột "Kết quả": kết hợp bảng trạng thái từng step CI + thống kê số liệu
+    thay đổi (file/thư mục). Không tự suy đoán tích cực/tiêu cực về mặt nội
+    dung — chỉ phản ánh trạng thái kỹ thuật lấy từ biến môi trường và dữ
+    liệu diff thực tế.
+    """
+    ci_rows, any_failed = build_ci_status_table()
+    stats_rows = build_change_stats(grouped, dir_diff)
+
+    parts = []
+
+    if ci_rows:
+        parts.append("<br>".join(ci_rows))
+    else:
+        # Không có biến môi trường nào được truyền vào -> không rõ trạng thái step
+        parts.append("✅ Hoàn tất" if not any_failed else "⚠️ Có lỗi")
+
+    if stats_rows:
+        parts.append("<br>".join(stats_rows))
+
+    return "<br><br>".join(parts)
+
+
+def build_directory_change_blocks(dir_diff):
+    """
+    Sinh các dòng mô tả thay đổi thư mục (thêm/xoá/đổi tên) để chèn vào
+    cùng ô '🛠️ Các thay đổi' bên cạnh các dòng thay đổi file.
+    """
+    blocks = []
+
+    if dir_diff["added"]:
+        items = "<br>".join(f"`{d}/`" for d in dir_diff["added"])
+        label = f"✨ Thêm thư mục ({len(dir_diff['added'])})"
+        if len(dir_diff["added"]) > MAX_VISIBLE_ROWS:
+            blocks.append(f"<details><summary>{label}</summary><br>{items}</details>")
+        else:
+            blocks.append(f"{label}<br>{items}")
+
+    if dir_diff["removed"]:
+        items = "<br>".join(f"`{d}/`" for d in dir_diff["removed"])
+        label = f"🗑️ Xoá thư mục ({len(dir_diff['removed'])})"
+        if len(dir_diff["removed"]) > MAX_VISIBLE_ROWS:
+            blocks.append(f"<details><summary>{label}</summary><br>{items}</details>")
+        else:
+            blocks.append(f"{label}<br>{items}")
+
+    if dir_diff["renamed"]:
+        items = "<br>".join(f"`{old}/` → `{new}/`" for old, new in dir_diff["renamed"])
+        label = f"🔀 Đổi tên thư mục ({len(dir_diff['renamed'])})"
+        blocks.append(f"{label}<br>{items}")
+
+    return blocks
+
+
+def build_changelog_entry(dir_diff):
     """Xây 1 block changelog (bảng dọc 2 cột, gọn cho điện thoại) cho lần chạy hiện tại."""
     grouped = collect_working_tree_changes()
-    if not grouped:
+
+    has_dir_changes = dir_diff["added"] or dir_diff["removed"] or dir_diff["renamed"]
+    if not grouped and not has_dir_changes:
         return None
 
     author = run("git log -1 --pretty=format:'%an'") or "GitHub Action"
@@ -164,7 +373,8 @@ def build_changelog_entry():
 
     time_str = now_hanoi().strftime("%d/%m/%Y %H:%M")
 
-    total_files = sum(len(v) for v in grouped.values())
+    file_total = sum(len(v) for v in grouped.values())
+    dir_total = len(dir_diff["added"]) + len(dir_diff["removed"]) + len(dir_diff["renamed"])
     all_paths = [p for files in grouped.values() for p in files]
     trigger_event = os.environ.get("GITHUB_EVENT_NAME", "")
 
@@ -174,15 +384,22 @@ def build_changelog_entry():
     lines.append(f"| ⏱️ Time | {time_str} |")
     lines.append(f"| 👤 Author | {author} |")
     lines.append(f"| 💬 Commit | {msg} |")
-    lines.append(f"| 📊 Overview | {total_files} file thay đổi |")
+    lines.append(f"| 📊 Overview | {file_total} file · {dir_total} thư mục thay đổi |")
 
-    # Các thay đổi: gộp tất cả nhóm hành động vào 1 ô duy nhất, mỗi nhóm 1 dòng
+    # Các thay đổi: gộp tất cả nhóm hành động (file) + thay đổi thư mục vào 1 ô
+    # ('A' và '?' đều là "Thêm", nên gộp file của 2 mã này lại để không hiện
+    # 2 dòng "✨ Thêm" tách rời nhau)
+    merged_groups = {}
+    for code, files in grouped.items():
+        label = ACTION_LABELS[code]
+        merged_groups.setdefault(label, []).extend(files)
+
     change_blocks = []
     for code in ACTION_ORDER:
-        if code not in grouped:
-            continue
         label = ACTION_LABELS[code]
-        files = grouped[code]
+        if label not in merged_groups:
+            continue
+        files = merged_groups.pop(label)  # pop để không xử lý lại nếu trùng label
         file_list_html = "<br>".join(f"`{f}`" for f in files)
 
         if len(files) > MAX_VISIBLE_ROWS:
@@ -193,9 +410,15 @@ def build_changelog_entry():
             block = f"{label} ({len(files)})<br>{file_list_html}"
         change_blocks.append(block)
 
-    lines.append(f"| 🛠️ Các thay đổi | {'<br>'.join(change_blocks)} |")
+    change_blocks.extend(build_directory_change_blocks(dir_diff))
+
+    if change_blocks:
+        lines.append(f"| 🛠️ Các thay đổi | {'<br>'.join(change_blocks)} |")
+    else:
+        lines.append("| 🛠️ Các thay đổi | (không có) |")
+
     lines.append(f"| ❓ Nguyên nhân | {guess_cause(all_paths, trigger_event, msg)} |")
-    lines.append(f"| 🎯 Kết quả | {guess_result()} |")
+    lines.append(f"| 🎯 Kết quả | {build_result_cell(grouped, dir_diff)} |")
 
     return "\n".join(lines)
 
@@ -231,8 +454,8 @@ def write_changelog(entry):
         f.write(content)
 
 
-def generate_changelog():
-    entry = build_changelog_entry()
+def generate_changelog(dir_diff):
+    entry = build_changelog_entry(dir_diff)
     write_changelog(entry)
 
 
@@ -249,8 +472,6 @@ SUMMARY_EXTENSIONS = {
     '.ipa': '📱 Apps iOS .ipa',
     '.json': '⚙️ Config .json'
 }
-
-EXCLUDE_DIRS = {'.git', 'docs', 'node_modules', '.venv', '__pycache__'}
 
 
 def generate_smart_tree(dir_path, prefix=""):
@@ -302,13 +523,33 @@ def generate_smart_tree(dir_path, prefix=""):
     return "\n".join([l for l in lines if l.strip()])
 
 
-def generate_tree():
+def build_recent_dir_changes_note(dir_diff):
+    """
+    Dòng tóm tắt thay đổi thư mục gần nhất, hiển thị ngay trong info.md để
+    đối chiếu nhanh với CHANGELOG.md mà không cần mở 2 file riêng.
+    """
+    if not (dir_diff["added"] or dir_diff["removed"] or dir_diff["renamed"]):
+        return ""
+
+    parts = []
+    if dir_diff["added"]:
+        parts.append(f"✨ +{len(dir_diff['added'])} thư mục mới")
+    if dir_diff["removed"]:
+        parts.append(f"🗑️ -{len(dir_diff['removed'])} thư mục đã xoá")
+    if dir_diff["renamed"]:
+        parts.append(f"🔀 {len(dir_diff['renamed'])} thư mục đổi tên")
+
+    return "📝 *Thay đổi thư mục so với lần quét trước: " + ", ".join(parts) + "* — xem chi tiết tại `docs/CHANGELOG.md`\n\n"
+
+
+def generate_tree(dir_diff):
     tree_content = generate_smart_tree(".")
     with open("docs/info.md", "w", encoding="utf-8") as f:
         time_str = now_hanoi().strftime("%d/%m/%Y %H:%M:%S")
 
         f.write("# 📂 CẤU TRÚC HỆ THỐNG\n")
         f.write(f"⏱️ *Cập nhật tự động lúc: {time_str} (Giờ Hà Nội)*\n\n")
+        f.write(build_recent_dir_changes_note(dir_diff))
         f.write("```text\n🗺️ Root/\n")
         f.write(tree_content)
         f.write("\n```\n")
@@ -321,11 +562,21 @@ def generate_tree():
 def main():
     os.makedirs("docs", exist_ok=True)
 
+    # 0) Chụp ảnh cây thư mục hiện tại + so sánh với lần chạy trước
+    #    (phải làm trước generate_changelog vì changelog cần dir_diff để
+    #    ghi nhận thư mục thêm/xoá/đổi tên — git không thấy được điều này)
+    old_dirs, old_children = load_previous_snapshot()
+    new_dirs, new_children = scan_directory_tree(".")
+    dir_diff = diff_directory_changes(old_dirs, old_children, new_dirs, new_children)
+
     # 1) Changelog trước (đọc working tree hiện tại, trước khi commit)
-    generate_changelog()
+    generate_changelog(dir_diff)
 
     # 2) Cây thư mục sau (chụp lại trạng thái mới nhất, gồm cả CHANGELOG.md)
-    generate_tree()
+    generate_tree(dir_diff)
+
+    # 3) Lưu snapshot mới làm baseline cho lần chạy kế tiếp
+    save_snapshot(new_dirs, new_children)
 
 
 if __name__ == "__main__":
