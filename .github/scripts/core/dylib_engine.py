@@ -22,6 +22,29 @@ def clean_string_for_match(text):
     return re.sub(r'[^a-z0-9]', '', text.lower())
 
 
+def to_feather_timestamp(dt=None):
+    """
+    FIX: Format timestamp đúng chuẩn AltSource/Feather — ví dụ
+    "2026-06-21T10:16:16Z" (không microsecond, hậu tố 'Z' thay vì
+    '+00:00' như .isoformat() mặc định của Python).
+    """
+    if dt is None:
+        dt = datetime.datetime.now(datetime.timezone.utc)
+    elif dt.tzinfo is None:
+        dt = dt.replace(tzinfo=datetime.timezone.utc)
+    return dt.astimezone(datetime.timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+
+
+def get_file_version_date(path):
+    """FIX: Lấy ngày 'phát hành' của 1 version dylib từ mtime file cục bộ —
+    dùng cho field 'versionDate'/'date' theo chuẩn AltSource/Feather."""
+    try:
+        mtime = os.path.getmtime(path)
+        return to_feather_timestamp(datetime.datetime.fromtimestamp(mtime, tz=datetime.timezone.utc))
+    except Exception:
+        return to_feather_timestamp()
+
+
 def calculate_hashes_from_local(path):
     """Tính hash chuẩn cho file .dylib cục bộ (streaming tránh tràn RAM)"""
     md5 = hashlib.md5()
@@ -247,23 +270,28 @@ def build_dylib_depiction_json(safe_filename, dylib_name, version, description, 
 
     clean_desc = utils.smart_truncate_description(final_description, max_chars=1000)
 
+    # FIX: đặt tên field theo đúng quy ước AltSource/Feather
+    # (iconURL/bannerURL/screenshotURLs/localizedDescription/bundleIdentifier)
+    # — "architecture" là field mở rộng riêng cho dylib, Feather gốc sẽ bỏ
+    # qua, chỉ trang dylib.html tự build mới đọc tới.
     depiction_data = {
         "name": str(dylib_name),
-        "bundle": str(bundle),
+        "bundleIdentifier": str(bundle),
         "version": str(version),
+        "versionDate": extra.get("versionDate", to_feather_timestamp()),
         "architecture": str(architecture),
-        "author": str(author),
-        "description": clean_desc,
+        "developerName": str(author),
+        "localizedDescription": clean_desc,
         "changelog": changelog_markdown,
-        "icon": assets["icon"],
-        "banner": assets["banner"],
-        "screenshots": assets["screenshots"],
+        "iconURL": assets["icon"],
+        "bannerURL": assets["banner"],
+        "screenshotURLs": assets["screenshots"],
         "size": extra.get("size", 0),
         "md5": extra.get("md5", ""),
         "sha1": extra.get("sha1", ""),
         "sha256": extra.get("sha256", ""),
         "downloadURL": extra.get("downloadURL", ""),
-        "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat()
+        "generated_at": to_feather_timestamp()
     }
 
     try:
@@ -317,6 +345,9 @@ def run_dylib_engine(release_assets, system_db):
         file_size = int(os.path.getsize(path))
         relative_path = os.path.relpath(path, config.REPO_OUTPUT_DIR).replace("\\", "/")
         download_url = f"{config.BASE_URL.rstrip('/')}/{relative_path.lstrip('/')}"
+        # FIX: ngày "phát hành" của version này — chuẩn AltSource/Feather
+        # cần field versionDate/date dạng "YYYY-MM-DDTHH:MM:SSZ".
+        version_date = get_file_version_date(path)
 
         # FIX: tên đẹp — ưu tiên Name từ deb_match, fallback đoạn cuối bundle ID
         dylib_name = resolve_display_name(deb_match, id_or_name)
@@ -356,7 +387,10 @@ def run_dylib_engine(release_assets, system_db):
         # 4. FIX MỚI: Depiction JSON riêng từng version+arch
         depiction_url = build_dylib_depiction_json(
             safe_filename, dylib_name, version, raw_description, assets, author, bundle, architecture,
-            extra={"size": file_size, "md5": md5, "sha1": sha1, "sha256": sha256, "downloadURL": download_url}
+            extra={
+                "size": file_size, "md5": md5, "sha1": sha1, "sha256": sha256,
+                "downloadURL": download_url, "versionDate": version_date
+            }
         )
 
         # 5. Cache thô đầy đủ thuộc tính — giữ wikidylibs.json để tránh
@@ -371,7 +405,7 @@ def run_dylib_engine(release_assets, system_db):
 
         dylibs_map[bundle].append({
             "name": dylib_name, "ver": str(version), "bundle": bundle,
-            "architecture": architecture, "size": file_size,
+            "architecture": architecture, "size": file_size, "date": version_date,
             "downloadURL": download_url, "md5": md5, "sha256": sha256,
             "author": author, "icon": assets["icon"], "banner": assets["banner"],
             "screenshots": assets["screenshots"], "depictionURL": depiction_url,
@@ -379,45 +413,62 @@ def run_dylib_engine(release_assets, system_db):
             "description": config.get_optimized_dylib_description(dylib_name, version)
         })
 
-    # 6. FIX MỚI: Xuất dylibs.json theo cấu trúc giống apps.json của
-    # Feather — group theo bundle, mỗi entry có "versions[]" đầy đủ,
-    # nhưng nội dung (name/author/icon/description) lấy theo style sileo.
+    # 6. FIX MỚI: Xuất dylibs.json theo ĐÚNG cấu trúc apps.json chuẩn
+    # AltSource/Feather — group theo bundle, mỗi entry có "versions[]"
+    # đầy đủ field "date", còn nội dung (name/author/icon/description)
+    # lấy theo style sileo. Các field KHÔNG thuộc chuẩn gốc (architecture,
+    # depictionURL, bannerURL) được giữ thêm vì Feather sẽ tự bỏ qua field
+    # lạ, trong khi trang dylib.html tự build của repo vẫn đọc được.
+    tint_color = str(getattr(config, "TINT_COLOR", "848ef9")).lstrip('#')
+    default_video = getattr(config, "DEFAULT_DYLIB_VIDEO", getattr(config, "DEFAULT_VIDEO", None))
+    default_min_os = getattr(config, "DEFAULT_MIN_OS_VERSION", None)
+
     final_dylibs = []
     for bundle, versions in dylibs_map.items():
         unique_versions = sorted(versions, key=lambda v: utils.parse_version_tuple(v['ver']), reverse=True)
         latest = unique_versions[0]
 
-        final_dylibs.append({
+        entry = {
             "name": latest['name'],
             "bundleIdentifier": bundle,
             "developerName": latest['author'],
             "subtitle": "Dylib Sideload",
             "localizedDescription": latest['description'],
             "iconURL": latest['icon'],
-            "tintColor": config.TINT_COLOR,
+            "tintColor": tint_color,
             "version": latest['ver'],
-            "architecture": latest['architecture'],
+            "versionDate": latest['date'],
             "size": latest['size'],
             "downloadURL": latest['downloadURL'],
-            "depictionURL": latest['depictionURL'],
             "versions": [
                 {
                     "version": v['ver'],
-                    "architecture": v['architecture'],
+                    "date": v['date'],
                     "size": v['size'],
                     "downloadURL": v['downloadURL'],
-                    "depictionURL": v['depictionURL'],
-                    "localizedDescription": v['description']
+                    "localizedDescription": v['description'],
+                    # field mở rộng riêng cho dylib (ngoài chuẩn AltSource):
+                    "architecture": v['architecture'],
+                    "depictionURL": v['depictionURL']
                 }
                 for v in unique_versions
             ],
             "screenshotURLs": latest['screenshots'],
+            # field mở rộng riêng cho dylib (ngoài chuẩn AltSource):
+            "architecture": latest['architecture'],
+            "depictionURL": latest['depictionURL'],
             "bannerURL": latest['banner']
-        })
+        }
+        if default_video:
+            entry["videoURL"] = default_video
+        if default_min_os:
+            entry["minOSVersion"] = default_min_os
+
+        final_dylibs.append(entry)
 
     final_dylibs.sort(key=lambda x: x['name'].lower())
 
-    gen_time = datetime.datetime.now(datetime.timezone.utc).isoformat()
+    gen_time = to_feather_timestamp()
 
     # 7. Xuất wikidylibs.json (cache thô) vào thư mục wiki
     wiki_dir_path = getattr(config, "WIKI_DIR", os.path.join(os.path.dirname(config.REPO_OUTPUT_DIR), "wiki"))
@@ -430,12 +481,15 @@ def run_dylib_engine(release_assets, system_db):
     except Exception as e:
         logger.error(f"❌ Lỗi ghi tệp wikidylibs.json vào wiki: {e}")
 
-    # 8. Xuất dylibs.json hoàn chỉnh ra repo root (nguồn cho dylib.html)
+    # 8. FIX: Xuất dylibs.json đúng chuẩn AltSource/Feather — key danh
+    # sách đổi từ "dylibs" -> "apps" (giống apps.json), top-level có
+    # thêm "iconURL" của cả repo, đồng nhất hoàn toàn với apps.json mẫu.
     dylibs_output_path = os.path.join(config.REPO_OUTPUT_DIR, 'dylibs.json')
     output_json = {
         "name": config.REPO_NAME,
         "identifier": config.SOURCE_IDENTIFIER,
-        "dylibs": final_dylibs,
+        "iconURL": getattr(config, "SOURCE_LOGO", None),
+        "apps": final_dylibs,
         "generated_at": gen_time,
         "total": len(final_dylibs)
     }
