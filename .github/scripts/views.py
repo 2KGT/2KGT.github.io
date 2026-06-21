@@ -1515,7 +1515,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 <span id="versionPickerLabel">Version</span>
             </button>
             <button class="action-btn-icon" onclick="copySelected()" title="Sao chép link">📋</button>
-            <button class="action-btn" id="downloadBtn" onclick="downloadSelected()">⬇️ Tải xuống</button>
+            <button class="action-btn" id="downloadBtn" onclick="downloadSelected()">Tải xuống</button>
         </div>
     </div>
 </div>
