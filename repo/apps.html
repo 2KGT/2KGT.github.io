@@ -1503,7 +1503,7 @@
                 <span id="versionPickerLabel">Version</span>
             </button>
             <button class="action-btn-icon" onclick="copySelected()" title="Sao chép link">📋</button>
-            <button class="action-btn" id="downloadBtn" onclick="downloadSelected()">Tải xuống</button>
+            <button class="action-btn" id="downloadBtn" onclick="downloadSelected()">⬇️ Tải xuống</button>
         </div>
     </div>
 </div>
@@ -2391,16 +2391,16 @@
             setTimeout(() => URL.revokeObjectURL(blobUrl), 8000);
             showToast(t('download_success'));
         } catch (err) {
-            console.warn('Blob download failed:', err);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = filename || '';
-            a.rel = 'noopener noreferrer';
-            a.target = '_self';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            showToast(t('download_fallback'));
+            // FIX: Trước đây fallback gán a.href = url (link GỐC, không qua
+            // blob) rồi a.click() với target='_self'. Vì download attribute
+            // bị trình duyệt bỏ qua trong nhiều trường hợp (cross-origin,
+            // redirect, thiếu header Content-Disposition), việc click thẻ
+            // <a> này thực chất ĐIỀU HƯỚNG cả trang sang thẳng url đó thay vì
+            // tải file — đây là nguyên nhân gây "nhảy trang" khi bấm Tải
+            // xuống/Nhận. Giờ bỏ hẳn bước điều hướng này, chỉ báo lỗi rõ ràng
+            // qua toast (cơ chế showToast() có sẵn, đã hoạt động ổn định).
+            console.warn('Download failed:', err);
+            showToast('❌ Tải thất bại: ' + (err && err.message ? err.message : 'Lỗi không xác định'));
         } finally {
             if (btnEl) { btnEl.textContent = originalText; btnEl.classList.remove('loading'); }
         }
