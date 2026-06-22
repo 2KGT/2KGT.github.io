@@ -7,11 +7,23 @@
       "section": "Tweaks",
       "author": "dvntm",
       "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/cc18.jpg",
-      "size": 4408,
-      "downloadURL": "debs/cc18/com.dvntm.cc18_0.0.3_iphoneos-arm.deb",
+      "size": 4414,
+      "downloadURL": "debs/cc18/com.dvntm.cc18_0.0.3_iphoneos-arm64e.deb",
       "description": "Round CC modules replication, like in iOS 18",
-      "changelog": "### v0.0.3\nCập nhật phiên bản v0.0.3 từ Kyic Store.",
-      "tweak_name": "cc18"
+      "tweak_name": "cc18",
+      "versions": [
+        {
+          "version": "0.0.3",
+          "downloadURL": "debs/cc18/com.dvntm.cc18_0.0.3_iphoneos-arm.deb",
+          "size": 4408,
+          "architecture": "iphoneos-arm",
+          "md5": "50327f6133ba1f1837f3aa4052878a24",
+          "sha1": "6da5f2f5b4aef49acbffb1e707eaaa89ea50fa26",
+          "sha256": "630f3c1148cb2f42ebd1daa198fb34e42681d1e15deebeecd947fd0934b7810f",
+          "releaseNote": "### v0.0.3\nCập nhật phiên bản v0.0.3 từ Kyic Store."
+        }
+      ],
+      "changelog": "### v0.0.3\nCập nhật phiên bản v0.0.3 từ Kyic Store."
     },
     {
       "name": "CCAppIcon",
@@ -20,11 +32,23 @@
       "section": "Tweaks",
       "author": "dvntm",
       "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/ccappicon.jpg",
-      "size": 3060,
-      "downloadURL": "debs/ccappicon/com.dvntm.ccappicon_0.0.1_iphoneos-arm.deb",
+      "size": 3068,
+      "downloadURL": "debs/ccappicon/com.dvntm.ccappicon_0.0.1_iphoneos-arm64e.deb",
       "description": "No app icon in Now Playing and Control Center artworks",
-      "changelog": "### v0.0.1\nCập nhật phiên bản v0.0.1 từ Kyic Store.",
-      "tweak_name": "ccappicon"
+      "tweak_name": "ccappicon",
+      "versions": [
+        {
+          "version": "0.0.1",
+          "downloadURL": "debs/ccappicon/com.dvntm.ccappicon_0.0.1_iphoneos-arm.deb",
+          "size": 3060,
+          "architecture": "iphoneos-arm",
+          "md5": "a910db857bc1c8575d0dea34dffcd64f",
+          "sha1": "b99c929b90c81e72ebd0353d1b9149624d293142",
+          "sha256": "2cee269f2a54ff9542f5c3dcc4756abfbc4e8f56b0756ff8eec11e5ed74d5448",
+          "releaseNote": "### v0.0.1\nCập nhật phiên bản v0.0.1 từ Kyic Store."
+        }
+      ],
+      "changelog": "### v0.0.1\nCập nhật phiên bản v0.0.1 từ Kyic Store."
     },
     {
       "name": "FastLock",
@@ -33,11 +57,43 @@
       "section": "Tweaks",
       "author": "dvntm",
       "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/fastlock.jpg",
-      "size": 383176,
-      "downloadURL": "debs/fastlock/com.dvntm.fastlock_1.0.1_iphoneos-arm.deb",
+      "size": 381912,
+      "downloadURL": "debs/fastlock/com.dvntm.fastlock_1.0.1_iphoneos-arm64e.deb",
       "description": "Lock your screen using gestures on SpringBoard",
-      "changelog": "### v1.0.1\nCập nhật phiên bản v1.0.1 từ Kyic Store.",
-      "tweak_name": "fastlock"
+      "tweak_name": "fastlock",
+      "versions": [
+        {
+          "version": "1.0.1",
+          "downloadURL": "debs/fastlock/com.dvntm.fastlock_1.0.1_iphoneos-arm.deb",
+          "size": 383176,
+          "architecture": "iphoneos-arm",
+          "md5": "b044c81225c306f4a672521c1eb51c45",
+          "sha1": "b4ebb0bc1d4624d1146b0c15066c05da7b48763d",
+          "sha256": "3d392e7c4dda213b49cdfda910c740b8948904d748a0fea3288b3e8d2384a8a1",
+          "releaseNote": "### v1.0.1\nCập nhật phiên bản v1.0.1 từ Kyic Store."
+        },
+        {
+          "version": "1.0",
+          "downloadURL": "debs/fastlock/com.dvntm.fastlock_1.0_iphoneos-arm.deb",
+          "size": 381912,
+          "architecture": "iphoneos-arm",
+          "md5": "49ca8792c3f3a94ab7fb6beef16aeefd",
+          "sha1": "ae8a6f9df907e34bd531b6f339809f6a923fc99a",
+          "sha256": "da07c8bc0a12b21b75df8a687da82b97faf6cd47f28b7e35682c55cd5d5f3506",
+          "releaseNote": "### v1.0\nCập nhật phiên bản v1.0 từ Kyic Store."
+        },
+        {
+          "version": "0.0.1",
+          "downloadURL": "debs/fastlock/com.dvntm.fastlock_0.0.1_iphoneos-arm.deb",
+          "size": 39280,
+          "architecture": "iphoneos-arm",
+          "md5": "3eb4f5f016da77c024c4790e294f8a57",
+          "sha1": "33a80c09fd870998bb1b47664e45118a048f1779",
+          "sha256": "2e010085ccecda6ccb76336c2b8ed7c9cf70591c7303c7661323d00c8410dfee",
+          "releaseNote": "### v0.0.1\nCập nhật phiên bản v0.0.1 từ Kyic Store."
+        }
+      ],
+      "changelog": "### v1.0.1\nCập nhật phiên bản v1.0.1 từ Kyic Store."
     },
     {
       "name": "Flow for Messenger",
@@ -46,11 +102,23 @@
       "section": "Tweaks",
       "author": "dvntm, nowesr1",
       "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/flow.jpg",
-      "size": 228538,
-      "downloadURL": "debs/flow/com.dvntm.flow_1.0_iphoneos-arm.deb",
+      "size": 228062,
+      "downloadURL": "debs/flow/com.dvntm.flow_1.0_iphoneos-arm64e.deb",
       "description": "A lightweight Messenger enhancer",
-      "changelog": "### v1.0\nCập nhật phiên bản v1.0 từ Kyic Store.",
-      "tweak_name": "flow"
+      "tweak_name": "flow",
+      "versions": [
+        {
+          "version": "1.0",
+          "downloadURL": "debs/flow/com.dvntm.flow_1.0_iphoneos-arm.deb",
+          "size": 228538,
+          "architecture": "iphoneos-arm",
+          "md5": "72962d7f19ddff4e60814a54490c1d86",
+          "sha1": "b398f1be3cb22c81e5e325b2e40e2aa07c640924",
+          "sha256": "c80a1a540cc9382636da60014babe7087bb47a6a435f94f7b9d714109e8c2bab",
+          "releaseNote": "### v1.0\nCập nhật phiên bản v1.0 từ Kyic Store."
+        }
+      ],
+      "changelog": "### v1.0\nCập nhật phiên bản v1.0 từ Kyic Store."
     },
     {
       "name": "Glow for Facebook",
@@ -59,11 +127,73 @@
       "section": "Tweaks",
       "author": "dvntm, nowesr1",
       "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/glow.jpg",
-      "size": 6902718,
-      "downloadURL": "debs/glow/com.dvntm.glow_1.3.1_iphoneos-arm.deb",
+      "size": 6905238,
+      "downloadURL": "debs/glow/com.dvntm.glow_1.3.1_iphoneos-arm64e.deb",
       "description": "Cleaner. Smarter. Yours.",
-      "changelog": "### v1.3.1\nCập nhật phiên bản v1.3.1 từ Kyic Store.",
-      "tweak_name": "glow"
+      "tweak_name": "glow",
+      "versions": [
+        {
+          "version": "1.3.1",
+          "downloadURL": "debs/glow/com.dvntm.glow_1.3.1_iphoneos-arm.deb",
+          "size": 6902718,
+          "architecture": "iphoneos-arm",
+          "md5": "8f3108265d6a593ecd2bbf6bb89867af",
+          "sha1": "90e5d1d2a3c54c285b3b66c59fd9aa8535471f85",
+          "sha256": "5ef3af7d5291b13cf012ecb0bffa9b7723d437a6590466b5da2ea67feb0f39b4",
+          "releaseNote": "### v1.3.1\nCập nhật phiên bản v1.3.1 từ Kyic Store."
+        },
+        {
+          "version": "1.3",
+          "downloadURL": "debs/glow/com.dvntm.glow_1.3_iphoneos-arm.deb",
+          "size": 6900216,
+          "architecture": "iphoneos-arm",
+          "md5": "14854601b552b4e325f4421cab400348",
+          "sha1": "0f484a7c03e8ef94bf153da814143ea958cac0f6",
+          "sha256": "c9180a11ee97101e1c0810755973b9440f3690c1405e8c5a6acc889095afda49",
+          "releaseNote": "### v1.3\nCập nhật phiên bản v1.3 từ Kyic Store."
+        },
+        {
+          "version": "1.2",
+          "downloadURL": "debs/glow/com.dvntm.glow_1.2_iphoneos-arm.deb",
+          "size": 6869286,
+          "architecture": "iphoneos-arm",
+          "md5": "74d504136d05c32685ca301875aa6e5b",
+          "sha1": "9703c3d13265f13b8c48c7d00af819cbdd0015dc",
+          "sha256": "fc3ce488f9fd94775e015eec4e38f75d21bc21d72d85c940c8a0ceea90aa7bbd",
+          "releaseNote": "### v1.2\nCập nhật phiên bản v1.2 từ Kyic Store."
+        },
+        {
+          "version": "1.1",
+          "downloadURL": "debs/glow/com.dvntm.glow_1.1_iphoneos-arm.deb",
+          "size": 7803030,
+          "architecture": "iphoneos-arm",
+          "md5": "49216692e408186fc484b9a2c399a58d",
+          "sha1": "8d27e9df11a7282fb0919b8c2f59600408f90dae",
+          "sha256": "ef1dbe99915e0207982bb3901f81ca1f149bb0b34e031fe2ff6038624dced7df",
+          "releaseNote": "### v1.1\nCập nhật phiên bản v1.1 từ Kyic Store."
+        },
+        {
+          "version": "1.0.1",
+          "downloadURL": "debs/glow/com.dvntm.glow_1.0.1_iphoneos-arm.deb",
+          "size": 685226,
+          "architecture": "iphoneos-arm",
+          "md5": "45f20b2eb2b5d3cc188a07ba3ced707a",
+          "sha1": "bdf35c20a5ddae26a2db310d3b324d06ce4e5f34",
+          "sha256": "66bb2abc96caea6208cb9edd9330991f815f8e93fbd7ebebbbf59085c87ac70e",
+          "releaseNote": "### v1.0.1\nCập nhật phiên bản v1.0.1 từ Kyic Store."
+        },
+        {
+          "version": "1.0",
+          "downloadURL": "debs/glow/com.dvntm.glow_1.0_iphoneos-arm.deb",
+          "size": 685238,
+          "architecture": "iphoneos-arm",
+          "md5": "510b8ca6c4b0faea6e0f20edc222ff82",
+          "sha1": "417d4b0761b85e5b07a4081605ad35381fe01daf",
+          "sha256": "93f8b9528079e7d3f3b98e2b5bd53f525d4c5864b21247136d9dbff2f4e9bc0d",
+          "releaseNote": "### v1.0\nCập nhật phiên bản v1.0 từ Kyic Store."
+        }
+      ],
+      "changelog": "### v1.3.1\nCập nhật phiên bản v1.3.1 từ Kyic Store."
     },
     {
       "name": "Infuse Plus",
@@ -72,11 +202,73 @@
       "section": "Tweaks",
       "author": "dvntm",
       "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/infuseplus.jpg",
-      "size": 454810,
-      "downloadURL": "debs/infuseplus/com.dvntm.infuseplus_2.5_iphoneos-arm.deb",
+      "size": 454554,
+      "downloadURL": "debs/infuseplus/com.dvntm.infuseplus_2.5_iphoneos-arm64e.deb",
       "description": "Enhancer for Infuse app",
-      "changelog": "### v2.5\nCập nhật phiên bản v2.5 từ Kyic Store.",
-      "tweak_name": "infuseplus"
+      "tweak_name": "infuseplus",
+      "versions": [
+        {
+          "version": "2.5",
+          "downloadURL": "debs/infuseplus/com.dvntm.infuseplus_2.5_iphoneos-arm.deb",
+          "size": 454810,
+          "architecture": "iphoneos-arm",
+          "md5": "2da1349e2ccbb9fc1f5faedbb9499713",
+          "sha1": "db1e7d55a807fa87fa5861aa94efedce3b9c3c0a",
+          "sha256": "185552adcbc53ce1d12b14164e19a962f7b1a64a64be9cc9b46f2a3dcf42a65f",
+          "releaseNote": "### v2.5\nCập nhật phiên bản v2.5 từ Kyic Store."
+        },
+        {
+          "version": "2.4.1",
+          "downloadURL": "debs/infuseplus/com.dvntm.infuseplus_2.4.1_iphoneos-arm.deb",
+          "size": 446384,
+          "architecture": "iphoneos-arm",
+          "md5": "248209e2e69f5371fbbcccb129581067",
+          "sha1": "9a704aa80152d1f90d80758638d89eb845494142",
+          "sha256": "5ed300119c1ad47fc8244072c31f403ebf62490991582837b74e9bafaba91c6a",
+          "releaseNote": "### v2.4.1\nCập nhật phiên bản v2.4.1 từ Kyic Store."
+        },
+        {
+          "version": "2.4",
+          "downloadURL": "debs/infuseplus/com.dvntm.infuseplus_2.4_iphoneos-arm.deb",
+          "size": 445474,
+          "architecture": "iphoneos-arm",
+          "md5": "f355a0e8f5891633a56047d942169144",
+          "sha1": "2e1c6103ae1b066a6035cfe2b82a4cdb4a672dfe",
+          "sha256": "fe11aba6e3a65527c9f10e3e38c84013833c0df97344d2d8c89b4a276db983c5",
+          "releaseNote": "### v2.4\nCập nhật phiên bản v2.4 từ Kyic Store."
+        },
+        {
+          "version": "2.3.1",
+          "downloadURL": "debs/infuseplus/com.dvntm.infuseplus_2.3.1_iphoneos-arm.deb",
+          "size": 421452,
+          "architecture": "iphoneos-arm",
+          "md5": "cb2151d496388979f4b6369e57310482",
+          "sha1": "b08ba6fa8dd15dd45a3851df831934f8e48dfa49",
+          "sha256": "a8751ee8462e25625f99c56162ed7b649e94b24b47bee18b21ccc0c233daa0bb",
+          "releaseNote": "### v2.3.1\nCập nhật phiên bản v2.3.1 từ Kyic Store."
+        },
+        {
+          "version": "2.3",
+          "downloadURL": "debs/infuseplus/com.dvntm.infuseplus_2.3_iphoneos-arm.deb",
+          "size": 416568,
+          "architecture": "iphoneos-arm",
+          "md5": "4c82065b9b2a9b9ab7ce1184becb011f",
+          "sha1": "5823c0168fd83a632641a1d19705544ab1d4fadd",
+          "sha256": "eef768481a972feb3d4011c03fc748cb34a4c3e0bd004e353dfcaca26af32c5a",
+          "releaseNote": "### v2.3\nCập nhật phiên bản v2.3 từ Kyic Store."
+        },
+        {
+          "version": "2.2",
+          "downloadURL": "debs/infuseplus/com.dvntm.infuseplus_2.2_iphoneos-arm.deb",
+          "size": 406180,
+          "architecture": "iphoneos-arm",
+          "md5": "036247ace1807ebf3b562eceb2165e90",
+          "sha1": "8af9ae8ea15cc0783b37e59a9faf270719c8b350",
+          "sha256": "56e8ef02c0fe6032fd8fd6ac315add69ff1be63463560ebee4363d739dcfc86c",
+          "releaseNote": "### v2.2\nCập nhật phiên bản v2.2 từ Kyic Store."
+        }
+      ],
+      "changelog": "### v2.5\nCập nhật phiên bản v2.5 từ Kyic Store."
     },
     {
       "name": "Lead",
@@ -88,8 +280,110 @@
       "size": 4175424,
       "downloadURL": "https://github.com/2KGT/2KGT.github.io/releases/download/v1.4.3/com.w3ltyyy.lead_1.4.3_iphoneos-arm.deb",
       "description": "The best Tweak For Telegram iOS",
-      "changelog": "### v1.4.3 (hiện tại)\nLead\n\nUpdate: v1.4.3\n• Đã sửa:Một biểu tượng \"đã chỉnh sửa\" giả mạo xuất hiện trên các biểu tượng cảm xúc và tin nhắn thông thường.\n• Đã sửa:Chức năng chống thu hồi không hoạt động trong các nhóm và kênh.\n• Đã sửa:Biểu tượng phương tiện dùng một lần đã biến mất sau khi thoát và vào lại cuộc trò chuyện.\n• Đã cập nhậtCác hook dành cho phiên bản Telegram mới nhất",
-      "tweak_name": "Lead"
+      "tweak_name": "Lead",
+      "versions": [
+        {
+          "version": "1.4.3",
+          "downloadURL": "https://github.com/2KGT/2KGT.github.io/releases/download/v1.4.3/com.w3ltyyy.lead_1.4.3_iphoneos-arm.deb",
+          "size": 4175424,
+          "architecture": "iphoneos-arm",
+          "md5": "2f55cf399a256baf2d8fb32d8251772a",
+          "sha1": "f2c96f2ecbc03f3b42cfb5f67a5c838d0da72996",
+          "sha256": "1e85d25832f1339d526738a8f94e0d4cfe839da651c9ac076399c5b8433d6c88",
+          "releaseNote": "### v1.4.3 (hiện tại)\nLead\n\nUpdate: v1.4.3\n• Đã sửa:Một biểu tượng \"đã chỉnh sửa\" giả mạo xuất hiện trên các biểu tượng cảm xúc và tin nhắn thông thường.\n• Đã sửa:Chức năng chống thu hồi không hoạt động trong các nhóm và kênh.\n• Đã sửa:Biểu tượng phương tiện dùng một lần đã biến mất sau khi thoát và vào lại cuộc trò chuyện.\n• Đã cập nhậtCác hook dành cho phiên bản Telegram mới nhất"
+        },
+        {
+          "version": "1.4.2",
+          "downloadURL": "debs/Lead/com.w3ltyyy.lead_1.4.2_iphoneos-arm.deb",
+          "size": 4163898,
+          "architecture": "iphoneos-arm",
+          "md5": "8e87d9730a4d64ed22036c551f1b88b8",
+          "sha1": "b3e4ad3701c4936aa0ea883692377ad7df568504",
+          "sha256": "befc1402dc51994d594f5940289723f38906ff58c8b397da0f8f8ded782dc8e5",
+          "releaseNote": "### v1.4.3\nLead\n\nUpdate: v1.4.3\n• Đã sửa:Một biểu tượng \"đã chỉnh sửa\" giả mạo xuất hiện trên các biểu tượng cảm xúc và tin nhắn thông thường.\n• Đã sửa:Chức năng chống thu hồi không hoạt động trong các nhóm và kênh.\n• Đã sửa:Biểu tượng phương tiện dùng một lần đã biến mất sau khi thoát và vào lại cuộc trò chuyện.\n• Đã cập nhậtCác hook dành cho phiên bản Telegram mới nhất"
+        },
+        {
+          "version": "1.4.1",
+          "downloadURL": "debs/Lead/com.w3ltyyy.lead_1.4.1_iphoneos-arm.deb",
+          "size": 4148842,
+          "architecture": "iphoneos-arm",
+          "md5": "e123c42b4294cd0eddb9b8078597af7d",
+          "sha1": "f4cabe49252ae2c195b23b34de55dce0196e57c0",
+          "sha256": "9d8c28a800a490f8120f92764bf393702034daff31a9efac2c8907eecc52b798",
+          "releaseNote": "### v1.4.3\nLead\n\nUpdate: v1.4.3\n• Đã sửa:Một biểu tượng \"đã chỉnh sửa\" giả mạo xuất hiện trên các biểu tượng cảm xúc và tin nhắn thông thường.\n• Đã sửa:Chức năng chống thu hồi không hoạt động trong các nhóm và kênh.\n• Đã sửa:Biểu tượng phương tiện dùng một lần đã biến mất sau khi thoát và vào lại cuộc trò chuyện.\n• Đã cập nhậtCác hook dành cho phiên bản Telegram mới nhất"
+        },
+        {
+          "version": "1.4.0",
+          "downloadURL": "debs/Lead/com.w3ltyyy.lead_1.4.0_iphoneos-arm.deb",
+          "size": 4132724,
+          "architecture": "iphoneos-arm",
+          "md5": "fadd6b40563adc68d585090ca77a9bd3",
+          "sha1": "3a163d74e5acea5afc24893531a1f4c73fd33273",
+          "sha256": "32273ce494cc301f3bb0e9569991249986fbc2f2cccd14cc048548a3bfb9d5c8",
+          "releaseNote": "### v1.4.3\nLead\n\nUpdate: v1.4.3\n• Đã sửa:Một biểu tượng \"đã chỉnh sửa\" giả mạo xuất hiện trên các biểu tượng cảm xúc và tin nhắn thông thường.\n• Đã sửa:Chức năng chống thu hồi không hoạt động trong các nhóm và kênh.\n• Đã sửa:Biểu tượng phương tiện dùng một lần đã biến mất sau khi thoát và vào lại cuộc trò chuyện.\n• Đã cập nhậtCác hook dành cho phiên bản Telegram mới nhất"
+        },
+        {
+          "version": "1.3.9",
+          "downloadURL": "debs/Lead/com.w3ltyyy.lead_1.3.9_iphoneos-arm.deb",
+          "size": 4083280,
+          "architecture": "iphoneos-arm",
+          "md5": "ed17868ca486fed20c368fa29bca672f",
+          "sha1": "ecdee97afcacfabeb1e34d64ee141ac901673470",
+          "sha256": "e3021a483b85f53967e04a4454ed777299e8bb701393c8d71805e4cf61c096c6",
+          "releaseNote": "### v1.4.3\nLead\n\nUpdate: v1.4.3\n• Đã sửa:Một biểu tượng \"đã chỉnh sửa\" giả mạo xuất hiện trên các biểu tượng cảm xúc và tin nhắn thông thường.\n• Đã sửa:Chức năng chống thu hồi không hoạt động trong các nhóm và kênh.\n• Đã sửa:Biểu tượng phương tiện dùng một lần đã biến mất sau khi thoát và vào lại cuộc trò chuyện.\n• Đã cập nhậtCác hook dành cho phiên bản Telegram mới nhất"
+        },
+        {
+          "version": "1.3.7",
+          "downloadURL": "debs/Lead/com.w3ltyyy.lead_1.3.7_iphoneos-arm.deb",
+          "size": 4059076,
+          "architecture": "iphoneos-arm",
+          "md5": "ca896f54e822bc386682640e0d2b8b2c",
+          "sha1": "feb8c174db8c4450085ad6d5c16751f57dc99d00",
+          "sha256": "d98c379facf1ea477e955d0d6cb47902300219ae422626bc6c1ef8c03fa9fe32",
+          "releaseNote": "### v1.4.3\nLead\n\nUpdate: v1.4.3\n• Đã sửa:Một biểu tượng \"đã chỉnh sửa\" giả mạo xuất hiện trên các biểu tượng cảm xúc và tin nhắn thông thường.\n• Đã sửa:Chức năng chống thu hồi không hoạt động trong các nhóm và kênh.\n• Đã sửa:Biểu tượng phương tiện dùng một lần đã biến mất sau khi thoát và vào lại cuộc trò chuyện.\n• Đã cập nhậtCác hook dành cho phiên bản Telegram mới nhất"
+        },
+        {
+          "version": "1.3.6",
+          "downloadURL": "debs/Lead/com.w3ltyyy.lead_1.3.6_iphoneos-arm.deb",
+          "size": 4072972,
+          "architecture": "iphoneos-arm",
+          "md5": "9e9013b0368fc143731b7c652898a9c6",
+          "sha1": "927aa896c5c2c10af5907bedba05309e65af82b0",
+          "sha256": "629301d3b6e4454caa1713fd85e07631fe8a58958a547733bb6fdb9a3df9fa15",
+          "releaseNote": "### v1.4.3\nLead\n\nUpdate: v1.4.3\n• Đã sửa:Một biểu tượng \"đã chỉnh sửa\" giả mạo xuất hiện trên các biểu tượng cảm xúc và tin nhắn thông thường.\n• Đã sửa:Chức năng chống thu hồi không hoạt động trong các nhóm và kênh.\n• Đã sửa:Biểu tượng phương tiện dùng một lần đã biến mất sau khi thoát và vào lại cuộc trò chuyện.\n• Đã cập nhậtCác hook dành cho phiên bản Telegram mới nhất"
+        },
+        {
+          "version": "1.3.5",
+          "downloadURL": "debs/Lead/com.w3ltyyy.lead_1.3.5_iphoneos-arm.deb",
+          "size": 4067120,
+          "architecture": "iphoneos-arm",
+          "md5": "56b2605c75d0a692da156acf0d0b918d",
+          "sha1": "8c2605005ea1b709096c8954b016f517b986e9de",
+          "sha256": "f1bfe3b88cc6d77535f0d7ca17c4f9b5fc14b4b6d818bf77550d873fc528f2c9",
+          "releaseNote": "### v1.4.3\nLead\n\nUpdate: v1.4.3\n• Đã sửa:Một biểu tượng \"đã chỉnh sửa\" giả mạo xuất hiện trên các biểu tượng cảm xúc và tin nhắn thông thường.\n• Đã sửa:Chức năng chống thu hồi không hoạt động trong các nhóm và kênh.\n• Đã sửa:Biểu tượng phương tiện dùng một lần đã biến mất sau khi thoát và vào lại cuộc trò chuyện.\n• Đã cập nhậtCác hook dành cho phiên bản Telegram mới nhất"
+        },
+        {
+          "version": "1.3.3",
+          "downloadURL": "debs/Lead/com.w3ltyyy.lead_1.3.3_iphoneos-arm.deb",
+          "size": 4093124,
+          "architecture": "iphoneos-arm",
+          "md5": "fa90ec72e2c4b393c1444ce9f571809a",
+          "sha1": "5315798bd42bf3addddcf305013687ddb5683bc8",
+          "sha256": "4600bd9f633e18cbad283977f296cb0ede689ceab74b0852f429052d2089986b",
+          "releaseNote": "### v1.4.3\nLead\n\nUpdate: v1.4.3\n• Đã sửa:Một biểu tượng \"đã chỉnh sửa\" giả mạo xuất hiện trên các biểu tượng cảm xúc và tin nhắn thông thường.\n• Đã sửa:Chức năng chống thu hồi không hoạt động trong các nhóm và kênh.\n• Đã sửa:Biểu tượng phương tiện dùng một lần đã biến mất sau khi thoát và vào lại cuộc trò chuyện.\n• Đã cập nhậtCác hook dành cho phiên bản Telegram mới nhất"
+        },
+        {
+          "version": "1.3.1",
+          "downloadURL": "debs/Lead/com.w3ltyyy.lead_1.3.1_iphoneos-arm.deb",
+          "size": 4113068,
+          "architecture": "iphoneos-arm",
+          "md5": "ca581ce981907e92fe3a481fbf1ff79d",
+          "sha1": "92be1e5eb75ddc8e03c16ecff12984de37cf25ee",
+          "sha256": "b4201af290fc439f330d2b8a3dcb8906082027f9357976d7a7a1222c47b7b066",
+          "releaseNote": "### v1.4.3\nLead\n\nUpdate: v1.4.3\n• Đã sửa:Một biểu tượng \"đã chỉnh sửa\" giả mạo xuất hiện trên các biểu tượng cảm xúc và tin nhắn thông thường.\n• Đã sửa:Chức năng chống thu hồi không hoạt động trong các nhóm và kênh.\n• Đã sửa:Biểu tượng phương tiện dùng một lần đã biến mất sau khi thoát và vào lại cuộc trò chuyện.\n• Đã cập nhậtCác hook dành cho phiên bản Telegram mới nhất"
+        }
+      ],
+      "changelog": "### v1.4.3 (hiện tại)\nLead\n\nUpdate: v1.4.3\n• Đã sửa:Một biểu tượng \"đã chỉnh sửa\" giả mạo xuất hiện trên các biểu tượng cảm xúc và tin nhắn thông thường.\n• Đã sửa:Chức năng chống thu hồi không hoạt động trong các nhóm và kênh.\n• Đã sửa:Biểu tượng phương tiện dùng một lần đã biến mất sau khi thoát và vào lại cuộc trò chuyện.\n• Đã cập nhậtCác hook dành cho phiên bản Telegram mới nhất"
     },
     {
       "name": "NoItsNotTimeToUpdate",
@@ -98,11 +392,23 @@
       "section": "Tweaks",
       "author": "dvntm",
       "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/twlegacy.jpg",
-      "size": 5960,
-      "downloadURL": "debs/twlegacy/com.dvntm.twlegacy_0.0.1_iphoneos-arm.deb",
+      "size": 6018,
+      "downloadURL": "debs/twlegacy/com.dvntm.twlegacy_0.0.1_iphoneos-arm64e.deb",
       "description": "An awesome MobileSubstrate tweak!",
-      "changelog": "### v0.0.1\nCập nhật phiên bản v0.0.1 từ Kyic Store.",
-      "tweak_name": "twlegacy"
+      "tweak_name": "twlegacy",
+      "versions": [
+        {
+          "version": "0.0.1",
+          "downloadURL": "debs/twlegacy/com.dvntm.twlegacy_0.0.1_iphoneos-arm.deb",
+          "size": 5960,
+          "architecture": "iphoneos-arm",
+          "md5": "c9d062e641b696604dee935281529c8f",
+          "sha1": "e065f47641f0a5b4bea9ef1e4692046f14110f37",
+          "sha256": "8f5343c817acf3bb26cf3f0606c1acd85f6271779a82285212d1213762b924c9",
+          "releaseNote": "### v0.0.1\nCập nhật phiên bản v0.0.1 từ Kyic Store."
+        }
+      ],
+      "changelog": "### v0.0.1\nCập nhật phiên bản v0.0.1 từ Kyic Store."
     },
     {
       "name": "NoYTPremium",
@@ -114,8 +420,20 @@
       "size": 2842,
       "downloadURL": "debs/noytpremium/noytpremium_1.0.7_arm.deb",
       "description": "Removes YouTube Premium upsells.",
-      "changelog": "### v1.0.7\nCập nhật phiên bản v1.0.7 từ Kyic Store.",
-      "tweak_name": "NoYTPremium"
+      "tweak_name": "NoYTPremium",
+      "versions": [
+        {
+          "version": "1.0.7",
+          "downloadURL": "debs/noytpremium/noytpremium_1.0.7_arm.deb",
+          "size": 2842,
+          "architecture": "iphoneos-arm",
+          "md5": "c8822406448994c0a0b1e316501b2da2",
+          "sha1": "bbdd609cd6007ba0cfaa7982821ff4782b6a5843",
+          "sha256": "3283e35eeed1b8526e389056571a1110dfd0c9541ac29d34b4c495f6b500a934",
+          "releaseNote": "### v1.0.7\nCập nhật phiên bản v1.0.7 từ Kyic Store."
+        }
+      ],
+      "changelog": "### v1.0.7\nCập nhật phiên bản v1.0.7 từ Kyic Store."
     },
     {
       "name": "OledKeyboard",
@@ -124,11 +442,23 @@
       "section": "Tweaks",
       "author": "dvntm",
       "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/oledkeyboard.jpg",
-      "size": 4598,
-      "downloadURL": "debs/oledkeyboard/com.dvntm.oledkeyboard_0.0.3_iphoneos-arm.deb",
+      "size": 4610,
+      "downloadURL": "debs/oledkeyboard/com.dvntm.oledkeyboard_0.0.3_iphoneos-arm64e.deb",
       "description": "OLED Dark Mode for iOS System Keyboard",
-      "changelog": "### v0.0.3\nCập nhật phiên bản v0.0.3 từ Kyic Store.",
-      "tweak_name": "oledkeyboard"
+      "tweak_name": "oledkeyboard",
+      "versions": [
+        {
+          "version": "0.0.3",
+          "downloadURL": "debs/oledkeyboard/com.dvntm.oledkeyboard_0.0.3_iphoneos-arm.deb",
+          "size": 4598,
+          "architecture": "iphoneos-arm",
+          "md5": "6aa42d3efda2bd357af550e3b1679bc0",
+          "sha1": "7863d1c38310dd2e7f2f971e73b719dbac383f28",
+          "sha256": "b9b36e2698899b5e3b7aa2edd273263448a526f2a075bcd45ea19568c6684b4a",
+          "releaseNote": "### v0.0.3\nCập nhật phiên bản v0.0.3 từ Kyic Store."
+        }
+      ],
+      "changelog": "### v0.0.3\nCập nhật phiên bản v0.0.3 từ Kyic Store."
     },
     {
       "name": "OrwellVK",
@@ -137,11 +467,33 @@
       "section": "Tweaks",
       "author": "dvntm",
       "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/orwellvk.jpg",
-      "size": 10264266,
-      "downloadURL": "debs/orwellvk/com.dvntm.ovk_1.2_iphoneos-arm.deb",
+      "size": 10259520,
+      "downloadURL": "debs/orwellvk/com.dvntm.ovk_1.2_iphoneos-arm64e.deb",
       "description": "A subtle shift from the familiar",
-      "changelog": "### v1.2\nCập nhật phiên bản v1.2 từ Kyic Store.",
-      "tweak_name": "orwellvk"
+      "tweak_name": "orwellvk",
+      "versions": [
+        {
+          "version": "1.2",
+          "downloadURL": "debs/orwellvk/com.dvntm.ovk_1.2_iphoneos-arm.deb",
+          "size": 10264266,
+          "architecture": "iphoneos-arm",
+          "md5": "a87eb192a394d89b2d2d9a783bc70280",
+          "sha1": "174aede35470b7c97261b629b932a62f0a12f727",
+          "sha256": "54651876583f5546ae97e772cff4002b0ea50c5d1882895778a43578b00b7f4a",
+          "releaseNote": "### v1.2\nCập nhật phiên bản v1.2 từ Kyic Store."
+        },
+        {
+          "version": "1.1.6",
+          "downloadURL": "debs/orwellvk/com.dvntm.ovk_1.1.6_iphoneos-arm.deb",
+          "size": 10214918,
+          "architecture": "iphoneos-arm",
+          "md5": "f7c7d954d3f55774040a22de570d1534",
+          "sha1": "1f52d6dc3c7f3a019613965f122470f189af9805",
+          "sha256": "4d028138cbc29249624a3be0d1d6ce85f62457b98da07ba1573b395db99c9c30",
+          "releaseNote": "### v1.1.6\nCập nhật phiên bản v1.1.6 từ Kyic Store."
+        }
+      ],
+      "changelog": "### v1.2\nCập nhật phiên bản v1.2 từ Kyic Store."
     },
     {
       "name": "TGExtra",
@@ -150,11 +502,23 @@
       "section": "Tweaks",
       "author": "choco",
       "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
-      "size": 635558,
-      "downloadURL": "debs/TGExtra/com.choco.tgextra_227_1.7.6_iphoneos-arm.deb",
+      "size": 633724,
+      "downloadURL": "debs/TGExtra/com.choco.tgextra_227_1.7.6_iphoneos-arm64e.deb",
       "description": "An simple Tweak For Telegram iOS",
-      "changelog": "### v1.7.6\nCập nhật phiên bản v1.7.6 từ Kyic Store.",
-      "tweak_name": "TGExtra"
+      "tweak_name": "TGExtra",
+      "versions": [
+        {
+          "version": "1.7.6",
+          "downloadURL": "debs/TGExtra/com.choco.tgextra_227_1.7.6_iphoneos-arm.deb",
+          "size": 635558,
+          "architecture": "iphoneos-arm",
+          "md5": "7b0f3ba66c3f05c7cd6a68738ec89987",
+          "sha1": "d875e6e8dc9aaa9cea0e92e11e395b0aa67e4e70",
+          "sha256": "5ca8cd182562e6e6ca7eb4cb4dc61c155b46c29bfc0933e34063cde31b72ffe7",
+          "releaseNote": "### v1.7.6\nCập nhật phiên bản v1.7.6 từ Kyic Store."
+        }
+      ],
+      "changelog": "### v1.7.6\nCập nhật phiên bản v1.7.6 từ Kyic Store."
     },
     {
       "name": "Tweach",
@@ -163,11 +527,53 @@
       "section": "Tweaks",
       "author": "dvntm",
       "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/tweach.jpg",
-      "size": 7296114,
-      "downloadURL": "debs/tweach/com.dvntm.tweach_2.3.3_iphoneos-arm.deb",
+      "size": 7298768,
+      "downloadURL": "debs/tweach/com.dvntm.tweach_2.3.3_iphoneos-arm64e.deb",
       "description": "Download your favorite clips, VODs and Live Streams with Tweach!",
-      "changelog": "### v2.3.3\nCập nhật phiên bản v2.3.3 từ Kyic Store.",
-      "tweak_name": "tweach"
+      "tweak_name": "tweach",
+      "versions": [
+        {
+          "version": "2.3.3",
+          "downloadURL": "debs/tweach/com.dvntm.tweach_2.3.3_iphoneos-arm.deb",
+          "size": 7296114,
+          "architecture": "iphoneos-arm",
+          "md5": "c37d6cde46b1012a8773a68eb1af016f",
+          "sha1": "97be0f06b1259757a5ab3e653f125d1c36a18651",
+          "sha256": "4074f5129b536fa51d6f154d1caff7fcebf5084e2bc0c89d85da0dc89df8b4c5",
+          "releaseNote": "### v2.3.3\nCập nhật phiên bản v2.3.3 từ Kyic Store."
+        },
+        {
+          "version": "2.3.2",
+          "downloadURL": "debs/tweach/com.dvntm.tweach_2.3.2_iphoneos-arm.deb",
+          "size": 7300250,
+          "architecture": "iphoneos-arm",
+          "md5": "f1f8f8753c6223f482697804b6f6076b",
+          "sha1": "d0aad076c788f5386ba23d31073ae808f6535783",
+          "sha256": "9bfdf24962604519237d367eeadee076566ea7fbf807c4111af7b2a307d15180",
+          "releaseNote": "### v2.3.2\nCập nhật phiên bản v2.3.2 từ Kyic Store."
+        },
+        {
+          "version": "2.3.1",
+          "downloadURL": "debs/tweach/com.dvntm.tweach_2.3.1_iphoneos-arm.deb",
+          "size": 7299176,
+          "architecture": "iphoneos-arm",
+          "md5": "7a9096110d87ab7170718ddb98e35200",
+          "sha1": "55b53bd702e4aeeb230662d39a336fafb8dffb41",
+          "sha256": "d6ff7444e3348207e9738387e6beb8b6e6cb2e7bc08b09a5135bdf809a21824d",
+          "releaseNote": "### v2.3.1\nCập nhật phiên bản v2.3.1 từ Kyic Store."
+        },
+        {
+          "version": "2.3",
+          "downloadURL": "debs/tweach/com.dvntm.tweach_2.3_iphoneos-arm.deb",
+          "size": 7287998,
+          "architecture": "iphoneos-arm",
+          "md5": "bdb8bc547b09f0091af592387af4741b",
+          "sha1": "27ad3be1e9310c92d2569105d7c6d4f98dec12ff",
+          "sha256": "4d554d347dfad8cca678e43c72e1e12033d92684e8625de3d78e3de0df8c335d",
+          "releaseNote": "### v2.3\nCập nhật phiên bản v2.3 từ Kyic Store."
+        }
+      ],
+      "changelog": "### v2.3.3\nCập nhật phiên bản v2.3.3 từ Kyic Store."
     },
     {
       "name": "YTLite",
@@ -176,11 +582,73 @@
       "section": "Tweaks",
       "author": "dvntm",
       "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/ytplus.jpg",
-      "size": 7420522,
-      "downloadURL": "debs/ytplus/com.dvntm.ytlite_5.2.1_iphoneos-arm.deb",
+      "size": 7410936,
+      "downloadURL": "debs/ytplus/com.dvntm.ytlite_5.2.1_iphoneos-arm64e.deb",
       "description": "Lightweight YouTube Enhancer",
-      "changelog": "### v5.2.1\nCập nhật phiên bản v5.2.1 từ Kyic Store.",
-      "tweak_name": "ytplus"
+      "tweak_name": "ytplus",
+      "versions": [
+        {
+          "version": "5.2.1",
+          "downloadURL": "debs/ytplus/com.dvntm.ytlite_5.2.1_iphoneos-arm.deb",
+          "size": 7420522,
+          "architecture": "iphoneos-arm",
+          "md5": "ffba73f062577070050fc20e6844fd70",
+          "sha1": "1ac014831f89c19abf364c2c76c4c36c5e87029d",
+          "sha256": "fe634567474704eea699d81c36b8af59575882deaad30f3e8bd4898b5019ef70",
+          "releaseNote": "### v5.2.1\nCập nhật phiên bản v5.2.1 từ Kyic Store."
+        },
+        {
+          "version": "5.2",
+          "downloadURL": "debs/ytplus/com.dvntm.ytlite_5.2_iphoneos-arm.deb",
+          "size": 7434188,
+          "architecture": "iphoneos-arm",
+          "md5": "7ea40992c08df303c7b3f682e52fef88",
+          "sha1": "85242bbfaec63679575c40c694879b84e42eb765",
+          "sha256": "cc48b87d76605b26e75414e2bc3d678b5f32f3c7bc57710754f29dc33b2fff9b",
+          "releaseNote": "### v5.2\nCập nhật phiên bản v5.2 từ Kyic Store."
+        },
+        {
+          "version": "5.2~b1",
+          "downloadURL": "debs/ytplus/com.dvntm.ytlite_5.2~b1_iphoneos-arm.deb",
+          "size": 6041648,
+          "architecture": "iphoneos-arm",
+          "md5": "9d18e7a270a71868f77720201a12dcd5",
+          "sha1": "8fedf06f2acae2e003aada30517b9365ba9eae1e",
+          "sha256": "3f33da4ddea32e58f97a7c79d17110e54faac1be923c97d2535fa66a53835684",
+          "releaseNote": "### v5.2~b1\nCập nhật phiên bản v5.2~b1 từ Kyic Store."
+        },
+        {
+          "version": "5.2~b2",
+          "downloadURL": "debs/ytplus/com.dvntm.ytlite_5.2~b2_iphoneos-arm.deb",
+          "size": 6401056,
+          "architecture": "iphoneos-arm",
+          "md5": "ec67722190824e6cb6e92db948490e0d",
+          "sha1": "193c59f80d211b138c11a47cfa5d077fd585568f",
+          "sha256": "20a52de9704f43335cc25cad3a918ca85583ad8119e2e43ffc40e2ee318e72ba",
+          "releaseNote": "### v5.2~b2\nCập nhật phiên bản v5.2~b2 từ Kyic Store."
+        },
+        {
+          "version": "5.2~b3",
+          "downloadURL": "debs/ytplus/com.dvntm.ytlite_5.2~b3_iphoneos-arm.deb",
+          "size": 6398164,
+          "architecture": "iphoneos-arm",
+          "md5": "1abf2ce33440ed281dcc782c197acea8",
+          "sha1": "adf4c685d0bf7c74b1d7d87b9736fe1aa0f4efbf",
+          "sha256": "ddcb48eda445c237d91bffea60d5acb8525f9b458cd2450720fb0c84064c316c",
+          "releaseNote": "### v5.2~b3\nCập nhật phiên bản v5.2~b3 từ Kyic Store."
+        },
+        {
+          "version": "5.2~b4",
+          "downloadURL": "debs/ytplus/com.dvntm.ytlite_5.2~b4_iphoneos-arm.deb",
+          "size": 6411144,
+          "architecture": "iphoneos-arm",
+          "md5": "1a3eda0f51ee334d59f658014bec8bb2",
+          "sha1": "771dc57a4ecf39e4c54ebe28ca17455f4ca3b6d2",
+          "sha256": "35ffa64e1b81bd244dabf04662df8d519b6ca57a026fa15204a3e0767b44cbdb",
+          "releaseNote": "### v5.2~b4\nCập nhật phiên bản v5.2~b4 từ Kyic Store."
+        }
+      ],
+      "changelog": "### v5.2.1\nCập nhật phiên bản v5.2.1 từ Kyic Store."
     },
     {
       "name": "YTMusicUltimate",
@@ -189,11 +657,43 @@
       "section": "Tweaks",
       "author": "dayanch96 & ginsu",
       "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/ytmu.jpg",
-      "size": 6576778,
-      "downloadURL": "debs/ytmu/com.ginsu.ytmusicultimate_2.4.1_iphoneos-arm.deb",
+      "size": 6572062,
+      "downloadURL": "debs/ytmu/com.ginsu.ytmusicultimate_2.4.1_iphoneos-arm64e.deb",
       "description": "YouTube Music Premium",
-      "changelog": "### v2.4.1\nCập nhật phiên bản v2.4.1 từ Kyic Store.",
-      "tweak_name": "ytmu"
+      "tweak_name": "ytmu",
+      "versions": [
+        {
+          "version": "2.4.1",
+          "downloadURL": "debs/ytmu/com.ginsu.ytmusicultimate_2.4.1_iphoneos-arm.deb",
+          "size": 6576778,
+          "architecture": "iphoneos-arm",
+          "md5": "c1a0a00cfc98361c7b61d312a09193e5",
+          "sha1": "a567aa3d17eb35e562f1599ec27a320b235c3cd0",
+          "sha256": "692ca452d618d7664d0986ffdd04484a07524a5068eb0e0f21b813a4efa515a3",
+          "releaseNote": "### v2.4.1\nCập nhật phiên bản v2.4.1 từ Kyic Store."
+        },
+        {
+          "version": "2.4",
+          "downloadURL": "debs/ytmu/com.ginsu.ytmusicultimate_2.4_iphoneos-arm.deb",
+          "size": 6573666,
+          "architecture": "iphoneos-arm",
+          "md5": "b3673b441d5176840b74b86f19088237",
+          "sha1": "b5a740d12a31e8277fee6a44bc322fbcf3ffbfc7",
+          "sha256": "df1da12b3a217af4c02c3a32edc0313bc2b41cfb0ca7482b145f430bb01327e5",
+          "releaseNote": "### v2.4\nCập nhật phiên bản v2.4 từ Kyic Store."
+        },
+        {
+          "version": "2.3.1",
+          "downloadURL": "debs/ytmu/com.ginsu.ytmusicultimate_2.3.1_iphoneos-arm.deb",
+          "size": 7456448,
+          "architecture": "iphoneos-arm",
+          "md5": "9179b61b5ca8cbdee8b34b28b9e40803",
+          "sha1": "41a28373f68d452658d660a0edba018ffb766ee3",
+          "sha256": "425ea8e49e11f3d687e4ef47a2b7ccadbb83af30c3df4573f23d4c058bd79e9d",
+          "releaseNote": "### v2.3.1\nCập nhật phiên bản v2.3.1 từ Kyic Store."
+        }
+      ],
+      "changelog": "### v2.4.1\nCập nhật phiên bản v2.4.1 từ Kyic Store."
     },
     {
       "name": "YTUHD",
@@ -202,11 +702,23 @@
       "section": "Tweaks",
       "author": "PoomSmart",
       "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
-      "size": 391984,
-      "downloadURL": "debs/ytuhd/com.ps.ytuhd_2.6.0_iphoneos-arm.deb",
+      "size": 391502,
+      "downloadURL": "debs/ytuhd/com.ps.ytuhd_2.6.0_iphoneos-arm64.deb",
       "description": "Unlocks 1440p and 2160p resolutions in iOS YouTube app.",
-      "changelog": "### v2.6.0\nCập nhật phiên bản v2.6.0 từ Kyic Store.",
-      "tweak_name": "ytuhd"
+      "tweak_name": "ytuhd",
+      "versions": [
+        {
+          "version": "2.6.0",
+          "downloadURL": "debs/ytuhd/com.ps.ytuhd_2.6.0_iphoneos-arm.deb",
+          "size": 391984,
+          "architecture": "iphoneos-arm",
+          "md5": "65c31f7000a574d2c54fb06b5907b0c2",
+          "sha1": "07d271204713e726113b7f83027b48165b835dc5",
+          "sha256": "861302bfc5a141ee42840e6da96b44b00906fcd6bc009e4f4750482521bc5208",
+          "releaseNote": "### v2.6.0\nCập nhật phiên bản v2.6.0 từ Kyic Store."
+        }
+      ],
+      "changelog": "### v2.6.0\nCập nhật phiên bản v2.6.0 từ Kyic Store."
     },
     {
       "name": "YTUnShorts",
@@ -218,8 +730,20 @@
       "size": 3272,
       "downloadURL": "debs/ytunshorts/ytunshorts_1.3.1_arm.deb",
       "description": "Removes Shorts from YouTube app's feed.",
-      "changelog": "### v1.3.1\nCập nhật phiên bản v1.3.1 từ Kyic Store.",
-      "tweak_name": "YTUnShorts"
+      "tweak_name": "YTUnShorts",
+      "versions": [
+        {
+          "version": "1.3.1",
+          "downloadURL": "debs/ytunshorts/ytunshorts_1.3.1_arm.deb",
+          "size": 3272,
+          "architecture": "iphoneos-arm",
+          "md5": "5e24e9313e8a3ed072821a3bc78ce16d",
+          "sha1": "4dfa72e3cf924c9aad1af3b0d989b6aa4b812ab4",
+          "sha256": "71e51ac80e9976a1c5338e5e869cd3e02583eb2135607d44c407145a8612e9b6",
+          "releaseNote": "### v1.3.1\nCập nhật phiên bản v1.3.1 từ Kyic Store."
+        }
+      ],
+      "changelog": "### v1.3.1\nCập nhật phiên bản v1.3.1 từ Kyic Store."
     },
     {
       "name": "YTVideoOverlay",
@@ -228,11 +752,33 @@
       "section": "Tweaks",
       "author": "PoomSmart",
       "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
-      "size": 16436,
-      "downloadURL": "debs/ytvideooverlay/com.ps.ytvideooverlay_2.3.6_iphoneos-arm.deb",
+      "size": 16298,
+      "downloadURL": "debs/ytvideooverlay/com.ps.ytvideooverlay_2.3.6_iphoneos-arm64.deb",
       "description": "A helper tweak to add buttons on YouTube video overlay.",
-      "changelog": "### v2.3.6\nCập nhật phiên bản v2.3.6 từ Kyic Store.",
-      "tweak_name": "ytvideooverlay"
+      "tweak_name": "YTVideoOverlay",
+      "versions": [
+        {
+          "version": "2.3.6",
+          "downloadURL": "debs/ytvideooverlay/com.ps.ytvideooverlay_2.3.6_iphoneos-arm.deb",
+          "size": 16436,
+          "architecture": "iphoneos-arm",
+          "md5": "3d62c63e035c685467c93fc66f01110a",
+          "sha1": "4db70b952be80fe67e137ec3695adcf55a48a773",
+          "sha256": "9a830457264f1c2dd69fda82aba4e9aa1f36e162675c95e2bda1ffdfb86459ff",
+          "releaseNote": "### v2.3.6\nCập nhật phiên bản v2.3.6 từ Kyic Store."
+        },
+        {
+          "version": "2.3.5",
+          "downloadURL": "debs/ytvideooverlay/ytvideooverlay_2.3.5_arm.deb",
+          "size": 16312,
+          "architecture": "iphoneos-arm",
+          "md5": "23e3dd7f153f1d4e90d8da2c1baada80",
+          "sha1": "52396294a57763e3c658649b8bf9cf8097aa2cb0",
+          "sha256": "ca8d34f15b4f7702b254970a41ece76a38e4f3e56261bf4bac3b919de4324344",
+          "releaseNote": "### v2.3.5\nCập nhật phiên bản v2.3.5 từ Kyic Store."
+        }
+      ],
+      "changelog": "### v2.3.6\nCập nhật phiên bản v2.3.6 từ Kyic Store."
     },
     {
       "name": "YouGroupSettings",
@@ -244,8 +790,20 @@
       "size": 5258,
       "downloadURL": "debs/yougroupsettings/yougroupsettings_1.0.10-arm.deb",
       "description": "Allows tweak-made settings to be grouped and displayed in iOS YouTube app.",
-      "changelog": "### v1.0.10\nCập nhật phiên bản v1.0.10 từ Kyic Store.",
-      "tweak_name": "YouGroupSettings"
+      "tweak_name": "YouGroupSettings",
+      "versions": [
+        {
+          "version": "1.0.10",
+          "downloadURL": "debs/yougroupsettings/yougroupsettings_1.0.10-arm.deb",
+          "size": 5258,
+          "architecture": "iphoneos-arm",
+          "md5": "33ecd42eea00b048350fb95dd371a2e9",
+          "sha1": "677316ea26a4fa459e4e2e20b78da970258764f8",
+          "sha256": "aafa0091f3c47d1fa3b951873a87f311d133ea911f5f5c50cb9dc6e41af4cd84",
+          "releaseNote": "### v1.0.10\nCập nhật phiên bản v1.0.10 từ Kyic Store."
+        }
+      ],
+      "changelog": "### v1.0.10\nCập nhật phiên bản v1.0.10 từ Kyic Store."
     },
     {
       "name": "YouMod",
@@ -257,8 +815,20 @@
       "size": 162996,
       "downloadURL": "debs/youmod/dev.water888.youmod_1.3.0_iphoneos-arm.deb",
       "description": "A lightweight YouTube enhancer",
-      "changelog": "### v1.3.0\nCập nhật phiên bản v1.3.0 từ Kyic Store.",
-      "tweak_name": "youmod"
+      "tweak_name": "youmod",
+      "versions": [
+        {
+          "version": "1.3.0",
+          "downloadURL": "debs/youmod/dev.water888.youmod_1.3.0_iphoneos-arm.deb",
+          "size": 162996,
+          "architecture": "iphoneos-arm",
+          "md5": "e8bfaa79a0217c160831fb510036a88e",
+          "sha1": "0766d92950bbf46eea62da5c2236c8984fb7bace",
+          "sha256": "59979900e77dbfe916972be6f20ace79fe50449bcf34b97694e3c278558f671d",
+          "releaseNote": "### v1.3.0\nCập nhật phiên bản v1.3.0 từ Kyic Store."
+        }
+      ],
+      "changelog": "### v1.3.0\nCập nhật phiên bản v1.3.0 từ Kyic Store."
     },
     {
       "name": "YouMute",
@@ -270,8 +840,20 @@
       "size": 6198,
       "downloadURL": "debs/youmute/youmute_1.4.0_arm.deb",
       "description": "Mutes/unmutes videos in YouTube directly.",
-      "changelog": "### v1.4.0\nCập nhật phiên bản v1.4.0 từ Kyic Store.",
-      "tweak_name": "YouMute"
+      "tweak_name": "YouMute",
+      "versions": [
+        {
+          "version": "1.4.0",
+          "downloadURL": "debs/youmute/youmute_1.4.0_arm.deb",
+          "size": 6198,
+          "architecture": "iphoneos-arm",
+          "md5": "151fc1b208fa9105da9f6d74c0069029",
+          "sha1": "6501bf2a689b1d75317249dbf676b25bd4ffdc12",
+          "sha256": "27b098f4ac4da14b8ca719f70eff5432bdd41885160a47e799958577acd744ae",
+          "releaseNote": "### v1.4.0\nCập nhật phiên bản v1.4.0 từ Kyic Store."
+        }
+      ],
+      "changelog": "### v1.4.0\nCập nhật phiên bản v1.4.0 từ Kyic Store."
     },
     {
       "name": "YouPiP",
@@ -280,11 +862,23 @@
       "section": "Tweaks",
       "author": "PoomSmart",
       "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
-      "size": 25610,
-      "downloadURL": "debs/youpip/com.ps.youpip_1.12.12_iphoneos-arm.deb",
+      "size": 25332,
+      "downloadURL": "debs/youpip/com.ps.youpip_1.12.12_iphoneos-arm64.deb",
       "description": "Enables native PiP in iOS YouTube app.",
-      "changelog": "### v1.12.12\nCập nhật phiên bản v1.12.12 từ Kyic Store.",
-      "tweak_name": "youpip"
+      "tweak_name": "youpip",
+      "versions": [
+        {
+          "version": "1.12.12",
+          "downloadURL": "debs/youpip/com.ps.youpip_1.12.12_iphoneos-arm.deb",
+          "size": 25610,
+          "architecture": "iphoneos-arm",
+          "md5": "f7627588305b4195d49d370dbc637c18",
+          "sha1": "e0290d93abf37063fcfed7b01ba690291cca7d40",
+          "sha256": "dca34d1bcc5484076836d0d4cbc4e62a6892febf130fadb6ab92f31ce60f59cd",
+          "releaseNote": "### v1.12.12\nCập nhật phiên bản v1.12.12 từ Kyic Store."
+        }
+      ],
+      "changelog": "### v1.12.12\nCập nhật phiên bản v1.12.12 từ Kyic Store."
     },
     {
       "name": "YouSpeed",
@@ -293,11 +887,33 @@
       "section": "Tweaks",
       "author": "PoomSmart",
       "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
-      "size": 12926,
-      "downloadURL": "debs/youspeed/com.ps.youspeed_1.7.1_iphoneos-arm.deb",
+      "size": 12772,
+      "downloadURL": "debs/youspeed/com.ps.youspeed_1.7.1_iphoneos-arm64.deb",
       "description": "Views/changes video speed in iOS YouTube app faster, and more speed options.",
-      "changelog": "### v1.7.1\nCập nhật phiên bản v1.7.1 từ Kyic Store.",
-      "tweak_name": "youspeed"
+      "tweak_name": "YouSpeed",
+      "versions": [
+        {
+          "version": "1.7.1",
+          "downloadURL": "debs/youspeed/com.ps.youspeed_1.7.1_iphoneos-arm.deb",
+          "size": 12926,
+          "architecture": "iphoneos-arm",
+          "md5": "b2185156a23f2711c7b518ae25f63c23",
+          "sha1": "7f3c0c8271b4ae156d37cb2591a4148d8afedc2b",
+          "sha256": "3d438736e8963acd6779bf913a21dcb53c132cb73c2d7af2e7521647769619db",
+          "releaseNote": "### v1.7.1\nCập nhật phiên bản v1.7.1 từ Kyic Store."
+        },
+        {
+          "version": "1.6.6",
+          "downloadURL": "debs/youspeed/youspeed_1.6.6_arm.deb",
+          "size": 12130,
+          "architecture": "iphoneos-arm",
+          "md5": "b351b096edbee16abd3382f08bd66bd5",
+          "sha1": "0d38455c807632e3a43939cce996abad1d5e3f5a",
+          "sha256": "fb6587b7241c02788fbe0eb143cbfb2728183ea42dc3aa666a54eaf04e390da2",
+          "releaseNote": "### v1.6.6\nCập nhật phiên bản v1.6.6 từ Kyic Store."
+        }
+      ],
+      "changelog": "### v1.7.1\nCập nhật phiên bản v1.7.1 từ Kyic Store."
     },
     {
       "name": "YouTube Fix",
@@ -309,8 +925,20 @@
       "size": 3340,
       "downloadURL": "debs/youtubefix/youtubefix_1.0_arm.deb",
       "description": "Fix YouTube images not loading",
-      "changelog": "### v1.0\nCập nhật phiên bản v1.0 từ Kyic Store.",
-      "tweak_name": "YouTube Fix"
+      "tweak_name": "YouTube Fix",
+      "versions": [
+        {
+          "version": "1.0",
+          "downloadURL": "debs/youtubefix/youtubefix_1.0_arm.deb",
+          "size": 3340,
+          "architecture": "iphoneos-arm",
+          "md5": "d99e00f006098a79723750b6988d6226",
+          "sha1": "f83d4ed4d2aab84a1c9cef1a2f0e1066006ea5ce",
+          "sha256": "18d40b2c0dd880665b39480eba4f1a21597ba7b6f72bcf4e23e4fcc08429773e",
+          "releaseNote": "### v1.0\nCập nhật phiên bản v1.0 từ Kyic Store."
+        }
+      ],
+      "changelog": "### v1.0\nCập nhật phiên bản v1.0 từ Kyic Store."
     },
     {
       "name": "YouTube Native Share",
@@ -319,11 +947,23 @@
       "section": "Tweaks",
       "author": "jkhsjdhjs",
       "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
-      "size": 10080,
-      "downloadURL": "debs/yt-native-share/me.jkhsjdhjs.youtube-native-share_0.2.7_iphoneos-arm.deb",
+      "size": 5042,
+      "downloadURL": "debs/yt-native-share/me.jkhsjdhjs.youtube-native-share_0.2.7_iphoneos-arm64e.deb",
       "description": "Bypass YouTubes own share sheet and use the system activity view instead.\nAvoids requesting a source identifier (si) with your data and sharing it with other people.",
-      "changelog": "### v0.2.7\nCập nhật phiên bản v0.2.7 từ Kyic Store.",
-      "tweak_name": "yt-native-share"
+      "tweak_name": "yt-native-share",
+      "versions": [
+        {
+          "version": "0.2.7",
+          "downloadURL": "debs/yt-native-share/me.jkhsjdhjs.youtube-native-share_0.2.7_iphoneos-arm.deb",
+          "size": 10080,
+          "architecture": "iphoneos-arm",
+          "md5": "7d92c843f7ab48004cc4c24d9e9cfdc2",
+          "sha1": "c7e2eddd787deda5e24e0c2f5b5d81b311c87291",
+          "sha256": "c5441d49ce78459f927c464a2405d408280e213a2706eb4afd74f6fb1dd0a80c",
+          "releaseNote": "### v0.2.7\nCập nhật phiên bản v0.2.7 từ Kyic Store."
+        }
+      ],
+      "changelog": "### v0.2.7\nCập nhật phiên bản v0.2.7 từ Kyic Store."
     },
     {
       "name": "YouTube X",
@@ -335,9 +975,21 @@
       "size": 5728,
       "downloadURL": "debs/YoutubeX/YoutubeX_1.7.19_arm.deb",
       "description": "A YouTube improvement tweak.",
-      "changelog": "### v1.7.19\nCập nhật phiên bản v1.7.19 từ Kyic Store.",
-      "tweak_name": "YouTube X"
+      "tweak_name": "YouTube X",
+      "versions": [
+        {
+          "version": "1.7.19",
+          "downloadURL": "debs/YoutubeX/YoutubeX_1.7.19_arm.deb",
+          "size": 5728,
+          "architecture": "iphoneos-arm",
+          "md5": "1fe505d84bec2e5b24d2bb26e48ac48f",
+          "sha1": "18ee76c6192cba0e15d11ae97d8db7bc37776f93",
+          "sha256": "5c4203245b9eafa05fd356f21e7613788146dcad6abcda3ae193b6d1b6cc26a5",
+          "releaseNote": "### v1.7.19\nCập nhật phiên bản v1.7.19 từ Kyic Store."
+        }
+      ],
+      "changelog": "### v1.7.19\nCập nhật phiên bản v1.7.19 từ Kyic Store."
     }
   ],
-  "generated_at": "2026-06-22T06:50:05.874007+00:00"
+  "generated_at": "2026-06-22T07:28:33.306740+00:00"
 }
