@@ -400,15 +400,123 @@ def run_dylib_engine(release_assets, system_db):
     wiki_dylibs_data = {}     # cache thô đầy đủ thuộc tính cho wikidylibs.json
     dylibs_map = defaultdict(list)  # group theo bundle để dựng versions[]
 
+    processed_safenames = set()
+
+    # ── CLOUD .dylib (GitHub Release) ─────────────────────────────────
+    # Schema giống sileo_engine.py dòng 438-441:
+    #   asset["name"]  → tên file (bundle_ver_arch.dylib)
+    #   asset["url"]   → downloadURL thật, KHÔNG tải về lưu local
+    #   asset["size"]  → kích thước bytes
+    #   asset["date"]  → versionDate thật từ GitHub (ISO 8601)
+    #   asset["body"]  → release note → lưu v{ver}.txt → localizedDescription
+    # Hash: tải tạm vào tempfile → tính MD5/SHA256 → xoá ngay (mirror
+    # calculate_hashes_from_url của sileo_engine, không nhân đôi dung lượng).
+    for asset in (release_assets if isinstance(release_assets, list) else []):
+        f_name    = asset.get("name", "")
+        f_url     = asset.get("url", "")
+        file_size = int(asset.get("size", 0))
+        if not f_name.endswith(".dylib") or not f_url:
+            continue
+
+        safe_filename = f_name.rsplit('.', 1)[0]
+        if safe_filename in processed_safenames:
+            continue
+        processed_safenames.add(safe_filename)
+
+        id_or_name, dylib_ver, dylib_arch = parse_dylib_filename(f_name)
+        deb_match   = find_matching_deb_data(f_name, system_db)
+        dylib_name  = resolve_display_name(deb_match, id_or_name)
+        version     = dylib_ver or (deb_match.get("Version") if deb_match else "1.0")
+        architecture = dylib_arch or (deb_match.get("Architecture") if deb_match else "iphoneos-arm")
+        bundle      = (deb_match.get("Package") if deb_match else None) or (
+            id_or_name if '.' in id_or_name else f"com.kyic.{id_or_name.lower()}"
+        )
+        author      = (deb_match.get("Author")  if deb_match else None) or "Kyic Store"
+        section     = (deb_match.get("Section") if deb_match else None) or "Tweaks"
+        permissions = utils.format_permissions(deb_match.get("Permissions", {})) if deb_match else {}
+
+        # versionDate lấy từ asset["date"] (ngày phát hành thật trên GitHub)
+        version_date = _iso8601_z(
+            datetime.datetime.fromisoformat(
+                asset["date"].replace("Z", "+00:00")
+            )
+        ) if asset.get("date") else _now_iso8601_z()
+
+        logger.info(f"-> Đang quét Cloud Dylib: {dylib_name} [{architecture}/v{version}]")
+        processed_dylibs_titles.append(dylib_name)
+
+        # Tải tạm để tính hash, xoá ngay — downloadURL giữ nguyên f_url
+        md5, sha1, sha256 = "0"*32, "0"*40, "0"*64
+        try:
+            import urllib.request, tempfile
+            req = urllib.request.Request(f_url, headers={"User-Agent": "Mozilla/5.0"})
+            with tempfile.NamedTemporaryFile(suffix=".dylib", delete=False) as tmp:
+                tmp_path = tmp.name
+                md5h = __import__("hashlib").md5()
+                sha1h = __import__("hashlib").sha1()
+                sha256h = __import__("hashlib").sha256()
+                with urllib.request.urlopen(req, timeout=60) as resp:
+                    while True:
+                        chunk = resp.read(65536)
+                        if not chunk: break
+                        tmp.write(chunk); md5h.update(chunk); sha1h.update(chunk); sha256h.update(chunk)
+            os.remove(tmp_path)
+            md5, sha1, sha256 = md5h.hexdigest(), sha1h.hexdigest(), sha256h.hexdigest()
+        except Exception as e:
+            logger.warning(f"⚠️ Không tính được hash cloud dylib [{f_name}]: {e}")
+
+        # Release note (body) → lưu v{ver}.txt → dùng làm localizedDescription
+        release_note = asset.get("body", "").strip()
+        real_description = release_note or (deb_match.get("Description") if deb_match else None)
+        if real_description and len(str(real_description).strip()) > 10:
+            dylib_desc_dir = os.path.join(config.DYLIB_DESC_DIR, dylib_name)
+            version_file   = os.path.join(dylib_desc_dir, f"v{version}.txt")
+            if not os.path.exists(version_file):
+                os.makedirs(dylib_desc_dir, exist_ok=True)
+                try:
+                    with open(version_file, 'w', encoding='utf-8') as vf:
+                        vf.write(str(real_description).strip())
+                    logger.info(f"💾 Lưu description cloud dylib: {version_file}")
+                except Exception as e:
+                    logger.warning(f"⚠️ Không lưu description {dylib_name} v{version}: {e}")
+
+        raw_description = real_description or "Tinh chỉnh dylib từ Kyic Store."
+        assets = get_dylib_assets(dylib_name, deb_match)
+        depiction_url = build_dylib_depiction_json(
+            safe_filename, dylib_name, version, raw_description, assets,
+            author, bundle, architecture,
+            extra={"size": file_size, "md5": md5, "sha1": sha1, "sha256": sha256,
+                   "downloadURL": f_url, "date": version_date}
+        )
+
+        wiki_dylibs_data[f_url] = {
+            "Package": bundle, "Name": dylib_name, "Version": version,
+            "Architecture": architecture, "Section": section, "Author": author,
+            "Description": raw_description, "Icon": assets["icon"], "Banner": assets["banner"],
+            "Video": assets.get("video"), "Screenshots": assets["screenshots"],
+            "Size": file_size, "MD5": md5, "SHA1": sha1, "SHA256": sha256,
+            "Dylib_File": f_name, "VersionDate": version_date,
+            "Permissions": permissions, "is_cloud": True
+        }
+        dylibs_map[bundle].append({
+            "name": dylib_name, "ver": str(version), "bundle": bundle,
+            "architecture": architecture, "size": file_size,
+            "downloadURL": f_url, "md5": md5, "sha256": sha256,
+            "author": author, "icon": assets["icon"], "banner": assets["banner"],
+            "video": assets.get("video"), "screenshots": assets["screenshots"],
+            "depictionURL": depiction_url, "date": version_date, "permissions": permissions,
+            "safe_file": safe_filename,
+            "description": config.get_optimized_dylib_description(dylib_name, version)
+        })
+
+    # ── LOCAL .dylib (repo/dylibs/) ────────────────────────────────────
     dylibs_input_dir = getattr(config, "DYLIBS_INPUT_DIR", os.path.join(config.REPO_OUTPUT_DIR, "dylibs"))
-
-    if not os.path.exists(dylibs_input_dir):
-        logger.warning(f"⚠️ Không tìm thấy thư mục chứa dylibs tại: {dylibs_input_dir}")
-        return processed_dylibs_titles
-
+    os.makedirs(dylibs_input_dir, exist_ok=True)
     dylib_files = [f for f in sorted(os.listdir(dylibs_input_dir)) if f.endswith('.dylib') and not f.startswith('.')]
 
     for f_name in dylib_files:
+        if f_name.rsplit('.', 1)[0] in processed_safenames:
+            continue
         path = os.path.join(dylibs_input_dir, f_name)
         safe_filename = f_name.rsplit('.', 1)[0]
         id_or_name, dylib_ver, dylib_arch = parse_dylib_filename(f_name)
@@ -548,7 +656,8 @@ def run_dylib_engine(release_assets, system_db):
                     "date": v['date'],
                     "size": v['size'],
                     "downloadURL": v['downloadURL'],
-                    "localizedDescription": _describe(v)
+                    "localizedDescription": _describe(v),
+                    "architecture": v['architecture']
                 }
                 for v in sorted_versions
             ],
