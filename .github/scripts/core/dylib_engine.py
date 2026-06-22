@@ -507,19 +507,20 @@ def run_dylib_engine(release_assets, system_db):
             "Dylib_File": f_name, "VersionDate": version_date,
             "Permissions": permissions, "is_cloud": True
         }
-        dylibs_map[bundle].append({
-            "name": dylib_name, "ver": str(version), "bundle": bundle,
-            "architecture": architecture, "size": file_size,
-            "downloadURL": f_url, "md5": md5, "sha256": sha256,
-            "author": author, "icon": assets["icon"], "banner": assets["banner"],
-            "video": assets.get("video"), "screenshots": assets["screenshots"],
-            "depictionURL": depiction_url, "date": version_date, "permissions": permissions,
-            "safe_file": safe_filename,
-            # product_description: mô tả sản phẩm (top-level localizedDescription)
-            "product_description": product_description,
-            # version_changelog: release note phiên bản này (versions[] entry)
-            "version_changelog": config.get_optimized_dylib_description(dylib_name, version)
-        })
+        # Tránh trùng (ver, arch) nếu cùng bundle xuất hiện nhiều lần
+        existing_keys = {(e["ver"], e["architecture"]) for e in dylibs_map[bundle]}
+        if (str(version), architecture) not in existing_keys:
+            dylibs_map[bundle].append({
+                "name": dylib_name, "ver": str(version), "bundle": bundle,
+                "architecture": architecture, "size": file_size,
+                "downloadURL": f_url, "md5": md5, "sha1": sha1, "sha256": sha256,
+                "author": author, "icon": assets["icon"], "banner": assets["banner"],
+                "video": assets.get("video"), "screenshots": assets["screenshots"],
+                "depictionURL": depiction_url, "date": version_date, "permissions": permissions,
+                "safe_file": safe_filename,
+                "product_description": product_description,
+                "version_changelog": config.get_optimized_dylib_description(dylib_name, version)
+            })
 
     # ── LOCAL .dylib (repo/dylibs/) ────────────────────────────────────
     dylibs_input_dir = getattr(config, "DYLIBS_INPUT_DIR", os.path.join(config.REPO_OUTPUT_DIR, "dylibs"))
@@ -606,17 +607,21 @@ def run_dylib_engine(release_assets, system_db):
             "VersionDate": version_date, "Permissions": permissions
         }
 
+        # Tránh trùng (ver, arch) nếu cùng bundle xuất hiện cả cloud lẫn local
+        existing_keys = {(e["ver"], e["architecture"]) for e in dylibs_map[bundle]}
+        if (str(version), architecture) in existing_keys:
+            logger.info(f"⏭️  Bỏ qua trùng local dylib {bundle} v{version} [{architecture}]")
+            continue
+
         dylibs_map[bundle].append({
             "name": dylib_name, "ver": str(version), "bundle": bundle,
             "architecture": architecture, "size": file_size,
-            "downloadURL": download_url, "md5": md5, "sha256": sha256,
+            "downloadURL": download_url, "md5": md5, "sha1": sha1, "sha256": sha256,
             "author": author, "icon": assets["icon"], "banner": assets["banner"],
             "video": assets.get("video"), "screenshots": assets["screenshots"],
             "depictionURL": depiction_url, "date": version_date, "permissions": permissions,
             "safe_file": safe_filename,
-            # product_description: mô tả sản phẩm (top-level localizedDescription)
             "product_description": product_description,
-            # version_changelog: release note phiên bản này (versions[] entry)
             "version_changelog": config.get_optimized_dylib_description(dylib_name, version)
         })
 
@@ -674,7 +679,10 @@ def run_dylib_engine(release_assets, system_db):
                     "size": v['size'],
                     "downloadURL": v['downloadURL'],
                     "localizedDescription": _version_desc(v),
-                    "architecture": v['architecture']
+                    "architecture": v['architecture'],
+                    "md5": v.get('md5', ''),
+                    "sha1": v.get('sha1', ''),
+                    "sha256": v.get('sha256', '')
                 }
                 for v in sorted_versions
             ],
