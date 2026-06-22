@@ -351,11 +351,27 @@ def build_sileo_depiction_json(safe_filename, tweak_name, version, description, 
     """
     section = deb_info.get("Section", "Tweaks")
 
-    optimized_desc = config.get_optimized_tweak_description(tweak_name, version)
-    final_description = optimized_desc if optimized_desc else description
+    # FIX: Tách rõ 2 loại nội dung:
+    # - final_description (tab Details): mô tả về chính sản phẩm —
+    #   lấy từ tham số `description` (deb_info["Description"] từ control
+    #   file). Nếu không có, fallback về default.txt của tweak.
+    #   ĐÂY LÀ MÔ TẢ SẢN PHẨM, không phải release note.
+    # - changelog_markdown (tab Changelog): lịch sử CÓ GÌ MỚI từng
+    #   phiên bản — đọc từ v*.txt (release notes đã lưu từ asset["body"]).
+    #
+    # Cách cũ (lỗi): dùng get_optimized_tweak_description() cho Details —
+    # hàm đó đọc v{ver}.txt (= release note) → Details và Changelog
+    # hiển thị cùng nội dung, chỉ khác scope (1 ver vs toàn bộ lịch sử).
+    default_file = os.path.join(config.TWEAK_DESC_DIR, tweak_name, "default.txt")
+    if description and len(str(description).strip()) > 5:
+        final_description = description.strip()
+    elif os.path.exists(default_file):
+        with open(default_file, 'r', encoding='utf-8') as _f:
+            final_description = _f.read().strip() or description
+    else:
+        final_description = description
 
-    # FIX: Lấy lịch sử changelog NHIỀU phiên bản thật (đọc từ v*.txt) —
-    # giống tinh thần "Version History" của Feather, thay vì text cứng.
+    # Lịch sử phiên bản từ v*.txt (release notes) — KHÔNG bao gồm mô tả
     changelog_markdown = config.get_tweak_changelog_history(tweak_name, version)
 
     target_folder, json_filename = config.get_depiction_path_by_filename(section, tweak_name, safe_filename)
@@ -512,7 +528,10 @@ def run_sileo_engine(release_assets, system_db):
         tweaks_map[(deb_info["Package"], deb_info["Architecture"], deb_info["Version"])].append({
             "name": deb_info["Name"], "ver": deb_info["Version"],
             "bid": deb_info["Package"], "arch": deb_info["Architecture"],
-            "dl": f_url, "sz": sz, "desc": deb_info["Description"],
+            "dl": f_url, "sz": sz,
+            # FIX: tách biệt mô tả sản phẩm và release note phiên bản
+            "desc": deb_info["Description"],       # mô tả sản phẩm (control file)
+            "release_note": release_note.strip() if release_note else "",  # có gì mới
             "author": deb_info["Author"], "icon": assets["icon"],
             "tweak_name": tweak_title, "safe_file": safe_filename,
             "section": deb_info["Section"], "is_cloud": True,
@@ -570,14 +589,27 @@ def run_sileo_engine(release_assets, system_db):
                     deb_info["Description"], assets, deb_info["Author"], deb_info,
                     utils.format_permissions(deb_info.get('Permissions', {}))
                 )
+                # FIX: local .deb không có asset["body"], nhưng v{ver}.txt có
+                # thể đã được lưu từ lần build trước (khi file .deb còn là cloud).
+                _local_ver_file = os.path.join(config.TWEAK_DESC_DIR, tweak_title, f"v{deb_info['Version']}.txt")
+                _local_release_note = ""
+                if os.path.exists(_local_ver_file):
+                    try:
+                        with open(_local_ver_file, 'r', encoding='utf-8') as _lf:
+                            _local_release_note = _lf.read().strip()
+                    except Exception:
+                        pass
                 tweaks_map[(deb_info["Package"], deb_info["Architecture"], deb_info["Version"])].append({
                     "name": deb_info["Name"], "ver": deb_info["Version"],
                     "bid": deb_info["Package"], "arch": deb_info["Architecture"],
                     "dl": relative_path, "sz": int(os.path.getsize(path)),
-                    "desc": deb_info["Description"], "author": deb_info["Author"],
-                    "icon": assets["icon"], "tweak_name": tweak_title,
-                    "safe_file": safe_filename, "section": deb_info["Section"],
-                    "is_cloud": False, "md5": md5, "sha1": sha1, "sha256": sha256
+                    # FIX: tách biệt mô tả sản phẩm và release note phiên bản
+                    "desc": deb_info["Description"],       # mô tả sản phẩm (control file)
+                    "release_note": _local_release_note,   # có gì mới (từ v{ver}.txt)
+                    "author": deb_info["Author"], "icon": assets["icon"],
+                    "tweak_name": tweak_title, "safe_file": safe_filename,
+                    "section": deb_info["Section"], "is_cloud": False,
+                    "md5": md5, "sha1": sha1, "sha256": sha256
                 })
 
     # ── Ghi Packages ────────────────────────────────────────────
@@ -661,16 +693,28 @@ def run_sileo_engine(release_assets, system_db):
             
             if v_item["bid"] not in sileo_tweaks_by_bundle:
                 tweak_title = v_item["tweak_name"]
-                
-                # ✅ Sử dụng config.get_optimized_tweak_description()
-                # để lấy description từ v<version>.txt hoặc default.txt
-                full_description = config.get_optimized_tweak_description(
-                    tweak_title, v_item["ver"]
-                )
-                
-                # ✅ Sử dụng config.get_tweak_changelog_history()
-                # để lấy markdown changelog từ tất cả v*.txt files
-                # FIX: Parse changelog markdown thành structured history array
+
+                # FIX: Tách biệt 2 loại nội dung trong sileo.json:
+                # - "description": mô tả sản phẩm — lấy từ v_item["desc"]
+                #   (deb_info["Description"] từ control file). Nếu chỉ là
+                #   chuỗi generic/rỗng, fallback default.txt.
+                # - "changelog": lịch sử CÓ GÌ MỚI — đọc toàn bộ v*.txt
+                #   (release notes đã lưu từ asset["body"]). Đây là lịch
+                #   sử phiên bản, KHÔNG trùng với mô tả sản phẩm.
+                #
+                # Cách cũ (lỗi): cả 2 đều từ get_optimized_tweak_description
+                # → đọc cùng v{ver}.txt → description và changelog trùng nhau.
+                product_description = v_item["desc"]
+                _default_file = os.path.join(config.TWEAK_DESC_DIR, tweak_title, "default.txt")
+                if (not product_description or len(str(product_description).strip()) <= 5) \
+                        and os.path.exists(_default_file):
+                    try:
+                        with open(_default_file, 'r', encoding='utf-8') as _f:
+                            product_description = _f.read().strip() or product_description
+                    except Exception:
+                        pass
+
+                # Lịch sử phiên bản: toàn bộ v*.txt (release notes mỗi ver)
                 changelog_markdown = config.get_tweak_changelog_history(
                     tweak_title, v_item["ver"], limit=10
                 )
@@ -684,8 +728,8 @@ def run_sileo_engine(release_assets, system_db):
                     "icon": v_item["icon"],
                     "size": v_item["sz"],
                     "downloadURL": v_item['dl'],
-                    "description": full_description,  # ✅ Từ config function
-                    "changelog": changelog_markdown,   # ✅ Markdown format (cho depiction)
+                    "description": product_description,  # mô tả sản phẩm (control)
+                    "changelog": changelog_markdown,      # lịch sử có gì mới (v*.txt)
                     "tweak_name": tweak_title
                 }
 
