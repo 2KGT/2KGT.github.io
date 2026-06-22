@@ -534,35 +534,70 @@ def run_sileo_engine(release_assets, system_db):
         logger.error(f"❌ Lỗi nén Packages.bz2: {e}")
 
     # ── sileo.json ────────────────────────────────────────────────────
+    # Gom tất cả phiên bản theo bundle ID, không lọc bỏ bản cũ
     sileo_tweaks_by_bundle = {}
 
-    for key in sorted(tweaks_map.keys()):
+    for key in sorted(tweaks_map.keys(), key=lambda k: utils.parse_version_tuple(k[2])):
         bid, arch, ver = key
-        if ver != latest_per_arch.get((bid, arch)):
-            continue
-        v = tweaks_map[key][0]
-        if v["bid"] in sileo_tweaks_by_bundle:
-            continue
+        for v in tweaks_map[key]:
+            tweak_title = v["tweak_name"]
 
-        tweak_title = v["tweak_name"]
-        product_description = v["desc"]
-        default_file = os.path.join(config.TWEAK_DESC_DIR, tweak_title, "default.txt")
-        if (not product_description or len(str(product_description).strip()) <= 5) and os.path.exists(default_file):
-            product_description = _read_file(default_file) or product_description
+            # Khởi tạo entry lần đầu gặp bundle này
+            if bid not in sileo_tweaks_by_bundle:
+                product_description = v["desc"]
+                default_file = os.path.join(config.TWEAK_DESC_DIR, tweak_title, "default.txt")
+                if (not product_description or len(str(product_description).strip()) <= 5) and os.path.exists(default_file):
+                    product_description = _read_file(default_file) or product_description
 
-        sileo_tweaks_by_bundle[v["bid"]] = {
-            "name": v["name"],
-            "bundle": v["bid"],
-            "version": v["ver"],
-            "section": v["section"],
-            "author": v["author"],
-            "icon": v["icon"],
-            "size": v["sz"],
-            "downloadURL": v["dl"],
-            "description": product_description,
-            "changelog": config.get_tweak_changelog_history(tweak_title, v["ver"], limit=10),
-            "tweak_name": tweak_title
-        }
+                sileo_tweaks_by_bundle[bid] = {
+                    "name": v["name"],
+                    "bundle": bid,
+                    "version": v["ver"],        # sẽ được cập nhật lên bản mới nhất bên dưới
+                    "section": v["section"],
+                    "author": v["author"],
+                    "icon": v["icon"],
+                    "size": v["sz"],
+                    "downloadURL": v["dl"],
+                    "description": product_description,
+                    "tweak_name": tweak_title,
+                    "versions": []
+                }
+
+            entry = sileo_tweaks_by_bundle[bid]
+
+            # Thêm phiên bản này vào danh sách versions (tránh trùng)
+            existing_vers = {vv["version"] for vv in entry["versions"]}
+            if ver not in existing_vers:
+                release_note = config.get_tweak_changelog_history(tweak_title, ver, limit=1)
+                entry["versions"].append({
+                    "version": ver,
+                    "downloadURL": v["dl"],
+                    "size": v["sz"],
+                    "architecture": arch,
+                    "md5": v["md5"],
+                    "sha1": v["sha1"],
+                    "sha256": v["sha256"],
+                    "releaseNote": release_note
+                })
+
+            # Cập nhật fields chính lên bản mới nhất
+            latest_ver = latest_per_arch.get((bid, arch))
+            if ver == latest_ver:
+                entry["version"]     = ver
+                entry["downloadURL"] = v["dl"]
+                entry["size"]        = v["sz"]
+                entry["icon"]        = v["icon"]
+
+    # Sort versions giảm dần (mới nhất trên đầu) cho từng bundle
+    for entry in sileo_tweaks_by_bundle.values():
+        entry["versions"].sort(
+            key=lambda vv: utils.parse_version_tuple(vv["version"]),
+            reverse=True
+        )
+        # Gắn changelog đầy đủ dựa trên toàn bộ danh sách phiên bản đã có
+        tweak_title = entry["tweak_name"]
+        latest = entry["versions"][0]["version"] if entry["versions"] else entry["version"]
+        entry["changelog"] = config.get_tweak_changelog_history(tweak_title, latest, limit=50)
 
     sileo_data = sorted(sileo_tweaks_by_bundle.values(), key=lambda x: x["name"])
     output_json = {
