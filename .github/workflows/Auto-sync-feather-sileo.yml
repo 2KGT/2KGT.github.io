@@ -6,7 +6,7 @@ on:
     paths:
       - 'repo/apps/**'
       - 'repo/debs/**'
-      - 'repo/depictions/**'
+      - 'repo/data/**'
       - '.github/scripts/**'
   release:
     types: [published, created, edited]
@@ -44,10 +44,10 @@ jobs:
           mkdir -p \
             repo/apps \
             repo/debs \
-            repo/depictions/icons \
-            repo/depictions/images \
-            repo/depictions/metadata \
-            repo/depictions/default
+            repo/data/icons \
+            repo/data/images \
+            repo/data/metadata \
+            repo/data/default
 
       - name: "🚀 Khởi chạy tự động hóa (Core Engine)"
         env:
