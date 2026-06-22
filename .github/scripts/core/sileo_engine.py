@@ -648,39 +648,64 @@ def run_sileo_engine(release_assets, system_db):
     except Exception as e:
         logger.error(f"❌ Lỗi nén Packages.bz2: {e}")
     
-    # Logic tạo tạo file ⁠sileo.json
-    # 1. Tạo danh sách tweak cho sileo.json
-    sileo_data = []
+    # ── Tạo sileo.json ──────────────────────────────────────────────
+    # FIX: Gom tweaks theo bundle ID (1 entry per app, không trùng arch)
+    # Sử dụng config.py helper functions để đọc description + changelog history
+    sileo_tweaks_by_bundle = {}
+    
     for key in sorted(tweaks_map.keys()):
         bid, arch, ver = key
         # Chỉ lấy bản mới nhất để hiển thị
         if ver == latest_per_arch.get((bid, arch)):
             v_item = tweaks_map[key][0]
-            sileo_data.append({
-                "name": v_item["name"],
-                "bundle": v_item["bid"],
-                "version": v_item["ver"],
-                "section": v_item["section"],
-                "author": v_item["author"],
-                "icon": v_item["icon"],
-                "size": v_item["sz"],
-                "downloadURL": v_item['dl'],
-            })
+            
+            if v_item["bid"] not in sileo_tweaks_by_bundle:
+                tweak_title = v_item["tweak_name"]
+                
+                # ✅ Sử dụng config.get_optimized_tweak_description()
+                # để lấy description từ v<version>.txt hoặc default.txt
+                full_description = config.get_optimized_tweak_description(
+                    tweak_title, v_item["ver"]
+                )
+                
+                # ✅ Sử dụng config.get_tweak_changelog_history()
+                # để lấy markdown changelog từ tất cả v*.txt files
+                # FIX: Parse changelog markdown thành structured history array
+                changelog_markdown = config.get_tweak_changelog_history(
+                    tweak_title, v_item["ver"], limit=10
+                )
+                
+                sileo_tweaks_by_bundle[v_item["bid"]] = {
+                    "name": v_item["name"],
+                    "bundle": v_item["bid"],
+                    "version": v_item["ver"],
+                    "section": v_item["section"],
+                    "author": v_item["author"],
+                    "icon": v_item["icon"],
+                    "size": v_item["sz"],
+                    "downloadURL": v_item['dl'],
+                    "description": full_description,  # ✅ Từ config function
+                    "changelog": changelog_markdown,   # ✅ Markdown format (cho depiction)
+                    "tweak_name": tweak_title
+                }
 
-    # 2. Đóng gói vào biến output_json
+    # 2. Chuyển dict thành list và sắp xếp theo tên
+    sileo_data = list(sileo_tweaks_by_bundle.values())
+    sileo_data.sort(key=lambda x: x["name"])
+
+    # 3. Đóng gói vào biến output_json
     output_json = {
         "tweaks": sileo_data,
         "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat()
     }
 
-    # 3. Ghi file JSON (nằm ngoài vòng lặp và trước lệnh return)
+    # 4. Ghi file JSON (nằm ngoài vòng lặp và trước lệnh return)
     json_output_path = os.path.join(config.REPO_OUTPUT_DIR, 'sileo.json')
     with open(json_output_path, 'w', encoding='utf-8') as f:
         json.dump(output_json, f, indent=2, ensure_ascii=False)
     
     logger.info(f"✅ Đã tạo sileo.json tại: {json_output_path}")
+    logger.info(f"   📊 Tổng {len(sileo_data)} tweaks, mỗi có description + changelog history")
+    logger.info(f"   📂 Dữ liệu đọc từ: {config.TWEAK_DESC_DIR}/<TweakName>/v*.txt")
 
     return processed_tweaks_titles
-
-    
-
