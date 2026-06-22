@@ -565,23 +565,24 @@ def run_sileo_engine(release_assets, system_db):
 
             entry = sileo_tweaks_by_bundle[bid]
 
-            # Thêm phiên bản này vào danh sách versions (tránh trùng)
-            existing_vers = {vv["version"] for vv in entry["versions"]}
-            if ver not in existing_vers:
+            # Thêm phiên bản này vào danh sách versions (tránh trùng theo cả version + arch)
+            v_arch = v["arch"]
+            existing_keys = {(vv["version"], vv["architecture"]) for vv in entry["versions"]}
+            if (ver, v_arch) not in existing_keys:
                 release_note = config.get_tweak_changelog_history(tweak_title, ver, limit=1)
                 entry["versions"].append({
                     "version": ver,
                     "downloadURL": v["dl"],
                     "size": v["sz"],
-                    "architecture": arch,
+                    "architecture": v_arch,
                     "md5": v["md5"],
                     "sha1": v["sha1"],
                     "sha256": v["sha256"],
                     "releaseNote": release_note
                 })
 
-            # Cập nhật fields chính lên bản mới nhất
-            latest_ver = latest_per_arch.get((bid, arch))
+            # Cập nhật fields chính lên bản mới nhất của đúng arch này
+            latest_ver = latest_per_arch.get((bid, v_arch))
             if ver == latest_ver:
                 entry["version"]     = ver
                 entry["downloadURL"] = v["dl"]
