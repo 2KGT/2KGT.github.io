@@ -21,7 +21,7 @@
           "date": "2026-06-21T08:24:59Z",
           "size": 25685712,
           "downloadURL": "https://github.com/2KGT/2KGT.github.io/releases/download/v1.4.3/com.w3ltyyy.lead_1.4.3_iphoneos-arm.dylib",
-          "localizedDescription": "The best Tweak For Telegram iOS\n\nKiến trúc: iphoneos-arm",
+          "localizedDescription": "Lead\n\nUpdate: v1.4.3\n• Đã sửa:Một biểu tượng \"đã chỉnh sửa\" giả mạo xuất hiện trên các biểu tượng cảm xúc và tin nhắn thông thường.\n• Đã sửa:Chức năng chống thu hồi không hoạt động trong các nhóm và kênh.\n• Đã sửa:Biểu tượng phương tiện dùng một lần đã biến mất sau khi thoát và vào lại cuộc trò chuyện.\n• Đã cập nhậtCác hook dành cho phiên bản Telegram mới nhất\n\nKiến trúc: iphoneos-arm",
           "architecture": "iphoneos-arm"
         },
         {
@@ -29,7 +29,7 @@
           "date": "2026-06-19T03:57:53Z",
           "size": 25669104,
           "downloadURL": "https://github.com/2KGT/2KGT.github.io/releases/download/v1.4.2/com.w3ltyyy.lead_1.4.2_iphoneos-arm.dylib",
-          "localizedDescription": "The best Tweak For Telegram iOS\n\nKiến trúc: iphoneos-arm",
+          "localizedDescription": "Lead dylib\n\n•Đã thêmKhả năng tạo giá trị tùy chỉnh cho số sao (trực quan)\n•Đã sửaNút thoại bị chồng lên nút hình tròn trong Swiftgram.\n•Đã sửa: hiện tượng giật lag khi khởi chạy ứng dụng\n•Đã sửaCác vạch sóng nhỏ và đồng đều.\n•Đã sửa: Chức năng Ghost Exceptions hiện đã hiển thị chính xác tên/tên người dùng.\n\nKiến trúc: iphoneos-arm",
           "architecture": "iphoneos-arm"
         },
         {
@@ -37,7 +37,7 @@
           "date": "2026-06-19T03:55:30Z",
           "size": 25524416,
           "downloadURL": "https://github.com/2KGT/2KGT.github.io/releases/download/v1.3.3/com.w3ltyyy.lead_1.3.3_iphoneos-arm.dylib",
-          "localizedDescription": "The best Tweak For Telegram iOS\n\nKiến trúc: iphoneos-arm",
+          "localizedDescription": "Lead dylib\n\nĐã khắc phục: Không thể chuyển tiếp tin nhắn\n\nKiến trúc: iphoneos-arm",
           "architecture": "iphoneos-arm"
         }
       ],
