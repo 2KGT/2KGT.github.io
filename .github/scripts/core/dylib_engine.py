@@ -465,22 +465,31 @@ def run_dylib_engine(release_assets, system_db):
         except Exception as e:
             logger.warning(f"⚠️ Không tính được hash cloud dylib [{f_name}]: {e}")
 
-        # Release note (body) → lưu v{ver}.txt → dùng làm localizedDescription
+        # ── Tách biệt 2 loại nội dung ──────────────────────────────────
+        # product_description : mô tả chính về sản phẩm (từ deb_match.Description
+        #   hoặc default.txt). Dùng cho top-level localizedDescription.
+        # version_changelog   : ghi chú phiên bản (từ asset["body"] = Release Note).
+        #   Lưu v{ver}.txt → dùng cho từng entry trong versions[].
+        product_description = (deb_match.get("Description") if deb_match else None) or \
+            config.get_optimized_dylib_description(dylib_name, version) or \
+            f"Tinh chỉnh {dylib_name} từ Kyic Store."
+
         release_note = asset.get("body", "").strip()
-        real_description = release_note or (deb_match.get("Description") if deb_match else None)
-        if real_description and len(str(real_description).strip()) > 10:
+        if release_note and len(release_note) > 10:
             dylib_desc_dir = os.path.join(config.DYLIB_DESC_DIR, dylib_name)
             version_file   = os.path.join(dylib_desc_dir, f"v{version}.txt")
             if not os.path.exists(version_file):
                 os.makedirs(dylib_desc_dir, exist_ok=True)
                 try:
                     with open(version_file, 'w', encoding='utf-8') as vf:
-                        vf.write(str(real_description).strip())
-                    logger.info(f"💾 Lưu description cloud dylib: {version_file}")
+                        vf.write(release_note)
+                    logger.info(f"💾 Lưu changelog cloud dylib: {version_file}")
                 except Exception as e:
-                    logger.warning(f"⚠️ Không lưu description {dylib_name} v{version}: {e}")
+                    logger.warning(f"⚠️ Không lưu changelog {dylib_name} v{version}: {e}")
 
-        raw_description = real_description or "Tinh chỉnh dylib từ Kyic Store."
+        # raw_description dùng trong depiction JSON — ưu tiên release_note
+        # (nội dung mới nhất), fallback về product_description
+        raw_description = release_note if release_note and len(release_note) > 10 else product_description
         assets = get_dylib_assets(dylib_name, deb_match)
         depiction_url = build_dylib_depiction_json(
             safe_filename, dylib_name, version, raw_description, assets,
@@ -492,7 +501,7 @@ def run_dylib_engine(release_assets, system_db):
         wiki_dylibs_data[f_url] = {
             "Package": bundle, "Name": dylib_name, "Version": version,
             "Architecture": architecture, "Section": section, "Author": author,
-            "Description": raw_description, "Icon": assets["icon"], "Banner": assets["banner"],
+            "Description": product_description, "Icon": assets["icon"], "Banner": assets["banner"],
             "Video": assets.get("video"), "Screenshots": assets["screenshots"],
             "Size": file_size, "MD5": md5, "SHA1": sha1, "SHA256": sha256,
             "Dylib_File": f_name, "VersionDate": version_date,
@@ -506,7 +515,10 @@ def run_dylib_engine(release_assets, system_db):
             "video": assets.get("video"), "screenshots": assets["screenshots"],
             "depictionURL": depiction_url, "date": version_date, "permissions": permissions,
             "safe_file": safe_filename,
-            "description": config.get_optimized_dylib_description(dylib_name, version)
+            # product_description: mô tả sản phẩm (top-level localizedDescription)
+            "product_description": product_description,
+            # version_changelog: release note phiên bản này (versions[] entry)
+            "version_changelog": config.get_optimized_dylib_description(dylib_name, version)
         })
 
     # ── LOCAL .dylib (repo/dylibs/) ────────────────────────────────────
@@ -541,38 +553,34 @@ def run_dylib_engine(release_assets, system_db):
         )
         author = deb_match.get("Author", "Kyic Store") if deb_match else "Kyic Store"
         section = deb_match.get("Section", "Tweaks") if deb_match else "Tweaks"
-        # FIX: Tách rõ "có Description thật từ deb_match" và "chuỗi mặc
-        # định generic" — chỉ chuỗi THẬT mới đáng được ghi cứng vào
-        # v{version}.txt làm cache lâu dài. Trước đây raw_description bị
-        # gán chung 1 biến cho cả 2 trường hợp, nên điều kiện ghi file
-        # (len > 10) vô tình cũng ghi luôn câu mặc định generic vào .txt,
-        # khiến nó "đóng băng" vĩnh viễn dù deb_match=None (không có dữ
-        # liệu thật để tham khảo).
+        # FIX: Tách rõ "mô tả sản phẩm" và "changelog phiên bản"
+        # product_description: mô tả chính về sản phẩm — từ deb_match.Description
+        #   (nếu có và không phải chuỗi generic), hoặc đọc default.txt.
+        #   KHÔNG ghi vào v{ver}.txt (tránh trộn lẫn với release note).
+        # version_changelog  : lịch sử thay đổi — đọc từ v{ver}.txt đã lưu
+        #   trước (có thể từ lần build trước khi còn cloud asset), hoặc
+        #   fallback về product_description nếu chưa có file .txt nào.
         real_description = deb_match.get("Description") if deb_match else None
-        raw_description = real_description or (
-            "Tinh chỉnh cấu trúc dylib." if deb_match else
-            "Tinh chỉnh dylib độc lập (Không có gói DEB đối chiếu)."
-        )
+        product_description = real_description or \
+            config.get_optimized_dylib_description(dylib_name, version) or \
+            f"Tinh chỉnh {dylib_name} từ Kyic Store."
+
+        # CHỈ lưu v{ver}.txt khi có Description THẬT từ deb_match và file
+        # chưa tồn tại — không ghi chuỗi mặc định generic (tránh "đóng băng")
+        if real_description and len(str(real_description).strip()) > 10:
+            dylib_desc_dir = os.path.join(config.DYLIB_DESC_DIR, dylib_name)
+            version_file = os.path.join(dylib_desc_dir, f"v{version}.txt")
+            if not os.path.exists(version_file):
+                os.makedirs(dylib_desc_dir, exist_ok=True)
+                try:
+                    with open(version_file, 'w', encoding='utf-8') as f:
+                        f.write(str(real_description).strip())
+                    logger.info(f"💾 Lưu changelog dylib: {version_file}")
+                except Exception as e:
+                    logger.warning(f"⚠️ Không lưu changelog cho dylib {dylib_name} v{version}: {e}")
 
         logger.info(f"-> Đang quét Dylib: {dylib_name} [{architecture}/v{version}]")
         processed_dylibs_titles.append(dylib_name)
-
-        # 2. FIX MỚI: Lưu changelog v{version}.txt riêng cho dylib — CHỈ ghi
-        # khi có Description THẬT từ deb_match (khớp tuyệt đối tên tệp),
-        # không ghi chuỗi mặc định generic — để lần chạy sau, nếu deb_match
-        # khớp được (vd người dùng bổ sung đúng .deb tương ứng), hệ thống
-        # vẫn có thể tự cập nhật mô tả đúng thay vì bị kẹt với câu mặc định
-        # cũ đã ghi cứng từ trước.
-        dylib_desc_dir = os.path.join(config.DYLIB_DESC_DIR, dylib_name)
-        version_file = os.path.join(dylib_desc_dir, f"v{version}.txt")
-        if real_description and len(str(real_description).strip()) > 10 and not os.path.exists(version_file):
-            os.makedirs(dylib_desc_dir, exist_ok=True)
-            try:
-                with open(version_file, 'w', encoding='utf-8') as f:
-                    f.write(str(real_description).strip())
-                logger.info(f"💾 Lưu changelog dylib: {version_file}")
-            except Exception as e:
-                logger.warning(f"⚠️ Không lưu changelog cho dylib {dylib_name} v{version}: {e}")
 
         # 3. FIX MỚI: Đầy đủ asset (icon/banner/screenshots) — cần cho
         # sideload qua TrollFools/SideStore hiển thị đẹp trên web.
@@ -580,7 +588,7 @@ def run_dylib_engine(release_assets, system_db):
 
         # 4. FIX MỚI: Depiction JSON riêng từng version+arch
         depiction_url = build_dylib_depiction_json(
-            safe_filename, dylib_name, version, raw_description, assets, author, bundle, architecture,
+            safe_filename, dylib_name, version, product_description, assets, author, bundle, architecture,
             extra={"size": file_size, "md5": md5, "sha1": sha1, "sha256": sha256, "downloadURL": download_url, "date": version_date}
         )
 
@@ -592,7 +600,7 @@ def run_dylib_engine(release_assets, system_db):
         wiki_dylibs_data[download_url] = {
             "Package": bundle, "Name": dylib_name, "Version": version,
             "Architecture": architecture, "Section": section, "Author": author,
-            "Description": raw_description, "Icon": assets["icon"], "Banner": assets["banner"],
+            "Description": product_description, "Icon": assets["icon"], "Banner": assets["banner"],
             "Video": assets.get("video"), "Screenshots": assets["screenshots"], "Size": file_size,
             "MD5": md5, "SHA1": sha1, "SHA256": sha256, "Dylib_File": f_name,
             "VersionDate": version_date, "Permissions": permissions
@@ -606,7 +614,10 @@ def run_dylib_engine(release_assets, system_db):
             "video": assets.get("video"), "screenshots": assets["screenshots"],
             "depictionURL": depiction_url, "date": version_date, "permissions": permissions,
             "safe_file": safe_filename,
-            "description": config.get_optimized_dylib_description(dylib_name, version)
+            # product_description: mô tả sản phẩm (top-level localizedDescription)
+            "product_description": product_description,
+            # version_changelog: release note phiên bản này (versions[] entry)
+            "version_changelog": config.get_optimized_dylib_description(dylib_name, version)
         })
 
     # 6. FIX MỚI: Chuẩn hoá output theo ĐÚNG cấu trúc Feather apps.json —
@@ -635,15 +646,21 @@ def run_dylib_engine(release_assets, system_db):
         )
         latest = sorted_versions[0]
 
-        def _describe(v):
-            return f"{v['description']}\n\nKiến trúc: {v['architecture']}"
+        def _product_desc(v):
+            """Mô tả sản phẩm cho top-level localizedDescription."""
+            return f"{v['product_description']}\n\nKiến trúc: {v['architecture']}"
+
+        def _version_desc(v):
+            """Changelog cho từng entry trong versions[]."""
+            changelog = v['version_changelog'] or v['product_description']
+            return f"{changelog}\n\nKiến trúc: {v['architecture']}"
 
         final_dylibs.append({
             "name": latest['name'],
             "bundleIdentifier": bundle,
             "developerName": latest['author'],
             "subtitle": "Dylib Sideload",
-            "localizedDescription": _describe(latest),
+            "localizedDescription": _product_desc(latest),
             "iconURL": latest['icon'],
             "tintColor": config.TINT_COLOR,
             "version": _composite_version(latest['ver'], latest['architecture']),
@@ -656,7 +673,7 @@ def run_dylib_engine(release_assets, system_db):
                     "date": v['date'],
                     "size": v['size'],
                     "downloadURL": v['downloadURL'],
-                    "localizedDescription": _describe(v),
+                    "localizedDescription": _version_desc(v),
                     "architecture": v['architecture']
                 }
                 for v in sorted_versions
