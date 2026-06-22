@@ -6,6 +6,19 @@
 
 | Tiêu đề | Nội dung |
 |---|---|
+| ⏱️ Time | 22/06/2026 10:51 |
+| 👤 Author | 2K |
+| 💬 Commit | Update config.py |
+| 📊 Overview | 7 file · 6 thư mục thay đổi |
+| 🛠️ Các thay đổi | ✏️ Sửa (7)<br>`.commit_msg`<br>`repo/apps.html`<br>`repo/apps.json`<br>`repo/dylibs.html`<br>`repo/dylibs.json`<br>`repo/sileo.json`<br>`repo/tweaks.html`<br>🗑️ Xoá thư mục (6)<br>`repo/depictions/`<br>`repo/depictions/default/`<br>`repo/depictions/icons/`<br>`repo/depictions/images/`<br>`repo/depictions/metadata/`<br>`repo/dylibs/Lead/` |
+| ❓ Nguyên nhân | Hệ thống tự động kích hoạt khi có push lên nhánh main · Sinh lại trang web (views) · Commit: Update config.py |
+| 🎯 Kết quả | ✅ Hoàn tất<br><br>📄 File (7): ✏️ Sửa 7<br>📂 Thư mục (6): 🗑️ Xoá 6 |
+
+---
+
+
+| Tiêu đề | Nội dung |
+|---|---|
 | ⏱️ Time | 22/06/2026 09:40 |
 | 👤 Author | 2K |
 | 💬 Commit | Delete repo/data/desc/dylibs/Lead directory |

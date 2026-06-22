@@ -1,5 +1,7 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 22/06/2026 09:40:42 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 22/06/2026 10:51:00 (Giờ Hà Nội)*
+
+📝 *Thay đổi thư mục so với lần quét trước: 🗑️ -6 thư mục đã xoá* — xem chi tiết tại `docs/CHANGELOG.md`
 
 ```text
 🗺️ Root/
@@ -292,18 +294,7 @@
     │   │   └── [ 📊 Số lượng: 📦 Package .deb: 1 file ]
     │   └── 📂 ytvideooverlay/
     │       └── [ 📊 Số lượng: 📦 Package .deb: 3 file ]
-    ├── 📂 depictions/
-    │   ├── 📂 default/
-    │   ├── 📂 icons/
-    │   ├── 📂 images/
-    │   └── 📂 metadata/
     ├── 📂 dylibs/
-    │   ├── .gitkeep
-    │   ├── 📂 Lead/
-    │   │   └── .gitkeep
-    │   ├── com.w3ltyyy.lead_1.3.3_iphoneos-arm.dylib
-    │   ├── com.w3ltyyy.lead_1.4.2_iphoneos-arm.dylib
-    │   └── com.w3ltyyy.lead_1.4.3_iphoneos-arm.dylib
     ├── dylibs.html
     ├── index.html
     ├── tweaks.html

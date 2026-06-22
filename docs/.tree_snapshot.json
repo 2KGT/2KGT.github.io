@@ -114,13 +114,7 @@
     "repo/debs/ytuhd",
     "repo/debs/ytunshorts",
     "repo/debs/ytvideooverlay",
-    "repo/depictions",
-    "repo/depictions/default",
-    "repo/depictions/icons",
-    "repo/depictions/images",
-    "repo/depictions/metadata",
-    "repo/dylibs",
-    "repo/dylibs/Lead"
+    "repo/dylibs"
   ],
   "dir_children": {
     "repo": [
@@ -329,20 +323,7 @@
       "com.dvntm.cc18_0.0.3_iphoneos-arm64.deb",
       "com.dvntm.cc18_0.0.3_iphoneos-arm64e.deb"
     ],
-    "repo/dylibs": [
-      ".gitkeep",
-      "com.w3ltyyy.lead_1.3.3_iphoneos-arm.dylib",
-      "com.w3ltyyy.lead_1.4.2_iphoneos-arm.dylib",
-      "com.w3ltyyy.lead_1.4.3_iphoneos-arm.dylib"
-    ],
-    "repo/dylibs/Lead": [
-      ".gitkeep"
-    ],
-    "repo/depictions": [],
-    "repo/depictions/images": [],
-    "repo/depictions/default": [],
-    "repo/depictions/icons": [],
-    "repo/depictions/metadata": [],
+    "repo/dylibs": [],
     "repo/data": [],
     "repo/data/desc": [],
     "repo/data/desc/tweaks": [],
