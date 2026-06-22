@@ -1,0 +1,139 @@
+{
+  "minVersion": "0.1",
+  "headerImage": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_banner.png",
+  "class": "DepictionTabView",
+  "tintColor": "#F77686",
+  "tabs": [
+    {
+      "class": "DepictionStackView",
+      "tabname": "Details",
+      "views": [
+        {
+          "class": "DepictionSubheaderView",
+          "useBottomMargin": false,
+          "title": "glow",
+          "useBoldText": true
+        },
+        {
+          "class": "DepictionMarkdownView",
+          "useSpacing": true,
+          "markdown": "Cleaner. Smarter. Yours."
+        },
+        {
+          "class": "DepictionSpacerView",
+          "spacing": 8
+        },
+        {
+          "class": "DepictionScreenshotsView",
+          "screenshots": [
+            {
+              "accessibilityText": "Screenshot0",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_1.jpeg"
+            },
+            {
+              "accessibilityText": "Screenshot1",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_2.jpeg"
+            },
+            {
+              "accessibilityText": "Screenshot2",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_3.jpeg"
+            },
+            {
+              "accessibilityText": "Screenshot3",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_4.jpeg"
+            },
+            {
+              "accessibilityText": "Screenshot4",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_5.jpeg"
+            },
+            {
+              "accessibilityText": "Screenshot5",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_6.jpeg"
+            },
+            {
+              "accessibilityText": "Screenshot6",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_7.jpeg"
+            },
+            {
+              "accessibilityText": "Screenshot7",
+              "url": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_8.jpeg"
+            }
+          ],
+          "itemSize": "{160, 275.41333333333336}",
+          "itemCornerRadius": 6
+        },
+        {
+          "class": "DepictionSeparatorView"
+        },
+        {
+          "class": "DepictionSpacerView",
+          "spacing": 8
+        },
+        {
+          "class": "DepictionTableTextView",
+          "title": "Developer",
+          "text": "dvntm, nowesr1"
+        },
+        {
+          "class": "DepictionTableTextView",
+          "title": "Yêu cầu quyền",
+          "text": "Không yêu cầu quyền đặc biệt"
+        },
+        {
+          "class": "DepictionSpacerView",
+          "spacing": 8
+        }
+      ]
+    },
+    {
+      "class": "DepictionStackView",
+      "tabname": "Changelog",
+      "views": [
+        {
+          "class": "DepictionTableTextView",
+          "title": "Version 1.1",
+          "text": "Lịch sử cập nhật"
+        },
+        {
+          "class": "DepictionMarkdownView",
+          "useSpacing": true,
+          "markdown": "### v1.1\nCập nhật phiên bản v1.1 từ Kyic Store."
+        }
+      ]
+    },
+    {
+      "class": "DepictionStackView",
+      "tabname": "Support",
+      "views": [
+        {
+          "class": "DepictionSubheaderView",
+          "title": "KÊNH HỖ TRỢ CHÍNH THỨC",
+          "useBoldText": true
+        },
+        {
+          "class": "DepictionTableButtonView",
+          "title": "📢 Telegram Channel",
+          "action": "https://t.me/+uhoygGN-1Gc4NzZl"
+        },
+        {
+          "class": "DepictionTableButtonView",
+          "title": "💬 Telegram Group",
+          "action": "https://t.me/kyicchat"
+        },
+        {
+          "class": "DepictionTableButtonView",
+          "title": "🎮 Discord Server",
+          "action": "https://discord.gg/qUXBQFYa"
+        },
+        {
+          "class": "DepictionSeparatorView"
+        },
+        {
+          "class": "DepictionTableButtonView",
+          "title": "☕ Ủng hộ qua PayPal",
+          "action": "https://www.paypal.me/225668"
+        }
+      ]
+    }
+  ]
+}

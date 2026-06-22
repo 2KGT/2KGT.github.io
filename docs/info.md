@@ -1,5 +1,7 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 22/06/2026 13:31:49 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 22/06/2026 13:34:50 (Giờ Hà Nội)*
+
+📝 *Thay đổi thư mục so với lần quét trước: 🗑️ -6 thư mục đã xoá* — xem chi tiết tại `docs/CHANGELOG.md`
 
 ```text
 🗺️ Root/
@@ -153,8 +155,6 @@
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │   │   │   ├── 📂 YouTube X/
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
-    │   │   │   ├── 📂 YoutubeX/
-    │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │   │   │   ├── 📂 cc18/
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
     │   │   │   ├── 📂 ccappicon/
@@ -167,8 +167,6 @@
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 18 file ]
     │   │   │   ├── 📂 infuseplus/
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 18 file ]
-    │   │   │   ├── 📂 noytpremium/
-    │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │   │   │   ├── 📂 oledkeyboard/
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
     │   │   │   ├── 📂 orwellvk/
@@ -177,18 +175,12 @@
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 12 file ]
     │   │   │   ├── 📂 twlegacy/
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
-    │   │   │   ├── 📂 yougroupsettings/
-    │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │   │   │   ├── 📂 youmod/
-    │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
-    │   │   │   ├── 📂 youmute/
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │   │   │   ├── 📂 youpip/
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 2 file ]
     │   │   │   ├── 📂 youspeed/
-    │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
-    │   │   │   ├── 📂 youtubefix/
-    │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
+    │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 2 file ]
     │   │   │   ├── 📂 yt-native-share/
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
     │   │   │   ├── 📂 ytmu/
@@ -197,10 +189,8 @@
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 18 file ]
     │   │   │   ├── 📂 ytuhd/
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 2 file ]
-    │   │   │   ├── 📂 ytunshorts/
-    │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │   │   │   └── 📂 ytvideooverlay/
-    │   │   │       └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
+    │   │   │       └── [ 📊 Số lượng: ⚙️ Config .json: 2 file ]
     │   │   └── 📂 wiki/
     │   │       └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
     │   ├── 📂 icons/

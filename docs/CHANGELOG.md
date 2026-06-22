@@ -6,6 +6,19 @@
 
 | Tiêu đề | Nội dung |
 |---|---|
+| ⏱️ Time | 22/06/2026 13:34 |
+| 👤 Author | 2K |
+| 💬 Commit | Delete repo/data/desc/tweaks directory |
+| 📊 Overview | 8 file · 6 thư mục thay đổi |
+| 🛠️ Các thay đổi | ✨ Thêm (2)<br>`repo/data/desc/tweaks/`<br>`repo/tweaks.html`<br>✏️ Sửa (6)<br>`.commit_msg`<br>`repo/apps.json`<br>`repo/data/desc/dylibs/Lead/com.w3ltyyy.lead_1.3.3_iphoneos-arm.json`<br>`repo/data/desc/dylibs/Lead/com.w3ltyyy.lead_1.4.2_iphoneos-arm.json`<br>`repo/data/desc/dylibs/Lead/com.w3ltyyy.lead_1.4.3_iphoneos-arm.json`<br>`repo/sileo.json`<br>🗑️ Xoá thư mục (6)<br>`repo/data/desc/tweaks/YoutubeX/`<br>`repo/data/desc/tweaks/noytpremium/`<br>`repo/data/desc/tweaks/yougroupsettings/`<br>`repo/data/desc/tweaks/youmute/`<br>`repo/data/desc/tweaks/youtubefix/`<br>`repo/data/desc/tweaks/ytunshorts/` |
+| ❓ Nguyên nhân | Hệ thống tự động kích hoạt khi có push lên nhánh main · Cập nhật mô tả ứng dụng (depiction) · Commit: Delete repo/data/desc/tweaks directory |
+| 🎯 Kết quả | ✅ Hoàn tất<br><br>📄 File (8): ✏️ Sửa 6, ✨ Thêm 2<br>📂 Thư mục (6): 🗑️ Xoá 6 |
+
+---
+
+
+| Tiêu đề | Nội dung |
+|---|---|
 | ⏱️ Time | 22/06/2026 13:31 |
 | 👤 Author | 2K |
 | 💬 Commit | Update sileo_engine.py |
