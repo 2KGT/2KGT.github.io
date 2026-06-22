@@ -1,36 +1,6 @@
 {
   "tweaks": [
     {
-      "name": "TGExtra",
-      "bundle": "com.choco.tgextra",
-      "version": "1.7.6",
-      "section": "Tweaks",
-      "author": "choco",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
-      "size": 635558,
-      "downloadURL": "debs/TGExtra/com.choco.tgextra_227_1.7.6_iphoneos-arm.deb"
-    },
-    {
-      "name": "TGExtra",
-      "bundle": "com.choco.tgextra",
-      "version": "1.7.6",
-      "section": "Tweaks",
-      "author": "choco",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
-      "size": 631066,
-      "downloadURL": "debs/TGExtra/com.choco.tgextra_227_1.7.6_iphoneos-arm64.deb"
-    },
-    {
-      "name": "TGExtra",
-      "bundle": "com.choco.tgextra",
-      "version": "1.7.6",
-      "section": "Tweaks",
-      "author": "choco",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
-      "size": 633724,
-      "downloadURL": "debs/TGExtra/com.choco.tgextra_227_1.7.6_iphoneos-arm64e.deb"
-    },
-    {
       "name": "CC18",
       "bundle": "com.dvntm.cc18",
       "version": "0.0.3",
@@ -38,27 +8,10 @@
       "author": "dvntm",
       "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/cc18.jpg",
       "size": 4408,
-      "downloadURL": "debs/cc18/com.dvntm.cc18_0.0.3_iphoneos-arm.deb"
-    },
-    {
-      "name": "CC18",
-      "bundle": "com.dvntm.cc18",
-      "version": "0.0.3",
-      "section": "Tweaks",
-      "author": "dvntm",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/cc18.jpg",
-      "size": 4494,
-      "downloadURL": "debs/cc18/com.dvntm.cc18_0.0.3_iphoneos-arm64.deb"
-    },
-    {
-      "name": "CC18",
-      "bundle": "com.dvntm.cc18",
-      "version": "0.0.3",
-      "section": "Tweaks",
-      "author": "dvntm",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/cc18.jpg",
-      "size": 4414,
-      "downloadURL": "debs/cc18/com.dvntm.cc18_0.0.3_iphoneos-arm64e.deb"
+      "downloadURL": "debs/cc18/com.dvntm.cc18_0.0.3_iphoneos-arm.deb",
+      "description": "Cập nhật phiên bản Tweak v0.0.3 từ Kyic Store.",
+      "changelog": "### v0.0.3\nCập nhật phiên bản v0.0.3 từ Kyic Store.",
+      "tweak_name": "cc18"
     },
     {
       "name": "CCAppIcon",
@@ -68,27 +21,10 @@
       "author": "dvntm",
       "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/ccappicon.jpg",
       "size": 3060,
-      "downloadURL": "debs/ccappicon/com.dvntm.ccappicon_0.0.1_iphoneos-arm.deb"
-    },
-    {
-      "name": "CCAppIcon",
-      "bundle": "com.dvntm.ccappicon",
-      "version": "0.0.1",
-      "section": "Tweaks",
-      "author": "dvntm",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/ccappicon.jpg",
-      "size": 3136,
-      "downloadURL": "debs/ccappicon/com.dvntm.ccappicon_0.0.1_iphoneos-arm64.deb"
-    },
-    {
-      "name": "CCAppIcon",
-      "bundle": "com.dvntm.ccappicon",
-      "version": "0.0.1",
-      "section": "Tweaks",
-      "author": "dvntm",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/ccappicon.jpg",
-      "size": 3068,
-      "downloadURL": "debs/ccappicon/com.dvntm.ccappicon_0.0.1_iphoneos-arm64e.deb"
+      "downloadURL": "debs/ccappicon/com.dvntm.ccappicon_0.0.1_iphoneos-arm.deb",
+      "description": "Cập nhật phiên bản Tweak v0.0.1 từ Kyic Store.",
+      "changelog": "### v0.0.1\nCập nhật phiên bản v0.0.1 từ Kyic Store.",
+      "tweak_name": "ccappicon"
     },
     {
       "name": "FastLock",
@@ -98,27 +34,10 @@
       "author": "dvntm",
       "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/fastlock.jpg",
       "size": 383176,
-      "downloadURL": "debs/fastlock/com.dvntm.fastlock_1.0.1_iphoneos-arm.deb"
-    },
-    {
-      "name": "FastLock",
-      "bundle": "com.dvntm.fastlock",
-      "version": "1.0.1",
-      "section": "Tweaks",
-      "author": "dvntm",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/fastlock.jpg",
-      "size": 383248,
-      "downloadURL": "debs/fastlock/com.dvntm.fastlock_1.0.1_iphoneos-arm64.deb"
-    },
-    {
-      "name": "FastLock",
-      "bundle": "com.dvntm.fastlock",
-      "version": "1.0.1",
-      "section": "Tweaks",
-      "author": "dvntm",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/fastlock.jpg",
-      "size": 381912,
-      "downloadURL": "debs/fastlock/com.dvntm.fastlock_1.0.1_iphoneos-arm64e.deb"
+      "downloadURL": "debs/fastlock/com.dvntm.fastlock_1.0.1_iphoneos-arm.deb",
+      "description": "Cập nhật phiên bản Tweak v1.0.1 từ Kyic Store.",
+      "changelog": "### v1.0.1\nCập nhật phiên bản v1.0.1 từ Kyic Store.",
+      "tweak_name": "fastlock"
     },
     {
       "name": "Flow for Messenger",
@@ -128,27 +47,10 @@
       "author": "dvntm, nowesr1",
       "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/flow.jpg",
       "size": 228538,
-      "downloadURL": "debs/flow/com.dvntm.flow_1.0_iphoneos-arm.deb"
-    },
-    {
-      "name": "Flow for Messenger",
-      "bundle": "com.dvntm.flow",
-      "version": "1.0",
-      "section": "Tweaks",
-      "author": "dvntm, nowesr1",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/flow.jpg",
-      "size": 228568,
-      "downloadURL": "debs/flow/com.dvntm.flow_1.0_iphoneos-arm64.deb"
-    },
-    {
-      "name": "Flow for Messenger",
-      "bundle": "com.dvntm.flow",
-      "version": "1.0",
-      "section": "Tweaks",
-      "author": "dvntm, nowesr1",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/flow.jpg",
-      "size": 228062,
-      "downloadURL": "debs/flow/com.dvntm.flow_1.0_iphoneos-arm64e.deb"
+      "downloadURL": "debs/flow/com.dvntm.flow_1.0_iphoneos-arm.deb",
+      "description": "Cập nhật phiên bản Tweak v1.0 từ Kyic Store.",
+      "changelog": "### v1.0\nCập nhật phiên bản v1.0 từ Kyic Store.",
+      "tweak_name": "flow"
     },
     {
       "name": "Glow for Facebook",
@@ -158,27 +60,10 @@
       "author": "dvntm, nowesr1",
       "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/glow.jpg",
       "size": 6902718,
-      "downloadURL": "debs/glow/com.dvntm.glow_1.3.1_iphoneos-arm.deb"
-    },
-    {
-      "name": "Glow for Facebook",
-      "bundle": "com.dvntm.glow",
-      "version": "1.3.1",
-      "section": "Tweaks",
-      "author": "dvntm, nowesr1",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/glow.jpg",
-      "size": 6899448,
-      "downloadURL": "debs/glow/com.dvntm.glow_1.3.1_iphoneos-arm64.deb"
-    },
-    {
-      "name": "Glow for Facebook",
-      "bundle": "com.dvntm.glow",
-      "version": "1.3.1",
-      "section": "Tweaks",
-      "author": "dvntm, nowesr1",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/glow.jpg",
-      "size": 6905238,
-      "downloadURL": "debs/glow/com.dvntm.glow_1.3.1_iphoneos-arm64e.deb"
+      "downloadURL": "debs/glow/com.dvntm.glow_1.3.1_iphoneos-arm.deb",
+      "description": "Cập nhật phiên bản Tweak v1.3.1 từ Kyic Store.",
+      "changelog": "### v1.3.1\nCập nhật phiên bản v1.3.1 từ Kyic Store.",
+      "tweak_name": "glow"
     },
     {
       "name": "Infuse Plus",
@@ -188,347 +73,10 @@
       "author": "dvntm",
       "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/infuseplus.jpg",
       "size": 454810,
-      "downloadURL": "debs/infuseplus/com.dvntm.infuseplus_2.5_iphoneos-arm.deb"
-    },
-    {
-      "name": "Infuse Plus",
-      "bundle": "com.dvntm.infuseplus",
-      "version": "2.5",
-      "section": "Tweaks",
-      "author": "dvntm",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/infuseplus.jpg",
-      "size": 455058,
-      "downloadURL": "debs/infuseplus/com.dvntm.infuseplus_2.5_iphoneos-arm64.deb"
-    },
-    {
-      "name": "Infuse Plus",
-      "bundle": "com.dvntm.infuseplus",
-      "version": "2.5",
-      "section": "Tweaks",
-      "author": "dvntm",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/infuseplus.jpg",
-      "size": 454554,
-      "downloadURL": "debs/infuseplus/com.dvntm.infuseplus_2.5_iphoneos-arm64e.deb"
-    },
-    {
-      "name": "OledKeyboard",
-      "bundle": "com.dvntm.oledkeyboard",
-      "version": "0.0.3",
-      "section": "Tweaks",
-      "author": "dvntm",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/oledkeyboard.jpg",
-      "size": 4598,
-      "downloadURL": "debs/oledkeyboard/com.dvntm.oledkeyboard_0.0.3_iphoneos-arm.deb"
-    },
-    {
-      "name": "OledKeyboard",
-      "bundle": "com.dvntm.oledkeyboard",
-      "version": "0.0.3",
-      "section": "Tweaks",
-      "author": "dvntm",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/oledkeyboard.jpg",
-      "size": 4686,
-      "downloadURL": "debs/oledkeyboard/com.dvntm.oledkeyboard_0.0.3_iphoneos-arm64.deb"
-    },
-    {
-      "name": "OledKeyboard",
-      "bundle": "com.dvntm.oledkeyboard",
-      "version": "0.0.3",
-      "section": "Tweaks",
-      "author": "dvntm",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/oledkeyboard.jpg",
-      "size": 4610,
-      "downloadURL": "debs/oledkeyboard/com.dvntm.oledkeyboard_0.0.3_iphoneos-arm64e.deb"
-    },
-    {
-      "name": "OrwellVK",
-      "bundle": "com.dvntm.ovk",
-      "version": "1.2",
-      "section": "Tweaks",
-      "author": "dvntm",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/orwellvk.jpg",
-      "size": 10264266,
-      "downloadURL": "debs/orwellvk/com.dvntm.ovk_1.2_iphoneos-arm.deb"
-    },
-    {
-      "name": "OrwellVK",
-      "bundle": "com.dvntm.ovk",
-      "version": "1.2",
-      "section": "Tweaks",
-      "author": "dvntm",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/orwellvk.jpg",
-      "size": 10269210,
-      "downloadURL": "debs/orwellvk/com.dvntm.ovk_1.2_iphoneos-arm64.deb"
-    },
-    {
-      "name": "OrwellVK",
-      "bundle": "com.dvntm.ovk",
-      "version": "1.2",
-      "section": "Tweaks",
-      "author": "dvntm",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/orwellvk.jpg",
-      "size": 10259520,
-      "downloadURL": "debs/orwellvk/com.dvntm.ovk_1.2_iphoneos-arm64e.deb"
-    },
-    {
-      "name": "Tweach",
-      "bundle": "com.dvntm.tweach",
-      "version": "2.3.3",
-      "section": "Tweaks",
-      "author": "dvntm",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/tweach.jpg",
-      "size": 7296114,
-      "downloadURL": "debs/tweach/com.dvntm.tweach_2.3.3_iphoneos-arm.deb"
-    },
-    {
-      "name": "Tweach",
-      "bundle": "com.dvntm.tweach",
-      "version": "2.3.3",
-      "section": "Tweaks",
-      "author": "dvntm",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/tweach.jpg",
-      "size": 7295338,
-      "downloadURL": "debs/tweach/com.dvntm.tweach_2.3.3_iphoneos-arm64.deb"
-    },
-    {
-      "name": "Tweach",
-      "bundle": "com.dvntm.tweach",
-      "version": "2.3.3",
-      "section": "Tweaks",
-      "author": "dvntm",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/tweach.jpg",
-      "size": 7298768,
-      "downloadURL": "debs/tweach/com.dvntm.tweach_2.3.3_iphoneos-arm64e.deb"
-    },
-    {
-      "name": "NoItsNotTimeToUpdate",
-      "bundle": "com.dvntm.twlegacy",
-      "version": "0.0.1",
-      "section": "Tweaks",
-      "author": "dvntm",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/twlegacy.jpg",
-      "size": 5960,
-      "downloadURL": "debs/twlegacy/com.dvntm.twlegacy_0.0.1_iphoneos-arm.deb"
-    },
-    {
-      "name": "NoItsNotTimeToUpdate",
-      "bundle": "com.dvntm.twlegacy",
-      "version": "0.0.1",
-      "section": "Tweaks",
-      "author": "dvntm",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/twlegacy.jpg",
-      "size": 6036,
-      "downloadURL": "debs/twlegacy/com.dvntm.twlegacy_0.0.1_iphoneos-arm64.deb"
-    },
-    {
-      "name": "NoItsNotTimeToUpdate",
-      "bundle": "com.dvntm.twlegacy",
-      "version": "0.0.1",
-      "section": "Tweaks",
-      "author": "dvntm",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/twlegacy.jpg",
-      "size": 6018,
-      "downloadURL": "debs/twlegacy/com.dvntm.twlegacy_0.0.1_iphoneos-arm64e.deb"
-    },
-    {
-      "name": "YTLite",
-      "bundle": "com.dvntm.ytlite",
-      "version": "5.2.1",
-      "section": "Tweaks",
-      "author": "dvntm",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/ytplus.jpg",
-      "size": 7420522,
-      "downloadURL": "debs/ytplus/com.dvntm.ytlite_5.2.1_iphoneos-arm.deb"
-    },
-    {
-      "name": "YTLite",
-      "bundle": "com.dvntm.ytlite",
-      "version": "5.2.1",
-      "section": "Tweaks",
-      "author": "dvntm",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/ytplus.jpg",
-      "size": 7432926,
-      "downloadURL": "debs/ytplus/com.dvntm.ytlite_5.2.1_iphoneos-arm64.deb"
-    },
-    {
-      "name": "YTLite",
-      "bundle": "com.dvntm.ytlite",
-      "version": "5.2.1",
-      "section": "Tweaks",
-      "author": "dvntm",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/ytplus.jpg",
-      "size": 7410936,
-      "downloadURL": "debs/ytplus/com.dvntm.ytlite_5.2.1_iphoneos-arm64e.deb"
-    },
-    {
-      "name": "YouTube Fix",
-      "bundle": "com.eevee.youtubefix",
-      "version": "1.0",
-      "section": "Tweaks",
-      "author": "Eevee",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
-      "size": 3340,
-      "downloadURL": "debs/youtubefix/youtubefix_1.0_arm.deb"
-    },
-    {
-      "name": "YTMusicUltimate",
-      "bundle": "com.ginsu.ytmusicultimate",
-      "version": "2.4.1",
-      "section": "Tweaks",
-      "author": "dayanch96 & ginsu",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/ytmu.jpg",
-      "size": 6576778,
-      "downloadURL": "debs/ytmu/com.ginsu.ytmusicultimate_2.4.1_iphoneos-arm.deb"
-    },
-    {
-      "name": "YTMusicUltimate",
-      "bundle": "com.ginsu.ytmusicultimate",
-      "version": "2.4.1",
-      "section": "Tweaks",
-      "author": "dayanch96 & ginsu",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/ytmu.jpg",
-      "size": 6566710,
-      "downloadURL": "debs/ytmu/com.ginsu.ytmusicultimate_2.4.1_iphoneos-arm64.deb"
-    },
-    {
-      "name": "YTMusicUltimate",
-      "bundle": "com.ginsu.ytmusicultimate",
-      "version": "2.4.1",
-      "section": "Tweaks",
-      "author": "dayanch96 & ginsu",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/ytmu.jpg",
-      "size": 6572062,
-      "downloadURL": "debs/ytmu/com.ginsu.ytmusicultimate_2.4.1_iphoneos-arm64e.deb"
-    },
-    {
-      "name": "NoYTPremium",
-      "bundle": "com.ps.noytpremium",
-      "version": "1.0.7",
-      "section": "Tweaks",
-      "author": "PoomSmart",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
-      "size": 2842,
-      "downloadURL": "debs/noytpremium/noytpremium_1.0.7_arm.deb"
-    },
-    {
-      "name": "YouGroupSettings",
-      "bundle": "com.ps.yougroupsettings",
-      "version": "1.0.10",
-      "section": "Tweaks",
-      "author": "PoomSmart <unicorn03.glimmer@icloud.com>",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/yougroupsettings.jpg",
-      "size": 5258,
-      "downloadURL": "debs/yougroupsettings/yougroupsettings_1.0.10-arm.deb"
-    },
-    {
-      "name": "YouMute",
-      "bundle": "com.ps.youmute",
-      "version": "1.4.0",
-      "section": "Tweaks",
-      "author": "PoomSmart",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
-      "size": 6198,
-      "downloadURL": "debs/youmute/youmute_1.4.0_arm.deb"
-    },
-    {
-      "name": "YouPiP",
-      "bundle": "com.ps.youpip",
-      "version": "1.12.12",
-      "section": "Tweaks",
-      "author": "PoomSmart",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
-      "size": 25610,
-      "downloadURL": "debs/youpip/com.ps.youpip_1.12.12_iphoneos-arm.deb"
-    },
-    {
-      "name": "YouPiP",
-      "bundle": "com.ps.youpip",
-      "version": "1.12.12",
-      "section": "Tweaks",
-      "author": "PoomSmart",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
-      "size": 25332,
-      "downloadURL": "debs/youpip/com.ps.youpip_1.12.12_iphoneos-arm64.deb"
-    },
-    {
-      "name": "YouSpeed",
-      "bundle": "com.ps.youspeed",
-      "version": "1.7.1",
-      "section": "Tweaks",
-      "author": "PoomSmart",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
-      "size": 12926,
-      "downloadURL": "debs/youspeed/com.ps.youspeed_1.7.1_iphoneos-arm.deb"
-    },
-    {
-      "name": "YouSpeed",
-      "bundle": "com.ps.youspeed",
-      "version": "1.7.1",
-      "section": "Tweaks",
-      "author": "PoomSmart",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
-      "size": 12772,
-      "downloadURL": "debs/youspeed/com.ps.youspeed_1.7.1_iphoneos-arm64.deb"
-    },
-    {
-      "name": "YTUHD",
-      "bundle": "com.ps.ytuhd",
-      "version": "2.6.0",
-      "section": "Tweaks",
-      "author": "PoomSmart",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
-      "size": 391984,
-      "downloadURL": "debs/ytuhd/com.ps.ytuhd_2.6.0_iphoneos-arm.deb"
-    },
-    {
-      "name": "YTUHD",
-      "bundle": "com.ps.ytuhd",
-      "version": "2.6.0",
-      "section": "Tweaks",
-      "author": "PoomSmart",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
-      "size": 391502,
-      "downloadURL": "debs/ytuhd/com.ps.ytuhd_2.6.0_iphoneos-arm64.deb"
-    },
-    {
-      "name": "YTUnShorts",
-      "bundle": "com.ps.ytunshorts",
-      "version": "1.3.1",
-      "section": "Tweaks",
-      "author": "PoomSmart",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
-      "size": 3272,
-      "downloadURL": "debs/ytunshorts/ytunshorts_1.3.1_arm.deb"
-    },
-    {
-      "name": "YTVideoOverlay",
-      "bundle": "com.ps.ytvideooverlay",
-      "version": "2.3.6",
-      "section": "Tweaks",
-      "author": "PoomSmart",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
-      "size": 16436,
-      "downloadURL": "debs/ytvideooverlay/com.ps.ytvideooverlay_2.3.6_iphoneos-arm.deb"
-    },
-    {
-      "name": "YTVideoOverlay",
-      "bundle": "com.ps.ytvideooverlay",
-      "version": "2.3.6",
-      "section": "Tweaks",
-      "author": "PoomSmart",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
-      "size": 16298,
-      "downloadURL": "debs/ytvideooverlay/com.ps.ytvideooverlay_2.3.6_iphoneos-arm64.deb"
-    },
-    {
-      "name": "YouTube X",
-      "bundle": "com.ps.ytx",
-      "version": "1.7.19",
-      "section": "Tweaks",
-      "author": "PoomSmart",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
-      "size": 5728,
-      "downloadURL": "debs/YoutubeX/YoutubeX_1.7.19_arm.deb"
+      "downloadURL": "debs/infuseplus/com.dvntm.infuseplus_2.5_iphoneos-arm.deb",
+      "description": "Cập nhật phiên bản Tweak v2.5 từ Kyic Store.",
+      "changelog": "### v2.5\nCập nhật phiên bản v2.5 từ Kyic Store.",
+      "tweak_name": "infuseplus"
     },
     {
       "name": "Lead",
@@ -538,7 +86,166 @@
       "author": "w3ltyyy",
       "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
       "size": 4175424,
-      "downloadURL": "https://github.com/2KGT/2KGT.github.io/releases/download/v1.4.3/com.w3ltyyy.lead_1.4.3_iphoneos-arm.deb"
+      "downloadURL": "https://github.com/2KGT/2KGT.github.io/releases/download/v1.4.3/com.w3ltyyy.lead_1.4.3_iphoneos-arm.deb",
+      "description": "Lead\n\nUpdate: v1.4.3\n• Đã sửa:Một biểu tượng \"đã chỉnh sửa\" giả mạo xuất hiện trên các biểu tượng cảm xúc và tin nhắn thông thường.\n• Đã sửa:Chức năng chống thu hồi không hoạt động trong các nhóm và kênh.\n• Đã sửa:Biểu tượng phương tiện dùng một lần đã biến mất sau khi thoát và vào lại cuộc trò chuyện.\n• Đã cập nhậtCác hook dành cho phiên bản Telegram mới nhất",
+      "changelog": "### v1.4.3 (hiện tại)\nLead\n\nUpdate: v1.4.3\n• Đã sửa:Một biểu tượng \"đã chỉnh sửa\" giả mạo xuất hiện trên các biểu tượng cảm xúc và tin nhắn thông thường.\n• Đã sửa:Chức năng chống thu hồi không hoạt động trong các nhóm và kênh.\n• Đã sửa:Biểu tượng phương tiện dùng một lần đã biến mất sau khi thoát và vào lại cuộc trò chuyện.\n• Đã cập nhậtCác hook dành cho phiên bản Telegram mới nhất",
+      "tweak_name": "Lead"
+    },
+    {
+      "name": "NoItsNotTimeToUpdate",
+      "bundle": "com.dvntm.twlegacy",
+      "version": "0.0.1",
+      "section": "Tweaks",
+      "author": "dvntm",
+      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/twlegacy.jpg",
+      "size": 5960,
+      "downloadURL": "debs/twlegacy/com.dvntm.twlegacy_0.0.1_iphoneos-arm.deb",
+      "description": "Cập nhật phiên bản Tweak v0.0.1 từ Kyic Store.",
+      "changelog": "### v0.0.1\nCập nhật phiên bản v0.0.1 từ Kyic Store.",
+      "tweak_name": "twlegacy"
+    },
+    {
+      "name": "NoYTPremium",
+      "bundle": "com.ps.noytpremium",
+      "version": "1.0.7",
+      "section": "Tweaks",
+      "author": "PoomSmart",
+      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
+      "size": 2842,
+      "downloadURL": "debs/noytpremium/noytpremium_1.0.7_arm.deb",
+      "description": "Cập nhật phiên bản Tweak v1.0.7 từ Kyic Store.",
+      "changelog": "### v1.0.7\nCập nhật phiên bản v1.0.7 từ Kyic Store.",
+      "tweak_name": "NoYTPremium"
+    },
+    {
+      "name": "OledKeyboard",
+      "bundle": "com.dvntm.oledkeyboard",
+      "version": "0.0.3",
+      "section": "Tweaks",
+      "author": "dvntm",
+      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/oledkeyboard.jpg",
+      "size": 4598,
+      "downloadURL": "debs/oledkeyboard/com.dvntm.oledkeyboard_0.0.3_iphoneos-arm.deb",
+      "description": "Cập nhật phiên bản Tweak v0.0.3 từ Kyic Store.",
+      "changelog": "### v0.0.3\nCập nhật phiên bản v0.0.3 từ Kyic Store.",
+      "tweak_name": "oledkeyboard"
+    },
+    {
+      "name": "OrwellVK",
+      "bundle": "com.dvntm.ovk",
+      "version": "1.2",
+      "section": "Tweaks",
+      "author": "dvntm",
+      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/orwellvk.jpg",
+      "size": 10264266,
+      "downloadURL": "debs/orwellvk/com.dvntm.ovk_1.2_iphoneos-arm.deb",
+      "description": "Cập nhật phiên bản Tweak v1.2 từ Kyic Store.",
+      "changelog": "### v1.2\nCập nhật phiên bản v1.2 từ Kyic Store.",
+      "tweak_name": "orwellvk"
+    },
+    {
+      "name": "TGExtra",
+      "bundle": "com.choco.tgextra",
+      "version": "1.7.6",
+      "section": "Tweaks",
+      "author": "choco",
+      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
+      "size": 635558,
+      "downloadURL": "debs/TGExtra/com.choco.tgextra_227_1.7.6_iphoneos-arm.deb",
+      "description": "Cập nhật phiên bản Tweak v1.7.6 từ Kyic Store.",
+      "changelog": "### v1.7.6\nCập nhật phiên bản v1.7.6 từ Kyic Store.",
+      "tweak_name": "TGExtra"
+    },
+    {
+      "name": "Tweach",
+      "bundle": "com.dvntm.tweach",
+      "version": "2.3.3",
+      "section": "Tweaks",
+      "author": "dvntm",
+      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/tweach.jpg",
+      "size": 7296114,
+      "downloadURL": "debs/tweach/com.dvntm.tweach_2.3.3_iphoneos-arm.deb",
+      "description": "Cập nhật phiên bản Tweak v2.3.3 từ Kyic Store.",
+      "changelog": "### v2.3.3\nCập nhật phiên bản v2.3.3 từ Kyic Store.",
+      "tweak_name": "tweach"
+    },
+    {
+      "name": "YTLite",
+      "bundle": "com.dvntm.ytlite",
+      "version": "5.2.1",
+      "section": "Tweaks",
+      "author": "dvntm",
+      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/ytplus.jpg",
+      "size": 7420522,
+      "downloadURL": "debs/ytplus/com.dvntm.ytlite_5.2.1_iphoneos-arm.deb",
+      "description": "Cập nhật phiên bản Tweak v5.2.1 từ Kyic Store.",
+      "changelog": "### v5.2.1\nCập nhật phiên bản v5.2.1 từ Kyic Store.",
+      "tweak_name": "ytplus"
+    },
+    {
+      "name": "YTMusicUltimate",
+      "bundle": "com.ginsu.ytmusicultimate",
+      "version": "2.4.1",
+      "section": "Tweaks",
+      "author": "dayanch96 & ginsu",
+      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/ytmu.jpg",
+      "size": 6576778,
+      "downloadURL": "debs/ytmu/com.ginsu.ytmusicultimate_2.4.1_iphoneos-arm.deb",
+      "description": "Cập nhật phiên bản Tweak v2.4.1 từ Kyic Store.",
+      "changelog": "### v2.4.1\nCập nhật phiên bản v2.4.1 từ Kyic Store.",
+      "tweak_name": "ytmu"
+    },
+    {
+      "name": "YTUHD",
+      "bundle": "com.ps.ytuhd",
+      "version": "2.6.0",
+      "section": "Tweaks",
+      "author": "PoomSmart",
+      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
+      "size": 391984,
+      "downloadURL": "debs/ytuhd/com.ps.ytuhd_2.6.0_iphoneos-arm.deb",
+      "description": "Cập nhật phiên bản Tweak v2.6.0 từ Kyic Store.",
+      "changelog": "### v2.6.0\nCập nhật phiên bản v2.6.0 từ Kyic Store.",
+      "tweak_name": "ytuhd"
+    },
+    {
+      "name": "YTUnShorts",
+      "bundle": "com.ps.ytunshorts",
+      "version": "1.3.1",
+      "section": "Tweaks",
+      "author": "PoomSmart",
+      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
+      "size": 3272,
+      "downloadURL": "debs/ytunshorts/ytunshorts_1.3.1_arm.deb",
+      "description": "Cập nhật phiên bản Tweak v1.3.1 từ Kyic Store.",
+      "changelog": "### v1.3.1\nCập nhật phiên bản v1.3.1 từ Kyic Store.",
+      "tweak_name": "YTUnShorts"
+    },
+    {
+      "name": "YTVideoOverlay",
+      "bundle": "com.ps.ytvideooverlay",
+      "version": "2.3.6",
+      "section": "Tweaks",
+      "author": "PoomSmart",
+      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
+      "size": 16436,
+      "downloadURL": "debs/ytvideooverlay/com.ps.ytvideooverlay_2.3.6_iphoneos-arm.deb",
+      "description": "Cập nhật phiên bản Tweak v2.3.6 từ Kyic Store.",
+      "changelog": "### v2.3.6\nCập nhật phiên bản v2.3.6 từ Kyic Store.",
+      "tweak_name": "ytvideooverlay"
+    },
+    {
+      "name": "YouGroupSettings",
+      "bundle": "com.ps.yougroupsettings",
+      "version": "1.0.10",
+      "section": "Tweaks",
+      "author": "PoomSmart <unicorn03.glimmer@icloud.com>",
+      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/yougroupsettings.jpg",
+      "size": 5258,
+      "downloadURL": "debs/yougroupsettings/yougroupsettings_1.0.10-arm.deb",
+      "description": "Cập nhật phiên bản Tweak v1.0.10 từ Kyic Store.",
+      "changelog": "### v1.0.10\nCập nhật phiên bản v1.0.10 từ Kyic Store.",
+      "tweak_name": "YouGroupSettings"
     },
     {
       "name": "YouMod",
@@ -548,7 +255,62 @@
       "author": "Tonwalter888",
       "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
       "size": 162996,
-      "downloadURL": "debs/youmod/dev.water888.youmod_1.3.0_iphoneos-arm.deb"
+      "downloadURL": "debs/youmod/dev.water888.youmod_1.3.0_iphoneos-arm.deb",
+      "description": "Cập nhật phiên bản Tweak v1.3.0 từ Kyic Store.",
+      "changelog": "### v1.3.0\nCập nhật phiên bản v1.3.0 từ Kyic Store.",
+      "tweak_name": "youmod"
+    },
+    {
+      "name": "YouMute",
+      "bundle": "com.ps.youmute",
+      "version": "1.4.0",
+      "section": "Tweaks",
+      "author": "PoomSmart",
+      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
+      "size": 6198,
+      "downloadURL": "debs/youmute/youmute_1.4.0_arm.deb",
+      "description": "Cập nhật phiên bản Tweak v1.4.0 từ Kyic Store.",
+      "changelog": "### v1.4.0\nCập nhật phiên bản v1.4.0 từ Kyic Store.",
+      "tweak_name": "YouMute"
+    },
+    {
+      "name": "YouPiP",
+      "bundle": "com.ps.youpip",
+      "version": "1.12.12",
+      "section": "Tweaks",
+      "author": "PoomSmart",
+      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
+      "size": 25610,
+      "downloadURL": "debs/youpip/com.ps.youpip_1.12.12_iphoneos-arm.deb",
+      "description": "Cập nhật phiên bản Tweak v1.12.12 từ Kyic Store.",
+      "changelog": "### v1.12.12\nCập nhật phiên bản v1.12.12 từ Kyic Store.",
+      "tweak_name": "youpip"
+    },
+    {
+      "name": "YouSpeed",
+      "bundle": "com.ps.youspeed",
+      "version": "1.7.1",
+      "section": "Tweaks",
+      "author": "PoomSmart",
+      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
+      "size": 12926,
+      "downloadURL": "debs/youspeed/com.ps.youspeed_1.7.1_iphoneos-arm.deb",
+      "description": "Cập nhật phiên bản Tweak v1.7.1 từ Kyic Store.",
+      "changelog": "### v1.7.1\nCập nhật phiên bản v1.7.1 từ Kyic Store.",
+      "tweak_name": "youspeed"
+    },
+    {
+      "name": "YouTube Fix",
+      "bundle": "com.eevee.youtubefix",
+      "version": "1.0",
+      "section": "Tweaks",
+      "author": "Eevee",
+      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
+      "size": 3340,
+      "downloadURL": "debs/youtubefix/youtubefix_1.0_arm.deb",
+      "description": "Cập nhật phiên bản Tweak v1.0 từ Kyic Store.",
+      "changelog": "### v1.0\nCập nhật phiên bản v1.0 từ Kyic Store.",
+      "tweak_name": "YouTube Fix"
     },
     {
       "name": "YouTube Native Share",
@@ -558,28 +320,24 @@
       "author": "jkhsjdhjs",
       "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
       "size": 10080,
-      "downloadURL": "debs/yt-native-share/me.jkhsjdhjs.youtube-native-share_0.2.7_iphoneos-arm.deb"
+      "downloadURL": "debs/yt-native-share/me.jkhsjdhjs.youtube-native-share_0.2.7_iphoneos-arm.deb",
+      "description": "Cập nhật phiên bản Tweak v0.2.7 từ Kyic Store.",
+      "changelog": "### v0.2.7\nCập nhật phiên bản v0.2.7 từ Kyic Store.",
+      "tweak_name": "yt-native-share"
     },
     {
-      "name": "YouTube Native Share",
-      "bundle": "me.jkhsjdhjs.youtube-native-share",
-      "version": "0.2.7",
+      "name": "YouTube X",
+      "bundle": "com.ps.ytx",
+      "version": "1.7.19",
       "section": "Tweaks",
-      "author": "jkhsjdhjs",
+      "author": "PoomSmart",
       "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
-      "size": 5114,
-      "downloadURL": "debs/yt-native-share/me.jkhsjdhjs.youtube-native-share_0.2.7_iphoneos-arm64.deb"
-    },
-    {
-      "name": "YouTube Native Share",
-      "bundle": "me.jkhsjdhjs.youtube-native-share",
-      "version": "0.2.7",
-      "section": "Tweaks",
-      "author": "jkhsjdhjs",
-      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
-      "size": 5042,
-      "downloadURL": "debs/yt-native-share/me.jkhsjdhjs.youtube-native-share_0.2.7_iphoneos-arm64e.deb"
+      "size": 5728,
+      "downloadURL": "debs/YoutubeX/YoutubeX_1.7.19_arm.deb",
+      "description": "Cập nhật phiên bản Tweak v1.7.19 từ Kyic Store.",
+      "changelog": "### v1.7.19\nCập nhật phiên bản v1.7.19 từ Kyic Store.",
+      "tweak_name": "YouTube X"
     }
   ],
-  "generated_at": "2026-06-22T03:50:49.809123+00:00"
+  "generated_at": "2026-06-22T04:38:27.848476+00:00"
 }
