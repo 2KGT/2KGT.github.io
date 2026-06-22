@@ -11,7 +11,7 @@
     <img src="https://img.shields.io/github/actions/workflow/status/2KGT/repo/main.yml?label=Build%20Status&style=flat-square" alt="Build Status">
   </a>
   &nbsp;&nbsp;
-  <a href="https://github.com/2KGT/repo/tree/main/.github/workflows">
+  <a href="https://github.com/2KGT/repo/tree/main/.github/">
     <img src="https://img.shields.io/badge/Edit_Workflows-blue?logo=github&style=flat-square" alt="Edit Workflows">
   </a>
 </p>
