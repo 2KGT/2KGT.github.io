@@ -40,13 +40,13 @@ jobs:
       - name: "🗂️ Sẵn sàng khởi tạo thư mục"
         run: |
           # FIX: Bỏ pip install requests — đã thay bằng urllib thuần trong tất cả script
-          # Chỉ tạo thư mục cần thiết; repo/apps/desc tự tạo bởi config.py khi chạy
+          # Chỉ tạo thư mục cần thiết; repo/data/desc tự tạo bởi config.py khi chạy
           mkdir -p \
             repo/apps \
             repo/debs \
             repo/data/icons \
             repo/data/images \
-            repo/data/metadata \
+            repo/data/desc \
             repo/data/default
 
       - name: "🚀 Khởi chạy tự động hóa (Core Engine)"
