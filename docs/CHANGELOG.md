@@ -6,6 +6,19 @@
 
 | Tiêu đề | Nội dung |
 |---|---|
+| ⏱️ Time | 22/06/2026 13:50 |
+| 👤 Author | 2K |
+| 💬 Commit | Update sileo_engine.py |
+| 📊 Overview | 34 file · 0 thư mục thay đổi |
+| 🛠️ Các thay đổi | <details><summary>✨ Thêm (28)</summary><br>`repo/data/desc/tweaks/Lead/default.txt`<br>`repo/data/desc/tweaks/NoYTPremium/default.txt`<br>`repo/data/desc/tweaks/TGExtra/default.txt`<br>`repo/data/desc/tweaks/YTUnShorts/default.txt`<br>`repo/data/desc/tweaks/YTVideoOverlay/default.txt`<br>`repo/data/desc/tweaks/YouGroupSettings/default.txt`<br>`repo/data/desc/tweaks/YouMute/default.txt`<br>`repo/data/desc/tweaks/YouSpeed/default.txt`<br>`repo/data/desc/tweaks/YouTube Fix/default.txt`<br>`repo/data/desc/tweaks/YouTube X/default.txt`<br>`repo/data/desc/tweaks/cc18/default.txt`<br>`repo/data/desc/tweaks/ccappicon/default.txt`<br>`repo/data/desc/tweaks/fastlock/default.txt`<br>`repo/data/desc/tweaks/flow/default.txt`<br>`repo/data/desc/tweaks/glow/default.txt`<br>`repo/data/desc/tweaks/infuseplus/default.txt`<br>`repo/data/desc/tweaks/oledkeyboard/default.txt`<br>`repo/data/desc/tweaks/orwellvk/default.txt`<br>`repo/data/desc/tweaks/tweach/default.txt`<br>`repo/data/desc/tweaks/twlegacy/default.txt`<br>`repo/data/desc/tweaks/youmod/default.txt`<br>`repo/data/desc/tweaks/youpip/default.txt`<br>`repo/data/desc/tweaks/youspeed/default.txt`<br>`repo/data/desc/tweaks/yt-native-share/default.txt`<br>`repo/data/desc/tweaks/ytmu/default.txt`<br>`repo/data/desc/tweaks/ytplus/default.txt`<br>`repo/data/desc/tweaks/ytuhd/default.txt`<br>`repo/data/desc/tweaks/ytvideooverlay/default.txt`</details><br>✏️ Sửa (6)<br>`.commit_msg`<br>`repo/apps.json`<br>`repo/data/desc/dylibs/Lead/com.w3ltyyy.lead_1.3.3_iphoneos-arm.json`<br>`repo/data/desc/dylibs/Lead/com.w3ltyyy.lead_1.4.2_iphoneos-arm.json`<br>`repo/data/desc/dylibs/Lead/com.w3ltyyy.lead_1.4.3_iphoneos-arm.json`<br>`repo/sileo.json` |
+| ❓ Nguyên nhân | Hệ thống tự động kích hoạt khi có push lên nhánh main · Cập nhật mô tả ứng dụng (depiction) · Commit: Update sileo_engine.py |
+| 🎯 Kết quả | ✅ Hoàn tất<br><br>📄 File (34): ✏️ Sửa 6, ✨ Thêm 28 |
+
+---
+
+
+| Tiêu đề | Nội dung |
+|---|---|
 | ⏱️ Time | 22/06/2026 13:34 |
 | 👤 Author | 2K |
 | 💬 Commit | Delete repo/data/desc/tweaks directory |

@@ -1,7 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 22/06/2026 13:34:50 (Giờ Hà Nội)*
-
-📝 *Thay đổi thư mục so với lần quét trước: 🗑️ -6 thư mục đã xoá* — xem chi tiết tại `docs/CHANGELOG.md`
+⏱️ *Cập nhật tự động lúc: 22/06/2026 13:50:14 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -135,61 +133,89 @@
     │   │   │       └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
     │   │   ├── 📂 tweaks/
     │   │   │   ├── 📂 Lead/
+    │   │   │   │   ├── default.txt
     │   │   │   │   ├── v1.4.3.txt
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 10 file ]
     │   │   │   ├── 📂 NoYTPremium/
+    │   │   │   │   ├── default.txt
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │   │   │   ├── 📂 TGExtra/
+    │   │   │   │   ├── default.txt
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
     │   │   │   ├── 📂 YTUnShorts/
+    │   │   │   │   ├── default.txt
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │   │   │   ├── 📂 YTVideoOverlay/
+    │   │   │   │   ├── default.txt
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │   │   │   ├── 📂 YouGroupSettings/
+    │   │   │   │   ├── default.txt
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │   │   │   ├── 📂 YouMute/
+    │   │   │   │   ├── default.txt
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │   │   │   ├── 📂 YouSpeed/
+    │   │   │   │   ├── default.txt
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │   │   │   ├── 📂 YouTube Fix/
+    │   │   │   │   ├── default.txt
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │   │   │   ├── 📂 YouTube X/
+    │   │   │   │   ├── default.txt
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │   │   │   ├── 📂 cc18/
+    │   │   │   │   ├── default.txt
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
     │   │   │   ├── 📂 ccappicon/
+    │   │   │   │   ├── default.txt
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
     │   │   │   ├── 📂 fastlock/
+    │   │   │   │   ├── default.txt
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 9 file ]
     │   │   │   ├── 📂 flow/
+    │   │   │   │   ├── default.txt
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
     │   │   │   ├── 📂 glow/
+    │   │   │   │   ├── default.txt
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 18 file ]
     │   │   │   ├── 📂 infuseplus/
+    │   │   │   │   ├── default.txt
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 18 file ]
     │   │   │   ├── 📂 oledkeyboard/
+    │   │   │   │   ├── default.txt
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
     │   │   │   ├── 📂 orwellvk/
+    │   │   │   │   ├── default.txt
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 6 file ]
     │   │   │   ├── 📂 tweach/
+    │   │   │   │   ├── default.txt
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 12 file ]
     │   │   │   ├── 📂 twlegacy/
+    │   │   │   │   ├── default.txt
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
     │   │   │   ├── 📂 youmod/
+    │   │   │   │   ├── default.txt
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
     │   │   │   ├── 📂 youpip/
+    │   │   │   │   ├── default.txt
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 2 file ]
     │   │   │   ├── 📂 youspeed/
+    │   │   │   │   ├── default.txt
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 2 file ]
     │   │   │   ├── 📂 yt-native-share/
+    │   │   │   │   ├── default.txt
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
     │   │   │   ├── 📂 ytmu/
+    │   │   │   │   ├── default.txt
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 9 file ]
     │   │   │   ├── 📂 ytplus/
+    │   │   │   │   ├── default.txt
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 18 file ]
     │   │   │   ├── 📂 ytuhd/
+    │   │   │   │   ├── default.txt
     │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 2 file ]
     │   │   │   └── 📂 ytvideooverlay/
+    │   │   │       ├── default.txt
     │   │   │       └── [ 📊 Số lượng: ⚙️ Config .json: 2 file ]
     │   │   └── 📂 wiki/
     │   │       └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
