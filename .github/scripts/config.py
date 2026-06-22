@@ -44,8 +44,8 @@ def safe_write_file(filepath, content, mode='w'):
 # --- Đường dẫn và URL ---
 BASE_URL = "https://2kgt.github.io/repo/"
 RAW_URL = "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/"
-REPO_NAME = "Kyic Premium Store"
-SOURCE_IDENTIFIER = "com.kyic.premium"
+REPO_NAME = "Kyic Store"
+SOURCE_IDENTIFIER = "com.kyic.store"
 # tintColor config 
 TINT_COLOR = "848ef9"
 
