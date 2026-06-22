@@ -2259,10 +2259,33 @@
         confirmDownloadData = null;
     }
 
+    function buildDownloadFilename(group, version) {
+        // FIX: Apps tải đúng tên tệp đầy đủ (vd "BiliBili_2.70.0.ipa") vì
+        // downloadURL của GitHub Release LUÔN có tên tệp gốc ở cuối path,
+        // và trình duyệt ưu tiên lấy tên đó. Tweaks/Dylibs lại hay dùng URL
+        // cùng domain (2kgt.github.io) — same-origin khiến trình duyệt tôn
+        // trọng tên do JS tự đặt qua thuộc tính `download`, mà tên đó trước
+        // đây bị tự chế ("Tên_vPhiênBản", thiếu đuôi/rút gọn) do
+        // version.filename không tồn tại trong dữ liệu. Cách thống nhất và
+        // đúng nhất cho cả 3 loại: LUÔN lấy tên thật từ chính downloadURL
+        // (đoạn cuối cùng của URL path, đã decode %xx), y hệt cách trình
+        // duyệt tự làm với link cross-origin — đảm bảo Apps/Tweaks/Dylibs
+        // đều tải về đúng tên tệp gốc đầy đủ kèm đuôi.
+        try {
+            const u = new URL(version.downloadURL, window.location.href);
+            const last = decodeURIComponent(u.pathname.split('/').pop() || '');
+            if (last && last.includes('.')) return last;
+        } catch (e) { /* downloadURL không hợp lệ -> rơi xuống fallback bên dưới */ }
+
+        const base = group.name + '_v' + version.version;
+        const ext = detectFileExt(version);
+        return base + '.' + ext;
+    }
+
     function confirmDownloadProceed() {
         if (!confirmDownloadData) return;
         const { group, version, btnEl } = confirmDownloadData;
-        const filename = version.filename || (group.name + '_v' + version.version);
+        const filename = buildDownloadFilename(group, version);
 
         document.getElementById('confirmDialog').classList.remove('active');
         document.getElementById('confirmOverlay').classList.remove('active');
@@ -2406,7 +2429,7 @@
         if (!currentGroup) return;
         const v = currentGroup.versions[selectedVersionIdx];
         if (!v) { showToast(t('no_version')); return; }
-        const filename = v.filename || (currentGroup.name + '_v' + v.version);
+        const filename = buildDownloadFilename(currentGroup, v);
         triggerDownload(v.downloadURL, filename, document.getElementById('downloadBtn'));
     }
 
