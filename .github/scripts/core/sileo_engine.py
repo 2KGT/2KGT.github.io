@@ -10,7 +10,6 @@ import urllib.request
 import logging
 import tempfile
 import datetime
-import inspect
 import config
 
 logger = logging.getLogger(__name__)
@@ -18,83 +17,57 @@ from collections import defaultdict
 from . import utils
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-# ─────────────────────────────────────────────────────────
-# FIX 1: Dùng tempfile thay vì tên cố định
-# Tránh xung đột khi chạy song song
-# FIX 2: Tính hash bằng streaming — không đọc toàn bộ vào RAM
-# ─────────────────────────────────────────────────────────
+
 def calculate_hashes_from_url(url):
-    """Tải tạm file Cloud và tính các loại hash để xác thực"""
+    """Tải tạm file cloud, tính MD5/SHA1/SHA256 bằng streaming."""
     try:
         req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-        md5 = hashlib.md5()
-        sha1 = hashlib.sha1()
-        sha256 = hashlib.sha256()
-
+        md5, sha1, sha256 = hashlib.md5(), hashlib.sha1(), hashlib.sha256()
         with tempfile.NamedTemporaryFile(suffix=".deb", delete=False) as tmp:
             temp_path = tmp.name
-            with urllib.request.urlopen(req, timeout=30) as response:
+            with urllib.request.urlopen(req, timeout=30) as resp:
                 while True:
-                    chunk = response.read(65536)
+                    chunk = resp.read(65536)
                     if not chunk:
                         break
                     tmp.write(chunk)
-                    md5.update(chunk)
-                    sha1.update(chunk)
-                    sha256.update(chunk)
-
+                    md5.update(chunk); sha1.update(chunk); sha256.update(chunk)
         os.remove(temp_path)
         return md5.hexdigest(), sha1.hexdigest(), sha256.hexdigest()
-
     except Exception as e:
-        logger.error(f"⚠️ Lỗi tính hash file cloud [{url}]: {e}")
+        logger.error(f"⚠️ Lỗi tính hash cloud [{url}]: {e}")
         return "0" * 32, "0" * 40, "0" * 64
 
 
 def calculate_hashes_from_local(path):
-    """
-    FIX 2: Tính hash file local bằng streaming
-    Tránh đọc toàn bộ file .deb lớn vào RAM một lần
-    """
-    md5 = hashlib.md5()
-    sha1 = hashlib.sha1()
-    sha256 = hashlib.sha256()
+    """Tính MD5/SHA1/SHA256 file local bằng streaming."""
+    md5, sha1, sha256 = hashlib.md5(), hashlib.sha1(), hashlib.sha256()
     try:
         with open(path, "rb") as f:
             while True:
                 chunk = f.read(65536)
                 if not chunk:
                     break
-                md5.update(chunk)
-                sha1.update(chunk)
-                sha256.update(chunk)
+                md5.update(chunk); sha1.update(chunk); sha256.update(chunk)
     except Exception as e:
-        logger.error(f"⚠️ Lỗi tính hash file local [{path}]: {e}")
+        logger.error(f"⚠️ Lỗi tính hash local [{path}]: {e}")
         return "0" * 32, "0" * 40, "0" * 64
     return md5.hexdigest(), sha1.hexdigest(), sha256.hexdigest()
 
 
 def extract_deb_control_data(path):
-    """Sử dụng dpkg-deb để bốc thông tin trực tiếp từ control của file .deb"""
+    """Đọc control fields từ file .deb bằng dpkg-deb."""
     info = {
-        "Package": "",
-        "Name": "",
-        "Version": "1.0",
+        "Package": "", "Name": "", "Version": "1.0",
         "Description": "Một tweak tuyệt vời từ Kyic Store.",
-        "Author": "Kyic Store",
-        "Section": "Tweaks",
-        "Architecture": "iphoneos-arm"
+        "Author": "Kyic Store", "Section": "Tweaks", "Architecture": "iphoneos-arm"
     }
-
     f_name = os.path.basename(path)
     try:
         result = subprocess.run(
             ['dpkg-deb', '-f', path],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-            errors='ignore',
-            timeout=5
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+            text=True, errors='ignore', timeout=5
         )
         if result.returncode == 0 and result.stdout:
             current_key = None
@@ -109,16 +82,15 @@ def extract_deb_control_data(path):
                     current_key = k.strip()
                     info[current_key] = v.strip()
     except subprocess.TimeoutExpired:
-        logger.warning(f"⚠️ Treo quá lâu khi đọc: {f_name} (Đã bỏ qua)")
+        logger.warning(f"⚠️ Timeout khi đọc: {f_name}")
     except Exception as e:
-        logger.error(f"❌ Lỗi đọc file .deb bằng dpkg-deb: {e}")
+        logger.error(f"❌ Lỗi đọc .deb: {e}")
 
     if not info.get("Package"):
         info["Package"] = f"com.kyic.{f_name.split('_')[0].lower()}"
     if not info.get("Name"):
         info["Name"] = f_name.split('_')[0]
 
-    # Chuẩn hóa Section
     section_map = {
         "tweak": "Tweaks", "tweaks": "Tweaks", "patched": "Tweaks",
         "theme": "Themes", "themes": "Themes",
@@ -138,14 +110,7 @@ def clean_string_for_match(text):
 
 
 def extract_tweak_name_from_filename(filename):
-    """
-    FIX: Extract tên tweak từ filename (dùng làm fallback khi DEB nằm
-    trực tiếp trong repo/debs/ mà không có folder riêng - cấu trúc cũ).
-
-    Ví dụ:
-    - cc18_0.0.3_iphoneos-arm.deb → cc18
-    - ccappicon_0.0.1_iphoneos-arm64.deb → ccappicon
-    """
+    """Lấy tên tweak từ filename: cc18_0.0.3_iphoneos-arm.deb → cc18."""
     name_no_ext = filename.rsplit('.', 1)[0]
     tweak_name = name_no_ext.split('_')[0]
     return tweak_name if tweak_name else name_no_ext
@@ -153,54 +118,45 @@ def extract_tweak_name_from_filename(filename):
 
 def resolve_display_name(deb_info, fallback_id):
     """
-    FIX: Suy ra "tên đẹp" để dùng làm TÊN THƯ MỤC (desc/ + depiction/),
-    thay vì dùng thẳng bundle ID thô (com.w3ltyyy.lead) như trước đây.
-
-    Thứ tự ưu tiên:
-    1. Field 'Name' đọc được từ control file của .deb — đây là tên đẹp
-       nhà phát triển khai báo (ví dụ: "Lead").
-    2. Fallback: lấy đoạn cuối cùng của bundle ID/tên file
-       (com.w3ltyyy.lead → lead → Lead).
-
-    FIX: Loại trừ trường hợp 'Name' vô tình CHÍNH LÀ bundle ID đầy đủ
-    (một số .deb build ẩu set Name = Package) — nếu vậy vẫn fallback
-    về đoạn cuối, tránh thư mục lại ra "com.w3ltyyy.lead" y như cũ.
-
-    Tên cuối được viết hoa chữ cái đầu để hiển thị đẹp hơn, nhưng KHÔNG
-    đổi nếu Name gốc đã có hoa/thường tùy ý (giữ nguyên style nhà phát
-    triển đặt).
+    Ưu tiên field Name từ control file. Bỏ qua nếu Name trùng với bundle ID
+    (com.x.y) — fallback về đoạn cuối bundle ID, viết hoa chữ đầu.
     """
-    def _looks_like_bundle_id(s):
-        # com.x.y kiểu domain ngược — nhiều dấu chấm + toàn chữ thường/số
+    def _is_bundle_id(s):
         return bool(re.match(r'^[a-z0-9]+(\.[a-z0-9]+){2,}$', s.strip()))
 
     name = (deb_info or {}).get("Name", "")
     name = name.strip() if isinstance(name, str) else ""
-
-    if name and not _looks_like_bundle_id(name):
+    if name and not _is_bundle_id(name):
         return name
 
-    # Fallback: lấy đoạn cuối cùng sau dấu '.' của bundle ID / tên file gốc
     base = fallback_id.strip().split('.')[-1] if fallback_id else fallback_id
     base = base or fallback_id or "tweak"
     return base[:1].upper() + base[1:] if base else base
 
 
+def _save_desc_file(path, content):
+    """Ghi file text, tạo thư mục nếu cần. Trả về True nếu thành công."""
+    try:
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, 'w', encoding='utf-8') as f:
+            f.write(content)
+        return True
+    except Exception as e:
+        logger.warning(f"⚠️ Không ghi được {path}: {e}")
+        return False
+
+
+def _read_file(path):
+    """Đọc file text, trả về chuỗi hoặc rỗng nếu lỗi."""
+    try:
+        with open(path, 'r', encoding='utf-8') as f:
+            return f.read().strip()
+    except Exception:
+        return ""
+
+
 def get_tweak_assets(tweak_name, deb_info):
-    """
-    FIX: Ảnh (banner/video/screenshots) lấy TRỰC TIẾP từ control field
-    bên trong file .deb (Icon/Banner/Video/Screenshots) — KHÔNG tra
-    AppStore, vì DEB là tweak/bẻ khoá, không tồn tại trên AppStore.
-
-    Ảnh tải về được gom theo thư mục tên tweak để quản lý tập trung:
-    Cấu trúc: repo/depictions/images/<tweak_name>/
-        - <tweak_name>_banner.jpg
-        - <tweak_name>.mp4
-        - <tweak_name>_1.jpg, <tweak_name>_2.jpg, ...
-
-    Icon vẫn giữ chung trong repo/depictions/icons/ (icon thường dùng lại
-    nhiều nơi — ví dụ icon hiển thị trên Packages, không cần tách folder).
-    """
+    """Lấy icon/banner/video/screenshots từ control field, fallback local, fallback default."""
     exts = ['.png', '.jpg', '.jpeg', '.webp']
     match_variants = [
         clean_string_for_match(tweak_name),
@@ -209,169 +165,116 @@ def get_tweak_assets(tweak_name, deb_info):
     ]
     base_variant = match_variants[0] or "default"
 
-    def build_icon_url(file_name):
-        return f"{config.RAW_URL.rstrip('/')}/{config.ICON_DIR_NAME.strip('/')}/{file_name}"
+    def icon_url(fname):
+        return f"{config.RAW_URL.rstrip('/')}/{config.ICON_DIR_NAME.strip('/')}/{fname}"
 
-    def build_image_url(file_name):
-        # FIX: ảnh gom theo thư mục tweak_name — nhất quán với cách tổ chức DEB/desc
-        return f"{config.RAW_URL.rstrip('/')}/{config.IMG_DIR_NAME.strip('/')}/{tweak_name}/{file_name}"
+    def image_url(fname):
+        return f"{config.RAW_URL.rstrip('/')}/{config.IMG_DIR_NAME.strip('/')}/{tweak_name}/{fname}"
 
-    # FIX 3: Quét thư mục một lần, dùng lại cho toàn bộ hàm (không gọi os.listdir lặp lại)
     local_icons = os.listdir(config.ICON_DIR) if os.path.exists(config.ICON_DIR) else []
     tweak_img_dir = config.get_tweak_images_dir(tweak_name)
     local_images = os.listdir(tweak_img_dir) if os.path.exists(tweak_img_dir) else []
 
-    icon_url, banner_url, video_url, screens = None, None, None, []
+    icon, banner, video, screens = None, None, None, []
 
-    # ── Ưu tiên tài nguyên khai báo trực tiếp trong control field của .deb ──
+    # Từ control field
     remote_icon = deb_info.get('Icon') or deb_info.get('icon')
     if remote_icon and str(remote_icon).startswith("http"):
-        logger.info(f"📥 Đang tải Icon của {tweak_name} (từ control .deb)")
         if utils.download_resource_to_local(remote_icon, os.path.join(config.ICON_DIR, f"{base_variant}.jpg")):
-            icon_url = build_icon_url(f"{base_variant}.jpg")
+            icon = icon_url(f"{base_variant}.jpg")
 
     remote_banner = deb_info.get('Banner') or deb_info.get('banner')
     if remote_banner and str(remote_banner).startswith("http"):
-        logger.info(f"📥 Đang tải Banner của {tweak_name} (từ control .deb)")
         os.makedirs(tweak_img_dir, exist_ok=True)
         if utils.download_resource_to_local(remote_banner, os.path.join(tweak_img_dir, f"{base_variant}_banner.jpg")):
-            banner_url = build_image_url(f"{base_variant}_banner.jpg")
+            banner = image_url(f"{base_variant}_banner.jpg")
 
     remote_video = deb_info.get('Video') or deb_info.get('video')
     if remote_video and str(remote_video).startswith("http"):
-        logger.info(f"📥 Đang tải Video của {tweak_name} (từ control .deb)")
         os.makedirs(tweak_img_dir, exist_ok=True)
         if utils.download_resource_to_local(remote_video, os.path.join(tweak_img_dir, f"{base_variant}.mp4")):
-            video_url = build_image_url(f"{base_variant}.mp4")
+            video = image_url(f"{base_variant}.mp4")
 
-    # Xử lý Screenshots khai báo trong control field (list hoặc chuỗi JSON/CSV)
-    raw_screens_data = (
+    raw_screens = (
         deb_info.get('Screenshots') or deb_info.get('screenshots')
         or deb_info.get('Screenshot') or deb_info.get('screenshot')
     )
-    if raw_screens_data:
+    if raw_screens:
         urls_list = []
-        if isinstance(raw_screens_data, list):
-            urls_list = raw_screens_data
-        elif isinstance(raw_screens_data, str):
-            if raw_screens_data.startswith('[') and raw_screens_data.endswith(']'):
+        if isinstance(raw_screens, list):
+            urls_list = raw_screens
+        elif isinstance(raw_screens, str):
+            if raw_screens.startswith('['):
                 try:
-                    urls_list = json.loads(raw_screens_data)
+                    urls_list = json.loads(raw_screens)
                 except Exception:
-                    urls_list = [u.strip() for u in raw_screens_data.strip('[]').split(',') if u]
+                    urls_list = [u.strip() for u in raw_screens.strip('[]').split(',') if u]
             else:
-                urls_list = [u.strip() for u in raw_screens_data.split(',') if u]
-
+                urls_list = [u.strip() for u in raw_screens.split(',') if u]
         os.makedirs(tweak_img_dir, exist_ok=True)
-        for idx, scr_url in enumerate(urls_list, start=1):
-            if str(scr_url).startswith("http"):
-                logger.info(f"📥 Đang tải Screenshot {idx} của {tweak_name} (từ control .deb)")
-                if utils.download_resource_to_local(scr_url, os.path.join(tweak_img_dir, f"{base_variant}_{idx}.jpg")):
-                    screens.append(build_image_url(f"{base_variant}_{idx}.jpg"))
+        for idx, scr in enumerate(urls_list, start=1):
+            if str(scr).startswith("http"):
+                if utils.download_resource_to_local(scr, os.path.join(tweak_img_dir, f"{base_variant}_{idx}.jpg")):
+                    screens.append(image_url(f"{base_variant}_{idx}.jpg"))
 
-    # ── Fallback: tìm trong thư mục local đã tải/upload sẵn ──
-    if not icon_url:
-        for variant in match_variants:
-            if not variant:
+    # Fallback local
+    if not icon:
+        for v in match_variants:
+            if not v:
                 continue
-            matched = next(
-                (f for f in local_icons
-                 if clean_string_for_match(f.rsplit('.', 1)[0]) == variant
-                 and any(f.lower().endswith(e) for e in exts)),
-                None
-            )
-            if matched:
-                icon_url = build_icon_url(matched)
-                break
+            m = next((f for f in local_icons if clean_string_for_match(f.rsplit('.', 1)[0]) == v and any(f.lower().endswith(e) for e in exts)), None)
+            if m:
+                icon = icon_url(m); break
 
-    if not banner_url:
-        for variant in match_variants:
-            if not variant:
+    if not banner:
+        for v in match_variants:
+            if not v:
                 continue
-            matched = next(
-                (f for f in local_images
-                 if clean_string_for_match(f.rsplit('.', 1)[0]) in [f"{variant}banner", f"{variant}_banner"]
-                 and any(f.lower().endswith(e) for e in exts)),
-                None
-            )
-            if matched:
-                banner_url = build_image_url(matched)
-                break
+            m = next((f for f in local_images if clean_string_for_match(f.rsplit('.', 1)[0]) in [f"{v}banner", f"{v}_banner"] and any(f.lower().endswith(e) for e in exts)), None)
+            if m:
+                banner = image_url(m); break
 
-    if not video_url:
-        for variant in match_variants:
-            if not variant:
+    if not video:
+        for v in match_variants:
+            if not v:
                 continue
-            matched = next(
-                (f for f in local_images
-                 if clean_string_for_match(f) == f"{variant}.mp4"),
-                None
-            )
-            if matched:
-                video_url = build_image_url(matched)
-                break
+            m = next((f for f in local_images if clean_string_for_match(f) == f"{v}.mp4"), None)
+            if m:
+                video = image_url(m); break
 
     if not screens:
         for i in range(1, 16):
-            matched = next(
-                (f for f in local_images
-                 if clean_string_for_match(f.rsplit('.', 1)[0]) in [f"{base_variant}_{i}", f"{base_variant}{i}"]
-                 and any(f.lower().endswith(e) for e in exts)),
-                None
-            )
-            if matched:
-                screens.append(build_image_url(matched))
+            m = next((f for f in local_images if clean_string_for_match(f.rsplit('.', 1)[0]) in [f"{base_variant}_{i}", f"{base_variant}{i}"] and any(f.lower().endswith(e) for e in exts)), None)
+            if m:
+                screens.append(image_url(m))
 
-    # Gán tài nguyên mặc định khi không tìm được gì
-    if not icon_url: icon_url = config.SOURCE_LOGO
-    if not banner_url: banner_url = config.DEFAULT_BANNER
-    if not video_url: video_url = config.DEFAULT_VIDEO
+    if not icon: icon = config.SOURCE_LOGO
+    if not banner: banner = config.DEFAULT_BANNER
+    if not video: video = config.DEFAULT_VIDEO
     if not screens: screens = utils.get_default_screens()
 
     return {
-        "icon": utils.clean_github_url(icon_url),
-        "banner": utils.clean_github_url(banner_url),
-        "video": utils.clean_github_url(video_url),
+        "icon": utils.clean_github_url(icon),
+        "banner": utils.clean_github_url(banner),
+        "video": utils.clean_github_url(video),
         "screenshots": [utils.clean_github_url(s) for s in screens if s]
     }
 
 
 def build_sileo_depiction_json(safe_filename, tweak_name, version, description, assets, author, deb_info, privacy_list):
-    """
-    FIX: Tên file JSON = safe_filename đầy đủ (tweak_ver_arch), KHÔNG dùng
-    chung 1 file cho mọi version/arch — tránh xung đột đè dữ liệu khi:
-    - Nhiều version cùng tồn tại (v1.3.0, v1.3.1...)
-    - Nhiều architecture của cùng version (arm, arm64, arm64e)
-
-    Cấu trúc: repo/depictions/metadata/<section>/<tweak_name>/<safe_filename>.json
-    Ví dụ:    repo/depictions/metadata/tweaks/glow/glow_1.3.1_iphoneos-arm.json
-
-    FIX: Mô tả ưu tiên lấy từ changelog (v<version>.txt / default.txt) tại
-    repo/depictions/metadata/desc/tweaks/<tweak_name>/ — giống cơ chế IPA.
-    """
+    """Tạo file depiction JSON cho Sileo (1 file riêng mỗi version+arch)."""
     section = deb_info.get("Section", "Tweaks")
 
-    # FIX: Tách rõ 2 loại nội dung:
-    # - final_description (tab Details): mô tả về chính sản phẩm —
-    #   lấy từ tham số `description` (deb_info["Description"] từ control
-    #   file). Nếu không có, fallback về default.txt của tweak.
-    #   ĐÂY LÀ MÔ TẢ SẢN PHẨM, không phải release note.
-    # - changelog_markdown (tab Changelog): lịch sử CÓ GÌ MỚI từng
-    #   phiên bản — đọc từ v*.txt (release notes đã lưu từ asset["body"]).
-    #
-    # Cách cũ (lỗi): dùng get_optimized_tweak_description() cho Details —
-    # hàm đó đọc v{ver}.txt (= release note) → Details và Changelog
-    # hiển thị cùng nội dung, chỉ khác scope (1 ver vs toàn bộ lịch sử).
+    # Mô tả sản phẩm: từ control file, fallback default.txt
     default_file = os.path.join(config.TWEAK_DESC_DIR, tweak_name, "default.txt")
     if description and len(str(description).strip()) > 5:
         final_description = description.strip()
     elif os.path.exists(default_file):
-        with open(default_file, 'r', encoding='utf-8') as _f:
-            final_description = _f.read().strip() or description
+        final_description = _read_file(default_file) or description
     else:
         final_description = description
 
-    # Lịch sử phiên bản từ v*.txt (release notes) — KHÔNG bao gồm mô tả
+    # Lịch sử phiên bản: từ v*.txt (release notes)
     changelog_markdown = config.get_tweak_changelog_history(tweak_name, version)
 
     target_folder, json_filename = config.get_depiction_path_by_filename(section, tweak_name, safe_filename)
@@ -380,11 +283,7 @@ def build_sileo_depiction_json(safe_filename, tweak_name, version, description, 
 
     privacy_text = ", ".join(privacy_list) if privacy_list else "Không yêu cầu quyền đặc biệt"
     clean_desc = utils.smart_truncate_description(final_description, max_chars=1000)
-
-    sileo_screenshots = [
-        {"accessibilityText": f"Screenshot{idx}", "url": str(s)}
-        for idx, s in enumerate(assets["screenshots"]) if s
-    ]
+    sileo_screenshots = [{"accessibilityText": f"Screenshot{i}", "url": str(s)} for i, s in enumerate(assets["screenshots"]) if s]
 
     depiction_data = {
         "minVersion": "0.1",
@@ -434,14 +333,34 @@ def build_sileo_depiction_json(safe_filename, tweak_name, version, description, 
         with open(file_path, 'w', encoding='utf-8') as f:
             json.dump(depiction_data, f, indent=2, ensure_ascii=False)
     except Exception as e:
-        logger.error(f"❌ Lỗi ghi depiction JSON cho {safe_filename}: {e}")
+        logger.error(f"❌ Lỗi ghi depiction {safe_filename}: {e}")
         return None
 
     return file_path
 
 
+def _save_desc_for_tweak(tweak_title, deb_info, ver, release_note=""):
+    """
+    Lưu 2 file mô tả cho tweak:
+    - default.txt : mô tả sản phẩm từ control file (chỉ ghi lần đầu)
+    - v{ver}.txt  : release note phiên bản từ GitHub Release body
+    """
+    desc_dir = os.path.join(config.TWEAK_DESC_DIR, tweak_title)
+    control_desc = deb_info.get("Description", "").strip()
+
+    default_file = os.path.join(desc_dir, "default.txt")
+    if control_desc and len(control_desc) > 5 and not os.path.exists(default_file):
+        if _save_desc_file(default_file, control_desc):
+            logger.info(f"💾 Lưu mô tả sản phẩm: {default_file}")
+
+    if release_note and len(release_note) > 10:
+        ver_file = os.path.join(desc_dir, f"v{ver}.txt")
+        if _save_desc_file(ver_file, release_note):
+            logger.info(f"💾 Lưu changelog: {ver_file}")
+
+
 def run_sileo_engine(release_assets, system_db):
-    """🌟 PHÂN HỆ XỬ LÝ CHÍNH: Phân tích các gói Tweaks DEB và biên dịch kho dữ liệu Packages cho Sileo"""
+    """Xử lý .deb cloud + local, tạo Packages, Packages.bz2 và sileo.json."""
     if "tweaks" not in system_db:
         system_db["tweaks"] = {}
 
@@ -449,13 +368,12 @@ def run_sileo_engine(release_assets, system_db):
     processed_safenames = set()
     processed_tweaks_titles = []
 
-    # ── Xử lý Cloud .deb ──────────────────────────────────────────
-    deb_cloud_list = release_assets if isinstance(release_assets, list) else []
-    for asset in deb_cloud_list:
+    # ── Cloud .deb ────────────────────────────────────────────────────
+    for asset in (release_assets if isinstance(release_assets, list) else []):
         f_name = asset.get("name", "")
-        f_url = asset.get("url", "")
-        sz = asset.get("size", 0)
-        if not f_name.endswith(".deb"):
+        f_url  = asset.get("url", "")
+        sz     = asset.get("size", 0)
+        if not f_name.endswith(".deb") or not f_url:
             continue
 
         safe_filename = f_name.rsplit('.', 1)[0]
@@ -463,60 +381,40 @@ def run_sileo_engine(release_assets, system_db):
             continue
         processed_safenames.add(safe_filename)
 
-        parts = safe_filename.split('_')
+        parts  = safe_filename.split('_')
         raw_id = parts[0] if parts else safe_filename
-        ver = parts[1] if len(parts) > 1 else "1.0"
-        arch = parts[2] if len(parts) > 2 else "iphoneos-arm"
+        ver    = parts[1] if len(parts) > 1 else "1.0"
+        arch   = parts[2] if len(parts) > 2 else "iphoneos-arm"
 
-        # FIX 4: Tải và đọc control data thực tế từ cloud .deb TRƯỚC,
-        # để biết field 'Name' đẹp trước khi quyết định tên thư mục
-        # (changelog .txt + depiction .json) — tránh dùng nhầm bundle ID
-        # thô (com.w3ltyyy.lead) làm tên thư mục như cách cũ.
-        logger.info(f"-> Đang quét Cloud Tweak: {raw_id} [{arch}]")
-
+        logger.info(f"-> Cloud Tweak: {raw_id} [{arch}]")
         md5, sha1, sha256 = calculate_hashes_from_url(f_url)
 
         deb_info = None
         try:
             with tempfile.NamedTemporaryFile(suffix=".deb", delete=False) as tmp:
-                temp_deb_path = tmp.name
+                temp_path = tmp.name
             req = urllib.request.Request(f_url, headers={'User-Agent': 'Mozilla/5.0'})
-            with urllib.request.urlopen(req, timeout=30) as response:
-                with open(temp_deb_path, 'wb') as f:
-                    f.write(response.read())
-            deb_info = extract_deb_control_data(temp_deb_path)
-            os.remove(temp_deb_path)
+            with urllib.request.urlopen(req, timeout=30) as resp:
+                with open(temp_path, 'wb') as f:
+                    f.write(resp.read())
+            deb_info = extract_deb_control_data(temp_path)
+            os.remove(temp_path)
         except Exception as e:
-            logger.warning(f"⚠️ Không đọc được control từ cloud .deb [{raw_id}]: {e}")
+            logger.warning(f"⚠️ Không đọc được control [{raw_id}]: {e}")
 
         if not deb_info:
-            bid = f"com.kyic.{clean_string_for_match(raw_id)}"
             deb_info = {
-                "Package": bid, "Name": raw_id, "Version": ver,
+                "Package": f"com.kyic.{clean_string_for_match(raw_id)}",
+                "Name": raw_id, "Version": ver,
                 "Description": f"Tweak {raw_id} từ Kyic Store.",
                 "Author": "Kyic Store", "Section": "Tweaks", "Architecture": arch
             }
 
-        # FIX: tên thư mục đẹp — ưu tiên deb_info["Name"], fallback đoạn
-        # cuối bundle ID/tên file (com.w3ltyyy.lead → Lead)
         tweak_title = resolve_display_name(deb_info, raw_id)
         processed_tweaks_titles.append(tweak_title)
 
-        # FIX MỚI: Lấy Release Note (body) từ GitHub Release — tương tự Feather
-        # Lưu vào v{version}.txt để `get_optimized_tweak_description()` dùng
-        # FIX: dùng tweak_title (tên đẹp) thay vì raw_id (bundle ID thô)
-        # làm tên thư mục, để đồng bộ với thư mục depiction bên dưới.
-        release_note = asset.get("body", "")
-        if release_note and len(release_note.strip()) > 10:
-            tweak_desc_dir = os.path.join(config.TWEAK_DESC_DIR, tweak_title)
-            os.makedirs(tweak_desc_dir, exist_ok=True)
-            version_file = os.path.join(tweak_desc_dir, f"v{ver}.txt")
-            try:
-                with open(version_file, 'w', encoding='utf-8') as f:
-                    f.write(release_note.strip())
-                logger.info(f"💾 Lưu changelog: {version_file}")
-            except Exception as e:
-                logger.warning(f"⚠️ Không lưu changelog cho {tweak_title} v{ver}: {e}")
+        release_note = asset.get("body", "").strip()
+        _save_desc_for_tweak(tweak_title, deb_info, ver, release_note)
 
         system_db["tweaks"][f_url] = deb_info
         assets = get_tweak_assets(tweak_title, deb_info)
@@ -529,31 +427,25 @@ def run_sileo_engine(release_assets, system_db):
             "name": deb_info["Name"], "ver": deb_info["Version"],
             "bid": deb_info["Package"], "arch": deb_info["Architecture"],
             "dl": f_url, "sz": sz,
-            # FIX: tách biệt mô tả sản phẩm và release note phiên bản
-            "desc": deb_info["Description"],       # mô tả sản phẩm (control file)
-            "release_note": release_note.strip() if release_note else "",  # có gì mới
+            "desc": deb_info["Description"],
+            "release_note": release_note,
             "author": deb_info["Author"], "icon": assets["icon"],
             "tweak_name": tweak_title, "safe_file": safe_filename,
             "section": deb_info["Section"], "is_cloud": True,
             "md5": md5, "sha1": sha1, "sha256": sha256
         })
 
-    # ── Xử lý Local .deb (NESTED: repo/debs/<TweakName>/*.deb) ─────
-    # FIX: Gom tất cả architecture (arm/arm64/arm64e) + version của
-    # cùng 1 tweak vào folder riêng, thay vì để phẳng cùng cấp.
+    # ── Local .deb ────────────────────────────────────────────────────
     if os.path.exists(config.DEBS_INPUT_DIR):
         for entry in sorted(os.listdir(config.DEBS_INPUT_DIR)):
             if entry.startswith('.') or entry == 'desc':
                 continue
-
             entry_path = os.path.join(config.DEBS_INPUT_DIR, entry)
             deb_files = []
 
-            # Backward-compat: vẫn hỗ trợ file .deb nằm trực tiếp (cấu trúc cũ)
             if os.path.isfile(entry_path) and entry.endswith(".deb"):
                 deb_files.append((entry_path, entry, extract_tweak_name_from_filename(entry)))
             elif os.path.isdir(entry_path):
-                # entry chính là tên tweak (tên folder) — ưu tiên dùng tên folder
                 for f_name in sorted(os.listdir(entry_path)):
                     if f_name.endswith(".deb"):
                         deb_files.append((os.path.join(entry_path, f_name), f_name, entry))
@@ -564,23 +456,20 @@ def run_sileo_engine(release_assets, system_db):
                     continue
                 processed_safenames.add(safe_filename)
 
-                # FIX 2: Hash streaming thay vì đọc toàn bộ vào RAM
                 md5, sha1, sha256 = calculate_hashes_from_local(path)
-
                 relative_path = os.path.relpath(path, config.REPO_OUTPUT_DIR).replace("\\", "/")
                 f_url = f"{config.BASE_URL}{relative_path}"
                 deb_info = extract_deb_control_data(path)
 
-                # FIX: tên thư mục đẹp — CHỈ áp dụng khi tweak_title đang
-                # là bundle ID thô từ tên file phẳng (backward-compat,
-                # repo/debs/<file>.deb không có folder riêng). Khi .deb
-                # đã nằm trong folder riêng (repo/debs/<TweakName>/),
-                # giữ nguyên tên folder admin đã đặt — không ghi đè.
                 if tweak_title == extract_tweak_name_from_filename(f_name):
                     tweak_title = resolve_display_name(deb_info, tweak_title)
 
-                logger.info(f"-> Đang quét Local Tweak: {deb_info['Name']} [{tweak_title}/{deb_info['Architecture']}/v{deb_info['Version']}]")
+                logger.info(f"-> Local Tweak: {deb_info['Name']} [{tweak_title}/{deb_info['Architecture']}/v{deb_info['Version']}]")
                 processed_tweaks_titles.append(deb_info['Name'])
+
+                # Release note cho local: đọc từ v{ver}.txt nếu đã lưu trước
+                local_release_note = _read_file(os.path.join(config.TWEAK_DESC_DIR, tweak_title, f"v{deb_info['Version']}.txt"))
+                _save_desc_for_tweak(tweak_title, deb_info, deb_info['Version'])
 
                 system_db["tweaks"][f_url] = deb_info
                 assets = get_tweak_assets(tweak_title, deb_info)
@@ -589,167 +478,101 @@ def run_sileo_engine(release_assets, system_db):
                     deb_info["Description"], assets, deb_info["Author"], deb_info,
                     utils.format_permissions(deb_info.get('Permissions', {}))
                 )
-                # FIX: local .deb không có asset["body"], nhưng v{ver}.txt có
-                # thể đã được lưu từ lần build trước (khi file .deb còn là cloud).
-                _local_ver_file = os.path.join(config.TWEAK_DESC_DIR, tweak_title, f"v{deb_info['Version']}.txt")
-                _local_release_note = ""
-                if os.path.exists(_local_ver_file):
-                    try:
-                        with open(_local_ver_file, 'r', encoding='utf-8') as _lf:
-                            _local_release_note = _lf.read().strip()
-                    except Exception:
-                        pass
                 tweaks_map[(deb_info["Package"], deb_info["Architecture"], deb_info["Version"])].append({
                     "name": deb_info["Name"], "ver": deb_info["Version"],
                     "bid": deb_info["Package"], "arch": deb_info["Architecture"],
                     "dl": relative_path, "sz": int(os.path.getsize(path)),
-                    # FIX: tách biệt mô tả sản phẩm và release note phiên bản
-                    "desc": deb_info["Description"],       # mô tả sản phẩm (control file)
-                    "release_note": _local_release_note,   # có gì mới (từ v{ver}.txt)
+                    "desc": deb_info["Description"],
+                    "release_note": local_release_note,
                     "author": deb_info["Author"], "icon": assets["icon"],
                     "tweak_name": tweak_title, "safe_file": safe_filename,
                     "section": deb_info["Section"], "is_cloud": False,
                     "md5": md5, "sha1": sha1, "sha256": sha256
                 })
 
-    # ── Ghi Packages ────────────────────────────────────────────
-    # FIX QUAN TRỌNG: Chuẩn APT/Packages CHỈ cho phép 1 entry duy nhất
-    # mỗi (Package, Architecture). Nếu admin để nhiều version cùng tồn
-    # tại trong repo/debs/<TweakName>/ (ví dụ v1.3.0 và v1.3.1 cùng arm),
-    # Packages chỉ liệt kê bản MỚI NHẤT — tránh vi phạm chuẩn APT khiến
-    # Sileo xử lý không xác định (có thể chọn nhầm bản, hoặc lỗi).
-    #
-    # Các version cũ hơn vẫn giữ nguyên trên đĩa (.deb + JSON depiction
-    # riêng tại metadata/tweaks/<TweakName>/<tweak_ver_arch>.json) để
-    # tham khảo/tải thủ công, chỉ không được advertise lại trong Packages.
+    # ── Packages ──────────────────────────────────────────────────────
+    # Mỗi (Package, Architecture) chỉ quảng bá bản mới nhất trong Packages.
     latest_per_arch = {}
-    for key in tweaks_map.keys():
-        bid, arch, ver = key
+    for bid, arch, ver in tweaks_map.keys():
         arch_key = (bid, arch)
         if arch_key not in latest_per_arch or utils.parse_version_tuple(ver) > utils.parse_version_tuple(latest_per_arch[arch_key]):
             latest_per_arch[arch_key] = ver
 
-    final_packages = ""
     section_map = {
         "Tweaks": "tweaks", "Themes": "themes", "Addons": "addons",
         "System": "system", "Tools": "tools"
     }
     metadata_url_base = config.DEPICTION_DIR_NAME.replace("repo/", "").strip("/")
+    final_packages = ""
 
     for key in sorted(tweaks_map.keys()):
         bid, arch, ver = key
-        # Bỏ qua version không phải bản mới nhất của (Package, Architecture) này
         if ver != latest_per_arch.get((bid, arch)):
-            logger.info(f"⏭️  Bỏ qua v{ver} của {bid} [{arch}] trong Packages (đã có bản mới hơn {latest_per_arch.get((bid, arch))})")
+            logger.info(f"⏭️  Bỏ qua {bid} v{ver} [{arch}] (có bản mới hơn)")
             continue
-
-        for v_item in tweaks_map[key]:
-            # FIX: URL depiction JSON trỏ đúng file riêng theo tweak_ver_arch
-            # (không bao giờ 2 entry khác version/arch trỏ chung 1 JSON)
-            subdir = section_map.get(v_item["section"], "tweaks")
-            json_depiction_url = (
-                f"{config.BASE_URL}{metadata_url_base}/{subdir}/"
-                f"{v_item['tweak_name']}/{v_item['safe_file']}.json"
-            )
+        for v in tweaks_map[key]:
+            subdir = section_map.get(v["section"], "tweaks")
+            depiction_url = f"{config.BASE_URL}{metadata_url_base}/{subdir}/{v['tweak_name']}/{v['safe_file']}.json"
             final_packages += (
-                f"Package: {v_item['bid']}\n"
-                f"Name: {v_item['name']}\n"
-                f"Version: {v_item['ver']}\n"
-                f"Architecture: {v_item['arch']}\n"
-                f"Filename: {v_item['dl']}\n"
-                f"Size: {v_item['sz']}\n"
-                f"MD5sum: {v_item['md5']}\n"
-                f"SHA1: {v_item['sha1']}\n"
-                f"SHA256: {v_item['sha256']}\n"
-                f"Author: {v_item['author']}\n"
-                f"Description: {v_item['desc']}\n"
-                f"Section: {v_item['section']}\n"
-                f"Icon: {v_item['icon']}\n"
-                f"SileoDepiction: {json_depiction_url}\n\n"
+                f"Package: {v['bid']}\nName: {v['name']}\nVersion: {v['ver']}\n"
+                f"Architecture: {v['arch']}\nFilename: {v['dl']}\nSize: {v['sz']}\n"
+                f"MD5sum: {v['md5']}\nSHA1: {v['sha1']}\nSHA256: {v['sha256']}\n"
+                f"Author: {v['author']}\nDescription: {v['desc']}\n"
+                f"Section: {v['section']}\nIcon: {v['icon']}\n"
+                f"SileoDepiction: {depiction_url}\n\n"
             )
 
     packages_path = os.path.join(config.REPO_OUTPUT_DIR, "Packages")
     with open(packages_path, "w", encoding="utf-8") as f:
         f.write(final_packages)
 
-    # FIX 5: Không nuốt lỗi bz2
     try:
         with open(packages_path, 'rb') as f_in:
             with bz2.BZ2File(os.path.join(config.REPO_OUTPUT_DIR, "Packages.bz2"), 'wb') as f_out:
                 f_out.write(f_in.read())
     except Exception as e:
         logger.error(f"❌ Lỗi nén Packages.bz2: {e}")
-    
-    # ── Tạo sileo.json ──────────────────────────────────────────────
-    # FIX: Gom tweaks theo bundle ID (1 entry per app, không trùng arch)
-    # Sử dụng config.py helper functions để đọc description + changelog history
+
+    # ── sileo.json ────────────────────────────────────────────────────
     sileo_tweaks_by_bundle = {}
-    
+
     for key in sorted(tweaks_map.keys()):
         bid, arch, ver = key
-        # Chỉ lấy bản mới nhất để hiển thị
-        if ver == latest_per_arch.get((bid, arch)):
-            v_item = tweaks_map[key][0]
-            
-            if v_item["bid"] not in sileo_tweaks_by_bundle:
-                tweak_title = v_item["tweak_name"]
+        if ver != latest_per_arch.get((bid, arch)):
+            continue
+        v = tweaks_map[key][0]
+        if v["bid"] in sileo_tweaks_by_bundle:
+            continue
 
-                # FIX: Tách biệt 2 loại nội dung trong sileo.json:
-                # - "description": mô tả sản phẩm — lấy từ v_item["desc"]
-                #   (deb_info["Description"] từ control file). Nếu chỉ là
-                #   chuỗi generic/rỗng, fallback default.txt.
-                # - "changelog": lịch sử CÓ GÌ MỚI — đọc toàn bộ v*.txt
-                #   (release notes đã lưu từ asset["body"]). Đây là lịch
-                #   sử phiên bản, KHÔNG trùng với mô tả sản phẩm.
-                #
-                # Cách cũ (lỗi): cả 2 đều từ get_optimized_tweak_description
-                # → đọc cùng v{ver}.txt → description và changelog trùng nhau.
-                product_description = v_item["desc"]
-                _default_file = os.path.join(config.TWEAK_DESC_DIR, tweak_title, "default.txt")
-                if (not product_description or len(str(product_description).strip()) <= 5) \
-                        and os.path.exists(_default_file):
-                    try:
-                        with open(_default_file, 'r', encoding='utf-8') as _f:
-                            product_description = _f.read().strip() or product_description
-                    except Exception:
-                        pass
+        tweak_title = v["tweak_name"]
+        product_description = v["desc"]
+        default_file = os.path.join(config.TWEAK_DESC_DIR, tweak_title, "default.txt")
+        if (not product_description or len(str(product_description).strip()) <= 5) and os.path.exists(default_file):
+            product_description = _read_file(default_file) or product_description
 
-                # Lịch sử phiên bản: toàn bộ v*.txt (release notes mỗi ver)
-                changelog_markdown = config.get_tweak_changelog_history(
-                    tweak_title, v_item["ver"], limit=10
-                )
-                
-                sileo_tweaks_by_bundle[v_item["bid"]] = {
-                    "name": v_item["name"],
-                    "bundle": v_item["bid"],
-                    "version": v_item["ver"],
-                    "section": v_item["section"],
-                    "author": v_item["author"],
-                    "icon": v_item["icon"],
-                    "size": v_item["sz"],
-                    "downloadURL": v_item['dl'],
-                    "description": product_description,  # mô tả sản phẩm (control)
-                    "changelog": changelog_markdown,      # lịch sử có gì mới (v*.txt)
-                    "tweak_name": tweak_title
-                }
+        sileo_tweaks_by_bundle[v["bid"]] = {
+            "name": v["name"],
+            "bundle": v["bid"],
+            "version": v["ver"],
+            "section": v["section"],
+            "author": v["author"],
+            "icon": v["icon"],
+            "size": v["sz"],
+            "downloadURL": v["dl"],
+            "description": product_description,
+            "changelog": config.get_tweak_changelog_history(tweak_title, v["ver"], limit=10),
+            "tweak_name": tweak_title
+        }
 
-    # 2. Chuyển dict thành list và sắp xếp theo tên
-    sileo_data = list(sileo_tweaks_by_bundle.values())
-    sileo_data.sort(key=lambda x: x["name"])
-
-    # 3. Đóng gói vào biến output_json
+    sileo_data = sorted(sileo_tweaks_by_bundle.values(), key=lambda x: x["name"])
     output_json = {
         "tweaks": sileo_data,
         "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat()
     }
 
-    # 4. Ghi file JSON (nằm ngoài vòng lặp và trước lệnh return)
     json_output_path = os.path.join(config.REPO_OUTPUT_DIR, 'sileo.json')
     with open(json_output_path, 'w', encoding='utf-8') as f:
         json.dump(output_json, f, indent=2, ensure_ascii=False)
-    
-    logger.info(f"✅ Đã tạo sileo.json tại: {json_output_path}")
-    logger.info(f"   📊 Tổng {len(sileo_data)} tweaks, mỗi có description + changelog history")
-    logger.info(f"   📂 Dữ liệu đọc từ: {config.TWEAK_DESC_DIR}/<TweakName>/v*.txt")
 
+    logger.info(f"✅ sileo.json: {len(sileo_data)} tweaks → {json_output_path}")
     return processed_tweaks_titles
