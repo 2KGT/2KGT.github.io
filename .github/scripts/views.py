@@ -1515,7 +1515,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 <span id="versionPickerLabel">Version</span>
             </button>
             <button class="action-btn-icon" onclick="copySelected()" title="Sao chép link">📋</button>
-            <button class="action-btn" id="downloadBtn" onclick="downloadSelected()">⬇️ Tải xuống</button>
+            <button class="action-btn" id="downloadBtn" onclick="downloadSelected()">Tải xuống</button>
         </div>
     </div>
 </div>
@@ -1549,6 +1549,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             "download_start": "⏳ Đang tải...",
             "download_success": "✅ Đang tải xuống...",
             "download_fallback": "⚠️ Đang mở link tải (chế độ dự phòng)",
+            "download_confirm": "Tải xuống",
+            "no_changelog": "Phiên bản này chưa có thông tin cập nhật",
             "copy_success": "✅ Đã sao chép link!",
             "copy_error": "❌ Sao chép thất bại",
             "settings": "⚙️ Cài đặt (sẽ cập nhật sau)"
@@ -1566,6 +1568,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             "download_start": "⏳ Downloading...",
             "download_success": "✅ Downloading...",
             "download_fallback": "⚠️ Opening link (fallback mode)",
+            "download_confirm": "Download",
+            "no_changelog": "No update information for this version",
             "copy_success": "✅ Link copied!",
             "copy_error": "❌ Copy failed",
             "settings": "⚙️ Settings (coming soon)"
@@ -1679,11 +1683,11 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
         document.getElementById('settingsTitle').textContent = isVi ? '⚙️ Cài đặt' : '⚙️ Settings';
         document.getElementById('settingsLangTitle').textContent = isVi ? 'Ngôn ngữ' : 'Language';
-        document.getElementById('settingsLangSub').textContent = isVi ? 'Tiếng Việt (nhấn để đổi sang English)' : 'English (tap to switch to Vietnamese)';
+        document.getElementById('settingsLangSub').textContent = isVi ? 'Tiếng Việt' : 'English';
         document.getElementById('settingsThemeTitle').textContent = isVi ? 'Chủ đề' : 'Theme';
         document.getElementById('settingsThemeSub').textContent = isVi
-            ? (isDark ? 'Tối (nhấn để chuyển sang Sáng)' : 'Sáng (nhấn để chuyển sang Tối)')
-            : (isDark ? 'Dark (tap to switch to Light)' : 'Light (tap to switch to Dark)');
+            ? (isDark ? 'Tối' : 'Sáng')
+            : (isDark ? 'Dark' : 'Light');
         document.getElementById('settingsChatTitle').textContent = isVi ? 'Nhắn tin' : 'Message us';
         document.getElementById('settingsChatSub').textContent = isVi ? 'Tham gia kênh Telegram' : 'Join our Telegram channel';
         document.getElementById('settingsDonateTitle').textContent = 'Donate';
@@ -2253,7 +2257,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
     function openConfirmDownload(group, version, btnEl) {{
         const label = 'v' + version.version + ' - ' + getCategory(group, version);
-        document.getElementById('confirmTitle').textContent = 'Tải xuống';
+        document.getElementById('confirmTitle').textContent = t('download_confirm');
         document.getElementById('confirmMessage').textContent =
             group.name + ' — ' + label + (version.size ? ' (' + formatSize(version.size) + ')' : '');
 
@@ -2343,7 +2347,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
         const modalChangelog = document.getElementById('modalChangelog');
         if (modalChangelog) {{
-            modalChangelog.textContent = v.note || 'Phiên bản này chưa có thông tin cập nhật';
+            modalChangelog.textContent = v.note || t('no_changelog');
         }}
     }}
 
