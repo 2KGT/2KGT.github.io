@@ -171,61 +171,35 @@ def _extract_deb_filename(dict_key):
 
 def find_matching_deb_data(f_name, system_db):
     """
-    🔑 CHÌA KHÓA ĐỐI CHIẾU (đơn giản hoá): tên tệp .dylib và tên tệp
-    .deb tương ứng về cơ bản GIỐNG HOÀN TOÀN, chỉ khác phần đuôi mở
-    rộng. Ví dụ:
+    🔑 CHÌA KHÓA ĐỐI CHIẾU: tên tệp .dylib và tên tệp .deb tương ứng về cơ
+    bản GIỐNG HOÀN TOÀN, chỉ khác phần đuôi mở rộng. Ví dụ:
         com.kyic.glow_1.3.1_iphoneos-arm.deb
         com.kyic.glow_1.3.1_iphoneos-arm.dylib
     => Chỉ cần so khớp toàn bộ tên tệp (bỏ đuôi, đã chuẩn hoá) là đủ
-    xác định chính xác gói .deb tương ứng — không cần suy luận
-    id/version/arch riêng lẻ như trước.
+    xác định chính xác gói .deb tương ứng.
 
-    Nếu không tìm thấy khớp tuyệt đối (vd dylib bị đổi tên thủ công),
-    rơi xuống thuật toán dò theo Package/Name cũ làm phương án dự phòng.
+    FIX (bỏ fallback fuzzy match): trước đây nếu không khớp tuyệt đối tên
+    tệp, hàm rơi xuống _fallback_fuzzy_match_deb() — so khớp lỏng theo
+    "đoạn cuối cùng" của Package ID hoặc Name. Điều kiện này quá lỏng:
+    một dylib tên ngắn/generic (vd "mod", "lead") có thể trùng tình cờ với
+    đoạn cuối Package/Name của MỘT TWEAK KHÔNG LIÊN QUAN, khiến dylib bị
+    gán nhầm toàn bộ Description/Author/Icon của tweak đó. Vì description
+    sai này còn bị ghi cứng vào file v{version}.txt (xem vòng lặp chính),
+    lỗi tồn tại vĩnh viễn qua các lần chạy sau, dù chạy lại nhiều lần.
+    -> Bỏ hẳn fuzzy match. Nếu không khớp tuyệt đối tên tệp, trả về None
+    (không có deb_match) — dylib sẽ dùng mô tả mặc định an toàn, chấp
+    nhận giảm tỷ lệ khớp được để loại bỏ rủi ro gán nhầm dữ liệu.
     """
     dylib_base = clean_string_for_match(f_name.rsplit('.', 1)[0])
     tweaks_dict = system_db.get("tweaks", {})
 
-    # 1) Khớp CHÍNH: toàn bộ tên tệp (chỉ khác đuôi .deb/.dylib)
     for key, deb_info in tweaks_dict.items():
         deb_filename = _extract_deb_filename(key)
         deb_base = clean_string_for_match(os.path.splitext(deb_filename)[0])
         if deb_base and deb_base == dylib_base:
             return deb_info
 
-    # 2) Dự phòng: thuật toán cũ — khớp theo Package ID / tên rút gọn
-    return _fallback_fuzzy_match_deb(f_name, tweaks_dict)
-
-
-def _fallback_fuzzy_match_deb(f_name, tweaks_dict):
-    """Phương án dự phòng khi không khớp được nguyên tên tệp."""
-    id_or_name, dylib_ver, dylib_arch = parse_dylib_filename(f_name)
-
-    clean_dylib_id = clean_string_for_match(id_or_name)
-    clean_dylib_base = clean_string_for_match(id_or_name.split('.')[-1])
-
-    best_match = None
-    for key, deb_info in tweaks_dict.items():
-        deb_pkg = deb_info.get("Package", "")
-        deb_name = deb_info.get("Name", "")
-        deb_ver = deb_info.get("Version", "")
-        deb_arch = deb_info.get("Architecture", "")
-
-        clean_deb_pkg = clean_string_for_match(deb_pkg)
-        clean_deb_pkg_base = clean_string_for_match(deb_pkg.split('.')[-1])
-        clean_deb_name = clean_string_for_match(deb_name)
-
-        if (clean_dylib_id == clean_deb_pkg or
-                clean_dylib_base in [clean_deb_pkg_base, clean_deb_name]):
-
-            if dylib_ver == deb_ver and dylib_arch == deb_arch:
-                return deb_info
-            if dylib_ver == deb_ver:
-                best_match = deb_info
-            elif not best_match:
-                best_match = deb_info
-
-    return best_match
+    return None
 
 
 def get_dylib_assets(dylib_name, deb_match):
@@ -459,23 +433,35 @@ def run_dylib_engine(release_assets, system_db):
         )
         author = deb_match.get("Author", "Kyic Store") if deb_match else "Kyic Store"
         section = deb_match.get("Section", "Tweaks") if deb_match else "Tweaks"
-        raw_description = deb_match.get("Description") if deb_match else None
-        if not raw_description:
-            raw_description = "Tinh chỉnh cấu trúc dylib." if deb_match else "Tinh chỉnh dylib độc lập (Không có gói DEB đối chiếu)."
+        # FIX: Tách rõ "có Description thật từ deb_match" và "chuỗi mặc
+        # định generic" — chỉ chuỗi THẬT mới đáng được ghi cứng vào
+        # v{version}.txt làm cache lâu dài. Trước đây raw_description bị
+        # gán chung 1 biến cho cả 2 trường hợp, nên điều kiện ghi file
+        # (len > 10) vô tình cũng ghi luôn câu mặc định generic vào .txt,
+        # khiến nó "đóng băng" vĩnh viễn dù deb_match=None (không có dữ
+        # liệu thật để tham khảo).
+        real_description = deb_match.get("Description") if deb_match else None
+        raw_description = real_description or (
+            "Tinh chỉnh cấu trúc dylib." if deb_match else
+            "Tinh chỉnh dylib độc lập (Không có gói DEB đối chiếu)."
+        )
 
         logger.info(f"-> Đang quét Dylib: {dylib_name} [{architecture}/v{version}]")
         processed_dylibs_titles.append(dylib_name)
 
-        # 2. FIX MỚI: Lưu changelog v{version}.txt riêng cho dylib — ưu
-        # tiên Description từ deb_match làm nội dung (nếu chưa có file
-        # sẵn từ trước), giống cơ chế release_note của sileo_engine.
+        # 2. FIX MỚI: Lưu changelog v{version}.txt riêng cho dylib — CHỈ ghi
+        # khi có Description THẬT từ deb_match (khớp tuyệt đối tên tệp),
+        # không ghi chuỗi mặc định generic — để lần chạy sau, nếu deb_match
+        # khớp được (vd người dùng bổ sung đúng .deb tương ứng), hệ thống
+        # vẫn có thể tự cập nhật mô tả đúng thay vì bị kẹt với câu mặc định
+        # cũ đã ghi cứng từ trước.
         dylib_desc_dir = os.path.join(config.DYLIB_DESC_DIR, dylib_name)
         version_file = os.path.join(dylib_desc_dir, f"v{version}.txt")
-        if raw_description and len(str(raw_description).strip()) > 10 and not os.path.exists(version_file):
+        if real_description and len(str(real_description).strip()) > 10 and not os.path.exists(version_file):
             os.makedirs(dylib_desc_dir, exist_ok=True)
             try:
                 with open(version_file, 'w', encoding='utf-8') as f:
-                    f.write(str(raw_description).strip())
+                    f.write(str(real_description).strip())
                 logger.info(f"💾 Lưu changelog dylib: {version_file}")
             except Exception as e:
                 logger.warning(f"⚠️ Không lưu changelog cho dylib {dylib_name} v{version}: {e}")
