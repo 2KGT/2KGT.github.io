@@ -160,13 +160,14 @@ def generate_update_summary(processed_apps, processed_tweaks, stats_data=None):
         inv = {"json": 0, "png": 0, "jpg": 0, "jpeg": 0, "gif": 0, "svg": 0, "webp": 0, "ipa": 0, "deb": 0, "dylib": 0, "so": 0}
     
     total_img = sum([inv.get(x, 0) for x in ['png', 'jpg', 'jpeg', 'gif', 'svg', 'webp']])
+    total_yml = inv.get('yml', 0) + inv.get('yaml', 0)  # ✅ Tính tổng YML + YAML
     total_pkg = sum([inv.get(x, 0) for x in ['ipa', 'deb', 'dylib', 'so']])
     
     pkg_detail = f"DEB:{inv.get('deb', 0)} IPA:{inv.get('ipa', 0)}"
     if inv.get('dylib', 0) > 0:
         pkg_detail += f" DYLIB:{inv.get('dylib', 0)}"
     
-    structure_str = f"IMG:{total_img} • JSON:{inv.get('json', 0)} • PKG:{total_pkg}({pkg_detail})"
+    structure_str = f"IMG:{total_img} • JSON:{inv.get('json', 0)} • YML:{total_yml} • PKG:{total_pkg}({pkg_detail})"
 
     event_type = "Hành động thủ công (Chỉ huy)" if is_manual else "Hệ thống tự động (Giám sát)"
     prompt = f"""
