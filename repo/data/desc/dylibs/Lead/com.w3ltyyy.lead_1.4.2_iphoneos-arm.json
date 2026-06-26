@@ -1,0 +1,22 @@
+{
+  "name": "Lead",
+  "bundle": "com.w3ltyyy.lead",
+  "version": "1.4.2",
+  "architecture": "iphoneos-arm",
+  "author": "w3ltyyy",
+  "description": "Lead dylib •Đã thêmKhả năng tạo giá trị tùy chỉnh cho số sao (trực quan) •Đã sửaNút thoại bị chồng lên nút hình tròn trong Swiftgram. •Đã sửa: hiện tượng giật lag khi khởi chạy ứng dụng •Đã sửaCác vạch sóng nhỏ và đồng đều. •Đã sửa: Chức năng Ghost Exceptions hiện đã hiển thị chính xác tên/tên người dùng.",
+  "changelog": "### v1.4.3\nLead\n\nUpdate: v1.4.3\n• Đã sửa:Một biểu tượng \"đã chỉnh sửa\" giả mạo xuất hiện trên các biểu tượng cảm xúc và tin nhắn thông thường.\n• Đã sửa:Chức năng chống thu hồi không hoạt động trong các nhóm và kênh.\n• Đã sửa:Biểu tượng phương tiện dùng một lần đã biến mất sau khi thoát và vào lại cuộc trò chuyện.\n• Đã cập nhậtCác hook dành cho phiên bản Telegram mới nhất\n\n### v1.4.2 (hiện tại)\nLead dylib\n\n•Đã thêmKhả năng tạo giá trị tùy chỉnh cho số sao (trực quan)\n•Đã sửaNút thoại bị chồng lên nút hình tròn trong Swiftgram.\n•Đã sửa: hiện tượng giật lag khi khởi chạy ứng dụng\n•Đã sửaCác vạch sóng nhỏ và đồng đều.\n•Đã sửa: Chức năng Ghost Exceptions hiện đã hiển thị chính xác tên/tên người dùng.\n\n### v1.3.3\nLead dylib\n\nĐã khắc phục: Không thể chuyển tiếp tin nhắn",
+  "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
+  "banner": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_banner.webp",
+  "video": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_video.mp4",
+  "screenshots": [
+    "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Lead/Lead_1.jpg"
+  ],
+  "size": 25669104,
+  "md5": "d5fadccf988030b2d403485462281fe0",
+  "sha1": "5fefbb969d9d6e362952c6ffd65e4d2be5011bb6",
+  "sha256": "906dda50964963d882bfe297f5bdad253b20d86876b93ba8443f028ba2fdab1c",
+  "downloadURL": "https://github.com/2KGT/2KGT.github.io/releases/download/v1.4.2/com.w3ltyyy.lead_1.4.2_iphoneos-arm.dylib",
+  "versionDate": "2026-06-19T03:57:53Z",
+  "generated_at": "2026-06-26T06:45:47Z"
+}

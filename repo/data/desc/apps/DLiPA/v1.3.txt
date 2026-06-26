@@ -1,0 +1,10 @@
+DLiPA 1.3 ứng dụng hạ cấp
+
+Thêm sinicization vào kênh
+ủng hộ Cài đặt chứng chỉ
+Tiêm 120hz trơn tru hơn
+Hỗ trợ iOS 13 trở lên1.3
+Sự cố đăng nhập đã được giải quyết
+• Lỗi "Đã xảy ra lỗi không xác định" khi tải xuống một số ứng dụng phổ biến (bao gồm Google, Microsoft, v.v.) đã được khắc phục.
+• Đã khắc phục sự cố khiến ứng dụng bị sập khi tìm kiếm sau khi thiết lập giới hạn tìm kiếm.
+• Đã sửa lỗi dữ liệu đã tải xuống không tự động bị xóa khi chọn "Xóa tài khoản và tệp".[DLiPA](https://github.com/AhmedBafkir/DLiPA)

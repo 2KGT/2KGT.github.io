@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#0a1428">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Kyic Repository</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        :root {
+            --radius-panel:  26px;
+            --radius-card:   16px;
+            --radius-btn:    12px;
+            --radius-pill:   999px;
+            --radius-circle: 50%;
+        }
+
+        html {
+            --bg-1: #0a1428;
+            --bg-2: #1e3a8a;
+            --text: white;
+            --text-secondary: rgba(255,255,255,0.6);
+            --card-bg: rgba(255,255,255,0.08);
+            --card-border: rgba(255,255,255,0.16);
+            --card-shadow: rgba(31,38,135,0.37);
+            --hover-bg: rgba(255,255,255,0.12);
+            --btn-inactive: rgba(255,255,255,0.07);
+            --btn-inactive-border: rgba(255,255,255,0.13);
+            --btn-inactive-text: rgba(255,255,255,0.45);
+            font-size: clamp(14px, 2vw, 16px);
+        }
+
+        html[data-theme="light"] {
+            --bg-1: #f0f4ff;
+            --bg-2: #dce6f5;
+            --text: #1d1d1f;
+            --text-secondary: rgba(0,0,0,0.55);
+            --card-bg: rgba(255,255,255,0.72);
+            --card-border: rgba(0,0,0,0.10);
+            --card-shadow: rgba(0,0,0,0.08);
+            --hover-bg: rgba(0,0,0,0.06);
+            --btn-inactive: rgba(0,0,0,0.05);
+            --btn-inactive-border: rgba(0,0,0,0.10);
+            --btn-inactive-text: rgba(0,0,0,0.45);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--bg-1), var(--bg-2));
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            transition: background 0.4s, color 0.4s;
+        }
+
+        .container {
+            text-align: center;
+            padding: clamp(48px, 14vh, 84px) clamp(16px, 5vw, 20px) clamp(36px, 10vh, 60px);
+            position: relative;
+            z-index: 2;
+            max-width: clamp(320px, 90vw, 480px);
+            margin: 0 auto;
+        }
+
+        .logo {
+            width: clamp(80px, 22vw, 120px);
+            height: clamp(80px, 22vw, 120px);
+            border-radius: var(--radius-card);
+            margin-bottom: clamp(18px, 4vh, 28px);
+            box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+        }
+
+        h1 {
+            font-size: clamp(1.8em, 6vw, 2.6em);
+            margin-bottom: clamp(6px, 1.5vh, 10px);
+            font-weight: 700;
+            background: linear-gradient(135deg, #ff6b6b, #ffa94d, #74b9ff, #a29bfe, #fd79a8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: clamp(0.9em, 2.8vw, 1.1em);
+            color: var(--text-secondary);
+            margin-bottom: clamp(28px, 7vh, 42px);
+            line-height: 1.5;
+        }
+
+        .tabs-container {
+            background: var(--card-bg);
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border-radius: var(--radius-panel);
+            padding: 8px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 8px 32px var(--card-shadow);
+            margin-bottom: clamp(24px, 6vh, 36px);
+        }
+
+        .tabs-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+
+        .tab-btn {
+            background: var(--btn-inactive);
+            border: 1px solid var(--btn-inactive-border);
+            color: var(--btn-inactive-text);
+            padding: 10px 6px;
+            border-radius: var(--radius-btn);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.88em;
+            transition: all 0.25s;
+        }
+
+        .tab-btn.active {
+            background: rgba(100,180,255,0.18);
+            border-color: rgba(100,180,255,0.7);
+            color: var(--text);
+        }
+
+        html[data-theme="light"] .tab-btn.active {
+            background: rgba(59,130,246,0.12);
+            border-color: rgba(59,130,246,0.5);
+            color: #1d4ed8;
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.25s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+        .tab-item {
+            background: var(--hover-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-btn);
+            padding: 13px 14px;
+            margin-bottom: 6px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .tab-item:last-child { margin-bottom: 0; }
+
+        .tab-item:active {
+            transform: scale(0.98);
+            filter: brightness(0.92);
+        }
+
+        .tab-item h3 {
+            font-size: 0.95em;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .tab-item p {
+            font-size: 0.75em;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .tab-item-icon {
+            font-size: 1.2em;
+            flex-shrink: 0;
+            margin-left: 10px;
+        }
+
+        .info {
+            margin-top: 8px;
+            color: var(--text-secondary);
+            font-size: 0.85em;
+            line-height: 1.8;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: max(16px, env(safe-area-inset-top, 16px));
+            right: 16px;
+            z-index: 100;
+            cursor: pointer;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-circle);
+            width: 36px; height: 36px;
+            font-size: 1.1em;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .theme-toggle:active { transform: scale(0.92); }
+
+        .particle { position: fixed; pointer-events: none; z-index: 1; animation: fall linear infinite; }
+        @keyframes fall { to { transform: translateY(120vh) rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+<button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙</button>
+
+<div class="container">
+    <img class="logo" src="https://2kgt.github.io/repo/data/icons/Kyic-hello.png" alt="Kyic">
+    <h1>Kyic Repository</h1>
+    <p class="subtitle">Kho lưu trữ tổng hợp</p>
+
+    <div class="tabs-container">
+        <div class="tabs-header">
+            <button class="tab-btn active" onclick="switchTab(event,'ipa')">📱 IPA</button>
+            <button class="tab-btn" onclick="switchTab(event,'deb')">🔧 DEB</button>
+            <button class="tab-btn" onclick="switchTab(event,'dylib')">📚 DYLIB</button>
+        </div>
+
+        <div id="ipa" class="tab-content active">
+            <div class="tab-item" onclick="copyText('https://2kgt.github.io/repo/apps.json')">
+                <div><h3>Add to Feather</h3><p>Sao chép source link</p></div>
+                <span class="tab-item-icon">📋</span>
+            </div>
+            <div class="tab-item" onclick="openApp('feather')">
+                <div><h3>Open in Feather</h3><p>Mở ứng dụng</p></div>
+                <span class="tab-item-icon">🚀</span>
+            </div>
+            <div class="tab-item" onclick="navigate('./repo/apps.html')">
+                <div><h3>View All Apps</h3><p>Danh sách đầy đủ</p></div>
+                <span class="tab-item-icon">→</span>
+            </div>
+        </div>
+
+        <div id="deb" class="tab-content">
+            <div class="tab-item" onclick="copyText('https://2kgt.github.io/repo/')">
+                <div><h3>Add to Sileo</h3><p>Sao chép source link</p></div>
+                <span class="tab-item-icon">📋</span>
+            </div>
+            <div class="tab-item" onclick="openApp('sileo')">
+                <div><h3>Open in Sileo</h3><p>Mở ứng dụng</p></div>
+                <span class="tab-item-icon">🚀</span>
+            </div>
+            <div class="tab-item" onclick="navigate('./repo/tweaks.html')">
+                <div><h3>View All Tweaks</h3><p>Danh sách đầy đủ</p></div>
+                <span class="tab-item-icon">→</span>
+            </div>
+        </div>
+
+        <div id="dylib" class="tab-content">
+            <div class="tab-item" onclick="copyText('https://2kgt.github.io/repo/dylibs.json')">
+                <div><h3>Add to Developer</h3><p>Sao chép source link</p></div>
+                <span class="tab-item-icon">📋</span>
+            </div>
+            <div class="tab-item" onclick="openApp('developer')">
+                <div><h3>Open in Developer</h3><p>Mở ứng dụng</p></div>
+                <span class="tab-item-icon">🚀</span>
+            </div>
+            <div class="tab-item" onclick="navigate('./repo/dylibs.html')">
+                <div><h3>View All Dylibs</h3><p>Danh sách đầy đủ</p></div>
+                <span class="tab-item-icon">→</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="info">
+        <p><b>──⋆⋅☆⋅⋆જ⁀➴ₖ🦎ᵢ꜀︵✰⋆⋅☆⋅⋆──</b></p>
+        <p>Made with ❤️ by <b>Kyic</b></p>
+    </div>
+</div>
+
+<script>
+    const emojis = ['🍂','❄️','🌿','✨','☀️','🌸','🦎','💧','⚡️'];
+    function createParticle() {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        p.style.cssText = `left:${Math.random()*100}vw;top:-30px;animation-duration:${Math.random()*12+8}s`;
+        document.body.appendChild(p);
+        setTimeout(() => p.remove(), 20000);
+    }
+    setInterval(createParticle, 500);
+
+    function toggleTheme() {
+        const h = document.documentElement;
+        const isLight = h.getAttribute('data-theme') === 'light';
+        h.setAttribute('data-theme', isLight ? '' : 'light');
+        document.getElementById('themeToggle').textContent = isLight ? '🌙' : '☀️';
+    }
+
+    function switchTab(e, id) {
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        e.currentTarget.classList.add('active');
+    }
+
+    function copyText(t) {
+        navigator.clipboard.writeText(t).then(() => alert('✅ Đã copy!'));
+    }
+
+    function navigate(u) { window.location.href = u; }
+
+    function openApp(t) {
+        const urls = {
+            feather:   'feather://add-source?url=https://2kgt.github.io/repo/apps.json',
+            sileo:     'sileo://source/https://2kgt.github.io/repo/',
+            developer: 'developer://add-source?url=https://2kgt.github.io/repo/dylibs.json'
+        };
+        window.location.href = urls[t];
+    }
+</script>
+</body>
+</html>
