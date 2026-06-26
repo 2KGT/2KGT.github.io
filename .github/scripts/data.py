@@ -142,12 +142,13 @@ def scan_repo_inventory(repo_path='.'):
         return inv
     
     for root, dirs, files in os.walk(repo_path):
-        # ✅ Cho phép .github/workflows để quét .yml, skip những folder khác không cần
-        dirs[:] = [d for d in dirs if d not in ('.git', 'node_modules', '__pycache__', 
-                                                   '.github_cache', '.github_releases')]
-        # Nếu đang trong .github nhưng không phải workflows, skip
-        if '.github' in root and 'workflows' not in root:
-            dirs[:] = []  # Không đi vào subfolder
+        # ✅ Skip không cần thiết, nhưng cho phép .github/workflows quét .yml
+        dirs[:] = [d for d in dirs if d not in ('.git', 'node_modules', '__pycache__')]
+        
+        # Nếu đang ở .github nhưng không phải .github/workflows, skip các subfolder khác
+        if root.endswith('.github') and not any(f.endswith('.yml') or f.endswith('.yaml') for f in files):
+            # Chỉ giữ lại 'workflows' folder, xóa các folder khác
+            dirs[:] = [d for d in dirs if d == 'workflows']
         for file in files:
             ext = os.path.splitext(file)[1].lower()
             if ext == '.json':
