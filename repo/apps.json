@@ -85,13 +85,13 @@
       "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/ESign.png",
       "tintColor": "848ef9",
       "version": "5.0.2",
-      "versionDate": "2026-07-01T00:05:48Z",
+      "versionDate": "2026-07-01T00:06:45Z",
       "size": 7473847,
       "downloadURL": "https://2kgt.github.io/repo/apps/ESign/ESign_5.0.2.ipa",
       "versions": [
         {
           "version": "5.0.2",
-          "date": "2026-07-01T00:05:48Z",
+          "date": "2026-07-01T00:06:45Z",
           "size": 7473847,
           "downloadURL": "https://2kgt.github.io/repo/apps/ESign/ESign_5.0.2.ipa",
           "localizedDescription": "Cập nhật phiên bản Premium v5.0.2 từ Kyic Store."
@@ -196,13 +196,13 @@
       "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/Feather.png",
       "tintColor": "848ef9",
       "version": "2.8.2",
-      "versionDate": "2026-07-01T00:05:48Z",
+      "versionDate": "2026-07-01T00:06:45Z",
       "size": 14210105,
       "downloadURL": "https://2kgt.github.io/repo/apps/Feather/Feather_2.8.2.ipa",
       "versions": [
         {
           "version": "2.8.2",
-          "date": "2026-07-01T00:05:48Z",
+          "date": "2026-07-01T00:06:45Z",
           "size": 14210105,
           "downloadURL": "https://2kgt.github.io/repo/apps/Feather/Feather_2.8.2.ipa",
           "localizedDescription": "Cập nhật phiên bản Premium v2.8.2 từ Kyic Store."
@@ -270,18 +270,25 @@
       }
     },
     {
-      "name": "LCSign",
+      "name": "LCSign-1",
       "bundleIdentifier": "com.huami.LoadController",
       "developerName": "Kyic Store",
       "subtitle": "Phiên bản Premium",
       "localizedDescription": "Được tổng hợp by Kyic Store.",
-      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/LCSign.png",
+      "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
       "tintColor": "848ef9",
-      "version": "1.1.6",
-      "versionDate": "2026-06-17T17:25:32Z",
-      "size": 37839083,
-      "downloadURL": "https://github.com/2KGT/2KGT.github.io/releases/download/v1.1.6/LCSign_1.1.6.ipa",
+      "version": "1.2",
+      "versionDate": "2026-07-01T00:05:26Z",
+      "size": 19343968,
+      "downloadURL": "https://github.com/2KGT/2KGT.github.io/releases/download/v1.2.1/LCSign-1.2-1.ipa",
       "versions": [
+        {
+          "version": "1.2",
+          "date": "2026-07-01T00:05:26Z",
+          "size": 19343968,
+          "downloadURL": "https://github.com/2KGT/2KGT.github.io/releases/download/v1.2.1/LCSign-1.2-1.ipa",
+          "localizedDescription": "LCSign\n\nBản cập nhật này:\r\nKhắc phục các sự cố đã biết\r\nTái cấu trúc toàn bộ giao diện người dùng của mã nguồn phần mềm (một bất ngờ thú vị).\r\nThêm trang cài đặt mới - Quản lý dung lượng lưu trữ (Phân tích tổng thể mức sử dụng)\r\nĐã thêm chức năng tự động thay thế cho các plugin cùng nguồn."
+        },
         {
           "version": "1.1.6",
           "date": "2026-06-17T17:25:32Z",
@@ -298,7 +305,7 @@
         },
         {
           "version": "1.0.7",
-          "date": "2026-07-01T00:05:48Z",
+          "date": "2026-07-01T00:06:45Z",
           "size": 14346028,
           "downloadURL": "https://2kgt.github.io/repo/apps/LCSign/LCSign_1.0.7.ipa",
           "localizedDescription": "Cập nhật phiên bản Premium v1.0.7 từ Kyic Store."
@@ -410,13 +417,13 @@
       "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
       "tintColor": "848ef9",
       "version": "0.8.1",
-      "versionDate": "2026-07-01T00:05:48Z",
+      "versionDate": "2026-07-01T00:06:45Z",
       "size": 7760218,
       "downloadURL": "https://2kgt.github.io/repo/apps/Pocket/Pocket_0.8.1_下载deb_0.8.1.ipa",
       "versions": [
         {
           "version": "0.8.1",
-          "date": "2026-07-01T00:05:48Z",
+          "date": "2026-07-01T00:06:45Z",
           "size": 7760218,
           "downloadURL": "https://2kgt.github.io/repo/apps/Pocket/Pocket_0.8.1_下载deb_0.8.1.ipa",
           "localizedDescription": "Cập nhật phiên bản Premium v0.8.1 từ Kyic Store."
@@ -775,13 +782,13 @@
       "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/全能签.png",
       "tintColor": "848ef9",
       "version": "26.0.5",
-      "versionDate": "2026-07-01T00:05:48Z",
+      "versionDate": "2026-07-01T00:06:45Z",
       "size": 5579478,
       "downloadURL": "https://2kgt.github.io/repo/apps/AllSign/全能签_26.0.5.ipa",
       "versions": [
         {
           "version": "26.0.5",
-          "date": "2026-07-01T00:05:48Z",
+          "date": "2026-07-01T00:06:45Z",
           "size": 5579478,
           "downloadURL": "https://2kgt.github.io/repo/apps/AllSign/全能签_26.0.5.ipa",
           "localizedDescription": "Cập nhật phiên bản Premium v26.0.5 từ Kyic Store."

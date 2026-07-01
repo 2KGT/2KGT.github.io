@@ -24,6 +24,7 @@
     "repo/data/desc/apps/Feather",
     "repo/data/desc/apps/Instagram",
     "repo/data/desc/apps/LCSign",
+    "repo/data/desc/apps/LCSign-1",
     "repo/data/desc/apps/MuteOTA",
     "repo/data/desc/apps/Phim4K",
     "repo/data/desc/apps/Pocket",
@@ -586,6 +587,9 @@
     "repo/data/desc/apps/ESign": [],
     "repo/data/desc/apps/Zebra": [
       "v1.1.28.txt"
+    ],
+    "repo/data/desc/apps/LCSign-1": [
+      "v1.2.txt"
     ],
     "repo/data/desc/apps/Phim4K": [
       "v2.2.2.txt",
