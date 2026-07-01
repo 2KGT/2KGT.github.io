@@ -1,7 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 01/07/2026 07:07:10 (Giờ Hà Nội)*
-
-📝 *Thay đổi thư mục so với lần quét trước: ✨ +1 thư mục mới* — xem chi tiết tại `docs/CHANGELOG.md`
+⏱️ *Cập nhật tự động lúc: 01/07/2026 07:12:52 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -99,7 +97,8 @@
     │   │   │   │   └── v433.0.0.txt
     │   │   │   ├── 📂 LCSign/
     │   │   │   │   ├── v1.1.6.txt
-    │   │   │   │   └── v1.1.txt
+    │   │   │   │   ├── v1.1.txt
+    │   │   │   │   └── v1.2.txt
     │   │   │   ├── 📂 LCSign-1/
     │   │   │   │   └── v1.2.txt
     │   │   │   ├── 📂 MuteOTA/
@@ -120,7 +119,8 @@
     │   │   │   │   ├── v1.4.6.txt
     │   │   │   │   ├── v1.4.7.txt
     │   │   │   │   ├── v1.4.8.txt
-    │   │   │   │   └── v1.4.9.txt
+    │   │   │   │   ├── v1.4.9.txt
+    │   │   │   │   └── v1.5.0.txt
     │   │   │   ├── 📂 UnKeySign/
     │   │   │   │   └── v1.1.8.txt
     │   │   │   ├── 📂 YouTube/

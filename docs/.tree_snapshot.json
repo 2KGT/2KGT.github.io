@@ -582,7 +582,8 @@
     "repo/data/desc/apps": [],
     "repo/data/desc/apps/LCSign": [
       "v1.1.6.txt",
-      "v1.1.txt"
+      "v1.1.txt",
+      "v1.2.txt"
     ],
     "repo/data/desc/apps/ESign": [],
     "repo/data/desc/apps/Zebra": [
@@ -619,7 +620,8 @@
       "v1.4.6.txt",
       "v1.4.7.txt",
       "v1.4.8.txt",
-      "v1.4.9.txt"
+      "v1.4.9.txt",
+      "v1.5.0.txt"
     ],
     "repo/data/desc/apps/Stay": [
       "v2.9.18.txt",

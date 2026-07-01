@@ -982,6 +982,62 @@
       },
       "minOS": "15.0",
       "buildVersion": "1"
+    },
+    "https://github.com/2KGT/2KGT.github.io/releases/download/v1.5.0/Turrit_1.5.0.ipa": {
+      "bid": "com.seastar.turrit",
+      "ver": "1.5.0",
+      "name": "Turrit",
+      "size": 109633305,
+      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/Turrit.jpg",
+      "banner": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Turrit/Turrit_banner.jpg",
+      "screenshots": [
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Turrit/Turrit_1.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Turrit/Turrit_2.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Turrit/Turrit_3.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Turrit/Turrit_4.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Turrit/Turrit_5.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Turrit/Turrit_6.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Turrit/Turrit_7.jpg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Turrit/Turrit_8.jpg"
+      ],
+      "desc": "Turrit is a messenger built to deliver a superior messaging experience while maintaining strong security and privacy standards. As an enhanced messaging platform based on the latest Telegram technology, Turrit combines familiar communication features with exclusive upgrades designed to give you more control, efficiency, and flexibility in everyday conversations.\n\nMore than just a messenger, Turrit offers a Plus experience — empowering users with premium tools, refined performance, and smarter message management across chats, groups, and channels.\n\nKey Features\n\nVideo Page\nDiscover a TikTok-style video feed tailored to your interests. Customise video content from your favourite channels and groups, all in one immersive viewing experience.\n\nPremium User Experience & Advanced Management\nEnjoy higher limits, enhanced chat organisation, and powerful tools designed for users who value control and productivity. From smarter chat folders to improved navigation, Turrit helps you manage conversations with ease.\n\nText, Voice & Video Communication\nStay connected through fast and reliable messaging, crystal-clear voice calls, and high-quality video calls — whether you’re chatting one-on-one or in groups.\n\nFast & Reliable File Transfers\nShare documents, photos, and videos effortlessly with accelerated transfer speeds or compressed quality options. Downloads now resume automatically if the app restarts or returns to the foreground, ensuring a smooth experience even on unstable networks.\n\nSmart Chat & Channel Tools\nGain deeper insights and better control over your communities. View approximate group and channel creation dates, jump to the first message, add chats to folders, select all outgoing messages, and even add notes to channels for better context.\n\nEfficient Storage & Media Management\nNew auto-clear cache limits (1GB and 2GB) help you manage storage intelligently, while batch media saving makes organising your files faster than ever.\nSeamlessly save images, videos, and files directly to PikPak cloud storage via the newly integrated PikPak entry, making cross-platform file management faster and more convenient.\n\nBuilt-in Translator\nCommunicate without language barriers using free, accurate translation across multiple languages — ideal for global conversations.\nEnhanced translation now supports Markdown formatting and richer content rendering, ensuring clearer and more structured message display, along with a free speech-to-text feature for effortless voice input.\n\nEnhanced Search & Navigation\nFind messages faster with Search Assistance, circular scrolling in chat folders, a dedicated Recent Chats folder, and clearer chat lists that now display group sender usernames.\n\nCustomisation & Interface Improvements\nChoose from additional app icons, enjoy a refined text editor positioned below the message input field, and enable the improved call screen for a more intuitive calling experience.\n\nQuick Friend Connections\nAdd friends instantly using QR code scanning, making social connections faster and more convenient.\n\nPerformance & Stability\n\nTurrit is built on the latest Telegram codebase, delivering improved stability, smoother performance, and a more reliable messaging experience across all use cases.\n\nExperience messaging without limits. Stay securely connected with powerful features designed to keep conversations organised, fast, and enjoyable.\n\nIf you have any questions, please contact our support team at support@seastar.im\n\nPrivacy Policy: https://www.iturrit.com/privacy\n\nOfficial Website: https://iturrit.com/",
+      "permissions": {
+        "Máy ảnh": "We need this so that you can take and share photos and videos.",
+        "Micro": "We need this so that you can record and share voice messages and videos with sound.",
+        "Thư viện ảnh": "We need this so that you can share photos and videos from your photo library.",
+        "Ghi vào Thư viện ảnh": "We need this so that you can share photos and videos from your photo library.",
+        "Vị trí khi dùng ứng dụng": "When you send your location to your friends, Turrit needs access to show them a map.",
+        "Vị trí mọi lúc": "When you choose to share your Live Location with friends in a chat, Turrit needs background access to your location to keep them updated for the duration of the live sharing.",
+        "Vị trí chạy ngầm": "When you send your location to your friends, Turrit needs access to show them a map. You also need this to send locations from an Apple Watch.",
+        "Danh bạ": "Turrit uses your contacts to help you find friends who are already using the app. Contact data is processed on-device and is not uploaded to our servers.",
+        "Face ID / Touch ID": "You can use Face ID to unlock the app."
+      },
+      "minOS": "10.0",
+      "buildVersion": "10312"
+    },
+    "https://github.com/2KGT/2KGT.github.io/releases/download/v1.2.1/LCSign_1.2-1.ipa": {
+      "bid": "com.huami.LoadController",
+      "ver": "1.2",
+      "name": "LCSign",
+      "size": 19343968,
+      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/LCSign.png",
+      "banner": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_banner.webp",
+      "screenshots": [
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_1.jpeg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_2.jpeg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_3.jpeg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_4.jpeg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_5.jpeg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_6.jpeg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_7.jpeg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_8.jpeg"
+      ],
+      "desc": "Ứng dụng LCSign từ Kyic Store.",
+      "permissions": {
+        "Thư viện ảnh": "选择图片并裁切后用作应用图标。"
+      },
+      "minOS": "15.0",
+      "buildVersion": "1"
     }
   }
 }
