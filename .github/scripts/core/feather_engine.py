@@ -43,7 +43,7 @@ def get_optimized_description(clean_name, version, release_note=None):
         with open(default_file, 'r', encoding='utf-8') as f:
             return f.read().strip()
 
-    return f"Cập nhật phiên bản Premium v{version} từ Kyic Store."
+    return f"Cập nhật phiên bản Premium v{version} từ Kyic storage."
 
 
 def extract_ipa_permissions_and_data(path):
@@ -326,7 +326,7 @@ def run_feather_engine(release_assets, feather_db):
             if not screens:
                 screens = utils.get_default_screens()
 
-            desc = (info['desc'] if info else None) or f"Ứng dụng {clean_name} từ Kyic Store."
+            desc = (info['desc'] if info else None) or f"Ứng dụng {clean_name} từ Kyic storage."
 
             feather_db["apps"][f_url] = {
                 "bid": str(bid), "ver": str(ver), "name": clean_name,
@@ -369,7 +369,7 @@ def run_feather_engine(release_assets, feather_db):
         app_item = {
             "name": str(latest['name']),
             "bundleIdentifier": str(bid),
-            "developerName": "Kyic Store",
+            "developerName": "Kyic storage",
             "subtitle": "Phiên bản Premium",
             "localizedDescription": utils.smart_truncate_description(data['desc']),
             "iconURL": utils.clean_github_url(data['icon']),
@@ -403,7 +403,7 @@ def run_feather_engine(release_assets, feather_db):
         {
             "title": "Donate",
             "identifier": "feather-donate",
-            "caption": "Ủng hộ Kyic Store!",
+            "caption": "Ủng hộ Kyic storage!",
             "date": today,
             "imageURL": utils.clean_github_url(config.NEWS_DONATE_IMAGE),
             "url": "https://www.paypal.me/225668",
