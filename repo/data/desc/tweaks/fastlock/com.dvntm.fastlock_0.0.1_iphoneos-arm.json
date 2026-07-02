@@ -97,7 +97,7 @@
         {
           "class": "DepictionMarkdownView",
           "useSpacing": true,
-          "markdown": "### v0.0.1\nCập nhật phiên bản v0.0.1 từ Kyic Store."
+          "markdown": "### v0.0.1\nCập nhật phiên bản v0.0.1 từ Kyic storage."
         }
       ]
     },
