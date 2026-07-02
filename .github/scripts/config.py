@@ -238,7 +238,7 @@ def get_optimized_tweak_description(tweak_name, version):
         except Exception:
             pass
 
-    return f"Cập nhật phiên bản Tweak v{version} từ Kyic Store."
+    return f"Cập nhật phiên bản Tweak v{version} từ Kyic storage."
 
 
 def get_tweak_changelog_history(tweak_name, current_version, limit=10):
@@ -265,7 +265,7 @@ def get_tweak_changelog_history(tweak_name, current_version, limit=10):
     """
     tweak_desc_dir = os.path.join(TWEAK_DESC_DIR, tweak_name)
     if not os.path.exists(tweak_desc_dir):
-        return f"### v{current_version}\nCập nhật phiên bản v{current_version} từ Kyic Store."
+        return f"### v{current_version}\nCập nhật phiên bản v{current_version} từ Kyic storage."
 
     version_entries = []
     try:
@@ -286,7 +286,7 @@ def get_tweak_changelog_history(tweak_name, current_version, limit=10):
         sys_logger.error(f"⚠️ Lỗi quét changelog history cho {tweak_name}: {e}")
 
     if not version_entries:
-        return f"### v{current_version}\nCập nhật phiên bản v{current_version} từ Kyic Store."
+        return f"### v{current_version}\nCập nhật phiên bản v{current_version} từ Kyic storage."
 
     def _ver_tuple(v):
         try:
@@ -391,7 +391,7 @@ def get_optimized_dylib_description(dylib_name, version):
         except Exception:
             pass
 
-    return f"Cập nhật phiên bản Dylib v{version} từ Kyic Store."
+    return f"Cập nhật phiên bản Dylib v{version} từ Kyic storage."
 
 
 def get_dylib_changelog_history(dylib_name, current_version, limit=10):
@@ -402,7 +402,7 @@ def get_dylib_changelog_history(dylib_name, current_version, limit=10):
     """
     dylib_desc_dir = os.path.join(DYLIB_DESC_DIR, dylib_name)
     if not os.path.exists(dylib_desc_dir):
-        return f"### v{current_version}\nCập nhật phiên bản v{current_version} từ Kyic Store."
+        return f"### v{current_version}\nCập nhật phiên bản v{current_version} từ Kyic storage."
 
     version_entries = []
     try:
@@ -423,7 +423,7 @@ def get_dylib_changelog_history(dylib_name, current_version, limit=10):
         sys_logger.error(f"⚠️ Lỗi quét changelog history cho {dylib_name}: {e}")
 
     if not version_entries:
-        return f"### v{current_version}\nCập nhật phiên bản v{current_version} từ Kyic Store."
+        return f"### v{current_version}\nCập nhật phiên bản v{current_version} từ Kyic storage."
 
     def _ver_tuple(v):
         try:
