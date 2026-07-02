@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 
 
 def main():
-    logger.info("🎬 Khởi chạy hệ thống tự động hóa Kyic Premium Store...")
+    logger.info("🎬 Khởi chạy hệ thống tự động hóa Kyic storage...")
 
     # 1. Nạp database
     feather_db, sileo_db, dylib_db = data.load_databases()
