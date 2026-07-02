@@ -431,7 +431,7 @@ def run_dylib_engine(release_assets, system_db):
         bundle      = (deb_match.get("Package") if deb_match else None) or (
             id_or_name if '.' in id_or_name else f"com.kyic.{id_or_name.lower()}"
         )
-        author      = (deb_match.get("Author")  if deb_match else None) or "Kyic Store"
+        author      = (deb_match.get("Author")  if deb_match else None) or "Kyic storage"
         section     = (deb_match.get("Section") if deb_match else None) or "Tweaks"
         permissions = utils.format_permissions(deb_match.get("Permissions", {})) if deb_match else {}
 
@@ -472,7 +472,7 @@ def run_dylib_engine(release_assets, system_db):
         #   Lưu v{ver}.txt → dùng cho từng entry trong versions[].
         product_description = (deb_match.get("Description") if deb_match else None) or \
             config.get_optimized_dylib_description(dylib_name, version) or \
-            f"Tinh chỉnh {dylib_name} từ Kyic Store."
+            f"Tinh chỉnh {dylib_name} từ Kyic storage."
 
         release_note = asset.get("body", "").strip()
         if release_note and len(release_note) > 10:
@@ -552,7 +552,7 @@ def run_dylib_engine(release_assets, system_db):
         bundle = deb_match.get("Package", id_or_name) if deb_match else (
             id_or_name if '.' in id_or_name else f"com.kyic.{id_or_name.lower()}"
         )
-        author = deb_match.get("Author", "Kyic Store") if deb_match else "Kyic Store"
+        author = deb_match.get("Author", "Kyic storage") if deb_match else "Kyic storage"
         section = deb_match.get("Section", "Tweaks") if deb_match else "Tweaks"
         # FIX: Tách rõ "mô tả sản phẩm" và "changelog phiên bản"
         # product_description: mô tả chính về sản phẩm — từ deb_match.Description
@@ -564,7 +564,7 @@ def run_dylib_engine(release_assets, system_db):
         real_description = deb_match.get("Description") if deb_match else None
         product_description = real_description or \
             config.get_optimized_dylib_description(dylib_name, version) or \
-            f"Tinh chỉnh {dylib_name} từ Kyic Store."
+            f"Tinh chỉnh {dylib_name} từ Kyic storage."
 
         # CHỈ lưu v{ver}.txt khi có Description THẬT từ deb_match và file
         # chưa tồn tại — không ghi chuỗi mặc định generic (tránh "đóng băng")
