@@ -59,8 +59,8 @@ def extract_deb_control_data(path):
     """Đọc control fields từ file .deb bằng dpkg-deb."""
     info = {
         "Package": "", "Name": "", "Version": "1.0",
-        "Description": "Một tweak tuyệt vời từ Kyic Store.",
-        "Author": "Kyic Store", "Section": "Tweaks", "Architecture": "iphoneos-arm"
+        "Description": "Một tweak tuyệt vời từ Kyic storage.",
+        "Author": "Kyic storage", "Section": "Tweaks", "Architecture": "iphoneos-arm"
     }
     f_name = os.path.basename(path)
     try:
@@ -406,8 +406,8 @@ def run_sileo_engine(release_assets, system_db):
             deb_info = {
                 "Package": f"com.kyic.{clean_string_for_match(raw_id)}",
                 "Name": raw_id, "Version": ver,
-                "Description": f"Tweak {raw_id} từ Kyic Store.",
-                "Author": "Kyic Store", "Section": "Tweaks", "Architecture": arch
+                "Description": f"Tweak {raw_id} từ Kyic storage.",
+                "Author": "Kyic storage", "Section": "Tweaks", "Architecture": arch
             }
 
         tweak_title = resolve_display_name(deb_info, raw_id)
