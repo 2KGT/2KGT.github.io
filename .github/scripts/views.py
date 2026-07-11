@@ -502,6 +502,11 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
         .item-action.loading {{ opacity: 0.6; pointer-events: none; }}
 
+        .item-action-buy {{
+            background: linear-gradient(135deg, #6be8a0, #4fd88a);
+            color: #0a1428;
+        }}
+
         /* ─────────────────────────── PAGINATION ─────────────────────────── */
         .pagination {{
             display: flex;
@@ -2004,6 +2009,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     let currentGroup = null;
     let selectedVersionIdx = 0;
     let versionManuallyPicked = false;
+    let priceMap = {{}}; // bundleIdentifier -> {{ price_usd, price_vnd }} — sản phẩm có bán
 
     const PAGE_SIZE = 15;
     let currentPage = 0;
@@ -2329,6 +2335,16 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         const html = pageItems.map((g, i) => {{
             const idx = groupedItems.indexOf(g);
             const latest = g.versions[0] || {{}};
+            const priceInfo = priceMap[g.bundle]; // có bán = có trong DB
+            let actionBtn;
+            if (priceInfo) {{
+                const priceLabel = priceInfo.price_usd ? '$' + priceInfo.price_usd
+                    : (priceInfo.price_vnd ? Number(priceInfo.price_vnd).toLocaleString('vi-VN') + '₫' : 'Mua');
+                actionBtn = `<button class="item-action item-action-buy" id="quickbtn-${{idx}}"
+                    onclick="event.stopPropagation(); addToCart('${{g.bundle}}', this)">${{priceLabel}}</button>`;
+            }} else {{
+                actionBtn = `<button class="item-action" id="quickbtn-${{idx}}" onclick="event.stopPropagation(); openVersionPopover(${{idx}}, this)">Nhận</button>`;
+            }}
             return `
                 <div class="item" style="--item-i:${{i}}" onclick="openModal(${{idx}})">
                     <img class="item-icon" src="${{g.icon}}" alt="${{g.name}}" loading="lazy" onerror="this.onerror=null;this.src='${{DEFAULT_ICON}}'">
@@ -2337,7 +2353,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                         <div class="item-id">${{g.bundle}}</div>
                         <div class="item-version">v${{latest.version || '1.0'}}${{g.versions.length > 1 ? ' · ' + g.versions.length + ' bản' : ''}}</div>
                     </div>
-                    <button class="item-action" id="quickbtn-${{idx}}" onclick="event.stopPropagation(); openVersionPopover(${{idx}}, this)">Nhận</button>
+                    ${{actionBtn}}
                 </div>
             `;
         }}).join('');
@@ -2346,6 +2362,32 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         window.scrollTo({{ top: document.querySelector('.container').offsetTop - 8, behavior: 'instant' }});
 
         renderPagination();
+    }}
+
+    // ────────────────────────────────────────────────────────
+    // THÊM VÀO GIỎ HÀNG (sản phẩm có bán) — quản lý chính ở dashboard.html
+    // ────────────────────────────────────────────────────────
+    async function addToCart(bundleId, btnEl) {{
+        const {{ data: {{ session }} }} = await _sb.auth.getSession();
+        if (!session) {{
+            if (confirm('Cần đăng nhập để mua hàng. Đăng nhập ngay?')) {{
+                window.location.href = './auth.html';
+            }}
+            return;
+        }}
+        const original = btnEl.textContent;
+        btnEl.textContent = '⏳...';
+        btnEl.style.pointerEvents = 'none';
+        const {{ error }} = await _sb.from('cart_items')
+            .upsert({{ user_id: session.user.id, product_id: bundleId }}, {{ onConflict: 'user_id,product_id' }});
+        btnEl.style.pointerEvents = '';
+        if (error) {{
+            btnEl.textContent = original;
+            alert('❌ Lỗi thêm giỏ hàng: ' + error.message);
+        }} else {{
+            btnEl.textContent = '✅ Đã thêm';
+            setTimeout(() => {{ btnEl.textContent = original; }}, 1800);
+        }}
     }}
 
     function renderPagination() {{
@@ -2848,10 +2890,16 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     // ════════════════════════════════════════════════════════════
     async function loadData() {{
         try {{
-            const res = await fetch('{json_path}');
+            const [res, dbResult] = await Promise.all([
+                fetch('{json_path}'),
+                _sb.from('products').select('id,price_usd,price_vnd').catch(() => ({{ data: [] }}))
+            ]);
             const data = await res.json();
             const items = data[DATA_KEY];
             rawItems = Array.isArray(items) ? items : Object.values(items || {{}});
+
+            priceMap = {{}};
+            (dbResult?.data || []).forEach(p => {{ priceMap[p.id] = p; }});
 
             groupedItems = groupByBundle(rawItems);
 
@@ -3514,8 +3562,8 @@ SHOP_HTML_TEMPLATE = """<!DOCTYPE html>
         <a href="./shop.html" style="color:#{tint};font-weight:700;text-decoration:none;flex-shrink:0;">Xem tất cả</a>
     </div>
 
-    <div class="section-title" id="productsSectionTitle" style="opacity:0.4">
-        🔒 Nhập/xác nhận UDID để chọn gói
+    <div class="section-title" id="productsSectionTitle">
+        Chọn gói cần mua
     </div>
     <div class="products" id="productList">
         <div style="text-align:center;color:#8e9ab5;padding:40px">⏳ Đang tải...</div>
@@ -3568,8 +3616,10 @@ SHOP_HTML_TEMPLATE = """<!DOCTYPE html>
         let pollingTimer = null;
 
         // Đọc ?type=ipa|deb|dylib từ URL (khi bấm "IPA/Tweak/Dylib Premium" ở index.html)
+        // Đọc ?product=<bundleId> từ URL (khi bấm "Mua" từ giỏ hàng ở dashboard.html)
         const urlParams = new URLSearchParams(window.location.search);
         const typeFilter = urlParams.get('type'); // 'ipa' | 'deb' | 'dylib' | null
+        const productFilter = urlParams.get('product'); // bundleIdentifier cụ thể | null
         const TYPE_LABEL_MAP = {{ ipa: 'IPA', deb: 'DEB', dylib: 'DYLIB' }};
 
         async function loadProducts() {{
@@ -3613,6 +3663,17 @@ SHOP_HTML_TEMPLATE = """<!DOCTYPE html>
                     const bannerText = document.getElementById('filterBannerText');
                     if (banner && bannerText) {{
                         bannerText.textContent = `🔎 Đang lọc: chỉ hiện sản phẩm ${{wantedLabel}}`;
+                        banner.style.display = 'flex';
+                    }}
+                }}
+
+                // Lọc theo 1 sản phẩm cụ thể (từ nút "Mua" ở giỏ hàng dashboard.html)
+                if (productFilter) {{
+                    displayProducts = allProducts.filter(p => p.bundleIdentifier === productFilter);
+                    const banner = document.getElementById('filterBanner');
+                    const bannerText = document.getElementById('filterBannerText');
+                    if (banner && bannerText) {{
+                        bannerText.textContent = `🛒 Mua từ giỏ hàng`;
                         banner.style.display = 'flex';
                     }}
                 }}
@@ -3879,14 +3940,12 @@ SHOP_HTML_TEMPLATE = """<!DOCTYPE html>
 
         function unlockProductSelection() {{
             const title = document.getElementById('productsSectionTitle');
-            title.style.opacity = '1';
             title.textContent = title.dataset.filterLabel || 'Chọn gói cần mua';
         }}
 
         function lockProductSelection() {{
-            const title = document.getElementById('productsSectionTitle');
-            title.style.opacity = '0.4';
-            title.textContent = '🔒 Nhập/xác nhận UDID để chọn gói';
+            // Không còn "khoá" UI nữa — sản phẩm luôn xem được tự do,
+            // UDID chỉ cần khi bấm "Mua" thật sự (xem selectProduct()).
         }}
 
         // ──────────────────────────────────────────────
@@ -3923,8 +3982,29 @@ SHOP_HTML_TEMPLATE = """<!DOCTYPE html>
             setTimeout(() => t.classList.remove('show'), 2500);
         }}
 
+        // ──────────────────────────────────────────────
+        // TỰ ĐỘNG ĐIỀN UDID ĐÃ LƯU (nếu đã đăng nhập + đã lưu trước đó ở Dashboard)
+        // ──────────────────────────────────────────────
+        async function loadSavedUdid() {{
+            const {{ data: {{ session }} }} = await sb.auth.getSession();
+            if (!session) return;
+            const {{ data: profile }} = await sb.from('profiles')
+                .select('saved_udid').eq('id', session.user.id).single();
+            if (profile?.saved_udid) {{
+                const input = document.getElementById('udidInput');
+                input.value = profile.saved_udid;
+                input.classList.add('filled');
+                collapseUdidCard(profile.saved_udid);
+                unlockProductSelection();
+                const status = document.getElementById('udidStatus');
+                status.className = 'udid-status ok';
+                status.textContent = '✅ Đã tự động điền UDID đã lưu từ tài khoản.';
+            }}
+        }}
+
         // Khởi tạo
         loadProducts();
+        loadSavedUdid();
 
         // Tiếp tục poll nếu có token còn sót trong sessionStorage (sau khi quay lại trang)
         const pendingToken = sessionStorage.getItem('udid_token');
@@ -4060,6 +4140,77 @@ DASHBOARD_HTML_TEMPLATE = """<!DOCTYPE html>
         }}
         .profile-row span:first-child {{ color: #8e9ab5; }}
 
+        /* UDID ĐÃ LƯU */
+        .udid-saved-card {{
+            background: #0f1e3d; border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px; padding: 16px; margin-bottom: 24px;
+        }}
+        .udid-saved-title {{ font-size: 13px; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }}
+        .udid-saved-row {{ display: flex; gap: 8px; }}
+        .udid-saved-input {{
+            flex: 1; min-width: 0; padding: 10px 12px; border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.05); color: #fff; font-size: 12px;
+            font-family: 'SF Mono', monospace;
+        }}
+        .udid-saved-input:focus {{ outline: none; border-color: #{tint}; }}
+        .udid-saved-btn {{
+            flex-shrink: 0; padding: 10px 14px; border: none; border-radius: 10px;
+            background: #{tint}; color: #fff; font-weight: 700; font-size: 12px; cursor: pointer;
+        }}
+        .udid-saved-btn:active {{ transform: scale(0.96); }}
+        .udid-saved-hint {{ font-size: 11px; color: #8e9ab5; margin-top: 8px; }}
+
+        /* KHO ỨNG DỤNG (tabs + list) */
+        .lib-tabs {{
+            display: flex; background: rgba(255,255,255,0.06);
+            border-radius: 14px; padding: 4px; margin-bottom: 14px;
+        }}
+        .lib-tab-btn {{
+            flex: 1; padding: 9px; border: none; background: transparent;
+            color: #8e9ab5; font-weight: 600; font-size: 12px;
+            border-radius: 10px; cursor: pointer; transition: 0.2s;
+        }}
+        .lib-tab-btn.active {{ background: #{tint}; color: #fff; }}
+        .lib-item {{
+            background: #0f1e3d; border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px; padding: 12px; margin-bottom: 10px;
+            display: flex; align-items: center; gap: 12px;
+        }}
+        .lib-item-icon {{ width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0; object-fit: cover; }}
+        .lib-item-info {{ flex: 1; min-width: 0; }}
+        .lib-item-name {{ font-size: 13px; font-weight: 700; margin-bottom: 2px; }}
+        .lib-item-dev {{ font-size: 11px; color: #8e9ab5; }}
+        .lib-item-badge {{
+            flex-shrink: 0; font-size: 10px; font-weight: 700; padding: 5px 10px;
+            border-radius: 20px; white-space: nowrap;
+        }}
+        .lib-badge-free {{ background: rgba(107,232,160,0.15); color: #6be8a0; }}
+        .lib-badge-owned {{ background: rgba(132,142,249,0.2); color: #{tint}; }}
+        .lib-badge-buy {{
+            background: rgba(255,255,255,0.08); color: #fff; cursor: pointer;
+            text-decoration: none; display: inline-block;
+        }}
+
+        /* GIỎ HÀNG */
+        .cart-item {{
+            background: #0f1e3d; border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px; padding: 12px; margin-bottom: 10px;
+            display: flex; align-items: center; gap: 12px;
+        }}
+        .cart-item-info {{ flex: 1; min-width: 0; }}
+        .cart-item-name {{ font-size: 13px; font-weight: 700; margin-bottom: 2px; }}
+        .cart-item-time {{ font-size: 10px; color: #8e9ab5; }}
+        .cart-item-actions {{ display: flex; gap: 6px; flex-shrink: 0; }}
+        .cart-buy-btn {{
+            padding: 8px 14px; border: none; border-radius: 10px;
+            background: #{tint}; color: #fff; font-weight: 700; font-size: 11px; cursor: pointer;
+        }}
+        .cart-remove-btn {{
+            padding: 8px 10px; border: none; border-radius: 10px;
+            background: rgba(255,80,80,0.15); color: #ff8080; font-size: 12px; cursor: pointer;
+        }}
+
         /* LICENSES */
         .section-title {{
             font-size: 13px; font-weight: 700; color: #8e9ab5;
@@ -4157,6 +4308,10 @@ DASHBOARD_HTML_TEMPLATE = """<!DOCTYPE html>
                 </div>
             </div>
             <div class="profile-row">
+                <span>Mã ID</span>
+                <span id="profileCode" style="font-family:monospace;color:#{tint};font-weight:700">—</span>
+            </div>
+            <div class="profile-row">
                 <span>Email</span>
                 <span id="profileEmail" style="font-family:monospace">—</span>
             </div>
@@ -4164,6 +4319,37 @@ DASHBOARD_HTML_TEMPLATE = """<!DOCTYPE html>
                 <span>Tham gia</span>
                 <span id="profileJoined">—</span>
             </div>
+            <div class="profile-row" id="deviceModelRow" style="display:none">
+                <span>Thiết bị</span>
+                <span id="profileDeviceModel">—</span>
+            </div>
+        </div>
+
+        <!-- UDID đã lưu -->
+        <div class="udid-saved-card">
+            <div class="udid-saved-title">🔑 UDID đã lưu</div>
+            <div class="udid-saved-row">
+                <input class="udid-saved-input" id="savedUdidInput" placeholder="Chưa lưu UDID nào..." oninput="onSavedUdidTyped()">
+                <button class="udid-saved-btn" onclick="saveUdid()">💾 Lưu</button>
+            </div>
+            <div class="udid-saved-hint">Lưu 1 lần, tự động điền khi mua sản phẩm ở Shop — không cần nhập lại.</div>
+        </div>
+
+        <!-- Giỏ hàng -->
+        <div class="section-title">🛒 Giỏ hàng</div>
+        <div id="cartList" style="margin-bottom:24px">
+            <div class="empty-state">⏳ Đang tải...</div>
+        </div>
+
+        <!-- Kho ứng dụng -->
+        <div class="section-title">📦 Kho ứng dụng</div>
+        <div class="lib-tabs">
+            <button class="lib-tab-btn active" id="libtab-apps" onclick="switchLibTab('apps')">📱 Apps</button>
+            <button class="lib-tab-btn" id="libtab-debs" onclick="switchLibTab('debs')">🔧 Debs</button>
+            <button class="lib-tab-btn" id="libtab-dylibs" onclick="switchLibTab('dylibs')">📚 Dylibs</button>
+        </div>
+        <div id="libList" style="margin-bottom:24px">
+            <div class="empty-state">⏳ Đang tải...</div>
         </div>
 
         <!-- Licenses -->
@@ -4182,6 +4368,14 @@ DASHBOARD_HTML_TEMPLATE = """<!DOCTYPE html>
         const SUPABASE_ANON_KEY = "{supabase_anon_key}";
         const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+        let ownedProductIds = new Set();
+        let currentLibTab = 'apps';
+        const LIB_SOURCES = {{
+            apps: {{ url: '{base_url}apps.json', label: 'IPA' }},
+            debs: {{ url: '{base_url}debs.json', label: 'DEB' }},
+            dylibs: {{ url: '{base_url}dylibs.json', label: 'DYLIB' }},
+        }};
+
         async function init() {{
             // Kiểm tra auth
             const {{ data: {{ session }} }} = await sb.auth.getSession();
@@ -4198,15 +4392,101 @@ DASHBOARD_HTML_TEMPLATE = """<!DOCTYPE html>
             document.getElementById('userName').textContent = profile?.display_name || user.user.email;
             document.getElementById('userEmail').textContent = user.user.email;
             document.getElementById('profileEmail').textContent = user.user.email;
+            document.getElementById('profileCode').textContent = profile?.customer_code || '—';
             document.getElementById('profileJoined').textContent =
                 new Date(user.user.created_at).toLocaleDateString('vi-VN');
             document.getElementById('avatar').textContent =
                 (profile?.display_name || user.user.email)[0].toUpperCase();
 
-            // Tải licenses
+            // Điền UDID đã lưu (nếu có) + tra model máy qua udid.help
+            if (profile?.saved_udid) {{
+                document.getElementById('savedUdidInput').value = profile.saved_udid;
+                lookupDeviceModel(profile.saved_udid);
+            }}
+
+            // Tải licenses (dùng lại cho phần "Đã sở hữu" trong Kho ứng dụng)
             const {{ data: licenses }} = await sb.from('licenses')
                 .select('*').eq('user_id', user.user.id).not('revoked', 'is', true);
+            ownedProductIds = new Set((licenses || []).map(l => l.product_id));
 
+            renderLicenseList(licenses || []);
+            loadLibrary(); // Tải Kho ứng dụng (cả 3 loại), mặc định tab 'apps'
+            loadCart();    // Tải Giỏ hàng
+        }}
+
+        // ──────────────────────────────────────────────
+        // TRA MODEL MÁY TỪ UDID — API công khai udid.help (không cần key)
+        // ──────────────────────────────────────────────
+        async function lookupDeviceModel(udid) {{
+            try {{
+                const resp = await fetch('https://udid.help/v1/device/lookup', {{
+                    method: 'POST',
+                    headers: {{ 'Content-Type': 'application/json' }},
+                    body: JSON.stringify({{ udid, platform: 'ios' }})
+                }});
+                if (!resp.ok) return; // im lặng nếu lỗi, không quan trọng
+                const result = await resp.json();
+                if (result?.data?.model) {{
+                    document.getElementById('profileDeviceModel').textContent = result.data.model;
+                    document.getElementById('deviceModelRow').style.display = 'flex';
+                }}
+            }} catch (e) {{ /* bỏ qua lỗi mạng, không chặn trang */ }}
+        }}
+
+        function onSavedUdidTyped() {{
+            document.getElementById('deviceModelRow').style.display = 'none';
+        }}
+
+        // ──────────────────────────────────────────────
+        // GIỎ HÀNG
+        // ──────────────────────────────────────────────
+        async function loadCart() {{
+            const listEl = document.getElementById('cartList');
+            const {{ data: {{ session }} }} = await sb.auth.getSession();
+            if (!session) return;
+
+            const {{ data: cartItems }} = await sb.from('cart_items')
+                .select('*, products(name, price_usd, price_vnd)')
+                .eq('user_id', session.user.id)
+                .order('added_at', {{ ascending: false }});
+
+            if (!cartItems || cartItems.length === 0) {{
+                listEl.innerHTML = '<div class="empty-state">Giỏ hàng trống. Bấm giá tiền ở danh sách "Kho ứng dụng" hoặc apps/debs/dylibs để thêm.</div>';
+                return;
+            }}
+
+            listEl.innerHTML = cartItems.map(item => {{
+                const p = item.products;
+                const priceLabel = p?.price_usd ? '$' + p.price_usd
+                    : (p?.price_vnd ? Number(p.price_vnd).toLocaleString('vi-VN') + '₫' : '');
+                const addedTime = new Date(item.added_at).toLocaleString('vi-VN');
+                return `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${{p?.name || item.product_id}} <span style="color:#{tint}">${{priceLabel}}</span></div>
+                            <div class="cart-item-time">Thêm lúc: ${{addedTime}}</div>
+                        </div>
+                        <div class="cart-item-actions">
+                            <button class="cart-buy-btn" onclick="buyFromCart('${{item.product_id}}')">Mua</button>
+                            <button class="cart-remove-btn" onclick="removeFromCart('${{item.id}}')">✕</button>
+                        </div>
+                    </div>
+                `;
+            }}).join('');
+        }}
+
+        function buyFromCart(productId) {{
+            window.location.href = './shop.html?product=' + encodeURIComponent(productId);
+        }}
+
+        async function removeFromCart(cartItemId) {{
+            const {{ error }} = await sb.from('cart_items').delete().eq('id', cartItemId);
+            if (error) {{ showToast('❌ Lỗi: ' + error.message); return; }}
+            showToast('🗑️ Đã xoá khỏi giỏ hàng');
+            loadCart();
+        }}
+
+        function renderLicenseList(licenses) {{
             const list = document.getElementById('licenseList');
             if (!licenses || licenses.length === 0) {{
                 list.innerHTML = `<div class="empty-state">
@@ -4243,6 +4523,97 @@ DASHBOARD_HTML_TEMPLATE = """<!DOCTYPE html>
         async function logout() {{
             await sb.auth.signOut();
             window.location.href = './auth.html';
+        }}
+
+        async function addToCartFromDashboard(bundleId, btnEl) {{
+            const {{ data: {{ session }} }} = await sb.auth.getSession();
+            if (!session) return;
+            const original = btnEl.textContent;
+            btnEl.textContent = '⏳';
+            const {{ error }} = await sb.from('cart_items')
+                .upsert({{ user_id: session.user.id, product_id: bundleId }}, {{ onConflict: 'user_id,product_id' }});
+            if (error) {{
+                btnEl.textContent = original;
+                showToast('❌ Lỗi: ' + error.message);
+            }} else {{
+                btnEl.textContent = '✅';
+                showToast('✅ Đã thêm vào giỏ hàng');
+                loadCart();
+                setTimeout(() => {{ btnEl.textContent = original; }}, 1500);
+            }}
+        }}
+
+        // ──────────────────────────────────────────────
+        // LƯU UDID VĨNH VIỄN VÀO PROFILE
+        // ──────────────────────────────────────────────
+        async function saveUdid() {{
+            const val = document.getElementById('savedUdidInput').value.trim();
+            if (!val) {{ showToast('⚠️ Chưa nhập UDID'); return; }}
+            const {{ data: {{ session }} }} = await sb.auth.getSession();
+            if (!session) return;
+            const {{ error }} = await sb.from('profiles')
+                .update({{ saved_udid: val }}).eq('id', session.user.id);
+            if (error) {{
+                showToast('❌ Lỗi lưu UDID: ' + error.message);
+            }} else {{
+                showToast('✅ Đã lưu UDID — lần sau mua sẽ tự điền');
+            }}
+        }}
+
+        // ──────────────────────────────────────────────
+        // KHO ỨNG DỤNG — 3 tab, phân loại Miễn phí / Đã sở hữu / Chưa mua
+        // ──────────────────────────────────────────────
+        async function switchLibTab(tab) {{
+            currentLibTab = tab;
+            document.querySelectorAll('.lib-tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('libtab-' + tab).classList.add('active');
+            await loadLibrary();
+        }}
+
+        async function loadLibrary() {{
+            const listEl = document.getElementById('libList');
+            listEl.innerHTML = '<div class="empty-state">⏳ Đang tải...</div>';
+            try {{
+                const source = LIB_SOURCES[currentLibTab];
+                const {{ data: dbProducts }} = await sb.from('products').select('id,price_usd,price_vnd');
+                const priceMap = {{}};
+                (dbProducts || []).forEach(p => priceMap[p.id] = p);
+
+                const resp = await fetch(source.url);
+                const data = await resp.json();
+                const apps = data.apps || [];
+
+                if (apps.length === 0) {{
+                    listEl.innerHTML = '<div class="empty-state">Không có sản phẩm nào.</div>';
+                    return;
+                }}
+
+                listEl.innerHTML = apps.map(app => {{
+                    const isPaid = !!priceMap[app.bundleIdentifier];
+                    const isOwned = ownedProductIds.has(app.bundleIdentifier);
+                    let badge;
+                    if (isOwned) {{
+                        badge = `<span class="lib-item-badge lib-badge-owned">✅ Đã sở hữu</span>`;
+                    }} else if (isPaid) {{
+                        badge = `<button class="lib-item-badge lib-badge-buy" onclick="addToCartFromDashboard('${{app.bundleIdentifier}}', this)">🛒 ${{priceMap[app.bundleIdentifier]?.price_usd ? '$' + priceMap[app.bundleIdentifier].price_usd : 'Mua'}}</button>`;
+                    }} else {{
+                        badge = `<span class="lib-item-badge lib-badge-free">Miễn phí</span>`;
+                    }}
+                    return `
+                        <div class="lib-item">
+                            <img class="lib-item-icon" src="${{app.iconURL || ''}}"
+                                onerror="this.src='{default_icon}'" alt="${{app.name}}">
+                            <div class="lib-item-info">
+                                <div class="lib-item-name">${{app.name}}</div>
+                                <div class="lib-item-dev">${{app.developerName || ''}}</div>
+                            </div>
+                            ${{badge}}
+                        </div>
+                    `;
+                }}).join('');
+            }} catch (e) {{
+                listEl.innerHTML = '<div class="empty-state">Lỗi tải dữ liệu: ' + e.message + '</div>';
+            }}
         }}
 
         function toggleMoreMenu() {{
@@ -4305,6 +4676,7 @@ def build_dashboard_view(output_file, supabase_url, supabase_anon_key):
         repo_name=config.REPO_NAME,
         tint=config.TINT_COLOR,
         default_icon=config.SOURCE_LOGO,
+        base_url=config.BASE_URL,
         supabase_url=supabase_url,
         supabase_anon_key=supabase_anon_key,
     )
