@@ -6,6 +6,19 @@
 
 | Tiêu đề | Nội dung |
 |---|---|
+| ⏱️ Time | 12/07/2026 02:11 |
+| 👤 Author | 2K |
+| 💬 Commit | Update views.py |
+| 📊 Overview | 28 file · 0 thư mục thay đổi |
+| 🛠️ Các thay đổi | <details><summary>✏️ Sửa (28)</summary><br>`.commit_msg`<br>`repo/apps.json`<br>`repo/data/desc/dylibs/Autocat/com.kyic.autocat_1.3.1_iphoneos-arm.json`<br>`repo/data/desc/dylibs/Autocat/com.kyic.autocat_1.3.1_iphoneos-arm64.json`<br>`repo/data/desc/dylibs/Autocat/com.kyic.autocat_1.3.1_iphoneos-arm64e.json`<br>`repo/data/desc/dylibs/DLTwitter/DLTwitter.json`<br>`repo/data/desc/dylibs/FbStorySeen/FbStorySeen.json`<br>`repo/data/desc/dylibs/FixIpa/FixIpa.json`<br>`repo/data/desc/dylibs/Ghi a\314\202m ta\314\206\314\201t ma\314\200n/Ghi a\314\202m ta\314\206\314\201t ma\314\200n.json`<br>`repo/data/desc/dylibs/Lead/com.w3ltyyy.lead_1.3.3_iphoneos-arm.json`<br>`repo/data/desc/dylibs/Lead/com.w3ltyyy.lead_1.4.2_iphoneos-arm.json`<br>`repo/data/desc/dylibs/Lead/com.w3ltyyy.lead_1.4.3_iphoneos-arm.json`<br>`repo/data/desc/dylibs/LoadControl/LoadControl.json`<br>`repo/data/desc/dylibs/SideloadFixerLol/sideloadFixerLol.json`<br>`repo/data/desc/dylibs/SideloadKeychainFix/sideloadKeychainFix.json`<br>`repo/data/desc/dylibs/Sideloadbypass1/Sideloadbypass1.json`<br>`repo/data/desc/dylibs/Sideloadbypass2/Sideloadbypass2.json`<br>`repo/data/desc/dylibs/TWIGalaxy/TWIGalaxy.json`<br>`repo/data/desc/dylibs/TwitDate/TwitDate.json`<br>`repo/data/desc/dylibs/XLogin/XLogin.json`<br>`repo/data/desc/wiki/wikidylibs.json`<br>`repo/debs.json`<br>`repo/dylibs.json`<br>`repo/html/apps.html`<br>`repo/html/dashboard.html`<br>`repo/html/debs.html`<br>`repo/html/dylibs.html`<br>`repo/html/shop.html`</details> |
+| ❓ Nguyên nhân | Hệ thống tự động kích hoạt khi có push lên nhánh main · Cập nhật mô tả ứng dụng (depiction) · Commit: Update views.py |
+| 🎯 Kết quả | ✅ Hoàn tất<br><br>📄 File (28): ✏️ Sửa 28 |
+
+---
+
+
+| Tiêu đề | Nội dung |
+|---|---|
 | ⏱️ Time | 11/07/2026 14:49 |
 | 👤 Author | GitHub Action |
 | 💬 Commit | 🚀 Auto Sync: 18 apps, 60 tweaks | 11/07/2026 07:22 [skip ci] |

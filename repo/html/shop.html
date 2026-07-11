@@ -270,8 +270,8 @@
         <a href="./shop.html" style="color:#848ef9;font-weight:700;text-decoration:none;flex-shrink:0;">Xem tất cả</a>
     </div>
 
-    <div class="section-title" id="productsSectionTitle" style="opacity:0.4">
-        🔒 Nhập/xác nhận UDID để chọn gói
+    <div class="section-title" id="productsSectionTitle">
+        Chọn gói cần mua
     </div>
     <div class="products" id="productList">
         <div style="text-align:center;color:#8e9ab5;padding:40px">⏳ Đang tải...</div>
@@ -324,8 +324,10 @@
         let pollingTimer = null;
 
         // Đọc ?type=ipa|deb|dylib từ URL (khi bấm "IPA/Tweak/Dylib Premium" ở index.html)
+        // Đọc ?product=<bundleId> từ URL (khi bấm "Mua" từ giỏ hàng ở dashboard.html)
         const urlParams = new URLSearchParams(window.location.search);
         const typeFilter = urlParams.get('type'); // 'ipa' | 'deb' | 'dylib' | null
+        const productFilter = urlParams.get('product'); // bundleIdentifier cụ thể | null
         const TYPE_LABEL_MAP = { ipa: 'IPA', deb: 'DEB', dylib: 'DYLIB' };
 
         async function loadProducts() {
@@ -369,6 +371,17 @@
                     const bannerText = document.getElementById('filterBannerText');
                     if (banner && bannerText) {
                         bannerText.textContent = `🔎 Đang lọc: chỉ hiện sản phẩm ${wantedLabel}`;
+                        banner.style.display = 'flex';
+                    }
+                }
+
+                // Lọc theo 1 sản phẩm cụ thể (từ nút "Mua" ở giỏ hàng dashboard.html)
+                if (productFilter) {
+                    displayProducts = allProducts.filter(p => p.bundleIdentifier === productFilter);
+                    const banner = document.getElementById('filterBanner');
+                    const bannerText = document.getElementById('filterBannerText');
+                    if (banner && bannerText) {
+                        bannerText.textContent = `🛒 Mua từ giỏ hàng`;
                         banner.style.display = 'flex';
                     }
                 }
@@ -635,14 +648,12 @@
 
         function unlockProductSelection() {
             const title = document.getElementById('productsSectionTitle');
-            title.style.opacity = '1';
             title.textContent = title.dataset.filterLabel || 'Chọn gói cần mua';
         }
 
         function lockProductSelection() {
-            const title = document.getElementById('productsSectionTitle');
-            title.style.opacity = '0.4';
-            title.textContent = '🔒 Nhập/xác nhận UDID để chọn gói';
+            // Không còn "khoá" UI nữa — sản phẩm luôn xem được tự do,
+            // UDID chỉ cần khi bấm "Mua" thật sự (xem selectProduct()).
         }
 
         // ──────────────────────────────────────────────
@@ -679,8 +690,29 @@
             setTimeout(() => t.classList.remove('show'), 2500);
         }
 
+        // ──────────────────────────────────────────────
+        // TỰ ĐỘNG ĐIỀN UDID ĐÃ LƯU (nếu đã đăng nhập + đã lưu trước đó ở Dashboard)
+        // ──────────────────────────────────────────────
+        async function loadSavedUdid() {
+            const { data: { session } } = await sb.auth.getSession();
+            if (!session) return;
+            const { data: profile } = await sb.from('profiles')
+                .select('saved_udid').eq('id', session.user.id).single();
+            if (profile?.saved_udid) {
+                const input = document.getElementById('udidInput');
+                input.value = profile.saved_udid;
+                input.classList.add('filled');
+                collapseUdidCard(profile.saved_udid);
+                unlockProductSelection();
+                const status = document.getElementById('udidStatus');
+                status.className = 'udid-status ok';
+                status.textContent = '✅ Đã tự động điền UDID đã lưu từ tài khoản.';
+            }
+        }
+
         // Khởi tạo
         loadProducts();
+        loadSavedUdid();
 
         // Tiếp tục poll nếu có token còn sót trong sessionStorage (sau khi quay lại trang)
         const pendingToken = sessionStorage.getItem('udid_token');

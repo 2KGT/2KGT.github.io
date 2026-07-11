@@ -488,6 +488,11 @@
 
         .item-action.loading { opacity: 0.6; pointer-events: none; }
 
+        .item-action-buy {
+            background: linear-gradient(135deg, #6be8a0, #4fd88a);
+            color: #0a1428;
+        }
+
         /* ─────────────────────────── PAGINATION ─────────────────────────── */
         .pagination {
             display: flex;
@@ -1990,6 +1995,7 @@
     let currentGroup = null;
     let selectedVersionIdx = 0;
     let versionManuallyPicked = false;
+    let priceMap = {}; // bundleIdentifier -> { price_usd, price_vnd } — sản phẩm có bán
 
     const PAGE_SIZE = 15;
     let currentPage = 0;
@@ -2315,6 +2321,16 @@
         const html = pageItems.map((g, i) => {
             const idx = groupedItems.indexOf(g);
             const latest = g.versions[0] || {};
+            const priceInfo = priceMap[g.bundle]; // có bán = có trong DB
+            let actionBtn;
+            if (priceInfo) {
+                const priceLabel = priceInfo.price_usd ? '$' + priceInfo.price_usd
+                    : (priceInfo.price_vnd ? Number(priceInfo.price_vnd).toLocaleString('vi-VN') + '₫' : 'Mua');
+                actionBtn = `<button class="item-action item-action-buy" id="quickbtn-${idx}"
+                    onclick="event.stopPropagation(); addToCart('${g.bundle}', this)">${priceLabel}</button>`;
+            } else {
+                actionBtn = `<button class="item-action" id="quickbtn-${idx}" onclick="event.stopPropagation(); openVersionPopover(${idx}, this)">Nhận</button>`;
+            }
             return `
                 <div class="item" style="--item-i:${i}" onclick="openModal(${idx})">
                     <img class="item-icon" src="${g.icon}" alt="${g.name}" loading="lazy" onerror="this.onerror=null;this.src='${DEFAULT_ICON}'">
@@ -2323,7 +2339,7 @@
                         <div class="item-id">${g.bundle}</div>
                         <div class="item-version">v${latest.version || '1.0'}${g.versions.length > 1 ? ' · ' + g.versions.length + ' bản' : ''}</div>
                     </div>
-                    <button class="item-action" id="quickbtn-${idx}" onclick="event.stopPropagation(); openVersionPopover(${idx}, this)">Nhận</button>
+                    ${actionBtn}
                 </div>
             `;
         }).join('');
@@ -2332,6 +2348,32 @@
         window.scrollTo({ top: document.querySelector('.container').offsetTop - 8, behavior: 'instant' });
 
         renderPagination();
+    }
+
+    // ────────────────────────────────────────────────────────
+    // THÊM VÀO GIỎ HÀNG (sản phẩm có bán) — quản lý chính ở dashboard.html
+    // ────────────────────────────────────────────────────────
+    async function addToCart(bundleId, btnEl) {
+        const { data: { session } } = await _sb.auth.getSession();
+        if (!session) {
+            if (confirm('Cần đăng nhập để mua hàng. Đăng nhập ngay?')) {
+                window.location.href = './auth.html';
+            }
+            return;
+        }
+        const original = btnEl.textContent;
+        btnEl.textContent = '⏳...';
+        btnEl.style.pointerEvents = 'none';
+        const { error } = await _sb.from('cart_items')
+            .upsert({ user_id: session.user.id, product_id: bundleId }, { onConflict: 'user_id,product_id' });
+        btnEl.style.pointerEvents = '';
+        if (error) {
+            btnEl.textContent = original;
+            alert('❌ Lỗi thêm giỏ hàng: ' + error.message);
+        } else {
+            btnEl.textContent = '✅ Đã thêm';
+            setTimeout(() => { btnEl.textContent = original; }, 1800);
+        }
     }
 
     function renderPagination() {
@@ -2834,10 +2876,16 @@
     // ════════════════════════════════════════════════════════════
     async function loadData() {
         try {
-            const res = await fetch('https://2kgt.github.io/repo/dylibs.json');
+            const [res, dbResult] = await Promise.all([
+                fetch('https://2kgt.github.io/repo/dylibs.json'),
+                _sb.from('products').select('id,price_usd,price_vnd').catch(() => ({ data: [] }))
+            ]);
             const data = await res.json();
             const items = data[DATA_KEY];
             rawItems = Array.isArray(items) ? items : Object.values(items || {});
+
+            priceMap = {};
+            (dbResult?.data || []).forEach(p => { priceMap[p.id] = p; });
 
             groupedItems = groupByBundle(rawItems);
 

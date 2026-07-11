@@ -83,6 +83,77 @@
         }
         .profile-row span:first-child { color: #8e9ab5; }
 
+        /* UDID ĐÃ LƯU */
+        .udid-saved-card {
+            background: #0f1e3d; border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px; padding: 16px; margin-bottom: 24px;
+        }
+        .udid-saved-title { font-size: 13px; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+        .udid-saved-row { display: flex; gap: 8px; }
+        .udid-saved-input {
+            flex: 1; min-width: 0; padding: 10px 12px; border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.05); color: #fff; font-size: 12px;
+            font-family: 'SF Mono', monospace;
+        }
+        .udid-saved-input:focus { outline: none; border-color: #848ef9; }
+        .udid-saved-btn {
+            flex-shrink: 0; padding: 10px 14px; border: none; border-radius: 10px;
+            background: #848ef9; color: #fff; font-weight: 700; font-size: 12px; cursor: pointer;
+        }
+        .udid-saved-btn:active { transform: scale(0.96); }
+        .udid-saved-hint { font-size: 11px; color: #8e9ab5; margin-top: 8px; }
+
+        /* KHO ỨNG DỤNG (tabs + list) */
+        .lib-tabs {
+            display: flex; background: rgba(255,255,255,0.06);
+            border-radius: 14px; padding: 4px; margin-bottom: 14px;
+        }
+        .lib-tab-btn {
+            flex: 1; padding: 9px; border: none; background: transparent;
+            color: #8e9ab5; font-weight: 600; font-size: 12px;
+            border-radius: 10px; cursor: pointer; transition: 0.2s;
+        }
+        .lib-tab-btn.active { background: #848ef9; color: #fff; }
+        .lib-item {
+            background: #0f1e3d; border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px; padding: 12px; margin-bottom: 10px;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .lib-item-icon { width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0; object-fit: cover; }
+        .lib-item-info { flex: 1; min-width: 0; }
+        .lib-item-name { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+        .lib-item-dev { font-size: 11px; color: #8e9ab5; }
+        .lib-item-badge {
+            flex-shrink: 0; font-size: 10px; font-weight: 700; padding: 5px 10px;
+            border-radius: 20px; white-space: nowrap;
+        }
+        .lib-badge-free { background: rgba(107,232,160,0.15); color: #6be8a0; }
+        .lib-badge-owned { background: rgba(132,142,249,0.2); color: #848ef9; }
+        .lib-badge-buy {
+            background: rgba(255,255,255,0.08); color: #fff; cursor: pointer;
+            text-decoration: none; display: inline-block;
+        }
+
+        /* GIỎ HÀNG */
+        .cart-item {
+            background: #0f1e3d; border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px; padding: 12px; margin-bottom: 10px;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .cart-item-info { flex: 1; min-width: 0; }
+        .cart-item-name { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+        .cart-item-time { font-size: 10px; color: #8e9ab5; }
+        .cart-item-actions { display: flex; gap: 6px; flex-shrink: 0; }
+        .cart-buy-btn {
+            padding: 8px 14px; border: none; border-radius: 10px;
+            background: #848ef9; color: #fff; font-weight: 700; font-size: 11px; cursor: pointer;
+        }
+        .cart-remove-btn {
+            padding: 8px 10px; border: none; border-radius: 10px;
+            background: rgba(255,80,80,0.15); color: #ff8080; font-size: 12px; cursor: pointer;
+        }
+
         /* LICENSES */
         .section-title {
             font-size: 13px; font-weight: 700; color: #8e9ab5;
@@ -180,6 +251,10 @@
                 </div>
             </div>
             <div class="profile-row">
+                <span>Mã ID</span>
+                <span id="profileCode" style="font-family:monospace;color:#848ef9;font-weight:700">—</span>
+            </div>
+            <div class="profile-row">
                 <span>Email</span>
                 <span id="profileEmail" style="font-family:monospace">—</span>
             </div>
@@ -187,6 +262,37 @@
                 <span>Tham gia</span>
                 <span id="profileJoined">—</span>
             </div>
+            <div class="profile-row" id="deviceModelRow" style="display:none">
+                <span>Thiết bị</span>
+                <span id="profileDeviceModel">—</span>
+            </div>
+        </div>
+
+        <!-- UDID đã lưu -->
+        <div class="udid-saved-card">
+            <div class="udid-saved-title">🔑 UDID đã lưu</div>
+            <div class="udid-saved-row">
+                <input class="udid-saved-input" id="savedUdidInput" placeholder="Chưa lưu UDID nào..." oninput="onSavedUdidTyped()">
+                <button class="udid-saved-btn" onclick="saveUdid()">💾 Lưu</button>
+            </div>
+            <div class="udid-saved-hint">Lưu 1 lần, tự động điền khi mua sản phẩm ở Shop — không cần nhập lại.</div>
+        </div>
+
+        <!-- Giỏ hàng -->
+        <div class="section-title">🛒 Giỏ hàng</div>
+        <div id="cartList" style="margin-bottom:24px">
+            <div class="empty-state">⏳ Đang tải...</div>
+        </div>
+
+        <!-- Kho ứng dụng -->
+        <div class="section-title">📦 Kho ứng dụng</div>
+        <div class="lib-tabs">
+            <button class="lib-tab-btn active" id="libtab-apps" onclick="switchLibTab('apps')">📱 Apps</button>
+            <button class="lib-tab-btn" id="libtab-debs" onclick="switchLibTab('debs')">🔧 Debs</button>
+            <button class="lib-tab-btn" id="libtab-dylibs" onclick="switchLibTab('dylibs')">📚 Dylibs</button>
+        </div>
+        <div id="libList" style="margin-bottom:24px">
+            <div class="empty-state">⏳ Đang tải...</div>
         </div>
 
         <!-- Licenses -->
@@ -205,6 +311,14 @@
         const SUPABASE_ANON_KEY = "sb_publishable_akuKZo7u5dAhvj8RQvltyg__T6Acs66";
         const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+        let ownedProductIds = new Set();
+        let currentLibTab = 'apps';
+        const LIB_SOURCES = {
+            apps: { url: 'https://2kgt.github.io/repo/apps.json', label: 'IPA' },
+            debs: { url: 'https://2kgt.github.io/repo/debs.json', label: 'DEB' },
+            dylibs: { url: 'https://2kgt.github.io/repo/dylibs.json', label: 'DYLIB' },
+        };
+
         async function init() {
             // Kiểm tra auth
             const { data: { session } } = await sb.auth.getSession();
@@ -221,15 +335,101 @@
             document.getElementById('userName').textContent = profile?.display_name || user.user.email;
             document.getElementById('userEmail').textContent = user.user.email;
             document.getElementById('profileEmail').textContent = user.user.email;
+            document.getElementById('profileCode').textContent = profile?.customer_code || '—';
             document.getElementById('profileJoined').textContent =
                 new Date(user.user.created_at).toLocaleDateString('vi-VN');
             document.getElementById('avatar').textContent =
                 (profile?.display_name || user.user.email)[0].toUpperCase();
 
-            // Tải licenses
+            // Điền UDID đã lưu (nếu có) + tra model máy qua udid.help
+            if (profile?.saved_udid) {
+                document.getElementById('savedUdidInput').value = profile.saved_udid;
+                lookupDeviceModel(profile.saved_udid);
+            }
+
+            // Tải licenses (dùng lại cho phần "Đã sở hữu" trong Kho ứng dụng)
             const { data: licenses } = await sb.from('licenses')
                 .select('*').eq('user_id', user.user.id).not('revoked', 'is', true);
+            ownedProductIds = new Set((licenses || []).map(l => l.product_id));
 
+            renderLicenseList(licenses || []);
+            loadLibrary(); // Tải Kho ứng dụng (cả 3 loại), mặc định tab 'apps'
+            loadCart();    // Tải Giỏ hàng
+        }
+
+        // ──────────────────────────────────────────────
+        // TRA MODEL MÁY TỪ UDID — API công khai udid.help (không cần key)
+        // ──────────────────────────────────────────────
+        async function lookupDeviceModel(udid) {
+            try {
+                const resp = await fetch('https://udid.help/v1/device/lookup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ udid, platform: 'ios' })
+                });
+                if (!resp.ok) return; // im lặng nếu lỗi, không quan trọng
+                const result = await resp.json();
+                if (result?.data?.model) {
+                    document.getElementById('profileDeviceModel').textContent = result.data.model;
+                    document.getElementById('deviceModelRow').style.display = 'flex';
+                }
+            } catch (e) { /* bỏ qua lỗi mạng, không chặn trang */ }
+        }
+
+        function onSavedUdidTyped() {
+            document.getElementById('deviceModelRow').style.display = 'none';
+        }
+
+        // ──────────────────────────────────────────────
+        // GIỎ HÀNG
+        // ──────────────────────────────────────────────
+        async function loadCart() {
+            const listEl = document.getElementById('cartList');
+            const { data: { session } } = await sb.auth.getSession();
+            if (!session) return;
+
+            const { data: cartItems } = await sb.from('cart_items')
+                .select('*, products(name, price_usd, price_vnd)')
+                .eq('user_id', session.user.id)
+                .order('added_at', { ascending: false });
+
+            if (!cartItems || cartItems.length === 0) {
+                listEl.innerHTML = '<div class="empty-state">Giỏ hàng trống. Bấm giá tiền ở danh sách "Kho ứng dụng" hoặc apps/debs/dylibs để thêm.</div>';
+                return;
+            }
+
+            listEl.innerHTML = cartItems.map(item => {
+                const p = item.products;
+                const priceLabel = p?.price_usd ? '$' + p.price_usd
+                    : (p?.price_vnd ? Number(p.price_vnd).toLocaleString('vi-VN') + '₫' : '');
+                const addedTime = new Date(item.added_at).toLocaleString('vi-VN');
+                return `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${p?.name || item.product_id} <span style="color:#848ef9">${priceLabel}</span></div>
+                            <div class="cart-item-time">Thêm lúc: ${addedTime}</div>
+                        </div>
+                        <div class="cart-item-actions">
+                            <button class="cart-buy-btn" onclick="buyFromCart('${item.product_id}')">Mua</button>
+                            <button class="cart-remove-btn" onclick="removeFromCart('${item.id}')">✕</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function buyFromCart(productId) {
+            window.location.href = './shop.html?product=' + encodeURIComponent(productId);
+        }
+
+        async function removeFromCart(cartItemId) {
+            const { error } = await sb.from('cart_items').delete().eq('id', cartItemId);
+            if (error) { showToast('❌ Lỗi: ' + error.message); return; }
+            showToast('🗑️ Đã xoá khỏi giỏ hàng');
+            loadCart();
+        }
+
+        function renderLicenseList(licenses) {
             const list = document.getElementById('licenseList');
             if (!licenses || licenses.length === 0) {
                 list.innerHTML = `<div class="empty-state">
@@ -266,6 +466,97 @@
         async function logout() {
             await sb.auth.signOut();
             window.location.href = './auth.html';
+        }
+
+        async function addToCartFromDashboard(bundleId, btnEl) {
+            const { data: { session } } = await sb.auth.getSession();
+            if (!session) return;
+            const original = btnEl.textContent;
+            btnEl.textContent = '⏳';
+            const { error } = await sb.from('cart_items')
+                .upsert({ user_id: session.user.id, product_id: bundleId }, { onConflict: 'user_id,product_id' });
+            if (error) {
+                btnEl.textContent = original;
+                showToast('❌ Lỗi: ' + error.message);
+            } else {
+                btnEl.textContent = '✅';
+                showToast('✅ Đã thêm vào giỏ hàng');
+                loadCart();
+                setTimeout(() => { btnEl.textContent = original; }, 1500);
+            }
+        }
+
+        // ──────────────────────────────────────────────
+        // LƯU UDID VĨNH VIỄN VÀO PROFILE
+        // ──────────────────────────────────────────────
+        async function saveUdid() {
+            const val = document.getElementById('savedUdidInput').value.trim();
+            if (!val) { showToast('⚠️ Chưa nhập UDID'); return; }
+            const { data: { session } } = await sb.auth.getSession();
+            if (!session) return;
+            const { error } = await sb.from('profiles')
+                .update({ saved_udid: val }).eq('id', session.user.id);
+            if (error) {
+                showToast('❌ Lỗi lưu UDID: ' + error.message);
+            } else {
+                showToast('✅ Đã lưu UDID — lần sau mua sẽ tự điền');
+            }
+        }
+
+        // ──────────────────────────────────────────────
+        // KHO ỨNG DỤNG — 3 tab, phân loại Miễn phí / Đã sở hữu / Chưa mua
+        // ──────────────────────────────────────────────
+        async function switchLibTab(tab) {
+            currentLibTab = tab;
+            document.querySelectorAll('.lib-tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('libtab-' + tab).classList.add('active');
+            await loadLibrary();
+        }
+
+        async function loadLibrary() {
+            const listEl = document.getElementById('libList');
+            listEl.innerHTML = '<div class="empty-state">⏳ Đang tải...</div>';
+            try {
+                const source = LIB_SOURCES[currentLibTab];
+                const { data: dbProducts } = await sb.from('products').select('id,price_usd,price_vnd');
+                const priceMap = {};
+                (dbProducts || []).forEach(p => priceMap[p.id] = p);
+
+                const resp = await fetch(source.url);
+                const data = await resp.json();
+                const apps = data.apps || [];
+
+                if (apps.length === 0) {
+                    listEl.innerHTML = '<div class="empty-state">Không có sản phẩm nào.</div>';
+                    return;
+                }
+
+                listEl.innerHTML = apps.map(app => {
+                    const isPaid = !!priceMap[app.bundleIdentifier];
+                    const isOwned = ownedProductIds.has(app.bundleIdentifier);
+                    let badge;
+                    if (isOwned) {
+                        badge = `<span class="lib-item-badge lib-badge-owned">✅ Đã sở hữu</span>`;
+                    } else if (isPaid) {
+                        badge = `<button class="lib-item-badge lib-badge-buy" onclick="addToCartFromDashboard('${app.bundleIdentifier}', this)">🛒 ${priceMap[app.bundleIdentifier]?.price_usd ? '$' + priceMap[app.bundleIdentifier].price_usd : 'Mua'}</button>`;
+                    } else {
+                        badge = `<span class="lib-item-badge lib-badge-free">Miễn phí</span>`;
+                    }
+                    return `
+                        <div class="lib-item">
+                            <img class="lib-item-icon" src="${app.iconURL || ''}"
+                                onerror="this.src='https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png'" alt="${app.name}">
+                            <div class="lib-item-info">
+                                <div class="lib-item-name">${app.name}</div>
+                                <div class="lib-item-dev">${app.developerName || ''}</div>
+                            </div>
+                            ${badge}
+                        </div>
+                    `;
+                }).join('');
+            } catch (e) {
+                listEl.innerHTML = '<div class="empty-state">Lỗi tải dữ liệu: ' + e.message + '</div>';
+            }
         }
 
         function toggleMoreMenu() {
