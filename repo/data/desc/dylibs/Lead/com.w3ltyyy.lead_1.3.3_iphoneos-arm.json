@@ -1,0 +1,22 @@
+{
+  "name": "Lead",
+  "bundle": "com.w3ltyyy.lead",
+  "version": "1.3.3",
+  "architecture": "iphoneos-arm",
+  "author": "w3ltyyy",
+  "description": "Lead dylib Đã khắc phục: Không thể chuyển tiếp tin nhắn",
+  "changelog": "### v1.4.3\nLead\n\nUpdate: v1.4.3\n• Đã sửa:Một biểu tượng \"đã chỉnh sửa\" giả mạo xuất hiện trên các biểu tượng cảm xúc và tin nhắn thông thường.\n• Đã sửa:Chức năng chống thu hồi không hoạt động trong các nhóm và kênh.\n• Đã sửa:Biểu tượng phương tiện dùng một lần đã biến mất sau khi thoát và vào lại cuộc trò chuyện.\n• Đã cập nhậtCác hook dành cho phiên bản Telegram mới nhất\n\n### v1.4.2\nLead dylib\n\n•Đã thêmKhả năng tạo giá trị tùy chỉnh cho số sao (trực quan)\n•Đã sửaNút thoại bị chồng lên nút hình tròn trong Swiftgram.\n•Đã sửa: hiện tượng giật lag khi khởi chạy ứng dụng\n•Đã sửaCác vạch sóng nhỏ và đồng đều.\n•Đã sửa: Chức năng Ghost Exceptions hiện đã hiển thị chính xác tên/tên người dùng.\n\n### v1.3.3 (hiện tại)\nLead dylib\n\nĐã khắc phục: Không thể chuyển tiếp tin nhắn",
+  "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
+  "banner": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_banner.webp",
+  "video": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_video.mp4",
+  "screenshots": [
+    "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/Lead/Lead_1.jpg"
+  ],
+  "size": 25524416,
+  "md5": "cbcb86679772f1ef7070ed238452a784",
+  "sha1": "e072d8c188abf601bd55b93b99dcd5adf2a6ac49",
+  "sha256": "b55c3b2df8ab9d2b970a1031f9a6b8ab859bf60991a5b1b637c2e22675e0fab2",
+  "downloadURL": "https://github.com/2KGT/2KGT.github.io/releases/download/v1.3.3/com.w3ltyyy.lead_1.3.3_iphoneos-arm.dylib",
+  "versionDate": "2026-06-19T03:55:30Z",
+  "generated_at": "2026-07-11T07:48:56Z"
+}

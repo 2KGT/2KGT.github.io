@@ -1,0 +1,29 @@
+{
+  "name": "LoadControl",
+  "bundle": "com.kyic.loadcontrol",
+  "version": "1.0",
+  "architecture": "iphoneos-arm64",
+  "author": "Kyic storage",
+  "description": "Được tổng hợp by Kyic Store.",
+  "changelog": "### v1.0\nCập nhật phiên bản v1.0 từ Kyic Store.",
+  "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
+  "banner": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_banner.webp",
+  "video": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_video.mp4",
+  "screenshots": [
+    "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_1.jpeg",
+    "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_2.jpeg",
+    "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_3.jpeg",
+    "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_4.jpeg",
+    "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_5.jpeg",
+    "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_6.jpeg",
+    "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_7.jpeg",
+    "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_8.jpeg"
+  ],
+  "size": 6480704,
+  "md5": "d9566beaf78f13cf44e179c63aa11333",
+  "sha1": "79406a163bd4e82efa9abc04526391efc79aa20a",
+  "sha256": "8cd82906478fd3911167d315e3fa779e6314b8481f04c446431ae99559e6772c",
+  "downloadURL": "https://2kgt.github.io/repo/dylibs/SideloadFix/LoadControl.dylib",
+  "versionDate": "2026-07-11T07:48:45Z",
+  "generated_at": "2026-07-11T07:48:56Z"
+}

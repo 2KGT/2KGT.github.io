@@ -1,0 +1,159 @@
+# .github/workflows/Auto-sync-feather-sileo.yml
+name: "Auto sync feather sileo"
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'repo/apps/**'
+      - 'repo/debs/**'
+      - 'repo/data/**'
+      - '.github/scripts/**'
+  release:
+    types: [published, created, edited]
+  workflow_dispatch:
+    inputs:
+      run_clean_theos:
+        description: "🧹 Xóa ghost submodule theos"
+        type: boolean
+        default: false
+      run_clean_logs:
+        description: "🗑️ Xóa commit & workflow runs"
+        type: boolean
+        default: false
+      clean_delay_seconds:
+        description: "⏱️ Timeout chờ xoá"
+        type: number
+        default: 90
+
+# ──────────────────────────────────────────────────────────
+# ENV CHUNG — tất cả step dùng chung, không lặp lại
+# Telegram được gửi bởi main.py (notify_sync) và clean.py (notify_clean)
+# ──────────────────────────────────────────────────────────
+env:
+  GITHUB_TOKEN:       ${{ secrets.GITHUB_TOKEN }}
+  GEMINI_API_KEY:     ${{ secrets.GEMINI_API_KEY }}
+  TELEGRAM_TOKEN:     ${{ secrets.TELEGRAM_TOKEN }}
+  TELEGRAM_TO:        ${{ secrets.TELEGRAM_TO }}
+  VIRUSTOTAL_API_KEY: ${{ secrets.VIRUSTOTAL_API_KEY }}
+  # 🆕 Hệ thống license (Supabase) — dùng cho auth.html do views.py sinh ra.
+  # Đây là Publishable Key (an toàn công khai nhờ Row Level Security),
+  # nhưng vẫn lưu qua Secret để tránh hardcode trong code nguồn.
+  SUPABASE_URL:        ${{ secrets.SUPABASE_URL }}
+  SUPABASE_ANON_KEY:   ${{ secrets.SUPABASE_ANON_KEY }}
+  PAYPAL_CLIENT_ID:    ${{ secrets.PAYPAL_CLIENT_ID }}
+  PAYPAL_SECRET:       ${{ secrets.PAYPAL_SECRET }}
+  PAYOS_CLIENT_ID:     ${{ secrets.PAYOS_CLIENT_ID }}
+  PAYOS_API_KEY:       ${{ secrets.PAYOS_API_KEY }}
+  MOMO_PARTNER_CODE:   ${{ secrets.MOMO_PARTNER_CODE }}
+  MOMO_ACCESS_KEY:     ${{ secrets.MOMO_ACCESS_KEY }}
+  MOMO_SECRET_KEY:     ${{ secrets.MOMO_SECRET_KEY }}
+  LICENSE_PRIVATE_KEY: ${{ secrets.LICENSE_PRIVATE_KEY_B64 }}
+  BASE_URL:            "https://2kgt.github.io/repo/"
+  PYTHONUNBUFFERED:   "1"
+  PYTHONPATH:         "${{ github.workspace }}/.github/scripts"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: write
+
+    steps:
+      - name: "📥 Checkout Repository"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: "🐍 Setup Python"
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: "📦 Cache Python dependencies"
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-stdlib-v1
+
+      # ══════════════════════════════════════════════════════
+      # PHASE 1 — HỆ THỐNG CHÍNH (luôn chạy)
+      # Telegram Phase 1 gửi bên trong main.py → notify.notify_sync()
+      # ══════════════════════════════════════════════════════
+
+      - name: "🗂️ Khởi tạo thư mục"
+        run: |
+          mkdir -p \
+            repo/apps repo/debs \
+            repo/data/icons repo/data/images \
+            repo/data/desc repo/data/default \
+            repo/html
+
+      - name: "🚀 Core Engine (main.py)"
+        id: core
+        env:
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
+          GITHUB_SERVER_URL: ${{ github.server_url }}
+          RELEASE_TAG:       ${{ github.event.release.tag_name }}
+          RELEASE_NAME:      ${{ github.event.release.name }}
+          RELEASE_BODY:      ${{ github.event.release.body }}
+          RELEASE_ID:        ${{ github.event.release.id }}
+        run: mkdir -p docs && python3 .github/scripts/main.py
+        # 🆕 main.py giờ TỰ ĐỘNG gọi views.build_all_views() VÀ logs.main()
+        # ngay bên trong nó (apps.html/debs.html/dylibs.html/auth.html +
+        # docs/CHANGELOG.md + docs/directory_tree.json đều được sinh ở đây).
+        # → 2 bước riêng "Generate All Views Web HTML" và "Sinh cây thư
+        # mục & Changelog" trước đây KHÔNG CÒN CẦN THIẾT nữa, đã được xoá
+        # để tránh chạy trùng 2 lần. `mkdir -p docs` được giữ lại ở đây vì
+        # logs.main() cần thư mục này tồn tại trước khi ghi CHANGELOG.md
+        # (dù logs.py tự makedirs, tạo trước ở step vẫn an toàn hơn).
+
+      - name: "📤 Commit và Push dữ liệu mới"
+        id: push
+        run: |
+          set -e
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "✅ Không có thay đổi dữ liệu nào để commit."
+            exit 0
+          fi
+          COMMIT_MSG="🔄 Tối ưu hóa hệ thống & Đồng bộ kho lưu trữ định kỳ [skip ci]"
+          [ -f ".commit_msg" ] && COMMIT_MSG="$(cat .commit_msg) [skip ci]"
+          git commit -m "$COMMIT_MSG"
+          git pull --rebase -X theirs origin main
+          git push origin HEAD:main
+
+      # ══════════════════════════════════════════════════════
+      # PHASE 2 — CHỜ & DỌN DẸP (chỉ khi thủ công + có tick)
+      # Telegram Phase 2 gửi bên trong clean.py → notify.notify_clean()
+      # ══════════════════════════════════════════════════════
+
+      - name: "⏳ Chờ cloud xử lý xong trước khi dọn dẹp"
+        if: >
+          github.event_name == 'workflow_dispatch' &&
+          (inputs.run_clean_theos == true || inputs.run_clean_logs == true)
+        run: |
+          DELAY="${{ inputs.clean_delay_seconds }}"
+          DELAY="${DELAY:-90}"
+          echo "⏱️  Chờ ${DELAY}s để cloud hoàn tất xử lý dữ liệu..."
+          for i in $(seq "$DELAY" -10 1); do
+            echo "   ⏳ Còn ${i}s..."
+            sleep 10
+          done
+          echo "✅ Bắt đầu dọn dẹp!"
+
+      - name: "🧹🗑️ Dọn dẹp repo (clean.py)"
+        id: clean
+        if: >
+          github.event_name == 'workflow_dispatch' &&
+          (inputs.run_clean_theos == true || inputs.run_clean_logs == true)
+        env:
+          GH_TOKEN:          ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_RUN_ID:     ${{ github.run_id }}
+          RUN_CLEAN_THEOS:   ${{ inputs.run_clean_theos }}
+          RUN_CLEAN_LOGS:    ${{ inputs.run_clean_logs }}
+        run: python3 .github/scripts/clean.py

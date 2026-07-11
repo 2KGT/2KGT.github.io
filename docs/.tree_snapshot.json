@@ -1,0 +1,996 @@
+{
+  "dirs": [
+    "FAQs",
+    "repo",
+    "repo/apps",
+    "repo/apps/AllSign",
+    "repo/apps/ESign",
+    "repo/apps/Feather",
+    "repo/apps/GBox",
+    "repo/apps/LCSign",
+    "repo/apps/Lithium",
+    "repo/apps/MuteOTA",
+    "repo/apps/Pocket",
+    "repo/apps/PostBox",
+    "repo/apps/Zebra",
+    "repo/data",
+    "repo/data/default",
+    "repo/data/desc",
+    "repo/data/desc/apps",
+    "repo/data/desc/apps/BiliBili",
+    "repo/data/desc/apps/DLiPA",
+    "repo/data/desc/apps/ESign",
+    "repo/data/desc/apps/Facebook",
+    "repo/data/desc/apps/Feather",
+    "repo/data/desc/apps/Instagram",
+    "repo/data/desc/apps/LCSign",
+    "repo/data/desc/apps/LCSign-1",
+    "repo/data/desc/apps/MuteOTA",
+    "repo/data/desc/apps/Phim4K",
+    "repo/data/desc/apps/Pocket",
+    "repo/data/desc/apps/SPAMSMS",
+    "repo/data/desc/apps/Stay",
+    "repo/data/desc/apps/Telegram",
+    "repo/data/desc/apps/Turrit",
+    "repo/data/desc/apps/UnKeySign",
+    "repo/data/desc/apps/YouTube",
+    "repo/data/desc/apps/Zebra",
+    "repo/data/desc/apps/全能签",
+    "repo/data/desc/dylibs",
+    "repo/data/desc/dylibs/AutoRevenuecat",
+    "repo/data/desc/dylibs/Autocat",
+    "repo/data/desc/dylibs/DLTwitter",
+    "repo/data/desc/dylibs/FbStorySeen",
+    "repo/data/desc/dylibs/FixIpa",
+    "repo/data/desc/dylibs/Ghi âm tắt màn",
+    "repo/data/desc/dylibs/Lead",
+    "repo/data/desc/dylibs/LoadControl",
+    "repo/data/desc/dylibs/SideloadFixerLol",
+    "repo/data/desc/dylibs/SideloadKeychainFix",
+    "repo/data/desc/dylibs/Sideloadbypass1",
+    "repo/data/desc/dylibs/Sideloadbypass2",
+    "repo/data/desc/dylibs/TWIGalaxy",
+    "repo/data/desc/dylibs/TwitDate",
+    "repo/data/desc/dylibs/XLogin",
+    "repo/data/desc/tweaks",
+    "repo/data/desc/tweaks/BHTwitter",
+    "repo/data/desc/tweaks/Lead",
+    "repo/data/desc/tweaks/NFB",
+    "repo/data/desc/tweaks/NoYTPremium",
+    "repo/data/desc/tweaks/TGExtra",
+    "repo/data/desc/tweaks/YTUnShorts",
+    "repo/data/desc/tweaks/YTVideoOverlay",
+    "repo/data/desc/tweaks/YouGroupSettings",
+    "repo/data/desc/tweaks/YouMute",
+    "repo/data/desc/tweaks/YouSpeed",
+    "repo/data/desc/tweaks/YouTube Fix",
+    "repo/data/desc/tweaks/YouTube X",
+    "repo/data/desc/tweaks/bilibili",
+    "repo/data/desc/tweaks/cc18",
+    "repo/data/desc/tweaks/ccappicon",
+    "repo/data/desc/tweaks/fastlock",
+    "repo/data/desc/tweaks/flow",
+    "repo/data/desc/tweaks/glow",
+    "repo/data/desc/tweaks/infuseplus",
+    "repo/data/desc/tweaks/oledkeyboard",
+    "repo/data/desc/tweaks/orwellvk",
+    "repo/data/desc/tweaks/tweach",
+    "repo/data/desc/tweaks/twlegacy",
+    "repo/data/desc/tweaks/youmod",
+    "repo/data/desc/tweaks/youpip",
+    "repo/data/desc/tweaks/youspeed",
+    "repo/data/desc/tweaks/yt-native-share",
+    "repo/data/desc/tweaks/ytmu",
+    "repo/data/desc/tweaks/ytplus",
+    "repo/data/desc/tweaks/ytuhd",
+    "repo/data/desc/tweaks/ytvideooverlay",
+    "repo/data/desc/wiki",
+    "repo/data/icons",
+    "repo/data/images",
+    "repo/data/images/AutoAC",
+    "repo/data/images/DLiPA",
+    "repo/data/images/Facebook",
+    "repo/data/images/Feather",
+    "repo/data/images/Instagram",
+    "repo/data/images/Lead",
+    "repo/data/images/Stay",
+    "repo/data/images/TGEXtra",
+    "repo/data/images/Telegram",
+    "repo/data/images/Turrit",
+    "repo/data/images/YouTube",
+    "repo/data/images/ytplus",
+    "repo/debs",
+    "repo/debs/BHTwitter",
+    "repo/debs/Lead",
+    "repo/debs/NFB",
+    "repo/debs/TGExtra",
+    "repo/debs/YoutubeX",
+    "repo/debs/bilibili",
+    "repo/debs/cc18",
+    "repo/debs/ccappicon",
+    "repo/debs/fastlock",
+    "repo/debs/flow",
+    "repo/debs/glow",
+    "repo/debs/infuseplus",
+    "repo/debs/noytpremium",
+    "repo/debs/oledkeyboard",
+    "repo/debs/orwellvk",
+    "repo/debs/tweach",
+    "repo/debs/twlegacy",
+    "repo/debs/yougroupsettings",
+    "repo/debs/youmod",
+    "repo/debs/youmute",
+    "repo/debs/youpip",
+    "repo/debs/youspeed",
+    "repo/debs/youtubefix",
+    "repo/debs/yt-native-share",
+    "repo/debs/ytmu",
+    "repo/debs/ytplus",
+    "repo/debs/ytuhd",
+    "repo/debs/ytunshorts",
+    "repo/debs/ytvideooverlay",
+    "repo/dylibs",
+    "repo/dylibs/FbStorySeen",
+    "repo/dylibs/Ghi âm tắt màn",
+    "repo/dylibs/SideloadFix",
+    "repo/dylibs/X-Plugins",
+    "repo/dylibs/XLogin",
+    "repo/dylibs/autoCat",
+    "repo/html",
+    "supabase",
+    "supabase/functions",
+    "supabase/functions/create-order",
+    "supabase/functions/issue-license",
+    "supabase/functions/udid-capture"
+  ],
+  "dir_children": {
+    "repo": [
+      "CydiaIcon.png",
+      "Packages",
+      "Packages.bz2",
+      "README.md",
+      "Release",
+      "apps.json",
+      "debs.json",
+      "dylibs.json",
+      "index.html"
+    ],
+    "repo/debs": [],
+    "repo/debs/glow": [
+      "com.dvntm.glow_1.0.1_iphoneos-arm.deb",
+      "com.dvntm.glow_1.0.1_iphoneos-arm64.deb",
+      "com.dvntm.glow_1.0.1_iphoneos-arm64e.deb",
+      "com.dvntm.glow_1.0_iphoneos-arm.deb",
+      "com.dvntm.glow_1.0_iphoneos-arm64.deb",
+      "com.dvntm.glow_1.0_iphoneos-arm64e.deb",
+      "com.dvntm.glow_1.1_iphoneos-arm.deb",
+      "com.dvntm.glow_1.1_iphoneos-arm64.deb",
+      "com.dvntm.glow_1.1_iphoneos-arm64e.deb",
+      "com.dvntm.glow_1.2_iphoneos-arm.deb",
+      "com.dvntm.glow_1.2_iphoneos-arm64.deb",
+      "com.dvntm.glow_1.2_iphoneos-arm64e.deb",
+      "com.dvntm.glow_1.3.1_iphoneos-arm.deb",
+      "com.dvntm.glow_1.3.1_iphoneos-arm64.deb",
+      "com.dvntm.glow_1.3.1_iphoneos-arm64e.deb",
+      "com.dvntm.glow_1.3_iphoneos-arm.deb",
+      "com.dvntm.glow_1.3_iphoneos-arm64.deb",
+      "com.dvntm.glow_1.3_iphoneos-arm64e.deb"
+    ],
+    "repo/debs/youmod": [
+      "dev.water888.youmod_1.3.0_iphoneos-arm.deb"
+    ],
+    "repo/debs/orwellvk": [
+      "com.dvntm.ovk_1.1.6_iphoneos-arm.deb",
+      "com.dvntm.ovk_1.1.6_iphoneos-arm64.deb",
+      "com.dvntm.ovk_1.1.6_iphoneos-arm64e.deb",
+      "com.dvntm.ovk_1.2_iphoneos-arm.deb",
+      "com.dvntm.ovk_1.2_iphoneos-arm64.deb",
+      "com.dvntm.ovk_1.2_iphoneos-arm64e.deb"
+    ],
+    "repo/debs/ytmu": [
+      "com.ginsu.ytmusicultimate_2.3.1_iphoneos-arm.deb",
+      "com.ginsu.ytmusicultimate_2.3.1_iphoneos-arm64.deb",
+      "com.ginsu.ytmusicultimate_2.3.1_iphoneos-arm64e.deb",
+      "com.ginsu.ytmusicultimate_2.4.1_iphoneos-arm.deb",
+      "com.ginsu.ytmusicultimate_2.4.1_iphoneos-arm64.deb",
+      "com.ginsu.ytmusicultimate_2.4.1_iphoneos-arm64e.deb",
+      "com.ginsu.ytmusicultimate_2.4_iphoneos-arm.deb",
+      "com.ginsu.ytmusicultimate_2.4_iphoneos-arm64.deb",
+      "com.ginsu.ytmusicultimate_2.4_iphoneos-arm64e.deb"
+    ],
+    "repo/debs/ccappicon": [
+      "com.dvntm.ccappicon_0.0.1_iphoneos-arm.deb",
+      "com.dvntm.ccappicon_0.0.1_iphoneos-arm64.deb",
+      "com.dvntm.ccappicon_0.0.1_iphoneos-arm64e.deb"
+    ],
+    "repo/debs/YoutubeX": [
+      "YoutubeX_1.7.19_arm.deb"
+    ],
+    "repo/debs/bilibili": [
+      ".gitkeep",
+      "iOSGods.doantien.bilibili_3.3-arm.deb"
+    ],
+    "repo/debs/yt-native-share": [
+      "me.jkhsjdhjs.youtube-native-share_0.2.7_iphoneos-arm.deb",
+      "me.jkhsjdhjs.youtube-native-share_0.2.7_iphoneos-arm64.deb",
+      "me.jkhsjdhjs.youtube-native-share_0.2.7_iphoneos-arm64e.deb"
+    ],
+    "repo/debs/Lead": [
+      ".gitkeep",
+      "com.w3ltyyy.lead_1.3.1_iphoneos-arm.deb",
+      "com.w3ltyyy.lead_1.3.3_iphoneos-arm.deb",
+      "com.w3ltyyy.lead_1.3.5_iphoneos-arm.deb",
+      "com.w3ltyyy.lead_1.3.6_iphoneos-arm.deb",
+      "com.w3ltyyy.lead_1.3.7_iphoneos-arm.deb",
+      "com.w3ltyyy.lead_1.3.9_iphoneos-arm.deb",
+      "com.w3ltyyy.lead_1.4.0_iphoneos-arm.deb",
+      "com.w3ltyyy.lead_1.4.1_iphoneos-arm.deb",
+      "com.w3ltyyy.lead_1.4.2_iphoneos-arm.deb"
+    ],
+    "repo/debs/ytplus": [
+      "com.dvntm.ytlite_5.2.1_iphoneos-arm.deb",
+      "com.dvntm.ytlite_5.2.1_iphoneos-arm64.deb",
+      "com.dvntm.ytlite_5.2.1_iphoneos-arm64e.deb",
+      "com.dvntm.ytlite_5.2_iphoneos-arm.deb",
+      "com.dvntm.ytlite_5.2_iphoneos-arm64.deb",
+      "com.dvntm.ytlite_5.2_iphoneos-arm64e.deb",
+      "com.dvntm.ytlite_5.2~b1_iphoneos-arm.deb",
+      "com.dvntm.ytlite_5.2~b1_iphoneos-arm64.deb",
+      "com.dvntm.ytlite_5.2~b1_iphoneos-arm64e.deb",
+      "com.dvntm.ytlite_5.2~b2_iphoneos-arm.deb",
+      "com.dvntm.ytlite_5.2~b2_iphoneos-arm64.deb",
+      "com.dvntm.ytlite_5.2~b2_iphoneos-arm64e.deb",
+      "com.dvntm.ytlite_5.2~b3_iphoneos-arm.deb",
+      "com.dvntm.ytlite_5.2~b3_iphoneos-arm64.deb",
+      "com.dvntm.ytlite_5.2~b3_iphoneos-arm64e.deb",
+      "com.dvntm.ytlite_5.2~b4_iphoneos-arm.deb",
+      "com.dvntm.ytlite_5.2~b4_iphoneos-arm64.deb",
+      "com.dvntm.ytlite_5.2~b4_iphoneos-arm64e.deb"
+    ],
+    "repo/debs/infuseplus": [
+      "com.dvntm.infuseplus_2.2_iphoneos-arm.deb",
+      "com.dvntm.infuseplus_2.2_iphoneos-arm64.deb",
+      "com.dvntm.infuseplus_2.2_iphoneos-arm64e.deb",
+      "com.dvntm.infuseplus_2.3.1_iphoneos-arm.deb",
+      "com.dvntm.infuseplus_2.3.1_iphoneos-arm64.deb",
+      "com.dvntm.infuseplus_2.3.1_iphoneos-arm64e.deb",
+      "com.dvntm.infuseplus_2.3_iphoneos-arm.deb",
+      "com.dvntm.infuseplus_2.3_iphoneos-arm64.deb",
+      "com.dvntm.infuseplus_2.3_iphoneos-arm64e.deb",
+      "com.dvntm.infuseplus_2.4.1_iphoneos-arm.deb",
+      "com.dvntm.infuseplus_2.4.1_iphoneos-arm64.deb",
+      "com.dvntm.infuseplus_2.4.1_iphoneos-arm64e.deb",
+      "com.dvntm.infuseplus_2.4_iphoneos-arm.deb",
+      "com.dvntm.infuseplus_2.4_iphoneos-arm64.deb",
+      "com.dvntm.infuseplus_2.4_iphoneos-arm64e.deb",
+      "com.dvntm.infuseplus_2.5_iphoneos-arm.deb",
+      "com.dvntm.infuseplus_2.5_iphoneos-arm64.deb",
+      "com.dvntm.infuseplus_2.5_iphoneos-arm64e.deb"
+    ],
+    "repo/debs/TGExtra": [
+      ".gitkeep",
+      "com.choco.tgextra_227_1.7.6_iphoneos-arm.deb",
+      "com.choco.tgextra_227_1.7.6_iphoneos-arm64.deb",
+      "com.choco.tgextra_227_1.7.6_iphoneos-arm64e.deb"
+    ],
+    "repo/debs/ytvideooverlay": [
+      "com.ps.ytvideooverlay_2.3.6_iphoneos-arm.deb",
+      "com.ps.ytvideooverlay_2.3.6_iphoneos-arm64.deb",
+      "ytvideooverlay_2.3.5_arm.deb"
+    ],
+    "repo/debs/noytpremium": [
+      "noytpremium_1.0.7_arm.deb"
+    ],
+    "repo/debs/NFB": [
+      ".gitkepp",
+      "NFB-rootless.deb"
+    ],
+    "repo/debs/ytuhd": [
+      "com.ps.ytuhd_2.6.0_iphoneos-arm.deb",
+      "com.ps.ytuhd_2.6.0_iphoneos-arm64.deb"
+    ],
+    "repo/debs/youspeed": [
+      "com.ps.youspeed_1.7.1_iphoneos-arm.deb",
+      "com.ps.youspeed_1.7.1_iphoneos-arm64.deb",
+      "youspeed_1.6.6_arm.deb"
+    ],
+    "repo/debs/youtubefix": [
+      "youtubefix_1.0_arm.deb"
+    ],
+    "repo/debs/yougroupsettings": [
+      "yougroupsettings_1.0.10-arm.deb"
+    ],
+    "repo/debs/youmute": [
+      "youmute_1.4.0_arm.deb"
+    ],
+    "repo/debs/ytunshorts": [
+      "ytunshorts_1.3.1_arm.deb"
+    ],
+    "repo/debs/twlegacy": [
+      "com.dvntm.twlegacy_0.0.1_iphoneos-arm.deb",
+      "com.dvntm.twlegacy_0.0.1_iphoneos-arm64.deb",
+      "com.dvntm.twlegacy_0.0.1_iphoneos-arm64e.deb"
+    ],
+    "repo/debs/tweach": [
+      "com.dvntm.tweach_2.3.1_iphoneos-arm.deb",
+      "com.dvntm.tweach_2.3.1_iphoneos-arm64.deb",
+      "com.dvntm.tweach_2.3.1_iphoneos-arm64e.deb",
+      "com.dvntm.tweach_2.3.2_iphoneos-arm.deb",
+      "com.dvntm.tweach_2.3.2_iphoneos-arm64.deb",
+      "com.dvntm.tweach_2.3.2_iphoneos-arm64e.deb",
+      "com.dvntm.tweach_2.3.3_iphoneos-arm.deb",
+      "com.dvntm.tweach_2.3.3_iphoneos-arm64.deb",
+      "com.dvntm.tweach_2.3.3_iphoneos-arm64e.deb",
+      "com.dvntm.tweach_2.3_iphoneos-arm.deb",
+      "com.dvntm.tweach_2.3_iphoneos-arm64.deb",
+      "com.dvntm.tweach_2.3_iphoneos-arm64e.deb"
+    ],
+    "repo/debs/fastlock": [
+      "com.dvntm.fastlock_0.0.1_iphoneos-arm.deb",
+      "com.dvntm.fastlock_0.0.1_iphoneos-arm64.deb",
+      "com.dvntm.fastlock_0.0.1_iphoneos-arm64e.deb",
+      "com.dvntm.fastlock_1.0.1_iphoneos-arm.deb",
+      "com.dvntm.fastlock_1.0.1_iphoneos-arm64.deb",
+      "com.dvntm.fastlock_1.0.1_iphoneos-arm64e.deb",
+      "com.dvntm.fastlock_1.0_iphoneos-arm.deb",
+      "com.dvntm.fastlock_1.0_iphoneos-arm64.deb",
+      "com.dvntm.fastlock_1.0_iphoneos-arm64e.deb"
+    ],
+    "repo/debs/oledkeyboard": [
+      "com.dvntm.oledkeyboard_0.0.3_iphoneos-arm.deb",
+      "com.dvntm.oledkeyboard_0.0.3_iphoneos-arm64.deb",
+      "com.dvntm.oledkeyboard_0.0.3_iphoneos-arm64e.deb"
+    ],
+    "repo/debs/flow": [
+      "com.dvntm.flow_1.0_iphoneos-arm.deb",
+      "com.dvntm.flow_1.0_iphoneos-arm64.deb",
+      "com.dvntm.flow_1.0_iphoneos-arm64e.deb"
+    ],
+    "repo/debs/youpip": [
+      "com.ps.youpip_1.12.12_iphoneos-arm.deb",
+      "com.ps.youpip_1.12.12_iphoneos-arm64.deb"
+    ],
+    "repo/debs/cc18": [
+      "com.dvntm.cc18_0.0.3_iphoneos-arm.deb",
+      "com.dvntm.cc18_0.0.3_iphoneos-arm64.deb",
+      "com.dvntm.cc18_0.0.3_iphoneos-arm64e.deb"
+    ],
+    "repo/debs/BHTwitter": [
+      ".gitkeep",
+      "BHTwitter_rootless.deb"
+    ],
+    "repo/dylibs": [
+      ".gitkeep"
+    ],
+    "repo/dylibs/X-Plugins": [
+      ".gitkeep",
+      "DLTwitter.dylib",
+      "TWIGalaxy.dylib",
+      "TwitDate.dylib"
+    ],
+    "repo/dylibs/SideloadFix": [
+      ".gitkeep",
+      "FixIpa.dylib",
+      "LoadControl.dylib",
+      "Sideloadbypass1.dylib",
+      "Sideloadbypass2.dylib",
+      "sideloadFixerLol.dylib",
+      "sideloadKeychainFix.dylib"
+    ],
+    "repo/dylibs/XLogin": [
+      ".gitkeep",
+      "XLogin.dylib"
+    ],
+    "repo/dylibs/autoCat": [
+      ".gitkeep",
+      "com.kyic.autocat_1.3.1_iphoneos-arm.dylib",
+      "com.kyic.autocat_1.3.1_iphoneos-arm64.dylib",
+      "com.kyic.autocat_1.3.1_iphoneos-arm64e.dylib"
+    ],
+    "repo/dylibs/Ghi âm tắt màn": [
+      ".gitkeep",
+      "Ghi âm tắt màn.dylib"
+    ],
+    "repo/dylibs/FbStorySeen": [
+      ".gitkeep",
+      "FbStorySeen.dylib"
+    ],
+    "repo/data": [],
+    "repo/data/desc": [],
+    "repo/data/desc/tweaks": [],
+    "repo/data/desc/tweaks/glow": [
+      "com.dvntm.glow_1.0.1_iphoneos-arm.json",
+      "com.dvntm.glow_1.0.1_iphoneos-arm64.json",
+      "com.dvntm.glow_1.0.1_iphoneos-arm64e.json",
+      "com.dvntm.glow_1.0_iphoneos-arm.json",
+      "com.dvntm.glow_1.0_iphoneos-arm64.json",
+      "com.dvntm.glow_1.0_iphoneos-arm64e.json",
+      "com.dvntm.glow_1.1_iphoneos-arm.json",
+      "com.dvntm.glow_1.1_iphoneos-arm64.json",
+      "com.dvntm.glow_1.1_iphoneos-arm64e.json",
+      "com.dvntm.glow_1.2_iphoneos-arm.json",
+      "com.dvntm.glow_1.2_iphoneos-arm64.json",
+      "com.dvntm.glow_1.2_iphoneos-arm64e.json",
+      "com.dvntm.glow_1.3.1_iphoneos-arm.json",
+      "com.dvntm.glow_1.3.1_iphoneos-arm64.json",
+      "com.dvntm.glow_1.3.1_iphoneos-arm64e.json",
+      "com.dvntm.glow_1.3_iphoneos-arm.json",
+      "com.dvntm.glow_1.3_iphoneos-arm64.json",
+      "com.dvntm.glow_1.3_iphoneos-arm64e.json",
+      "default.txt"
+    ],
+    "repo/data/desc/tweaks/YTVideoOverlay": [
+      "default.txt",
+      "ytvideooverlay_2.3.5_arm.json"
+    ],
+    "repo/data/desc/tweaks/YouGroupSettings": [
+      "default.txt",
+      "yougroupsettings_1.0.10-arm.json"
+    ],
+    "repo/data/desc/tweaks/YouSpeed": [
+      "default.txt",
+      "youspeed_1.6.6_arm.json"
+    ],
+    "repo/data/desc/tweaks/youmod": [
+      "default.txt",
+      "dev.water888.youmod_1.3.0_iphoneos-arm.json"
+    ],
+    "repo/data/desc/tweaks/NoYTPremium": [
+      "default.txt",
+      "noytpremium_1.0.7_arm.json"
+    ],
+    "repo/data/desc/tweaks/orwellvk": [
+      "com.dvntm.ovk_1.1.6_iphoneos-arm.json",
+      "com.dvntm.ovk_1.1.6_iphoneos-arm64.json",
+      "com.dvntm.ovk_1.1.6_iphoneos-arm64e.json",
+      "com.dvntm.ovk_1.2_iphoneos-arm.json",
+      "com.dvntm.ovk_1.2_iphoneos-arm64.json",
+      "com.dvntm.ovk_1.2_iphoneos-arm64e.json",
+      "default.txt"
+    ],
+    "repo/data/desc/tweaks/ytmu": [
+      "com.ginsu.ytmusicultimate_2.3.1_iphoneos-arm.json",
+      "com.ginsu.ytmusicultimate_2.3.1_iphoneos-arm64.json",
+      "com.ginsu.ytmusicultimate_2.3.1_iphoneos-arm64e.json",
+      "com.ginsu.ytmusicultimate_2.4.1_iphoneos-arm.json",
+      "com.ginsu.ytmusicultimate_2.4.1_iphoneos-arm64.json",
+      "com.ginsu.ytmusicultimate_2.4.1_iphoneos-arm64e.json",
+      "com.ginsu.ytmusicultimate_2.4_iphoneos-arm.json",
+      "com.ginsu.ytmusicultimate_2.4_iphoneos-arm64.json",
+      "com.ginsu.ytmusicultimate_2.4_iphoneos-arm64e.json",
+      "default.txt"
+    ],
+    "repo/data/desc/tweaks/YouTube X": [
+      "YoutubeX_1.7.19_arm.json",
+      "default.txt"
+    ],
+    "repo/data/desc/tweaks/ccappicon": [
+      "com.dvntm.ccappicon_0.0.1_iphoneos-arm.json",
+      "com.dvntm.ccappicon_0.0.1_iphoneos-arm64.json",
+      "com.dvntm.ccappicon_0.0.1_iphoneos-arm64e.json",
+      "default.txt"
+    ],
+    "repo/data/desc/tweaks/bilibili": [
+      "default.txt",
+      "iOSGods.doantien.bilibili_3.3-arm.json"
+    ],
+    "repo/data/desc/tweaks/yt-native-share": [
+      "default.txt",
+      "me.jkhsjdhjs.youtube-native-share_0.2.7_iphoneos-arm.json",
+      "me.jkhsjdhjs.youtube-native-share_0.2.7_iphoneos-arm64.json",
+      "me.jkhsjdhjs.youtube-native-share_0.2.7_iphoneos-arm64e.json"
+    ],
+    "repo/data/desc/tweaks/Lead": [
+      "com.w3ltyyy.lead_1.3.1_iphoneos-arm.json",
+      "com.w3ltyyy.lead_1.3.3_iphoneos-arm.json",
+      "com.w3ltyyy.lead_1.3.5_iphoneos-arm.json",
+      "com.w3ltyyy.lead_1.3.6_iphoneos-arm.json",
+      "com.w3ltyyy.lead_1.3.7_iphoneos-arm.json",
+      "com.w3ltyyy.lead_1.3.9_iphoneos-arm.json",
+      "com.w3ltyyy.lead_1.4.0_iphoneos-arm.json",
+      "com.w3ltyyy.lead_1.4.1_iphoneos-arm.json",
+      "com.w3ltyyy.lead_1.4.2_iphoneos-arm.json",
+      "com.w3ltyyy.lead_1.4.3_iphoneos-arm.json",
+      "default.txt",
+      "v1.4.3.txt"
+    ],
+    "repo/data/desc/tweaks/ytplus": [
+      "com.dvntm.ytlite_5.2.1_iphoneos-arm.json",
+      "com.dvntm.ytlite_5.2.1_iphoneos-arm64.json",
+      "com.dvntm.ytlite_5.2.1_iphoneos-arm64e.json",
+      "com.dvntm.ytlite_5.2_iphoneos-arm.json",
+      "com.dvntm.ytlite_5.2_iphoneos-arm64.json",
+      "com.dvntm.ytlite_5.2_iphoneos-arm64e.json",
+      "com.dvntm.ytlite_5.2~b1_iphoneos-arm.json",
+      "com.dvntm.ytlite_5.2~b1_iphoneos-arm64.json",
+      "com.dvntm.ytlite_5.2~b1_iphoneos-arm64e.json",
+      "com.dvntm.ytlite_5.2~b2_iphoneos-arm.json",
+      "com.dvntm.ytlite_5.2~b2_iphoneos-arm64.json",
+      "com.dvntm.ytlite_5.2~b2_iphoneos-arm64e.json",
+      "com.dvntm.ytlite_5.2~b3_iphoneos-arm.json",
+      "com.dvntm.ytlite_5.2~b3_iphoneos-arm64.json",
+      "com.dvntm.ytlite_5.2~b3_iphoneos-arm64e.json",
+      "com.dvntm.ytlite_5.2~b4_iphoneos-arm.json",
+      "com.dvntm.ytlite_5.2~b4_iphoneos-arm64.json",
+      "com.dvntm.ytlite_5.2~b4_iphoneos-arm64e.json",
+      "default.txt"
+    ],
+    "repo/data/desc/tweaks/infuseplus": [
+      "com.dvntm.infuseplus_2.2_iphoneos-arm.json",
+      "com.dvntm.infuseplus_2.2_iphoneos-arm64.json",
+      "com.dvntm.infuseplus_2.2_iphoneos-arm64e.json",
+      "com.dvntm.infuseplus_2.3.1_iphoneos-arm.json",
+      "com.dvntm.infuseplus_2.3.1_iphoneos-arm64.json",
+      "com.dvntm.infuseplus_2.3.1_iphoneos-arm64e.json",
+      "com.dvntm.infuseplus_2.3_iphoneos-arm.json",
+      "com.dvntm.infuseplus_2.3_iphoneos-arm64.json",
+      "com.dvntm.infuseplus_2.3_iphoneos-arm64e.json",
+      "com.dvntm.infuseplus_2.4.1_iphoneos-arm.json",
+      "com.dvntm.infuseplus_2.4.1_iphoneos-arm64.json",
+      "com.dvntm.infuseplus_2.4.1_iphoneos-arm64e.json",
+      "com.dvntm.infuseplus_2.4_iphoneos-arm.json",
+      "com.dvntm.infuseplus_2.4_iphoneos-arm64.json",
+      "com.dvntm.infuseplus_2.4_iphoneos-arm64e.json",
+      "com.dvntm.infuseplus_2.5_iphoneos-arm.json",
+      "com.dvntm.infuseplus_2.5_iphoneos-arm64.json",
+      "com.dvntm.infuseplus_2.5_iphoneos-arm64e.json",
+      "default.txt"
+    ],
+    "repo/data/desc/tweaks/TGExtra": [
+      "com.choco.tgextra_227_1.7.6_iphoneos-arm.json",
+      "com.choco.tgextra_227_1.7.6_iphoneos-arm64.json",
+      "com.choco.tgextra_227_1.7.6_iphoneos-arm64e.json",
+      "default.txt"
+    ],
+    "repo/data/desc/tweaks/YTUnShorts": [
+      "default.txt",
+      "ytunshorts_1.3.1_arm.json"
+    ],
+    "repo/data/desc/tweaks/ytvideooverlay": [
+      "com.ps.ytvideooverlay_2.3.6_iphoneos-arm.json",
+      "com.ps.ytvideooverlay_2.3.6_iphoneos-arm64.json",
+      "default.txt"
+    ],
+    "repo/data/desc/tweaks/NFB": [
+      "BHTwitter_rootless.json",
+      "NFB-rootless.json",
+      "default.txt"
+    ],
+    "repo/data/desc/tweaks/ytuhd": [
+      "com.ps.ytuhd_2.6.0_iphoneos-arm.json",
+      "com.ps.ytuhd_2.6.0_iphoneos-arm64.json",
+      "default.txt"
+    ],
+    "repo/data/desc/tweaks/youspeed": [
+      "com.ps.youspeed_1.7.1_iphoneos-arm.json",
+      "com.ps.youspeed_1.7.1_iphoneos-arm64.json",
+      "default.txt"
+    ],
+    "repo/data/desc/tweaks/twlegacy": [
+      "com.dvntm.twlegacy_0.0.1_iphoneos-arm.json",
+      "com.dvntm.twlegacy_0.0.1_iphoneos-arm64.json",
+      "com.dvntm.twlegacy_0.0.1_iphoneos-arm64e.json",
+      "default.txt"
+    ],
+    "repo/data/desc/tweaks/YouTube Fix": [
+      "default.txt",
+      "youtubefix_1.0_arm.json"
+    ],
+    "repo/data/desc/tweaks/tweach": [
+      "com.dvntm.tweach_2.3.1_iphoneos-arm.json",
+      "com.dvntm.tweach_2.3.1_iphoneos-arm64.json",
+      "com.dvntm.tweach_2.3.1_iphoneos-arm64e.json",
+      "com.dvntm.tweach_2.3.2_iphoneos-arm.json",
+      "com.dvntm.tweach_2.3.2_iphoneos-arm64.json",
+      "com.dvntm.tweach_2.3.2_iphoneos-arm64e.json",
+      "com.dvntm.tweach_2.3.3_iphoneos-arm.json",
+      "com.dvntm.tweach_2.3.3_iphoneos-arm64.json",
+      "com.dvntm.tweach_2.3.3_iphoneos-arm64e.json",
+      "com.dvntm.tweach_2.3_iphoneos-arm.json",
+      "com.dvntm.tweach_2.3_iphoneos-arm64.json",
+      "com.dvntm.tweach_2.3_iphoneos-arm64e.json",
+      "default.txt"
+    ],
+    "repo/data/desc/tweaks/fastlock": [
+      "com.dvntm.fastlock_0.0.1_iphoneos-arm.json",
+      "com.dvntm.fastlock_0.0.1_iphoneos-arm64.json",
+      "com.dvntm.fastlock_0.0.1_iphoneos-arm64e.json",
+      "com.dvntm.fastlock_1.0.1_iphoneos-arm.json",
+      "com.dvntm.fastlock_1.0.1_iphoneos-arm64.json",
+      "com.dvntm.fastlock_1.0.1_iphoneos-arm64e.json",
+      "com.dvntm.fastlock_1.0_iphoneos-arm.json",
+      "com.dvntm.fastlock_1.0_iphoneos-arm64.json",
+      "com.dvntm.fastlock_1.0_iphoneos-arm64e.json",
+      "default.txt"
+    ],
+    "repo/data/desc/tweaks/oledkeyboard": [
+      "com.dvntm.oledkeyboard_0.0.3_iphoneos-arm.json",
+      "com.dvntm.oledkeyboard_0.0.3_iphoneos-arm64.json",
+      "com.dvntm.oledkeyboard_0.0.3_iphoneos-arm64e.json",
+      "default.txt"
+    ],
+    "repo/data/desc/tweaks/YouMute": [
+      "default.txt",
+      "youmute_1.4.0_arm.json"
+    ],
+    "repo/data/desc/tweaks/flow": [
+      "com.dvntm.flow_1.0_iphoneos-arm.json",
+      "com.dvntm.flow_1.0_iphoneos-arm64.json",
+      "com.dvntm.flow_1.0_iphoneos-arm64e.json",
+      "default.txt"
+    ],
+    "repo/data/desc/tweaks/youpip": [
+      "com.ps.youpip_1.12.12_iphoneos-arm.json",
+      "com.ps.youpip_1.12.12_iphoneos-arm64.json",
+      "default.txt"
+    ],
+    "repo/data/desc/tweaks/cc18": [
+      "com.dvntm.cc18_0.0.3_iphoneos-arm.json",
+      "com.dvntm.cc18_0.0.3_iphoneos-arm64.json",
+      "com.dvntm.cc18_0.0.3_iphoneos-arm64e.json",
+      "default.txt"
+    ],
+    "repo/data/desc/tweaks/BHTwitter": [
+      "BHTwitter_rootless.json",
+      "default.txt"
+    ],
+    "repo/data/desc/dylibs": [],
+    "repo/data/desc/dylibs/DLTwitter": [
+      "DLTwitter.json"
+    ],
+    "repo/data/desc/dylibs/Sideloadbypass2": [
+      "Sideloadbypass2.json"
+    ],
+    "repo/data/desc/dylibs/FixIpa": [
+      "FixIpa.json"
+    ],
+    "repo/data/desc/dylibs/Sideloadbypass1": [
+      "Sideloadbypass1.json"
+    ],
+    "repo/data/desc/dylibs/XLogin": [
+      "XLogin.json"
+    ],
+    "repo/data/desc/dylibs/SideloadKeychainFix": [
+      "sideloadKeychainFix.json"
+    ],
+    "repo/data/desc/dylibs/Lead": [
+      "com.w3ltyyy.lead_1.3.3_iphoneos-arm.json",
+      "com.w3ltyyy.lead_1.4.2_iphoneos-arm.json",
+      "com.w3ltyyy.lead_1.4.3_iphoneos-arm.json",
+      "v1.3.3.txt",
+      "v1.4.2.txt",
+      "v1.4.3.txt"
+    ],
+    "repo/data/desc/dylibs/AutoRevenuecat": [
+      "com.kyic.autoRevenuecat_1.3.1_iphoneos-arm.json",
+      "com.kyic.autoRevenuecat_1.3.1_iphoneos-arm64.json",
+      "com.kyic.autoRevenuecat_1.3.1_iphoneos-arm64e.json",
+      "v1.3.1.txt"
+    ],
+    "repo/data/desc/dylibs/SideloadFixerLol": [
+      "sideloadFixerLol.json"
+    ],
+    "repo/data/desc/dylibs/LoadControl": [
+      "LoadControl.json"
+    ],
+    "repo/data/desc/dylibs/TwitDate": [
+      "TwitDate.json"
+    ],
+    "repo/data/desc/dylibs/Ghi âm tắt màn": [
+      "Ghi âm tắt màn.json"
+    ],
+    "repo/data/desc/dylibs/FbStorySeen": [
+      "FbStorySeen.json"
+    ],
+    "repo/data/desc/dylibs/Autocat": [
+      "com.kyic.autocat_1.3.1_iphoneos-arm.json",
+      "com.kyic.autocat_1.3.1_iphoneos-arm64.json",
+      "com.kyic.autocat_1.3.1_iphoneos-arm64e.json"
+    ],
+    "repo/data/desc/dylibs/TWIGalaxy": [
+      "TWIGalaxy.json"
+    ],
+    "repo/data/desc/wiki": [
+      "wikiapps.json",
+      "wikidebs.json",
+      "wikidylibs.json"
+    ],
+    "repo/data/desc/apps": [],
+    "repo/data/desc/apps/LCSign": [
+      "v1.1.6.txt",
+      "v1.1.txt",
+      "v1.2.txt"
+    ],
+    "repo/data/desc/apps/ESign": [],
+    "repo/data/desc/apps/Zebra": [
+      "v1.1.28.txt"
+    ],
+    "repo/data/desc/apps/LCSign-1": [
+      "v1.2.txt"
+    ],
+    "repo/data/desc/apps/Phim4K": [
+      "v2.2.2.txt",
+      "v2.3.1.txt"
+    ],
+    "repo/data/desc/apps/DLiPA": [
+      "v1.3.txt"
+    ],
+    "repo/data/desc/apps/Pocket": [],
+    "repo/data/desc/apps/Facebook": [
+      "v519.0.0.txt",
+      "v538.1.0.txt",
+      "v551.1.0.txt",
+      "v565.0.0.txt"
+    ],
+    "repo/data/desc/apps/Feather": [],
+    "repo/data/desc/apps/BiliBili": [
+      "v2.70.0.txt"
+    ],
+    "repo/data/desc/apps/UnKeySign": [
+      "v1.1.8.txt"
+    ],
+    "repo/data/desc/apps/SPAMSMS": [
+      "v1.0.0.txt"
+    ],
+    "repo/data/desc/apps/Turrit": [
+      "v1.4.6.txt",
+      "v1.4.7.txt",
+      "v1.4.8.txt",
+      "v1.4.9.txt",
+      "v1.5.0.txt"
+    ],
+    "repo/data/desc/apps/Stay": [
+      "v2.9.18.txt",
+      "v2.9.20.txt"
+    ],
+    "repo/data/desc/apps/Telegram": [
+      "v12.6.3.txt",
+      "v12.8.txt"
+    ],
+    "repo/data/desc/apps/Instagram": [
+      "v419.0.0.txt",
+      "v433.0.0.txt",
+      "v435.1.0.txt"
+    ],
+    "repo/data/desc/apps/YouTube": [
+      "v21.16.2.txt",
+      "v21.17.3.txt",
+      "v21.22.3.txt",
+      "v21.24.3.txt",
+      "v21.25.5.txt"
+    ],
+    "repo/data/desc/apps/MuteOTA": [
+      "v1.2.txt"
+    ],
+    "repo/data/desc/apps/全能签": [],
+    "repo/data/images": [],
+    "repo/data/images/DLiPA": [
+      ".gitkeep",
+      "DLiPA_1.png",
+      "DLiPA_2.png",
+      "DLiPA_3.png",
+      "DLiPA_4.png",
+      "DLiPA_5.png"
+    ],
+    "repo/data/images/Lead": [
+      ".gitkeep",
+      "Lead_1.jpg"
+    ],
+    "repo/data/images/ytplus": [
+      ".gitkeep",
+      "ytplus_1.jpg",
+      "ytplus_2.jpg",
+      "ytplus_4.jpg",
+      "ytplus_5.jpg",
+      "ytplus_6.jpg",
+      "ytplus_7.jpg",
+      "ytplus_8.jpg",
+      "ytplus_9.jpg",
+      "ytplus_banner.png"
+    ],
+    "repo/data/images/Facebook": [
+      "Facebook_1.jpg",
+      "Facebook_10.jpg",
+      "Facebook_2.jpg",
+      "Facebook_3.jpg",
+      "Facebook_4.jpg",
+      "Facebook_5.jpg",
+      "Facebook_6.jpg",
+      "Facebook_7.jpg",
+      "Facebook_8.jpg",
+      "Facebook_9.jpg",
+      "Facebook_banner.jpg"
+    ],
+    "repo/data/images/Feather": [
+      ".gitkeep",
+      "Feather_1.png",
+      "Feather_2.png",
+      "Feather_3.png",
+      "Feather_4.png"
+    ],
+    "repo/data/images/Turrit": [
+      "Turrit_1.jpg",
+      "Turrit_2.jpg",
+      "Turrit_3.jpg",
+      "Turrit_4.jpg",
+      "Turrit_5.jpg",
+      "Turrit_6.jpg",
+      "Turrit_7.jpg",
+      "Turrit_8.jpg",
+      "Turrit_banner.jpg"
+    ],
+    "repo/data/images/Stay": [
+      "Stay_1.jpg",
+      "Stay_2.jpg",
+      "Stay_3.jpg",
+      "Stay_4.jpg",
+      "Stay_banner.jpg"
+    ],
+    "repo/data/images/Telegram": [
+      "Telegram_1.jpg",
+      "Telegram_2.jpg",
+      "Telegram_3.jpg",
+      "Telegram_4.jpg",
+      "Telegram_5.jpg",
+      "Telegram_6.jpg",
+      "Telegram_7.jpg",
+      "Telegram_banner.jpg"
+    ],
+    "repo/data/images/Instagram": [
+      "Instagram_1.jpg",
+      "Instagram_2.jpg",
+      "Instagram_3.jpg",
+      "Instagram_4.jpg",
+      "Instagram_5.jpg",
+      "Instagram_6.jpg",
+      "Instagram_7.jpg",
+      "Instagram_8.jpg",
+      "Instagram_banner.jpg"
+    ],
+    "repo/data/images/YouTube": [
+      ".gitkeep",
+      "YouTube_1.jpg",
+      "YouTube_2.jpg",
+      "YouTube_3.jpg",
+      "YouTube_4.jpg",
+      "YouTube_5.jpg",
+      "YouTube_banner.jpg"
+    ],
+    "repo/data/images/TGEXtra": [
+      ".gitkeep",
+      "TGExtra_1.jpg"
+    ],
+    "repo/data/images/AutoAC": [
+      ".gitkeep",
+      "AutoAC1.png",
+      "AutoAC2.png",
+      "AutoAC3.png"
+    ],
+    "repo/data/default": [
+      ".gitkeep",
+      "Kyic.png",
+      "Kyic_1.jpeg",
+      "Kyic_2.jpeg",
+      "Kyic_3.jpeg",
+      "Kyic_4.jpeg",
+      "Kyic_5.jpeg",
+      "Kyic_6.jpeg",
+      "Kyic_7.jpeg",
+      "Kyic_8.jpeg",
+      "Kyic_banner.png",
+      "Kyic_banner.webp",
+      "Kyic_video.mp4",
+      "about.png",
+      "donate.png"
+    ],
+    "repo/data/icons": [
+      "BiliBili.png",
+      "DLiPA.png",
+      "ESign.png",
+      "Esign.png",
+      "Facebook.jpg",
+      "Feather.png",
+      "GBox.png",
+      "Instagram.jpg",
+      "Kyic-hello.png",
+      "LCSign.png",
+      "Lithium.png",
+      "MuteOTA.png",
+      "Phim 4K.png",
+      "Phim4K.png",
+      "Stay.jpg",
+      "Telegram.png",
+      "Turrit.jpg",
+      "UnKeySign.png",
+      "YouTube.png",
+      "Zebra.png",
+      "cc18.jpg",
+      "ccappicon.jpg",
+      "fastlock.jpg",
+      "flow.jpg",
+      "glow.jpg",
+      "infuseplus.jpg",
+      "noitsnottimetoupdate.jpg",
+      "oledkeyboard.jpg",
+      "orwellvk.jpg",
+      "tweach.jpg",
+      "twlegacy.jpg",
+      "yougroupsettings.jpg",
+      "ytmu.jpg",
+      "ytplus.jpg",
+      "全能签.png"
+    ],
+    "repo/html": [
+      ".gitkeep",
+      "apps.html",
+      "auth.html",
+      "checkout-cancel.html",
+      "checkout-success.html",
+      "dashboard.html",
+      "debs.html",
+      "dylibs.html",
+      "index.html",
+      "shop.html",
+      "sign.html"
+    ],
+    "repo/apps": [],
+    "repo/apps/AllSign": [
+      ".gitkeep",
+      "全能签_26.0.5.ipa"
+    ],
+    "repo/apps/LCSign": [
+      ".gitkeep",
+      "LCSign_1.0.7.ipa"
+    ],
+    "repo/apps/PostBox": [
+      ".gitkeep"
+    ],
+    "repo/apps/ESign": [
+      ".gitkeep",
+      "ESign_5.0.2.ipa"
+    ],
+    "repo/apps/Lithium": [
+      ".gitkeep"
+    ],
+    "repo/apps/Zebra": [
+      ".gitkeep"
+    ],
+    "repo/apps/Pocket": [
+      ".gitkeep",
+      "Pocket_0.8.1_下载deb_0.8.1.ipa"
+    ],
+    "repo/apps/GBox": [
+      ".gitkeep"
+    ],
+    "repo/apps/Feather": [
+      ".gitkeep",
+      "Feather_2.8.2.ipa"
+    ],
+    "repo/apps/MuteOTA": [
+      ".gitkeep",
+      "MuteOTA_2.4.ipa"
+    ],
+    "supabase": [
+      ".gitkeep"
+    ],
+    "supabase/functions": [
+      ".gitkeep"
+    ],
+    "supabase/functions/issue-license": [
+      ".gitkeep",
+      "index.ts"
+    ],
+    "supabase/functions/udid-capture": [
+      ".gitkeep",
+      "index.ts"
+    ],
+    "supabase/functions/create-order": [
+      ".gitkeep",
+      "index.ts"
+    ],
+    "FAQs": [
+      "FAQ.md",
+      "FAQ_EN.md"
+    ]
+  }
+}

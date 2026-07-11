@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#0a1428">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Kyic storage</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        :root {
+            --radius-panel:  26px;
+            --radius-card:   16px;
+            --radius-btn:    12px;
+            --radius-pill:   999px;
+            --radius-circle: 50%;
+        }
+
+        html {
+            --bg-1: #0a1428;
+            --bg-2: #1e3a8a;
+            --text: white;
+            --text-secondary: rgba(255,255,255,0.6);
+            --card-bg: rgba(255,255,255,0.08);
+            --card-border: rgba(255,255,255,0.16);
+            --card-shadow: rgba(31,38,135,0.37);
+            --hover-bg: rgba(255,255,255,0.12);
+            --btn-inactive: rgba(255,255,255,0.07);
+            --btn-inactive-border: rgba(255,255,255,0.13);
+            --btn-inactive-text: rgba(255,255,255,0.45);
+            --tint: #848ef9;
+            --glass-bg: rgba(8, 16, 40, 0.60);
+            --glass-blur: blur(40px) saturate(220%) brightness(1.08);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.22);
+            --glass-radius: 26px;
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+            font-size: clamp(14px, 2vw, 16px);
+        }
+
+        html[data-theme="light"] {
+            --bg-1: #f0f4ff;
+            --bg-2: #dce6f5;
+            --text: #1d1d1f;
+            --text-secondary: rgba(0,0,0,0.55);
+            --card-bg: rgba(255,255,255,0.72);
+            --card-border: rgba(0,0,0,0.10);
+            --card-shadow: rgba(0,0,0,0.08);
+            --hover-bg: rgba(0,0,0,0.06);
+            --btn-inactive: rgba(0,0,0,0.05);
+            --btn-inactive-border: rgba(0,0,0,0.10);
+            --btn-inactive-text: rgba(0,0,0,0.45);
+            --glass-bg-light: rgba(255, 255, 255, 0.95);
+            --glass-border-light: 1px solid rgba(0, 0, 0, 0.08);
+            --glass-shadow-light: 0 8px 32px rgba(0, 0, 0, 0.12);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--bg-1), var(--bg-2));
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            transition: background 0.4s, color 0.4s;
+        }
+
+        .container {
+            text-align: center;
+            padding: clamp(48px, 14vh, 84px) clamp(16px, 5vw, 20px) clamp(36px, 10vh, 60px);
+            position: relative;
+            z-index: 2;
+            max-width: clamp(320px, 90vw, 480px);
+            margin: 0 auto;
+        }
+
+        .logo {
+            width: clamp(80px, 22vw, 120px);
+            height: clamp(80px, 22vw, 120px);
+            border-radius: var(--radius-card);
+            margin-bottom: clamp(18px, 4vh, 28px);
+            box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+        }
+
+        h1 {
+            font-size: clamp(1.8em, 6vw, 2.6em);
+            margin-bottom: clamp(6px, 1.5vh, 10px);
+            font-weight: 700;
+            background: linear-gradient(135deg, #ff6b6b, #ffa94d, #74b9ff, #a29bfe, #fd79a8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: clamp(0.9em, 2.8vw, 1.1em);
+            color: var(--text-secondary);
+            margin-bottom: clamp(28px, 7vh, 42px);
+            line-height: 1.5;
+        }
+
+        .tabs-container {
+            background: var(--card-bg);
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border-radius: var(--radius-panel);
+            padding: 8px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 8px 32px var(--card-shadow);
+            margin-bottom: clamp(24px, 6vh, 36px);
+        }
+
+        .tabs-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+
+        .tab-btn {
+            background: var(--btn-inactive);
+            border: 1px solid var(--btn-inactive-border);
+            color: var(--btn-inactive-text);
+            padding: 10px 6px;
+            border-radius: var(--radius-btn);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.88em;
+            transition: all 0.25s;
+        }
+
+        .tab-btn.active {
+            background: rgba(100,180,255,0.18);
+            border-color: rgba(100,180,255,0.7);
+            color: var(--text);
+        }
+
+        html[data-theme="light"] .tab-btn.active {
+            background: rgba(59,130,246,0.12);
+            border-color: rgba(59,130,246,0.5);
+            color: #1d4ed8;
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.25s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+        .tab-item {
+            background: var(--hover-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-btn);
+            padding: 13px 14px;
+            margin-bottom: 6px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+            text-align: left; /* FIX: .container có text-align:center (cho hero),
+                                  cần override lại vì tab-item là list item, phải
+                                  canh trái như 1 danh sách bình thường */
+        }
+
+        .tab-item:last-child { margin-bottom: 0; }
+
+        .tab-item:active {
+            transform: scale(0.98);
+            filter: brightness(0.92);
+        }
+
+        .tab-item h3 {
+            font-size: 0.95em;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .tab-item p {
+            font-size: 0.75em;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .tab-item-icon {
+            font-size: 1.2em;
+            flex-shrink: 0;
+            margin-left: 10px;
+        }
+
+        /* Mục Premium (trả phí) — tách biệt rõ khỏi mục free bên trên */
+        .tab-item-premium {
+            background: linear-gradient(135deg, rgba(132,142,249,0.18), rgba(107,232,160,0.12));
+            border: 1px solid rgba(132,142,249,0.4);
+            margin-top: 10px;
+        }
+        .tab-item-premium h3 { color: #a8b1ff; }
+        .premium-divider {
+            display: flex; align-items: center; gap: 8px;
+            margin: 10px 0 6px; font-size: 0.7em;
+            color: var(--text-secondary); text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .premium-divider::before, .premium-divider::after {
+            content: ''; flex: 1; height: 1px; background: var(--card-border);
+        }
+
+        .info {
+            margin-top: 8px;
+            color: var(--text-secondary);
+            font-size: 0.85em;
+            line-height: 1.8;
+        }
+
+        .top-actions {
+            position: fixed;
+            top: max(16px, env(safe-area-inset-top, 16px));
+            right: 16px;
+            z-index: 100;
+            display: flex;
+            gap: 8px;
+        }
+
+        .icon-btn {
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--card-border);
+            border-radius: 50%;
+            width: 36px; height: 36px;
+            font-size: 1.05em;
+            color: var(--text);
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        html[data-theme="light"] .icon-btn { background: rgba(0,0,0,0.05); }
+        .icon-btn:active { background: rgba(255,255,255,0.2); transform: scale(0.93); }
+        html[data-theme="light"] .icon-btn:active { background: rgba(0,0,0,0.12); }
+
+        .particle { position: fixed; pointer-events: none; z-index: 1; animation: fall linear infinite; }
+        @keyframes fall { to { transform: translateY(120vh) rotate(360deg); } }
+
+        /* ── SETTINGS PANEL — giống hệt apps/debs/dylibs.html (glass, trượt từ phải) ── */
+
+        .settings-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(2px);
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 300;
+        }
+        .settings-overlay.active { opacity: 1; pointer-events: auto; }
+
+        .settings-panel {
+            position: fixed;
+            top: max(16px, env(safe-area-inset-top, 16px));
+            right: 12px;
+            max-height: calc(100vh - 32px);
+            width: fit-content;
+            min-width: 220px;
+            max-width: min(85vw, 320px);
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: var(--glass-border);
+            border-radius: var(--glass-radius);
+            box-shadow: var(--glass-shadow);
+            transform: translateX(calc(100% + 24px)) translateZ(0);
+            transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 301;
+            display: flex; flex-direction: column;
+            padding: 6px 0 10px;
+            overflow: hidden;
+        }
+        html[data-theme="light"] .settings-panel {
+            background: var(--glass-bg-light);
+            border: var(--glass-border-light);
+            box-shadow: var(--glass-shadow-light);
+        }
+        .settings-panel.active { transform: translateX(0) translateZ(0); }
+
+        .settings-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 14px 9px;
+            border-bottom: 1px solid var(--card-border);
+        }
+        .settings-header h3 { font-size: 0.95em; font-weight: 700; letter-spacing: 0.3px; }
+
+        .settings-close {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--card-border);
+            color: var(--text);
+            width: 32px; height: 32px; border-radius: 50%;
+            cursor: pointer; font-size: 0.95em;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; transition: all 0.2s;
+        }
+        .settings-close:active { background: rgba(255,255,255,0.2); transform: scale(0.93); }
+        html[data-theme="light"] .settings-close { background: rgba(0,0,0,0.05); }
+
+        .settings-list {
+            display: flex; flex-direction: column; gap: 6px;
+            padding: 10px 12px;
+            overflow-y: auto;
+        }
+
+        .settings-item {
+            display: flex; align-items: center; gap: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 12px;
+            padding: 10px 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none; color: var(--text);
+        }
+        html[data-theme="light"] .settings-item { background: rgba(0,0,0,0.035); }
+        .settings-item:active { background: rgba(255,255,255,0.14); transform: scale(0.98); }
+        html[data-theme="light"] .settings-item:active { background: rgba(0,0,0,0.08); }
+
+        .settings-item-account {
+            background: linear-gradient(135deg, rgba(132,142,249,0.22), rgba(107,232,160,0.14));
+            border: 1px solid rgba(132,142,249,0.4);
+        }
+
+        .settings-item-icon { font-size: 1.1em; width: 20px; text-align: center; flex-shrink: 0; }
+        .settings-item-text { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+        .settings-item-title { font-weight: 600; font-size: 0.88em; line-height: 1.3; }
+        .settings-item-sub {
+            font-size: 0.72em; color: var(--text-secondary);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-actions">
+    <button class="icon-btn" onclick="toggleSettings()" title="Cài đặt">⚙️</button>
+</div>
+
+<div class="container">
+    <img class="logo" src="https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png" alt="Kyic storage">
+    <h1>Kyic storage</h1>
+    <p class="subtitle">Kho lưu trữ tổng hợp</p>
+
+    <div class="tabs-container">
+        <div class="tabs-header">
+            <button class="tab-btn active" onclick="switchTab(event,'ipa')">📱 IPA</button>
+            <button class="tab-btn" onclick="switchTab(event,'deb')">🔧 DEB</button>
+            <button class="tab-btn" onclick="switchTab(event,'dylib')">📚 DYLIB</button>
+        </div>
+
+        <!-- IPA: miễn phí (repo) + trả phí (shop) rõ ràng -->
+        <div id="ipa" class="tab-content active">
+            <div class="tab-item" onclick="copyText('https://2kgt.github.io/repo/apps.json')">
+                <div><h3>Add to Feather</h3><p>Sao chép source link (miễn phí)</p></div>
+                <span class="tab-item-icon">📋</span>
+            </div>
+            <div class="tab-item" onclick="openApp('feather')">
+                <div><h3>Open in Feather</h3><p>Mở ứng dụng</p></div>
+                <span class="tab-item-icon">🚀</span>
+            </div>
+            <div class="tab-item" onclick="navigate('./apps.html')">
+                <div><h3>View All Apps</h3><p>Danh sách đầy đủ (miễn phí)</p></div>
+                <span class="tab-item-icon">→</span>
+            </div>
+            <div class="premium-divider">Bản trả phí</div>
+            <div class="tab-item tab-item-premium" onclick="navigate('./shop.html?type=ipa')">
+                <div><h3>🛒 IPA Premium</h3><p>Bản đầy đủ tính năng, có UDID license</p></div>
+                <span class="tab-item-icon">→</span>
+            </div>
+        </div>
+
+        <!-- DEB: miễn phí (repo) + trả phí (shop) -->
+        <div id="deb" class="tab-content">
+            <div class="tab-item" onclick="copyText('https://2kgt.github.io/repo/')">
+                <div><h3>Add to Sileo</h3><p>Sao chép source link (miễn phí)</p></div>
+                <span class="tab-item-icon">📋</span>
+            </div>
+            <div class="tab-item" onclick="openApp('sileo')">
+                <div><h3>Open in Sileo</h3><p>Mở ứng dụng</p></div>
+                <span class="tab-item-icon">🚀</span>
+            </div>
+            <div class="tab-item" onclick="navigate('./debs.html')">
+                <div><h3>View All Tweaks</h3><p>Danh sách đầy đủ (miễn phí)</p></div>
+                <span class="tab-item-icon">→</span>
+            </div>
+            <div class="premium-divider">Bản trả phí</div>
+            <div class="tab-item tab-item-premium" onclick="navigate('./shop.html?type=deb')">
+                <div><h3>🛒 Tweak Premium</h3><p>Bản đầy đủ tính năng, có UDID license</p></div>
+                <span class="tab-item-icon">→</span>
+            </div>
+        </div>
+
+        <!-- DYLIB: miễn phí (repo) + trả phí (shop) -->
+        <div id="dylib" class="tab-content">
+            <div class="tab-item" onclick="copyText('https://2kgt.github.io/repo/dylibs.json')">
+                <div><h3>Add to Developer</h3><p>Sao chép source link (miễn phí)</p></div>
+                <span class="tab-item-icon">📋</span>
+            </div>
+            <div class="tab-item" onclick="openApp('developer')">
+                <div><h3>Open in Developer</h3><p>Mở ứng dụng</p></div>
+                <span class="tab-item-icon">🚀</span>
+            </div>
+            <div class="tab-item" onclick="navigate('./dylibs.html')">
+                <div><h3>View All Dylibs</h3><p>Danh sách đầy đủ (miễn phí)</p></div>
+                <span class="tab-item-icon">→</span>
+            </div>
+            <div class="premium-divider">Bản trả phí</div>
+            <div class="tab-item tab-item-premium" onclick="navigate('./shop.html?type=dylib')">
+                <div><h3>🛒 Dylib Premium</h3><p>Bản đầy đủ tính năng, có UDID license</p></div>
+                <span class="tab-item-icon">→</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="info">
+        <p><b>──⋆⋅☆⋅⋆જ⁀➴ₖ🦎ᵢ꜀︵✰⋆⋅☆⋅⋆──</b></p>
+        <p>Made with ❤️ by <b>Kyic</b></p>
+    </div>
+</div>
+
+<!-- Settings Panel — cùng cấu trúc HTML với apps/debs/dylibs.html -->
+<div class="settings-overlay" id="settingsOverlay" onclick="closeSettings()"></div>
+<div class="settings-panel" id="settingsPanel">
+    <div class="settings-header">
+        <h3>⚙️ Cài đặt</h3>
+        <button class="settings-close" onclick="closeSettings()">✕</button>
+    </div>
+    <div class="settings-list">
+        <!-- Account - ĐẦU TIÊN, quyết định luồng đăng nhập/dashboard -->
+        <div class="settings-item settings-item-account" onclick="goAccount()">
+            <div class="settings-item-icon">👤</div>
+            <div class="settings-item-text">
+                <div class="settings-item-title" id="accountLabel">Tài khoản</div>
+                <div class="settings-item-sub" id="accountSub">Đăng nhập / Đăng ký</div>
+            </div>
+        </div>
+
+        <a class="settings-item" href="./sign.html">
+            <div class="settings-item-icon">🖊️</div>
+            <div class="settings-item-text">
+                <div class="settings-item-title">Sign IPA</div>
+                <div class="settings-item-sub">Ký lại file .ipa để cài đặt</div>
+            </div>
+        </a>
+
+        <div class="settings-item" onclick="alert('🌐 Ngôn ngữ: Tiếng Việt (mặc định)')">
+            <div class="settings-item-icon">🌐</div>
+            <div class="settings-item-text">
+                <div class="settings-item-title">Ngôn ngữ</div>
+                <div class="settings-item-sub">Tiếng Việt</div>
+            </div>
+        </div>
+
+        <div class="settings-item" onclick="toggleTheme()">
+            <div class="settings-item-icon">🌙</div>
+            <div class="settings-item-text">
+                <div class="settings-item-title">Chủ đề</div>
+                <div class="settings-item-sub" id="themeSub">Tối</div>
+            </div>
+        </div>
+
+        <a class="settings-item" href="#" target="_blank" rel="noopener noreferrer">
+            <div class="settings-item-icon">💬</div>
+            <div class="settings-item-text">
+                <div class="settings-item-title">Nhắn tin</div>
+                <div class="settings-item-sub">Tham gia kênh Telegram</div>
+            </div>
+        </a>
+
+        <a class="settings-item" href="#" target="_blank" rel="noopener noreferrer">
+            <div class="settings-item-icon">☕</div>
+            <div class="settings-item-text">
+                <div class="settings-item-title">Donate</div>
+                <div class="settings-item-sub">Ủng hộ một ly cà phê ☕</div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<script>
+    const SUPABASE_URL = "https://vubnjcnhdbwrwfstavft.supabase.co/";
+    const SUPABASE_ANON_KEY = "sb_publishable_akuKZo7u5dAhvj8RQvltyg__T6Acs66";
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const emojis = ['🍂','❄️','🌿','✨','☀️','🌸','🦎','💧','⚡️'];
+    function createParticle() {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        p.style.cssText = `left:${Math.random()*100}vw;top:-30px;animation-duration:${Math.random()*12+8}s`;
+        document.body.appendChild(p);
+        setTimeout(() => p.remove(), 20000);
+    }
+    setInterval(createParticle, 500);
+
+    function toggleTheme() {
+        const h = document.documentElement;
+        const isLight = h.getAttribute('data-theme') === 'light';
+        h.setAttribute('data-theme', isLight ? '' : 'light');
+        const sub = document.getElementById('themeSub');
+        if (sub) sub.textContent = isLight ? 'Tối' : 'Sáng';
+    }
+
+    function switchTab(e, id) {
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        e.currentTarget.classList.add('active');
+    }
+
+    function copyText(t) {
+        navigator.clipboard.writeText(t).then(() => alert('✅ Đã copy!'));
+    }
+
+    function navigate(u) { window.location.href = u; }
+
+    function openApp(t) {
+        const urls = {
+            feather:   'feather://add-source?url=https://2kgt.github.io/repo/apps.json',
+            sileo:     'sileo://source/https://2kgt.github.io/repo/',
+            developer: 'developer://add-source?url=https://2kgt.github.io/repo/dylibs.json'
+        };
+        window.location.href = urls[t];
+    }
+
+    // ──────────────────────────────────────────────
+    // SETTINGS PANEL — cùng pattern với apps/debs/dylibs.html
+    // (overlay + panel trượt từ phải, dùng class "active")
+    // ──────────────────────────────────────────────
+    function toggleSettings() {
+        const panel = document.getElementById('settingsPanel');
+        const overlay = document.getElementById('settingsOverlay');
+        if (!panel || !overlay) return;
+        const isOpen = panel.classList.contains('active');
+        if (isOpen) {
+            closeSettings();
+        } else {
+            panel.classList.add('active');
+            overlay.classList.add('active');
+        }
+    }
+    function closeSettings() {
+        const panel = document.getElementById('settingsPanel');
+        const overlay = document.getElementById('settingsOverlay');
+        if (panel) panel.classList.remove('active');
+        if (overlay) overlay.classList.remove('active');
+    }
+
+    // ──────────────────────────────────────────────
+    // ACCOUNT LOGIC — phân biệt rõ: chưa login → auth.html,
+    // đã login → dashboard.html (KHÔNG code trùng ở đây, chỉ điều hướng)
+    // ──────────────────────────────────────────────
+    async function updateAccountUI() {
+        const { data: { session } } = await sb.auth.getSession();
+        const sub = document.getElementById('accountSub');
+        if (session) {
+            sub.textContent = session.user.email || 'Xem license & đơn hàng của bạn';
+        } else {
+            sub.textContent = 'Đăng nhập / Đăng ký';
+        }
+    }
+
+    async function goAccount() {
+        const { data: { session } } = await sb.auth.getSession();
+        closeSettings();
+        window.location.href = session ? './dashboard.html' : './auth.html';
+    }
+
+    updateAccountUI();
+</script>
+</body>
+</html>

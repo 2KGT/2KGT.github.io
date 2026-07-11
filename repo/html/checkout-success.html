@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a1428">
+    <title>Thanh toán thành công!</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body {
+            background: #0a1428; color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+        }
+        .card {
+            background: #0f1e3d; border-radius: 20px; padding: 40px 24px;
+            text-align: center; max-width: 400px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .icon {
+            font-size: 64px; margin-bottom: 16px;
+        }
+        h1 { font-size: 24px; margin-bottom: 8px; }
+        p { color: #8e9ab5; font-size: 14px; margin-bottom: 24px; }
+        .btn {
+            display: inline-block;
+            padding: 12px 28px; border-radius: 12px;
+            border: none; cursor: pointer; font-weight: 700;
+            text-decoration: none; font-size: 14px;
+            transition: 0.15s;
+        }
+        .btn-primary {
+            background: #848ef9; color: #fff;
+        }
+        .btn-primary:active { transform: scale(0.96); }
+        .btn-secondary {
+            background: rgba(255,255,255,0.1); color: #8e9ab5;
+        }
+        .space { margin: 12px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="icon" id="icon">✅</div>
+        <h1 id="title">Thanh toán thành công!</h1>
+        <p id="message">Hệ thống đang tạo license cho bạn. Xem chi tiết ở dashboard.</p>
+        <a href="./dashboard.html" class="btn btn-primary">Xem License</a>
+        <div class="space"></div>
+        <a href="./shop.html" class="btn btn-secondary">Tiếp tục mua</a>
+    </div>
+
+    <script>
+        const SUPABASE_URL = "https://vubnjcnhdbwrwfstavft.supabase.co/";
+        const SUPABASE_ANON_KEY = "sb_publishable_akuKZo7u5dAhvj8RQvltyg__T6Acs66";
+        const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        async function processCallback() {
+            const params = new URLSearchParams(location.search);
+            const orderId = params.get('order');
+            
+            if (!orderId) {
+                document.getElementById('message').textContent = 'Không tìm thấy đơn hàng.';
+                return;
+            }
+
+            const { data: { session } } = await sb.auth.getSession();
+            if (!session) {
+                location.href = './auth.html';
+                return;
+            }
+
+            // Nếu là success → gọi issue-license
+            if ('success' === 'success') {
+                const { data: order } = await sb.from('orders')
+                    .select('*').eq('id', orderId).single();
+                
+                if (order && order.status === 'paid') {
+                    // Đơn hàng đã thanh toán, License đã được cấp
+                    return;
+                }
+                
+                // Nếu chưa → gọi issue-license
+                const resp = await fetch(SUPABASE_URL + '/functions/v1/issue-license', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + session.access_token
+                    },
+                    body: JSON.stringify({
+                        product_id: order.product_id,
+                        udid: order.udid,
+                        provider: order.provider,
+                        txn_id: order.provider_txn_id
+                    })
+                });
+                const result = await resp.json();
+                if (!result.license_key) {
+                    document.getElementById('message').textContent = '❌ Lỗi: ' + result.error;
+                }
+            }
+        }
+
+        processCallback();
+    </script>
+</body>
+</html>

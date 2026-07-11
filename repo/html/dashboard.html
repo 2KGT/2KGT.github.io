@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0a1428">
+    <title>Dashboard — Kyic storage</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        html, body {
+            background: #0a1428; color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: rgba(10,20,40,0.95);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            padding: 12px 16px;
+            display: grid; grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            position: sticky; top: 0; z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .header-brand { justify-self: center; font-weight: 800; font-size: 15px; letter-spacing: 0.2px; white-space: nowrap; }
+        .header-btn-left { justify-self: start; }
+        .header-more-wrap { position: relative; justify-self: end; }
+        .header-btn {
+            width: 36px; height: 36px;
+            display: flex; align-items: center; justify-content: center;
+            color: #848ef9; font-size: 16px;
+            text-decoration: none; border-radius: 50%;
+            background: rgba(132,142,249,0.15);
+            transition: 0.15s; border: none; cursor: pointer;
+            letter-spacing: -1px;
+        }
+        .header-btn:active { background: rgba(132,142,249,0.28); transform: scale(0.93); }
+
+        .more-dropdown {
+            position: absolute; top: 44px; right: 0;
+            background: #0f1e3d; border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 14px; padding: 6px;
+            min-width: 160px; box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            display: none; flex-direction: column; gap: 2px;
+            z-index: 150;
+        }
+        .more-dropdown.open { display: flex; }
+        .more-item {
+            display: flex; align-items: center; gap: 8px;
+            padding: 10px 12px; border-radius: 10px;
+            background: transparent; border: none;
+            color: #fff; font-size: 13px; font-weight: 600;
+            text-decoration: none; cursor: pointer; text-align: left;
+            width: 100%; box-sizing: border-box;
+        }
+        .more-item:active { background: rgba(255,255,255,0.08); }
+
+        .container { padding: 20px; max-width: 100%; }
+
+        /* PROFILE CARD */
+        .profile-card {
+            background: linear-gradient(135deg, #0f1e3d, #1a2a50);
+            border: 1px solid rgba(132,142,249,0.3);
+            border-radius: 20px; padding: 20px;
+            margin-bottom: 24px;
+        }
+        .profile-header {
+            display: flex; align-items: center; gap: 14px; margin-bottom: 16px;
+            padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .profile-avatar {
+            width: 56px; height: 56px;
+            background: #848ef9; border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 24px;
+        }
+        .profile-info h2 { font-size: 16px; margin-bottom: 3px; }
+        .profile-info p { font-size: 12px; color: #8e9ab5; }
+        .profile-row {
+            display: flex; justify-content: space-between; padding: 8px 0;
+            font-size: 13px; color: #b0bcd4;
+        }
+        .profile-row span:first-child { color: #8e9ab5; }
+
+        /* LICENSES */
+        .section-title {
+            font-size: 13px; font-weight: 700; color: #8e9ab5;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            margin: 24px 0 12px;
+            padding: 0 8px;
+        }
+        .license-list {
+            display: flex; flex-direction: column; gap: 12px;
+            margin-bottom: 24px;
+        }
+        .license-card {
+            background: #0f1e3d; border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px; padding: 14px;
+        }
+        .license-top {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            margin-bottom: 10px;
+        }
+        .license-pkg {
+            font-size: 13px; font-weight: 700; color: #848ef9;
+            font-family: 'SF Mono', monospace; word-break: break-all;
+        }
+        .license-type {
+            font-size: 10px; padding: 3px 8px;
+            background: rgba(132,142,249,0.2); color: #848ef9;
+            border-radius: 6px;
+        }
+        .license-udid {
+            font-size: 11px; color: #8e9ab5; font-family: monospace;
+            margin-bottom: 6px; word-break: break-all;
+        }
+        .license-key {
+            font-size: 12px; color: #b0bcd4;
+            background: rgba(255,255,255,0.03); padding: 8px;
+            border-radius: 10px; margin-bottom: 8px;
+            font-family: 'SF Mono', monospace;
+            white-space: pre-wrap; word-break: break-all;
+            max-height: 100px; overflow: auto;
+        }
+        .license-expires {
+            font-size: 11px; color: #8e9ab5; margin-bottom: 8px;
+        }
+        .license-actions {
+            display: flex; gap: 8px;
+        }
+        .btn-copy {
+            flex: 1; padding: 8px; border: none; border-radius: 10px;
+            background: #848ef9; color: #fff; font-weight: 600; font-size: 12px;
+            cursor: pointer;
+        }
+        .btn-revoke {
+            flex: 1; padding: 8px; border: none; border-radius: 10px;
+            background: rgba(255,80,80,0.15); color: #ff8080;
+            font-weight: 600; font-size: 12px; cursor: pointer;
+        }
+
+        .empty-state {
+            text-align: center; color: #8e9ab5; padding: 40px 20px;
+            font-size: 14px;
+        }
+
+        .toast {
+            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+            background: #1a2a50; color: #fff; padding: 12px 20px;
+            border-radius: 12px; font-size: 14px; z-index: 999;
+            opacity: 0; transition: 0.3s; pointer-events: none;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .toast.show { opacity: 1; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="./index.html" class="header-btn header-btn-left" title="Trang chủ">🏠</a>
+        <span class="header-brand">Kyic storage</span>
+        <div class="header-more-wrap">
+            <button class="header-btn" onclick="toggleMoreMenu()" title="Thêm">•••</button>
+            <div class="more-dropdown" id="moreDropdown">
+                <a href="./shop.html" class="more-item">🛒 Mua thêm</a>
+                <a href="./sign.html" class="more-item">🖊️ Sign IPA</a>
+                <button class="more-item" onclick="logout()">↪ Đăng xuất</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Profile -->
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="profile-avatar" id="avatar">👤</div>
+                <div class="profile-info">
+                    <h2 id="userName">—</h2>
+                    <p id="userEmail">—</p>
+                </div>
+            </div>
+            <div class="profile-row">
+                <span>Email</span>
+                <span id="profileEmail" style="font-family:monospace">—</span>
+            </div>
+            <div class="profile-row">
+                <span>Tham gia</span>
+                <span id="profileJoined">—</span>
+            </div>
+        </div>
+
+        <!-- Licenses -->
+        <div class="section-title">🔐 License của bạn</div>
+        <div id="licenseList" class="license-list">
+            <div class="empty-state">
+                ⏳ Đang tải...
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const SUPABASE_URL = "https://vubnjcnhdbwrwfstavft.supabase.co/";
+        const SUPABASE_ANON_KEY = "sb_publishable_akuKZo7u5dAhvj8RQvltyg__T6Acs66";
+        const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        async function init() {
+            // Kiểm tra auth
+            const { data: { session } } = await sb.auth.getSession();
+            if (!session) {
+                window.location.href = './auth.html';
+                return;
+            }
+
+            // Tải profile
+            const { data: user } = await sb.auth.getUser();
+            const { data: profile } = await sb.from('profiles')
+                .select('*').eq('id', user.user.id).single();
+
+            document.getElementById('userName').textContent = profile?.display_name || user.user.email;
+            document.getElementById('userEmail').textContent = user.user.email;
+            document.getElementById('profileEmail').textContent = user.user.email;
+            document.getElementById('profileJoined').textContent =
+                new Date(user.user.created_at).toLocaleDateString('vi-VN');
+            document.getElementById('avatar').textContent =
+                (profile?.display_name || user.user.email)[0].toUpperCase();
+
+            // Tải licenses
+            const { data: licenses } = await sb.from('licenses')
+                .select('*').eq('user_id', user.user.id).not('revoked', 'is', true);
+
+            const list = document.getElementById('licenseList');
+            if (!licenses || licenses.length === 0) {
+                list.innerHTML = `<div class="empty-state">
+                    Bạn chưa mua license nào. Bấm ••• ở góc trên để mua thêm.
+                </div>`;
+                return;
+            }
+
+            list.innerHTML = licenses.map(lic => `
+                <div class="license-card">
+                    <div class="license-top">
+                        <div>
+                            <div class="license-pkg">${lic.product_id}</div>
+                            <div class="license-type">DYLIB</div>
+                        </div>
+                    </div>
+                    <div class="license-udid">🔑 UDID: ${lic.udid}</div>
+                    <div class="license-key" id="key-${lic.id}">${lic.license_key}</div>
+                    <div class="license-expires">
+                        ⏱️ Hết hạn: ${new Date(lic.expires_at).toLocaleDateString('vi-VN')}
+                    </div>
+                    <div class="license-actions">
+                        <button class="btn-copy" onclick="copyLicense('${lic.id}')">
+                            📋 Copy key
+                        </button>
+                        <button class="btn-revoke" onclick="revokeLicense('${lic.id}')">
+                            🗑️ Hủy
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function logout() {
+            await sb.auth.signOut();
+            window.location.href = './auth.html';
+        }
+
+        function toggleMoreMenu() {
+            document.getElementById('moreDropdown').classList.toggle('open');
+        }
+        document.addEventListener('click', (e) => {
+            const wrap = document.querySelector('.header-more-wrap');
+            const dropdown = document.getElementById('moreDropdown');
+            if (wrap && dropdown && !wrap.contains(e.target)) {
+                dropdown.classList.remove('open');
+            }
+        });
+
+        function copyLicense(id) {
+            const key = document.getElementById('key-' + id)?.textContent;
+            if (key) {
+                navigator.clipboard.writeText(key).then(() => {
+                    showToast('✅ Đã copy license key');
+                });
+            }
+        }
+
+        async function revokeLicense(id) {
+            if (!confirm('Bạn chắc muốn hủy license này không?')) return;
+            const { error } = await sb.from('licenses')
+                .update({ revoked: true }).eq('id', id);
+            if (error) {
+                showToast('❌ Lỗi: ' + error.message);
+            } else {
+                showToast('✅ Đã hủy license');
+                setTimeout(() => location.reload(), 1000);
+            }
+        }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg; t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2500);
+        }
+
+        init();
+    </script>
+</body>
+</html>
