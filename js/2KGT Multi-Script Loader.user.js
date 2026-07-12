@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Master Loader
 // @namespace    http://tampermonkey.net/
-// @version      5.0
-// @description  Trung tâm điều khiển script con - Khôi phục tương tác và tính năng gốc cho script con
+// @version      5.1
+// @description  Trung tâm điều khiển script con - Sửa lỗi metadata invalid trên iOS Safari
 // @author       2KGT
 // @match        *://*/*
 // @grant        GM_xmlhttpRequest
@@ -110,7 +110,7 @@
         });
     }
 
-    // --- 2. TẢI VÀ THỰC THI TRỰC TIẾP VÀO CONTEXT GỐC (HỒI SINH TÍNH NĂNG) ---
+    // --- 2. TẢI VÀ THỰC THI TRỰC TIẾP QUA HÀM KHỞI TẠO (VƯỢT LỖI METADATA) ---
     function loadAndExecuteScript(scriptName) {
         let isEnabled = true;
         try { isEnabled = GM_getValue(`running_${scriptName}`, true); } catch(e) {}
@@ -125,19 +125,20 @@
             onload: function(response) {
                 if (response.status === 200) {
                     try {
-                        // Giải pháp then chốt: Chạy trực tiếp mã nguồn bằng eval() trong phạm vi cửa sổ hiện tại.
-                        // Cách này giữ nguyên quyền kết nối DOM, giúp các nút bấm tương tác của script con hoạt động trở lại bình thường.
-                        window.eval(response.responseText);
-                        console.log(`[2KGT Master] Đã kích hoạt tính năng gốc: ${scriptName}`);
+                        // Giải pháp thay thế eval: Đóng gói mã nguồn vào Function rồi kích hoạt trực tiếp trong Main Window
+                        // Giúp tương tác các nút bấm của script con hoạt động 100% mà không bị lỗi metadata khi cài đặt
+                        const runScript = new Function(response.responseText);
+                        runScript();
+                        console.log(`[2KGT Master] Kích hoạt tính năng: ${scriptName}`);
                     } catch (e) {
-                        // Nếu trang web có chính sách bảo mật CSP chặn eval(), tự động chuyển sang cơ chế chèn thẻ an toàn
+                        // Phương thức dự phòng nếu trang web kích hoạt mã bảo mật CSP chặn Function định dạng chuỗi
                         try {
                             const scriptEl = document.createElement('script');
                             scriptEl.textContent = response.responseText;
                             (document.head || document.documentElement).appendChild(scriptEl);
-                            console.log(`[2KGT Master] Đã kích hoạt tính năng (Dự phòng): ${scriptName}`);
+                            console.log(`[2KGT Master] Kích hoạt tính năng (Dự phòng): ${scriptName}`);
                         } catch(innerErr) {
-                            console.error(`[2KGT Master] Không thể thực thi ${scriptName}:`, innerErr);
+                            console.error(`[2KGT Master] Lỗi thực thi ${scriptName}:`, innerErr);
                         }
                     }
                 }
