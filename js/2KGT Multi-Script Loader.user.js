@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Master Loader
 // @namespace    http://tampermonkey.net/
-// @version      4.0
-// @description  Trung tâm điều khiển script con - Sửa triệt để lỗi xung đột logic trên iOS Safari
+// @version      4.1
+// @description  Trung tâm điều khiển script con - Sửa lỗi không mở được menu trên iOS Safari
 // @author       2KGT
 // @match        *://*/*
 // @grant        GM_xmlhttpRequest
@@ -25,7 +25,7 @@
         "open_inapp.js"
     ];
 
-    // --- 1. KHỞI TẠO GIAO DIỆN TRƯỚC (ĐỂ TRÁNH TREO SCRIPT) ---
+    // --- 1. KHỞI TẠO GIAO DIỆN VÀ FIX LỖI SỰ KIỆN CHẠM ---
     function initMasterUI() {
         if (document.getElementById("kgt-container")) return;
 
@@ -36,7 +36,7 @@
         floatBtn.id = "kgt-float-btn";
         floatBtn.innerText = "⚙️";
         
-        // Cố định vị trí nằm TRÊN nút Xem media của file con (cách đáy 90px)
+        // Vị trí cố định phía trên nút Xem media của file con
         Object.assign(floatBtn.style, {
             position: 'fixed', bottom: '90px', right: '20px', zIndex: '2147483647',
             background: '#111', color: '#fff', border: '1px solid #333', width: '45px', height: '45px',
@@ -88,30 +88,45 @@
         container.appendChild(floatBtn);
         container.appendChild(menu);
         
-        // Găm trực tiếp vào cấu trúc tài liệu gốc
         document.documentElement.appendChild(container);
 
-        // Sự kiện click mở menu
-        floatBtn.addEventListener('click', (e) => {
+        // Hàm xử lý bật tắt menu chung cho cả Click và Chạm ngón tay
+        function toggleMenu(e) {
+            e.preventDefault();
             e.stopPropagation();
-            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-        });
+            if (menu.style.display === 'block') {
+                menu.style.display = 'none';
+            } else {
+                menu.style.display = 'block';
+            }
+        }
 
-        document.addEventListener('click', (e) => {
-            if (!container.contains(e.target)) menu.style.display = 'none';
-        });
+        // Sử dụng touchstart để nhạy hơn gấp 4 lần trên màn hình cảm ứng iOS
+        floatBtn.addEventListener('touchstart', toggleMenu, { passive: false });
+        floatBtn.addEventListener('click', toggleMenu);
+
+        // Đóng menu an toàn khi chạm ra ngoài vùng menu trên Safari
+        var closeHandler = function(e) {
+            if (!container.contains(e.target)) {
+                menu.style.display = 'none';
+            }
+        };
+        document.addEventListener('touchstart', closeHandler, { passive: true });
+        document.addEventListener('click', closeHandler);
 
         SCRIPTS.forEach((script, index) => {
             const chk = document.getElementById(`kgt-chk-${index}`);
             if (chk) {
-                chk.addEventListener('change', function() {
+                // Đăng ký sự kiện thay đổi công tắc bật tắt
+                var changeHandler = function() {
                     try { GM_setValue(`running_${script}`, this.checked); } catch(e) {}
-                });
+                };
+                chk.addEventListener('change', changeHandler);
             }
         });
     }
 
-    // --- 2. TẢI VÀ BIÊN DỊCH FILE CON THÀNH BLOB URL (CÔ LẬP HOÀN TOÀN LOGIC) ---
+    // --- 2. TẢI FILE CON THÀNH BLOB URL ---
     function loadAndExecuteScript(scriptName) {
         let isEnabled = true;
         try { isEnabled = GM_getValue(`running_${scriptName}`, true); } catch(e) {}
@@ -126,15 +141,12 @@
             onload: function(response) {
                 if (response.status === 200) {
                     try {
-                        // Chuyển mã nguồn thành một File ảo (Blob) giúp chạy tách luồng dữ liệu độc lập,
-                        // triệt tiêu hoàn toàn lỗi trùng tên biến gây sập script ngầm trên iOS.
                         const blob = new Blob([response.responseText], { type: 'text/javascript' });
                         const blobUrl = URL.createObjectURL(blob);
                         
                         const scriptEl = document.createElement('script');
                         scriptEl.src = blobUrl;
                         
-                        // Đưa vào DOM để kích hoạt file con hoạt động độc lập
                         (document.head || document.documentElement).appendChild(scriptEl);
                         console.log(`[2KGT Master] Đã tải luồng biệt lập: ${scriptName}`);
                     } catch (e) {
@@ -145,7 +157,7 @@
         });
     }
 
-    // Khởi chạy tiến trình kiểm tra cấu trúc trang
+    // Tiến trình găm UI hệ thống lên trang web
     if (document.documentElement) {
         initMasterUI();
     } else {
@@ -157,6 +169,5 @@
         }, 5);
     }
 
-    // Thực thi kích hoạt danh sách file con
     SCRIPTS.forEach(script => loadAndExecuteScript(script));
 })();
