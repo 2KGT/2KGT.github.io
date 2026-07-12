@@ -3739,7 +3739,7 @@ DASHBOARD_HTML_TEMPLATE = """<!DOCTYPE html>
                 .select('*').eq('user_id', user.user.id).not('revoked', 'is', true);
             ownedProductIds = new Set((licenses || []).map(l => l.product_id));
 
-            renderLicenseList(licenses || []);
+            await renderLicenseList(licenses || []);
             loadLibrary(); // Tải Kho ứng dụng (cả 3 loại), mặc định tab 'apps'
             loadCart();    // Tải Giỏ hàng
         }}
@@ -3911,7 +3911,7 @@ DASHBOARD_HTML_TEMPLATE = """<!DOCTYPE html>
                 const {{ data: licenses }} = await sb.from('licenses')
                     .select('*').eq('user_id', session.user.id).not('revoked', 'is', true);
                 ownedProductIds = new Set((licenses || []).map(l => l.product_id));
-                renderLicenseList(licenses || []);
+                await renderLicenseList(licenses || []);
                 loadLibrary();
             }} else {{
                 showToast('❌ ' + (result.error || 'Lỗi tạo license'));
@@ -3934,7 +3934,7 @@ DASHBOARD_HTML_TEMPLATE = """<!DOCTYPE html>
             loadCart();
         }}
 
-        function renderLicenseList(licenses) {{
+        async function renderLicenseList(licenses) {{
             const list = document.getElementById('licenseList');
             if (!licenses || licenses.length === 0) {{
                 list.innerHTML = `<div class="empty-state">
@@ -3943,15 +3943,22 @@ DASHBOARD_HTML_TEMPLATE = """<!DOCTYPE html>
                 return;
             }}
 
+            // Lấy tên sản phẩm thân thiện (thay vì chỉ hiện bundleIdentifier)
+            const productIds = [...new Set(licenses.map(l => l.product_id))];
+            const {{ data: productsInfo }} = await sb.from('products')
+                .select('id,name').in('id', productIds);
+            const nameMap = {{}};
+            (productsInfo || []).forEach(p => {{ nameMap[p.id] = p.name; }});
+
             list.innerHTML = licenses.map(lic => `
                 <div class="license-card">
                     <div class="license-top">
                         <div>
-                            <div class="license-pkg">${{lic.product_id}}</div>
-                            <div class="license-type">DYLIB</div>
+                            <div class="license-pkg">${{nameMap[lic.product_id] || lic.product_id}}</div>
+                            <div style="font-size:10px;color:#8e9ab5;font-family:monospace">${{lic.product_id}}</div>
                         </div>
                     </div>
-                    <div class="license-udid">🔑 UDID: ${{lic.udid}}</div>
+                    <div class="license-udid">📱 Thiết bị (UDID): ${{lic.udid}}</div>
                     <div class="license-key" id="key-${{lic.id}}">${{lic.license_key}}</div>
                     <div class="license-expires">
                         ⏱️ Hết hạn: ${{new Date(lic.expires_at).toLocaleDateString('vi-VN')}}
@@ -4075,42 +4082,33 @@ DASHBOARD_HTML_TEMPLATE = """<!DOCTYPE html>
             listEl.innerHTML = '<div class="empty-state">⏳ Đang tải...</div>';
             try {{
                 const source = LIB_SOURCES[currentLibTab];
-                const {{ data: dbProducts }} = await sb.from('products').select('id,price_usd,price_vnd');
-                const priceMap = {{}};
-                (dbProducts || []).forEach(p => priceMap[p.id] = p);
-
                 const resp = await fetch(source.url);
                 const data = await resp.json();
                 const apps = data.apps || [];
 
-                if (apps.length === 0) {{
-                    listEl.innerHTML = '<div class="empty-state">Không có sản phẩm nào.</div>';
+                // CHỈ hiện sản phẩm ĐÃ SỞ HỮU (đã mua) — danh sách đầy đủ (miễn phí +
+                // chưa mua) đã có sẵn ở apps/debs/dylibs.html (View All), không lặp lại ở đây.
+                const ownedApps = apps.filter(app => ownedProductIds.has(app.bundleIdentifier));
+
+                if (ownedApps.length === 0) {{
+                    listEl.innerHTML = `<div class="empty-state">
+                        Bạn chưa sở hữu sản phẩm ${{source.label}} nào.<br>
+                        Xem <a href="./${{currentLibTab}}.html" style="color:#{tint}">danh sách đầy đủ</a> để mua.
+                    </div>`;
                     return;
                 }}
 
-                listEl.innerHTML = apps.map(app => {{
-                    const isPaid = !!priceMap[app.bundleIdentifier];
-                    const isOwned = ownedProductIds.has(app.bundleIdentifier);
-                    let badge;
-                    if (isOwned) {{
-                        badge = `<span class="lib-item-badge lib-badge-owned">✅ Đã sở hữu</span>`;
-                    }} else if (isPaid) {{
-                        badge = `<button class="lib-item-badge lib-badge-buy" onclick="addToCartFromDashboard('${{app.bundleIdentifier}}', this)">🛒 ${{priceMap[app.bundleIdentifier]?.price_usd ? '$' + priceMap[app.bundleIdentifier].price_usd : 'Mua'}}</button>`;
-                    }} else {{
-                        badge = `<span class="lib-item-badge lib-badge-free">Miễn phí</span>`;
-                    }}
-                    return `
-                        <div class="lib-item">
-                            <img class="lib-item-icon" src="${{app.iconURL || ''}}"
-                                onerror="this.src='{default_icon}'" alt="${{app.name}}">
-                            <div class="lib-item-info">
-                                <div class="lib-item-name">${{app.name}}</div>
-                                <div class="lib-item-dev">${{app.developerName || ''}}</div>
-                            </div>
-                            ${{badge}}
+                listEl.innerHTML = ownedApps.map(app => `
+                    <div class="lib-item">
+                        <img class="lib-item-icon" src="${{app.iconURL || ''}}"
+                            onerror="this.src='{default_icon}'" alt="${{app.name}}">
+                        <div class="lib-item-info">
+                            <div class="lib-item-name">${{app.name}}</div>
+                            <div class="lib-item-dev">${{app.developerName || ''}}</div>
                         </div>
-                    `;
-                }}).join('');
+                        <span class="lib-item-badge lib-badge-owned">✅ Đã sở hữu</span>
+                    </div>
+                `).join('');
             }} catch (e) {{
                 listEl.innerHTML = '<div class="empty-state">Lỗi tải dữ liệu: ' + e.message + '</div>';
             }}
