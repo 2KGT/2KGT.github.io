@@ -1,6 +1,7 @@
 {
   "dirs": [
     "FAQs",
+    "js",
     "repo",
     "repo/apps",
     "repo/apps/AllSign",
@@ -987,6 +988,17 @@
     "supabase/functions/create-order": [
       ".gitkeep",
       "index.ts"
+    ],
+    "js": [
+      ".gitkeep",
+      "2KGT Multi-Script Loader.user.js",
+      "ABPVN AdsBlock.user.js",
+      "ACT.YouTube.DM.Auto-translate.user.js",
+      "AdGuard Extra.user.js",
+      "AdGuard Popup Blocker.user.js",
+      "auto translate vi_user.js",
+      "image-grid-lister.user.js",
+      "open inapp.user.js"
     ],
     "FAQs": [
       "FAQ.md",

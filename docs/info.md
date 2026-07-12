@@ -1,5 +1,7 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 12/07/2026 16:03:37 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 13/07/2026 06:33:37 (Giờ Hà Nội)*
+
+📝 *Thay đổi thư mục so với lần quét trước: ✨ +1 thư mục mới* — xem chi tiết tại `docs/CHANGELOG.md`
 
 ```text
 🗺️ Root/
@@ -40,6 +42,16 @@
 ├── README.md
 ├── cliff.toml
 ├── index.html
+├── 📂 js/
+│   ├── .gitkeep
+│   ├── 2KGT Multi-Script Loader.user.js
+│   ├── ABPVN AdsBlock.user.js
+│   ├── ACT.YouTube.DM.Auto-translate.user.js
+│   ├── AdGuard Extra.user.js
+│   ├── AdGuard Popup Blocker.user.js
+│   ├── auto translate vi_user.js
+│   ├── image-grid-lister.user.js
+│   └── open inapp.user.js
 ├── 📂 repo/
 │   ├── Packages
 │   ├── Packages.bz2
