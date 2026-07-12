@@ -2876,16 +2876,17 @@
     // ════════════════════════════════════════════════════════════
     async function loadData() {
         try {
-            const [res, dbResult] = await Promise.all([
-                fetch('https://2kgt.github.io/repo/apps.json'),
-                _sb.from('products').select('id,price_usd,price_vnd').catch(() => ({ data: [] }))
-            ]);
+            const res = await fetch('https://2kgt.github.io/repo/apps.json');
             const data = await res.json();
             const items = data[DATA_KEY];
             rawItems = Array.isArray(items) ? items : Object.values(items || {});
 
+            // Tải giá sản phẩm riêng (không chặn catalog nếu lỗi)
             priceMap = {};
-            (dbResult?.data || []).forEach(p => { priceMap[p.id] = p; });
+            try {
+                const dbResult = await _sb.from('products').select('id,price_usd,price_vnd');
+                (dbResult?.data || []).forEach(p => { priceMap[p.id] = p; });
+            } catch (e2) { /* im lặng, danh sách vẫn hiện bình thường không có giá */ }
 
             groupedItems = groupByBundle(rawItems);
 

@@ -6,6 +6,7 @@
     <meta name="theme-color" content="#0a1428">
     <title>Dashboard — Kyic storage</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AWhh50vnBM2jLqIGWcHwf2aEBHza85Z1lADA3PH148cDGFJ6Y_Ripv0qJJxu69vypS60QVzqVxfCEB4B&currency=USD&intent=capture"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         html, body {
@@ -216,6 +217,67 @@
             font-size: 14px;
         }
 
+        /* CHECKOUT SHEET (gộp từ shop.html) */
+        .checkout-backdrop {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+            z-index: 200; display: none; align-items: flex-end;
+            backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+        }
+        .checkout-backdrop.open { display: flex; }
+        .checkout-sheet {
+            width: 100%; background: #0f1e3d;
+            border-radius: 24px 24px 0 0;
+            padding: 24px 20px 40px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            max-height: 90vh; overflow-y: auto;
+        }
+        .sheet-handle {
+            width: 36px; height: 4px; background: rgba(255,255,255,0.2);
+            border-radius: 2px; margin: 0 auto 20px;
+        }
+        .sheet-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+        .sheet-product { font-size: 14px; color: #8e9ab5; margin-bottom: 20px; }
+        .sheet-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+            font-size: 14px;
+        }
+        .sheet-row:last-of-type { border-bottom: none; }
+        .sheet-row span:last-child { font-weight: 600; }
+        .total-row { margin-top: 8px; font-size: 16px; font-weight: 700; }
+        .total-row span:last-child { color: #848ef9; font-size: 18px; }
+        .payment-methods { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
+        .pm-label {
+            font-size: 12px; color: #8e9ab5; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;
+        }
+        .pm-btn {
+            width: 100%; padding: 15px; border: none; border-radius: 14px;
+            font-weight: 700; font-size: 15px; cursor: pointer;
+            transition: 0.15s; display: flex; align-items: center;
+            justify-content: center; gap: 8px;
+        }
+        .pm-btn:active { transform: scale(0.97); filter: brightness(0.9); }
+        .pm-payos { background: #0066FF; color: #fff; }
+        .pm-momo { background: #A50064; color: #fff; }
+        #paypal-button-container { margin-top: 10px; }
+        .or-divider {
+            text-align: center; color: #8e9ab5; font-size: 12px;
+            margin: 8px 0; position: relative;
+        }
+        .or-divider::before, .or-divider::after {
+            content: ''; position: absolute; top: 50%;
+            width: calc(50% - 24px); height: 1px;
+            background: rgba(255,255,255,0.1);
+        }
+        .or-divider::before { left: 0; }
+        .or-divider::after { right: 0; }
+        .close-sheet {
+            margin-top: 14px; width: 100%; padding: 14px; border: none;
+            border-radius: 14px; background: rgba(255,255,255,0.06);
+            color: #8e9ab5; font-size: 15px; cursor: pointer;
+        }
+
         .toast {
             position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
             background: #1a2a50; color: #fff; padding: 12px 20px;
@@ -233,7 +295,7 @@
         <div class="header-more-wrap">
             <button class="header-btn" onclick="toggleMoreMenu()" title="Thêm">•••</button>
             <div class="more-dropdown" id="moreDropdown">
-                <a href="./shop.html" class="more-item">🛒 Mua thêm</a>
+                <a href="./index.html" class="more-item">🛒 Mua thêm</a>
                 <a href="./sign.html" class="more-item">🖊️ Sign IPA</a>
                 <button class="more-item" onclick="logout()">↪ Đăng xuất</button>
             </div>
@@ -273,9 +335,12 @@
             <div class="udid-saved-title">🔑 UDID đã lưu</div>
             <div class="udid-saved-row">
                 <input class="udid-saved-input" id="savedUdidInput" placeholder="Chưa lưu UDID nào..." oninput="onSavedUdidTyped()">
-                <button class="udid-saved-btn" onclick="saveUdid()">💾 Lưu</button>
             </div>
-            <div class="udid-saved-hint">Lưu 1 lần, tự động điền khi mua sản phẩm ở Shop — không cần nhập lại.</div>
+            <div class="udid-saved-row" style="margin-top:8px">
+                <button class="udid-saved-btn" id="btnGetUdidAuto" onclick="getUdidAuto()" style="flex:1">📱 Lấy tự động</button>
+                <button class="udid-saved-btn" onclick="saveUdid()" style="flex:1;background:rgba(255,255,255,0.1)">💾 Lưu thủ công</button>
+            </div>
+            <div class="udid-saved-hint" id="udidAutoStatus">Bấm "Lấy tự động" → cài profile → UDID tự điền + tự lưu, hoặc dán tay rồi bấm Lưu.</div>
         </div>
 
         <!-- Giỏ hàng -->
@@ -304,15 +369,44 @@
         </div>
     </div>
 
+    <!-- Checkout Sheet (gộp từ shop.html) -->
+    <div class="checkout-backdrop" id="checkoutBackdrop" onclick="closeCheckout(event)">
+        <div class="checkout-sheet">
+            <div class="sheet-handle"></div>
+            <div class="sheet-title">Xác nhận thanh toán</div>
+            <div class="sheet-product" id="sheetProductName">—</div>
+            <div class="sheet-row"><span>Gói</span><span id="sheetPkg">—</span></div>
+            <div class="sheet-row"><span>UDID</span><span id="sheetUdid" style="font-family:monospace;font-size:11px">—</span></div>
+            <div class="sheet-row total-row"><span>Tổng</span><span id="sheetPrice">—</span></div>
+
+            <div class="payment-methods">
+                <div class="pm-label">Chọn cổng thanh toán</div>
+                <div id="paypal-button-container"></div>
+                <div class="or-divider">hoặc</div>
+                <button class="pm-btn pm-payos" onclick="payWithPayOS()">
+                    💙 Thanh toán qua PayOS
+                </button>
+                <button class="pm-btn pm-momo" onclick="payWithMomo()">
+                    💜 Thanh toán qua MoMo
+                </button>
+            </div>
+            <button class="close-sheet" onclick="closeCheckout()">Huỷ</button>
+        </div>
+    </div>
+
     <div class="toast" id="toast"></div>
 
     <script>
         const SUPABASE_URL = "https://vubnjcnhdbwrwfstavft.supabase.co/";
         const SUPABASE_ANON_KEY = "sb_publishable_akuKZo7u5dAhvj8RQvltyg__T6Acs66";
         const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const EDGE_FN_URL = SUPABASE_URL.replace(/\/$/, '') + '/functions/v1/udid-capture';
 
         let ownedProductIds = new Set();
         let currentLibTab = 'apps';
+        let selectedProduct = null;
+        let cartDataMap = {};
+        let pollingTimer = null;
         const LIB_SOURCES = {
             apps: { url: 'https://2kgt.github.io/repo/apps.json', label: 'IPA' },
             debs: { url: 'https://2kgt.github.io/repo/debs.json', label: 'DEB' },
@@ -398,8 +492,10 @@
                 return;
             }
 
+            cartDataMap = {};
             listEl.innerHTML = cartItems.map(item => {
                 const p = item.products;
+                cartDataMap[item.product_id] = p;
                 const priceLabel = p?.price_usd ? '$' + p.price_usd
                     : (p?.price_vnd ? Number(p.price_vnd).toLocaleString('vi-VN') + '₫' : '');
                 const addedTime = new Date(item.added_at).toLocaleString('vi-VN');
@@ -418,9 +514,125 @@
             }).join('');
         }
 
+        // ──────────────────────────────────────────────
+        // CHECKOUT (gộp từ shop.html) — mua thẳng từ giỏ hàng, dùng UDID đã lưu
+        // ──────────────────────────────────────────────
         function buyFromCart(productId) {
-            window.location.href = './shop.html?product=' + encodeURIComponent(productId);
+            const udid = document.getElementById('savedUdidInput').value.trim();
+            if (!udid) {
+                showToast('⚠️ Vui lòng lưu UDID trước khi mua (mục 🔑 UDID đã lưu ở trên)');
+                document.getElementById('savedUdidInput').focus();
+                return;
+            }
+            const p = cartDataMap[productId];
+            selectedProduct = {
+                bundleIdentifier: productId,
+                name: p?.name || productId,
+                _price_usd: p?.price_usd,
+                _price_vnd: p?.price_vnd,
+            };
+
+            document.getElementById('sheetProductName').textContent = selectedProduct.name;
+            document.getElementById('sheetPkg').textContent = selectedProduct.bundleIdentifier;
+            document.getElementById('sheetUdid').textContent = udid;
+            document.getElementById('sheetPrice').textContent =
+                (selectedProduct._price_usd ? '$' + selectedProduct._price_usd : '') +
+                (selectedProduct._price_vnd ? ' / ' + Number(selectedProduct._price_vnd).toLocaleString('vi-VN') + '₫' : '');
+
+            openCheckout();
+            renderPayPalButton();
         }
+
+        let ppRendered = false;
+        function renderPayPalButton() {
+            if (ppRendered) return;
+            ppRendered = true;
+            paypal.Buttons({
+                style: { color: 'gold', shape: 'rect', label: 'pay', height: 48 },
+                createOrder: (data, actions) => {
+                    const p = selectedProduct;
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: { value: String(p._price_usd || '1.00'), currency_code: 'USD' },
+                            description: p.name + ' (' + p.bundleIdentifier + ')'
+                        }]
+                    });
+                },
+                onApprove: async (data, actions) => {
+                    const order = await actions.order.capture();
+                    showToast('✅ PayPal thành công! Đang tạo license...');
+                    await requestLicense('paypal', order.id);
+                },
+                onError: (err) => { showToast('❌ Lỗi PayPal: ' + err.message); }
+            }).render('#paypal-button-container');
+        }
+
+        async function payWithPayOS() {
+            if (!selectedProduct) return;
+            showToast('⏳ Đang tạo link PayOS...');
+            const udid = document.getElementById('savedUdidInput').value.trim();
+            const { data: { session } } = await sb.auth.getSession();
+            if (!session) { showToast('⚠️ Cần đăng nhập trước!'); return; }
+            const resp = await fetch(SUPABASE_URL + '/functions/v1/create-order', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + session.access_token },
+                body: JSON.stringify({ product_id: selectedProduct.bundleIdentifier, udid, provider: 'payos' })
+            });
+            const result = await resp.json();
+            if (result.checkout_url) window.location.href = result.checkout_url;
+            else showToast('❌ Lỗi: ' + (result.error || 'Không tạo được link'));
+        }
+
+        async function payWithMomo() {
+            showToast('⏳ Đang tạo link MoMo...');
+            const udid = document.getElementById('savedUdidInput').value.trim();
+            const { data: { session } } = await sb.auth.getSession();
+            if (!session) { showToast('⚠️ Cần đăng nhập trước!'); return; }
+            const resp = await fetch(SUPABASE_URL + '/functions/v1/create-order', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + session.access_token },
+                body: JSON.stringify({ product_id: selectedProduct.bundleIdentifier, udid, provider: 'momo' })
+            });
+            const result = await resp.json();
+            if (result.pay_url) window.location.href = result.pay_url;
+            else showToast('❌ Lỗi: ' + (result.error || 'Không tạo được link'));
+        }
+
+        async function requestLicense(provider, txnId) {
+            const udid = document.getElementById('savedUdidInput').value.trim();
+            const { data: { session } } = await sb.auth.getSession();
+            if (!session) { showToast('⚠️ Cần đăng nhập!'); return; }
+            const resp = await fetch(SUPABASE_URL + '/functions/v1/issue-license', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + session.access_token },
+                body: JSON.stringify({ product_id: selectedProduct.bundleIdentifier, udid, provider, txn_id: txnId })
+            });
+            const result = await resp.json();
+            if (result.license_key) {
+                closeCheckout();
+                showToast('🎉 License tạo thành công!');
+                // Xoá khỏi giỏ hàng (đã mua xong) + tải lại toàn bộ danh sách
+                await sb.from('cart_items').delete()
+                    .eq('user_id', session.user.id).eq('product_id', selectedProduct.bundleIdentifier);
+                loadCart();
+                const { data: licenses } = await sb.from('licenses')
+                    .select('*').eq('user_id', session.user.id).not('revoked', 'is', true);
+                ownedProductIds = new Set((licenses || []).map(l => l.product_id));
+                renderLicenseList(licenses || []);
+                loadLibrary();
+            } else {
+                showToast('❌ ' + (result.error || 'Lỗi tạo license'));
+            }
+        }
+
+        function openCheckout() {
+            document.getElementById('checkoutBackdrop').classList.add('open');
+        }
+        function closeCheckout(e) {
+            if (e && e.target !== document.getElementById('checkoutBackdrop')) return;
+            document.getElementById('checkoutBackdrop').classList.remove('open');
+        }
+
 
         async function removeFromCart(cartItemId) {
             const { error } = await sb.from('cart_items').delete().eq('id', cartItemId);
@@ -500,6 +712,58 @@
                 showToast('❌ Lỗi lưu UDID: ' + error.message);
             } else {
                 showToast('✅ Đã lưu UDID — lần sau mua sẽ tự điền');
+                lookupDeviceModel(val);
+            }
+        }
+
+        // ──────────────────────────────────────────────
+        // LẤY UDID TỰ ĐỘNG qua .mobileconfig (gộp từ shop.html)
+        // ──────────────────────────────────────────────
+        async function getUdidAuto() {
+            const token = crypto.randomUUID().replace(/-/g, '');
+            const btn = document.getElementById('btnGetUdidAuto');
+            const status = document.getElementById('udidAutoStatus');
+            btn.style.opacity = '0.6';
+            btn.style.pointerEvents = 'none';
+            btn.textContent = '⏳ Đang chờ...';
+            status.textContent = 'Cài profile → quay lại trang này → UDID sẽ tự điền và tự lưu.';
+
+            await sb.from('udid_sessions').insert({ token, udid: null });
+
+            // Mở .mobileconfig (iOS hỏi cài không)
+            window.location.href = `${EDGE_FN_URL}?token=${token}`;
+
+            pollingTimer = setInterval(() => pollUdidAuto(token), 2000);
+            setTimeout(() => stopPollingAuto(token, false), 300000);
+        }
+
+        async function pollUdidAuto(token) {
+            const { data } = await sb.from('udid_sessions')
+                .select('udid').eq('token', token).single();
+            if (data?.udid) {
+                stopPollingAuto(token, true);
+                document.getElementById('savedUdidInput').value = data.udid;
+                const { data: { session } } = await sb.auth.getSession();
+                if (session) {
+                    await sb.from('profiles').update({ saved_udid: data.udid }).eq('id', session.user.id);
+                }
+                const status = document.getElementById('udidAutoStatus');
+                status.textContent = '✅ UDID đã lấy tự động và lưu thành công!';
+                lookupDeviceModel(data.udid);
+                showToast('✅ Đã lấy & lưu UDID tự động');
+                await sb.from('udid_sessions').delete().eq('token', token);
+            }
+        }
+
+        function stopPollingAuto(token, success) {
+            if (pollingTimer) { clearInterval(pollingTimer); pollingTimer = null; }
+            const btn = document.getElementById('btnGetUdidAuto');
+            btn.style.opacity = '';
+            btn.style.pointerEvents = '';
+            btn.textContent = '📱 Lấy tự động';
+            if (!success) {
+                document.getElementById('udidAutoStatus').textContent =
+                    'Hết thời gian chờ. Thử lại hoặc dán tay UDID rồi bấm Lưu thủ công.';
             }
         }
 
