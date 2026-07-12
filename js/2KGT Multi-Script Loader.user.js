@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Master Loader
 // @namespace    http://tampermonkey.net/
-// @version      2.3
-// @description  Trung tâm điều khiển các script con trên Safari iOS (Fix lỗi chặn tải)
+// @version      2.4
+// @description  Trung tâm điều khiển script con - Ép hiển thị UI bằng MutationObserver trên iOS
 // @author       2KGT
 // @match        *://*/*
 // @grant        GM_xmlhttpRequest
@@ -25,12 +25,11 @@
         "open_inapp.js"
     ];
 
-    // --- 1. TẢI VÀ KÍCH HOẠT SCRIPT CON (SỬA ĐỔI ĐỂ KHÔNG BỊ CHẶN TRÊN IOS) ---
+    // --- 1. TẢI VÀ KÍCH HOẠT SCRIPT CON ---
     function loadAndExecuteScript(scriptName) {
         const isEnabled = GM_getValue(`running_${scriptName}`, true);
         if (!isEnabled) return;
 
-        // Bỏ qua nếu là script YouTube nhưng không phải ở trang YouTube
         if (scriptName.includes("YouTube") && !window.location.hostname.includes("youtube.com")) return; 
 
         const fullUrl = `${BASE_URL}${scriptName}`;
@@ -40,31 +39,26 @@
             onload: function(response) {
                 if (response.status === 200) {
                     try {
-                        // Tạo thẻ script để bọc mã nguồn file con, giúp Safari thực thi mượt mà
                         const scriptEl = document.createElement('script');
                         scriptEl.type = 'text/javascript';
                         scriptEl.textContent = response.responseText;
-                        
-                        // Chèn an toàn vào document
                         (document.head || document.documentElement).appendChild(scriptEl);
-                        console.log(`[2KGT Master] Đã chạy thành công: ${scriptName}`);
+                        console.log(`[2KGT Master] Đã chạy: ${scriptName}`);
                     } catch (e) {
-                        console.error(`[2KGT Master] Lỗi thực thi ${scriptName}:`, e);
+                        console.error(`[2KGT Master] Lỗi inject ${scriptName}:`, e);
                     }
                 }
-            },
-            onerror: function(err) {
-                console.error(`[2KGT Master] Không thể tải file từ Github: ${scriptName}`, err);
             }
         });
     }
 
-    // Kích hoạt toàn bộ danh sách script con
     SCRIPTS.forEach(script => loadAndExecuteScript(script));
 
-    // --- 2. GIAO DIỆN ĐIỀU KHIỂN NÚT BẤM (GIỮ NGUYÊN GIAO DIỆN CỦA BẠN) ---
-    function initUI() {
+    // --- 2. CƠ CHẾ ÉP HIỂN THỊ NÚT NỔI (DÀNH RIÊNG CHO IOS SAFARI) ---
+    function injectUI() {
         if (document.getElementById("kgt-container")) return;
+
+        // Khởi tạo các thẻ giao diện cơ bản bằng biến
         const container = document.createElement('div');
         container.id = "kgt-container";
         
@@ -72,11 +66,12 @@
         floatBtn.id = "kgt-float-btn";
         floatBtn.innerText = "⚙️";
         
+        // CSS Inline tuyệt đối, đặt độ ưu tiên z-index cao nhất hệ thống
         Object.assign(floatBtn.style, {
             position: 'fixed', bottom: '30px', right: '25px', zIndex: '2147483647',
             background: '#2563eb', color: '#ffffff', width: '45px', height: '45px',
             borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '20px', boxShadow: '0 4px 12px rgba(0,0,0,0.3)', cursor: 'pointer',
+            fontSize: '20px', boxShadow: '0 4px 12px rgba(0,0,0,0.4)', cursor: 'pointer',
             webkitUserSelect: 'none', userSelect: 'none'
         });
 
@@ -115,14 +110,20 @@
         });
 
         const note = document.createElement('div');
-        note.innerText = "* Vui lòng tải lại trang sau khi thay đổi bật/tắt.";
+        note.innerText = "* Vui lòng tải lại trang sau khi thay đổi.";
         Object.assign(note.style, { fontSize: '10px', color: '#94a3b8', marginTop: '10px', textAlign: 'center' });
         menu.appendChild(note);
 
         container.appendChild(floatBtn);
         container.appendChild(menu);
-        (document.body || document.documentElement).appendChild(container);
 
+        // Chèn vào vị trí cấu trúc tài liệu hiện có (Ưu tiên Body -> Thất bại thì chèn vào HTML)
+        const target = document.body || document.documentElement;
+        if (target) {
+            target.appendChild(container);
+        }
+
+        // Đăng ký các sự kiện Click / Gạt công tắc
         floatBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
@@ -142,10 +143,19 @@
         });
     }
 
-    // Đảm bảo UI luôn xuất hiện bất kể trang tải nhanh hay chậm
+    // --- 3. THEO DÕI CẤU TRÚC TRANG ĐỂ CHÈN UI BẰNG MUTATION OBSERVER ---
+    const observer = new MutationObserver((mutations, obs) => {
+        if (document.body || document.documentElement) {
+            injectUI();
+            obs.disconnect(); // Đã vẽ thành công, dừng theo dõi để tiết kiệm pin RAM
+        }
+    });
+
+    // Bắt đầu quét cấu trúc trang ngay khi script vừa chạy ngầm
+    observer.observe(document, { childList: true, subtree: true });
+
+    // Cơ chế phòng hờ: Nếu trang đã tải sẵn từ trước đó
     if (document.readyState === "complete" || document.readyState === "interactive") {
-        initUI();
-    } else {
-        window.addEventListener('DOMContentLoaded', initUI);
+        injectUI();
     }
 })();
