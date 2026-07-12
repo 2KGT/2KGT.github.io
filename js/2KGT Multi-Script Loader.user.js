@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Master Loader
 // @namespace    http://tampermonkey.net/
-// @version      2.4
-// @description  Trung tâm điều khiển script con - Ép hiển thị UI bằng MutationObserver trên iOS
+// @version      3.0
+// @description  Trung tâm điều khiển script con - Sửa lỗi không hiện nút trên Safari iOS
 // @author       2KGT
 // @match        *://*/*
 // @grant        GM_xmlhttpRequest
@@ -25,7 +25,7 @@
         "open_inapp.js"
     ];
 
-    // --- 1. TẢI VÀ KÍCH HOẠT SCRIPT CON ---
+    // --- 1. TẢI VÀ THỰC THI SCRIPT CON AN TOÀN TRÊN SAFARI iOS ---
     function loadAndExecuteScript(scriptName) {
         const isEnabled = GM_getValue(`running_${scriptName}`, true);
         if (!isEnabled) return;
@@ -39,26 +39,28 @@
             onload: function(response) {
                 if (response.status === 200) {
                     try {
+                        // Chèn mã nguồn trực tiếp vào tài liệu để vượt rào Isolated Context của iOS
                         const scriptEl = document.createElement('script');
-                        scriptEl.type = 'text/javascript';
                         scriptEl.textContent = response.responseText;
                         (document.head || document.documentElement).appendChild(scriptEl);
-                        console.log(`[2KGT Master] Đã chạy: ${scriptName}`);
+                        console.log(`[2KGT Master] Đã kích hoạt thành công: ${scriptName}`);
                     } catch (e) {
-                        console.error(`[2KGT Master] Lỗi inject ${scriptName}:`, e);
+                        console.error(`[2KGT Master] Lỗi khi thực thi ${scriptName}:`, e);
                     }
                 }
             }
         });
     }
 
+    // Kích hoạt tiến trình tải file con ngay lập tức
     SCRIPTS.forEach(script => loadAndExecuteScript(script));
 
-    // --- 2. CƠ CHẾ ÉP HIỂN THỊ NÚT NỔI (DÀNH RIÊNG CHO IOS SAFARI) ---
-    function injectUI() {
+
+    // --- 2. XÂY DỰNG GIAO DIỆN NÚT NỔI HỆ THỐNG ---
+    function initMasterUI() {
         if (document.getElementById("kgt-container")) return;
 
-        // Khởi tạo các thẻ giao diện cơ bản bằng biến
+        // Tạo container và chèn thẳng vào gốc HTML giống cấu trúc file con của bạn
         const container = document.createElement('div');
         container.id = "kgt-container";
         
@@ -66,19 +68,19 @@
         floatBtn.id = "kgt-float-btn";
         floatBtn.innerText = "⚙️";
         
-        // CSS Inline tuyệt đối, đặt độ ưu tiên z-index cao nhất hệ thống
+        // CSS Inline với Z-Index tối đa để không bị che khuất trên iPhone
         Object.assign(floatBtn.style, {
-            position: 'fixed', bottom: '30px', right: '25px', zIndex: '2147483647',
-            background: '#2563eb', color: '#ffffff', width: '45px', height: '45px',
+            position: 'fixed', bottom: '90px', right: '20px', zIndex: '2147483647',
+            background: '#111', color: '#fff', border: '1px solid #333', width: '45px', height: '45px',
             borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '20px', boxShadow: '0 4px 12px rgba(0,0,0,0.4)', cursor: 'pointer',
+            fontSize: '18px', boxShadow: '0 4px 14px rgba(0,0,0,.35)', cursor: 'pointer',
             webkitUserSelect: 'none', userSelect: 'none'
         });
 
         const menu = document.createElement('div');
         menu.id = "kgt-menu";
         Object.assign(menu.style, {
-            position: 'fixed', bottom: '85px', right: '25px', zIndex: '2147483647',
+            position: 'fixed', bottom: '145px', right: '20px', zIndex: '2147483647',
             background: '#ffffff', color: '#1e293b', width: '280px', borderRadius: '12px',
             boxShadow: '0 10px 25px rgba(0,0,0,0.2)', padding: '14px', display: 'none',
             fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
@@ -86,9 +88,9 @@
         });
 
         const title = document.createElement('div');
-        title.innerHTML = `<b style="font-size:15px; color:#0f172a;">🛠️ 2KGT Control Center</b>`;
+        title.innerHTML = `<b style="font-size:14px; color:#0f172a;">🛠️ 2KGT Control Center</b>`;
         title.style.borderBottom = '1px solid #e2e8f0';
-        title.style.paddingBottom = '8px';
+        title.style.paddingBottom = '6px';
         title.style.marginBottom = '8px';
         menu.appendChild(title);
 
@@ -110,20 +112,17 @@
         });
 
         const note = document.createElement('div');
-        note.innerText = "* Vui lòng tải lại trang sau khi thay đổi.";
+        note.innerText = "* Vui lòng tải lại trang sau khi bật/tắt.";
         Object.assign(note.style, { fontSize: '10px', color: '#94a3b8', marginTop: '10px', textAlign: 'center' });
         menu.appendChild(note);
 
         container.appendChild(floatBtn);
         container.appendChild(menu);
+        
+        // Phương thức chèn phần tử ép buộc hiển thị (chuẩn gốc HTML)
+        document.documentElement.appendChild(container);
 
-        // Chèn vào vị trí cấu trúc tài liệu hiện có (Ưu tiên Body -> Thất bại thì chèn vào HTML)
-        const target = document.body || document.documentElement;
-        if (target) {
-            target.appendChild(container);
-        }
-
-        // Đăng ký các sự kiện Click / Gạt công tắc
+        // Đăng ký tương tác sự kiện chạm cảm ứng trên màn hình iPhone
         floatBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
@@ -143,19 +142,15 @@
         });
     }
 
-    // --- 3. THEO DÕI CẤU TRÚC TRANG ĐỂ CHÈN UI BẰNG MUTATION OBSERVER ---
-    const observer = new MutationObserver((mutations, obs) => {
-        if (document.body || document.documentElement) {
-            injectUI();
-            obs.disconnect(); // Đã vẽ thành công, dừng theo dõi để tiết kiệm pin RAM
-        }
-    });
-
-    // Bắt đầu quét cấu trúc trang ngay khi script vừa chạy ngầm
-    observer.observe(document, { childList: true, subtree: true });
-
-    // Cơ chế phòng hờ: Nếu trang đã tải sẵn từ trước đó
-    if (document.readyState === "complete" || document.readyState === "interactive") {
-        injectUI();
+    // --- 3. ĐẢM BẢO CHẠY UI NGAY KHI PHẦN TỬ GỐC ĐẦU TIÊN CỦA TRANG XUẤT HIỆN ---
+    if (document.documentElement) {
+        initMasterUI();
+    } else {
+        const checkExist = setInterval(function() {
+            if (document.documentElement) {
+                initMasterUI();
+                clearInterval(checkExist);
+            }
+        }, 10);
     }
 })();
