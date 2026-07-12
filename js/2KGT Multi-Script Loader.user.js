@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Master Loader
 // @namespace    http://tampermonkey.net/
-// @version      4.1
-// @description  Trung tâm điều khiển script con - Sửa lỗi không mở được menu trên iOS Safari
+// @version      5.0
+// @description  Trung tâm điều khiển script con - Khôi phục tương tác và tính năng gốc cho script con
 // @author       2KGT
 // @match        *://*/*
 // @grant        GM_xmlhttpRequest
@@ -25,7 +25,7 @@
         "open_inapp.js"
     ];
 
-    // --- 1. KHỞI TẠO GIAO DIỆN VÀ FIX LỖI SỰ KIỆN CHẠM ---
+    // --- 1. KHỞI TẠO GIAO DIỆN ĐIỀU KHIỂN HỆ THỐNG ---
     function initMasterUI() {
         if (document.getElementById("kgt-container")) return;
 
@@ -70,63 +70,47 @@
             const item = document.createElement('div');
             Object.assign(item.style, {
                 display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                padding: '6px 0', borderBottom: '1px dashed #f1f5f9', fontSize: '12px'
+                padding: '8px 0', borderBottom: '1px dashed #f1f5f9', fontSize: '13px'
             });
 
             item.innerHTML = `
                 <span style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:180px; color:#334155;">${index + 1}. ${displayName}</span>
-                <input type="checkbox" id="kgt-chk-${index}" ${isChecked ? 'checked' : ''} style="width:34px; height:18px; cursor:pointer;">
+                <input type="checkbox" data-script="${script}" class="kgt-script-toggle" ${isChecked ? 'checked' : ''} style="width:40px; height:20px; cursor:pointer; accent-color:#2563eb;">
             `;
             menu.appendChild(item);
         });
 
         const note = document.createElement('div');
-        note.innerText = "* Vui lòng tải lại trang sau khi bật/tắt.";
-        Object.assign(note.style, { fontSize: '10px', color: '#94a3b8', marginTop: '10px', textAlign: 'center' });
+        note.innerText = "👉 Chọn xong, hãy Tải lại trang để áp dụng.";
+        Object.assign(note.style, { fontSize: '11px', color: '#64748b', marginTop: '12px', textAlign: 'center', fontWeight: '500' });
         menu.appendChild(note);
 
         container.appendChild(floatBtn);
         container.appendChild(menu);
-        
         document.documentElement.appendChild(container);
 
-        // Hàm xử lý bật tắt menu chung cho cả Click và Chạm ngón tay
-        function toggleMenu(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            if (menu.style.display === 'block') {
-                menu.style.display = 'none';
-            } else {
-                menu.style.display = 'block';
-            }
-        }
+        // Sự kiện Menu
+        floatBtn.addEventListener('click', function(e) {
+            e.preventDefault(); e.stopPropagation();
+            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+        });
 
-        // Sử dụng touchstart để nhạy hơn gấp 4 lần trên màn hình cảm ứng iOS
-        floatBtn.addEventListener('touchstart', toggleMenu, { passive: false });
-        floatBtn.addEventListener('click', toggleMenu);
+        menu.addEventListener('click', function(e) { e.stopPropagation(); });
 
-        // Đóng menu an toàn khi chạm ra ngoài vùng menu trên Safari
-        var closeHandler = function(e) {
-            if (!container.contains(e.target)) {
-                menu.style.display = 'none';
-            }
-        };
-        document.addEventListener('touchstart', closeHandler, { passive: true });
-        document.addEventListener('click', closeHandler);
+        document.addEventListener('click', function(e) {
+            if (!container.contains(e.target)) menu.style.display = 'none';
+        });
 
-        SCRIPTS.forEach((script, index) => {
-            const chk = document.getElementById(`kgt-chk-${index}`);
-            if (chk) {
-                // Đăng ký sự kiện thay đổi công tắc bật tắt
-                var changeHandler = function() {
-                    try { GM_setValue(`running_${script}`, this.checked); } catch(e) {}
-                };
-                chk.addEventListener('change', changeHandler);
-            }
+        const checkboxes = menu.querySelectorAll('.kgt-script-toggle');
+        checkboxes.forEach(chk => {
+            chk.addEventListener('change', function() {
+                const scriptName = this.getAttribute('data-script');
+                try { GM_setValue(`running_${scriptName}`, this.checked); } catch(e) {}
+            });
         });
     }
 
-    // --- 2. TẢI FILE CON THÀNH BLOB URL ---
+    // --- 2. TẢI VÀ THỰC THI TRỰC TIẾP VÀO CONTEXT GỐC (HỒI SINH TÍNH NĂNG) ---
     function loadAndExecuteScript(scriptName) {
         let isEnabled = true;
         try { isEnabled = GM_getValue(`running_${scriptName}`, true); } catch(e) {}
@@ -141,23 +125,27 @@
             onload: function(response) {
                 if (response.status === 200) {
                     try {
-                        const blob = new Blob([response.responseText], { type: 'text/javascript' });
-                        const blobUrl = URL.createObjectURL(blob);
-                        
-                        const scriptEl = document.createElement('script');
-                        scriptEl.src = blobUrl;
-                        
-                        (document.head || document.documentElement).appendChild(scriptEl);
-                        console.log(`[2KGT Master] Đã tải luồng biệt lập: ${scriptName}`);
+                        // Giải pháp then chốt: Chạy trực tiếp mã nguồn bằng eval() trong phạm vi cửa sổ hiện tại.
+                        // Cách này giữ nguyên quyền kết nối DOM, giúp các nút bấm tương tác của script con hoạt động trở lại bình thường.
+                        window.eval(response.responseText);
+                        console.log(`[2KGT Master] Đã kích hoạt tính năng gốc: ${scriptName}`);
                     } catch (e) {
-                        console.error(`[2KGT Master] Lỗi phân tách luồng ${scriptName}:`, e);
+                        // Nếu trang web có chính sách bảo mật CSP chặn eval(), tự động chuyển sang cơ chế chèn thẻ an toàn
+                        try {
+                            const scriptEl = document.createElement('script');
+                            scriptEl.textContent = response.responseText;
+                            (document.head || document.documentElement).appendChild(scriptEl);
+                            console.log(`[2KGT Master] Đã kích hoạt tính năng (Dự phòng): ${scriptName}`);
+                        } catch(innerErr) {
+                            console.error(`[2KGT Master] Không thể thực thi ${scriptName}:`, innerErr);
+                        }
                     }
                 }
             }
         });
     }
 
-    // Tiến trình găm UI hệ thống lên trang web
+    // Khởi chạy UI hệ thống
     if (document.documentElement) {
         initMasterUI();
     } else {
@@ -169,5 +157,6 @@
         }, 5);
     }
 
+    // Nạp danh sách script con
     SCRIPTS.forEach(script => loadAndExecuteScript(script));
 })();
