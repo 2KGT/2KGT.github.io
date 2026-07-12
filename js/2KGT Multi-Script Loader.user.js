@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         2KGT Multi-Script Loader
+// @name         Master Loader
 // @namespace    http://tampermonkey.net/
-// @version      2.2
-// @description  Trung tâm điều khiển tích hợp nút nổi tối ưu riêng cho Safari iOS
+// @version      2.3
+// @description  Trung tâm điều khiển các script con trên Safari iOS (Fix lỗi chặn tải)
 // @author       2KGT
 // @match        *://*/*
 // @grant        GM_xmlhttpRequest
@@ -25,15 +25,13 @@
         "open_inapp.js"
     ];
 
-    // --- 1. TỰ ĐỘNG TẢI VÀ CHẠY SCRIPT CON ---
+    // --- 1. TẢI VÀ KÍCH HOẠT SCRIPT CON (SỬA ĐỔI ĐỂ KHÔNG BỊ CHẶN TRÊN IOS) ---
     function loadAndExecuteScript(scriptName) {
         const isEnabled = GM_getValue(`running_${scriptName}`, true);
         if (!isEnabled) return;
 
-        // Tối ưu bộ lọc cho thiết bị di động
-        if (scriptName.includes("YouTube") && !window.location.hostname.includes("youtube.com")) {
-            return; 
-        }
+        // Bỏ qua nếu là script YouTube nhưng không phải ở trang YouTube
+        if (scriptName.includes("YouTube") && !window.location.hostname.includes("youtube.com")) return; 
 
         const fullUrl = `${BASE_URL}${scriptName}`;
         GM_xmlhttpRequest({
@@ -42,51 +40,56 @@
             onload: function(response) {
                 if (response.status === 200) {
                     try {
-                        const runScript = new Function(response.responseText);
-                        runScript();
+                        // Tạo thẻ script để bọc mã nguồn file con, giúp Safari thực thi mượt mà
+                        const scriptEl = document.createElement('script');
+                        scriptEl.type = 'text/javascript';
+                        scriptEl.textContent = response.responseText;
+                        
+                        // Chèn an toàn vào document
+                        (document.head || document.documentElement).appendChild(scriptEl);
+                        console.log(`[2KGT Master] Đã chạy thành công: ${scriptName}`);
                     } catch (e) {
-                        console.error(`[2KGT] Lỗi thực thi ${scriptName}:`, e);
+                        console.error(`[2KGT Master] Lỗi thực thi ${scriptName}:`, e);
                     }
                 }
+            },
+            onerror: function(err) {
+                console.error(`[2KGT Master] Không thể tải file từ Github: ${scriptName}`, err);
             }
         });
     }
 
+    // Kích hoạt toàn bộ danh sách script con
     SCRIPTS.forEach(script => loadAndExecuteScript(script));
 
-    // --- 2. KHỞI TẠO GIAO DIỆN NÚT NỔI (TỐI ƯU CHO IOS) ---
+    // --- 2. GIAO DIỆN ĐIỀU KHIỂN NÚT BẤM (GIỮ NGUYÊN GIAO DIỆN CỦA BẠN) ---
     function initUI() {
         if (document.getElementById("kgt-container")) return;
-
         const container = document.createElement('div');
         container.id = "kgt-container";
         
-        // Tạo Nút Nổi
         const floatBtn = document.createElement('div');
         floatBtn.id = "kgt-float-btn";
         floatBtn.innerText = "⚙️";
         
-        // Tối ưu CSS Inline tránh xung đột thuộc tính trên Safari di động
         Object.assign(floatBtn.style, {
-            position: 'fixed', bottom: '30px', right: '20px', zIndex: '2147483647',
+            position: 'fixed', bottom: '30px', right: '25px', zIndex: '2147483647',
             background: '#2563eb', color: '#ffffff', width: '45px', height: '45px',
             borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: '20px', boxShadow: '0 4px 12px rgba(0,0,0,0.3)', cursor: 'pointer',
             webkitUserSelect: 'none', userSelect: 'none'
         });
 
-        // Tạo Bảng Menu
         const menu = document.createElement('div');
         menu.id = "kgt-menu";
         Object.assign(menu.style, {
-            position: 'fixed', bottom: '85px', right: '20px', zIndex: '2147483647',
+            position: 'fixed', bottom: '85px', right: '25px', zIndex: '2147483647',
             background: '#ffffff', color: '#1e293b', width: '280px', borderRadius: '12px',
             boxShadow: '0 10px 25px rgba(0,0,0,0.2)', padding: '14px', display: 'none',
-            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+            fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
             border: '1px solid #e2e8f0', boxSizing: 'border-box'
         });
 
-        // Tạo tiêu đề Menu
         const title = document.createElement('div');
         title.innerHTML = `<b style="font-size:15px; color:#0f172a;">🛠️ 2KGT Control Center</b>`;
         title.style.borderBottom = '1px solid #e2e8f0';
@@ -94,7 +97,6 @@
         title.style.marginBottom = '8px';
         menu.appendChild(title);
 
-        // Duyệt danh sách tạo các dòng Bật/Tắt
         SCRIPTS.forEach((script, index) => {
             const isChecked = GM_getValue(`running_${script}`, true);
             const displayName = script.replace("_user.js", "").replace(".user.js", "").replace(".js", "");
@@ -112,23 +114,15 @@
             menu.appendChild(item);
         });
 
-        // Thêm ghi chú dưới cùng
         const note = document.createElement('div');
-        note.innerText = "* Vui lòng tải lại trang sau khi thay đổi.";
+        note.innerText = "* Vui lòng tải lại trang sau khi thay đổi bật/tắt.";
         Object.assign(note.style, { fontSize: '10px', color: '#94a3b8', marginTop: '10px', textAlign: 'center' });
         menu.appendChild(note);
 
         container.appendChild(floatBtn);
         container.appendChild(menu);
-        
-        // Chèn vào tài liệu một cách an toàn nhất
-        if (document.body) {
-            document.body.appendChild(container);
-        } else {
-            document.documentElement.appendChild(container);
-        }
+        (document.body || document.documentElement).appendChild(container);
 
-        // --- SỰ KIỆN CHẠM (TOUCH EVENTS) CHO IPHONE ---
         floatBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
@@ -138,7 +132,6 @@
             if (!container.contains(e.target)) menu.style.display = 'none';
         });
 
-        // Gán sự kiện lưu trạng thái cho Checkbox
         SCRIPTS.forEach((script, index) => {
             const chk = document.getElementById(`kgt-chk-${index}`);
             if (chk) {
@@ -149,11 +142,10 @@
         });
     }
 
-    // Cơ chế kích hoạt giao diện đa tầng chống bỏ lỡ sự kiện trên iOS
+    // Đảm bảo UI luôn xuất hiện bất kể trang tải nhanh hay chậm
     if (document.readyState === "complete" || document.readyState === "interactive") {
         initUI();
     } else {
         window.addEventListener('DOMContentLoaded', initUI);
-        window.addEventListener('load', initUI);
     }
 })();
