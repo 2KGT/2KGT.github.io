@@ -2890,16 +2890,17 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     // ════════════════════════════════════════════════════════════
     async function loadData() {{
         try {{
-            const [res, dbResult] = await Promise.all([
-                fetch('{json_path}'),
-                _sb.from('products').select('id,price_usd,price_vnd').catch(() => ({{ data: [] }}))
-            ]);
+            const res = await fetch('{json_path}');
             const data = await res.json();
             const items = data[DATA_KEY];
             rawItems = Array.isArray(items) ? items : Object.values(items || {{}});
 
+            // Tải giá sản phẩm riêng (không chặn catalog nếu lỗi)
             priceMap = {{}};
-            (dbResult?.data || []).forEach(p => {{ priceMap[p.id] = p; }});
+            try {{
+                const dbResult = await _sb.from('products').select('id,price_usd,price_vnd');
+                (dbResult?.data || []).forEach(p => {{ priceMap[p.id] = p; }});
+            }} catch (e2) {{ /* im lặng, danh sách vẫn hiện bình thường không có giá */ }}
 
             groupedItems = groupByBundle(rawItems);
 
@@ -3290,771 +3291,6 @@ def build_view(output_file, title, json_path, data_key, default_tab="apps", repo
     print(f"✅ Tạo xong: {output_file}")
 
 
-SHOP_HTML_TEMPLATE = """<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#0a1428">
-    <title>Shop — {repo_name}</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="https://www.paypal.com/sdk/js?client-id={paypal_client_id}&currency=USD&intent=capture"></script>
-    <style>
-        * {{ box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }}
-        html, body {{
-            background: #0a1428; color: #fff;
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
-            min-height: 100vh;
-        }}
-
-        /* ── HEADER ── */
-        .header {{
-            background: rgba(10,20,40,0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 12px 16px;
-            display: grid; grid-template-columns: 1fr auto 1fr;
-            align-items: center;
-            position: sticky; top: 0; z-index: 100;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-        }}
-        .header-brand {{ justify-self: center; font-weight: 800; font-size: 15px; letter-spacing: 0.2px; white-space: nowrap; }}
-        .header-btn {{
-            width: 36px; height: 36px;
-            display: flex; align-items: center; justify-content: center;
-            color: #{tint}; font-size: 16px;
-            text-decoration: none; border-radius: 50%;
-            background: rgba(132,142,249,0.15);
-            transition: 0.15s; border: none; cursor: pointer;
-        }}
-        .header-btn:active {{ background: rgba(132,142,249,0.28); transform: scale(0.93); }}
-        .header-btn-left {{ justify-self: start; }}
-        .header-btn-right {{ justify-self: end; }}
-
-
-        /* ── UDID SECTION ── */
-        .udid-card {{
-            margin: 20px 16px;
-            background: linear-gradient(135deg, #0f1e3d, #1a2a50);
-            border: 1px solid rgba(132,142,249,0.3);
-            border-radius: 20px; padding: 20px;
-        }}
-        .udid-title {{ font-size: 15px; font-weight: 700; margin-bottom: 4px; }}
-        .udid-sub {{ font-size: 13px; color: #8e9ab5; margin-bottom: 16px; }}
-        .udid-row {{ display: flex; flex-direction: column; gap: 10px; }}
-        .udid-input {{
-            width: 100%; padding: 13px 14px; border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.12);
-            background: rgba(255,255,255,0.05); color: #fff; font-size: 13px;
-            font-family: 'SF Mono', monospace;
-        }}
-        .udid-input:focus {{ outline: none; border-color: #{tint}; }}
-        .udid-input.filled {{ border-color: #6be8a0; background: rgba(107,232,160,0.08); }}
-        .btn-get-udid {{
-            width: 100%; padding: 13px 16px; border: none; border-radius: 12px;
-            background: #{tint}; color: #fff; font-weight: 700;
-            font-size: 14px; cursor: pointer; white-space: nowrap;
-            transition: 0.15s; display: flex; align-items: center;
-            justify-content: center; gap: 6px;
-        }}
-        .btn-get-udid:active {{ transform: scale(0.97); }}
-        .btn-get-udid.loading {{ opacity: 0.6; pointer-events: none; }}
-        .btn-confirm-udid {{
-            width: 100%; margin-top: 10px; padding: 12px;
-            border: none; border-radius: 12px;
-            background: #6be8a0; color: #0a1428; font-weight: 700;
-            font-size: 13px; cursor: pointer;
-        }}
-        .btn-confirm-udid:active {{ transform: scale(0.97); }}
-        .udid-status {{
-            margin-top: 10px; font-size: 12px; color: #8e9ab5; min-height: 18px;
-        }}
-        .udid-status.ok {{ color: #6be8a0; }}
-        .udid-status.err {{ color: #ff8080; }}
-
-        /* Trạng thái THU GỌN sau khi UDID đã xác nhận */
-        .udid-collapsed-row {{
-            display: flex; align-items: center; justify-content: space-between; gap: 10px;
-        }}
-        .udid-collapsed-info {{ display: flex; align-items: center; gap: 10px; min-width: 0; }}
-        .udid-collapsed-icon {{ font-size: 18px; flex-shrink: 0; }}
-        .udid-collapsed-label {{ font-size: 12px; color: #8e9ab5; }}
-        .udid-collapsed-value {{
-            font-size: 12px; font-family: 'SF Mono', monospace; color: #6be8a0;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-            max-width: 220px;
-        }}
-        .udid-change-btn {{
-            flex-shrink: 0; padding: 8px 14px; border-radius: 10px;
-            border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.06);
-            color: #{tint}; font-weight: 700; font-size: 12px; cursor: pointer;
-        }}
-        .udid-change-btn:active {{ background: rgba(255,255,255,0.12); }}
-
-        /* ── PRODUCTS ── */
-        .section-title {{
-            padding: 0 20px 10px; font-size: 13px; font-weight: 600;
-            color: #8e9ab5; text-transform: uppercase; letter-spacing: 0.5px;
-        }}
-        .products {{ padding: 0 16px; display: flex; flex-direction: column; gap: 14px; padding-bottom: 100px; }}
-        .product-card {{
-            background: #0f1e3d; border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 20px; padding: 16px; cursor: pointer;
-            transition: 0.15s; display: flex; flex-direction: column; gap: 12px;
-        }}
-        .product-card:active {{ transform: scale(0.98); }}
-        .product-card.selected {{
-            border-color: #{tint};
-            background: linear-gradient(135deg, #0f1e3d, #1a1e40);
-            box-shadow: 0 0 0 1px #{tint}44;
-        }}
-        .product-top {{ display: flex; gap: 14px; align-items: flex-start; }}
-        .product-icon {{
-            width: 56px; height: 56px; border-radius: 14px; flex-shrink: 0;
-            object-fit: cover; background: rgba(255,255,255,0.05);
-        }}
-        .product-info {{ flex: 1; min-width: 0; }}
-        .product-name {{ font-size: 16px; font-weight: 700; margin-bottom: 3px; }}
-        .product-dev {{ font-size: 12px; color: #8e9ab5; margin-bottom: 6px; }}
-        .product-desc {{
-            font-size: 13px; color: #b0bcd4;
-            display: -webkit-box; -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical; overflow: hidden;
-        }}
-        .product-bottom {{ display: flex; align-items: center; justify-content: space-between; }}
-        .price-tag {{
-            font-size: 18px; font-weight: 800; color: #{tint};
-        }}
-        .select-btn {{
-            padding: 8px 18px; border: 1.5px solid #{tint};
-            border-radius: 20px; background: transparent;
-            color: #{tint}; font-weight: 700; font-size: 13px; cursor: pointer;
-        }}
-        .product-card.selected .select-btn {{
-            background: #{tint}; color: #fff; border-color: #{tint};
-        }}
-
-        /* ── CHECKOUT SHEET ── */
-        .checkout-backdrop {{
-            position: fixed; inset: 0; background: rgba(0,0,0,0.6);
-            z-index: 200; display: none; align-items: flex-end;
-            backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
-        }}
-        .checkout-backdrop.open {{ display: flex; }}
-        .checkout-sheet {{
-            width: 100%; background: #0f1e3d;
-            border-radius: 24px 24px 0 0;
-            padding: 24px 20px 40px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            max-height: 90vh; overflow-y: auto;
-        }}
-        .sheet-handle {{
-            width: 36px; height: 4px; background: rgba(255,255,255,0.2);
-            border-radius: 2px; margin: 0 auto 20px;
-        }}
-        .sheet-title {{ font-size: 18px; font-weight: 700; margin-bottom: 6px; }}
-        .sheet-product {{ font-size: 14px; color: #8e9ab5; margin-bottom: 20px; }}
-        .sheet-row {{
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
-            font-size: 14px;
-        }}
-        .sheet-row:last-of-type {{ border-bottom: none; }}
-        .sheet-row span:last-child {{ font-weight: 600; }}
-        .total-row {{ margin-top: 8px; font-size: 16px; font-weight: 700; }}
-        .total-row span:last-child {{ color: #{tint}; font-size: 18px; }}
-
-        /* Nút chọn cổng thanh toán */
-        .payment-methods {{ margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }}
-        .pm-label {{
-            font-size: 12px; color: #8e9ab5; font-weight: 600;
-            text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;
-        }}
-        .pm-btn {{
-            width: 100%; padding: 15px; border: none; border-radius: 14px;
-            font-weight: 700; font-size: 15px; cursor: pointer;
-            transition: 0.15s; display: flex; align-items: center;
-            justify-content: center; gap: 8px;
-        }}
-        .pm-btn:active {{ transform: scale(0.97); filter: brightness(0.9); }}
-        .pm-paypal {{ background: #FFC439; color: #003087; }}
-        .pm-payos {{ background: #0066FF; color: #fff; }}
-        .pm-momo {{ background: #A50064; color: #fff; }}
-
-        /* PayPal button container từ SDK */
-        #paypal-button-container {{ margin-top: 10px; }}
-
-        .or-divider {{
-            text-align: center; color: #8e9ab5; font-size: 12px;
-            margin: 8px 0; position: relative;
-        }}
-        .or-divider::before, .or-divider::after {{
-            content: ''; position: absolute; top: 50%;
-            width: calc(50% - 24px); height: 1px;
-            background: rgba(255,255,255,0.1);
-        }}
-        .or-divider::before {{ left: 0; }}
-        .or-divider::after {{ right: 0; }}
-
-        .close-sheet {{
-            margin-top: 14px; width: 100%; padding: 14px; border: none;
-            border-radius: 14px; background: rgba(255,255,255,0.06);
-            color: #8e9ab5; font-size: 15px; cursor: pointer;
-        }}
-
-        .toast {{
-            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
-            background: #1a2a50; color: #fff; padding: 12px 20px;
-            border-radius: 12px; font-size: 14px; z-index: 999;
-            opacity: 0; transition: 0.3s; pointer-events: none;
-            border: 1px solid rgba(255,255,255,0.1); white-space: nowrap;
-        }}
-        .toast.show {{ opacity: 1; }}
-    </style>
-</head>
-<body>
-    <div class="header">
-        <a href="./index.html" class="header-btn header-btn-left" title="Trang chủ">🏠</a>
-        <span class="header-brand">{repo_name}</span>
-        <a href="./auth.html" class="header-btn header-btn-right" title="Tài khoản">👤</a>
-    </div>
-
-    <!-- UDID Section -->
-    <div class="udid-card" id="udidCard">
-        <div id="udidExpanded">
-            <div class="udid-title">🔐 UDID thiết bị của bạn</div>
-            <div class="udid-sub">Cần để gắn license vào đúng thiết bị</div>
-            <div class="udid-row">
-                <input class="udid-input" id="udidInput"
-                    placeholder="Dán UDID vào đây..."
-                    type="text" autocorrect="off" autocapitalize="off"
-                    oninput="onUdidTyped()">
-                <button class="btn-get-udid" id="btnGetUdid" onclick="getUdidAuto()">
-                    📱 Lấy tự động
-                </button>
-            </div>
-            <button class="btn-confirm-udid" id="btnConfirmUdid" onclick="confirmUdidManual()" style="display:none">
-                ✅ Xác nhận UDID này
-            </button>
-            <div class="udid-status" id="udidStatus">
-                Bấm "Lấy tự động" → cài profile → UDID tự điền, hoặc dán thủ công rồi bấm Xác nhận.
-            </div>
-        </div>
-        <div id="udidCollapsed" style="display:none">
-            <div class="udid-collapsed-row">
-                <div class="udid-collapsed-info">
-                    <span class="udid-collapsed-icon">✅</span>
-                    <div>
-                        <div class="udid-collapsed-label">UDID đã xác nhận</div>
-                        <div class="udid-collapsed-value" id="udidCollapsedValue">—</div>
-                    </div>
-                </div>
-                <button class="udid-change-btn" onclick="expandUdidCard()">Đổi</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="filterBanner" style="display:none;margin:0 16px 14px;padding:10px 14px;
-         background:rgba(132,142,249,0.12);border:1px solid rgba(132,142,249,0.3);
-         border-radius:12px;align-items:center;justify-content:space-between;
-         gap:10px;font-size:12px;">
-        <span id="filterBannerText"></span>
-        <a href="./shop.html" style="color:#{tint};font-weight:700;text-decoration:none;flex-shrink:0;">Xem tất cả</a>
-    </div>
-
-    <div class="section-title" id="productsSectionTitle">
-        Chọn gói cần mua
-    </div>
-    <div class="products" id="productList">
-        <div style="text-align:center;color:#8e9ab5;padding:40px">⏳ Đang tải...</div>
-    </div>
-
-    <!-- Checkout Sheet -->
-    <div class="checkout-backdrop" id="checkoutBackdrop" onclick="closeCheckout(event)">
-        <div class="checkout-sheet">
-            <div class="sheet-handle"></div>
-            <div class="sheet-title">Xác nhận thanh toán</div>
-            <div class="sheet-product" id="sheetProductName">—</div>
-            <div class="sheet-row"><span>Gói</span><span id="sheetPkg">—</span></div>
-            <div class="sheet-row"><span>UDID</span><span id="sheetUdid" style="font-family:monospace;font-size:11px">—</span></div>
-            <div class="sheet-row total-row"><span>Tổng</span><span id="sheetPrice">—</span></div>
-
-            <div class="payment-methods">
-                <div class="pm-label">Chọn cổng thanh toán</div>
-                <div id="paypal-button-container"></div>
-                <div class="or-divider">hoặc</div>
-                <button class="pm-btn pm-payos" onclick="payWithPayOS()">
-                    💙 Thanh toán qua PayOS
-                </button>
-                <button class="pm-btn pm-momo" onclick="payWithMomo()">
-                    💜 Thanh toán qua MoMo
-                </button>
-            </div>
-            <button class="close-sheet" onclick="closeCheckout()">Huỷ</button>
-        </div>
-    </div>
-    <div class="toast" id="toast"></div>
-
-    <script>
-        const SUPABASE_URL = "{supabase_url}";
-        const SUPABASE_ANON_KEY = "{supabase_anon_key}";
-        const EDGE_FN_URL = "{edge_function_url}";
-        const PAYPAL_CLIENT_ID = "{paypal_client_id}";
-        const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-        // ──────────────────────────────────────────────
-        // LOAD PRODUCTS từ tất cả 3 nguồn JSON
-        // ──────────────────────────────────────────────
-        const SOURCES = [
-            {{ url: '{base_url}apps.json', label: 'IPA' }},
-            {{ url: '{base_url}debs.json', label: 'DEB' }},
-            {{ url: '{base_url}dylibs.json', label: 'DYLIB' }},
-        ];
-
-        let allProducts = [];  // {{ ...appData, _type, _price_usd, _price_vnd }}
-        let selectedProduct = null;
-        let pollingTimer = null;
-
-        // Đọc ?type=ipa|deb|dylib từ URL (khi bấm "IPA/Tweak/Dylib Premium" ở index.html)
-        // Đọc ?product=<bundleId> từ URL (khi bấm "Mua" từ giỏ hàng ở dashboard.html)
-        const urlParams = new URLSearchParams(window.location.search);
-        const typeFilter = urlParams.get('type'); // 'ipa' | 'deb' | 'dylib' | null
-        const productFilter = urlParams.get('product'); // bundleIdentifier cụ thể | null
-        const TYPE_LABEL_MAP = {{ ipa: 'IPA', deb: 'DEB', dylib: 'DYLIB' }};
-
-        async function loadProducts() {{
-            const list = document.getElementById('productList');
-            const sectionTitle = document.getElementById('productsSectionTitle');
-            try {{
-                // Lấy danh sách sản phẩm đang bán từ Supabase (có giá)
-                const {{ data: dbProducts }} = await sb.from('products').select('*');
-                const priceMap = {{}};
-                (dbProducts || []).forEach(p => priceMap[p.id] = p);
-
-                const results = await Promise.allSettled(
-                    SOURCES.map(s => fetch(s.url).then(r => r.json()))
-                );
-
-                allProducts = [];
-                results.forEach((res, i) => {{
-                    if (res.status !== 'fulfilled') return;
-                    const apps = res.value.apps || [];
-                    apps.forEach(app => {{
-                        const dbInfo = priceMap[app.bundleIdentifier];
-                        if (!dbInfo) return; // Chỉ hiển thị sản phẩm CÓ trong DB (có giá)
-                        allProducts.push({{
-                            ...app,
-                            _type: SOURCES[i].label,
-                            _price_usd: dbInfo.price_usd,
-                            _price_vnd: dbInfo.price_vnd,
-                        }});
-                    }});
-                }});
-
-                // Lọc theo type nếu có (từ link "IPA/Tweak/Dylib Premium" ở index.html)
-                let displayProducts = allProducts;
-                if (typeFilter && TYPE_LABEL_MAP[typeFilter]) {{
-                    const wantedLabel = TYPE_LABEL_MAP[typeFilter];
-                    displayProducts = allProducts.filter(p => p._type === wantedLabel);
-                    if (sectionTitle) {{
-                        sectionTitle.dataset.filterLabel = `Chọn gói ${{wantedLabel}} cần mua`;
-                    }}
-                    const banner = document.getElementById('filterBanner');
-                    const bannerText = document.getElementById('filterBannerText');
-                    if (banner && bannerText) {{
-                        bannerText.textContent = `🔎 Đang lọc: chỉ hiện sản phẩm ${{wantedLabel}}`;
-                        banner.style.display = 'flex';
-                    }}
-                }}
-
-                // Lọc theo 1 sản phẩm cụ thể (từ nút "Mua" ở giỏ hàng dashboard.html)
-                if (productFilter) {{
-                    displayProducts = allProducts.filter(p => p.bundleIdentifier === productFilter);
-                    const banner = document.getElementById('filterBanner');
-                    const bannerText = document.getElementById('filterBannerText');
-                    if (banner && bannerText) {{
-                        bannerText.textContent = `🛒 Mua từ giỏ hàng`;
-                        banner.style.display = 'flex';
-                    }}
-                }}
-
-                if (displayProducts.length === 0) {{
-                    const msg = typeFilter
-                        ? `Chưa có sản phẩm ${{TYPE_LABEL_MAP[typeFilter] || ''}} nào đang bán.`
-                        : 'Chưa có sản phẩm nào.';
-                    list.innerHTML = `<div style="text-align:center;color:#8e9ab5;padding:40px">${{msg}}</div>`;
-                    return;
-                }}
-
-                // Lưu lại danh sách ĐÃ LỌC để selectProduct() dùng đúng index
-                allProducts = displayProducts;
-
-                list.innerHTML = allProducts.map((p, i) => `
-                    <div class="product-card" id="card-${{i}}" onclick="selectProduct(${{i}})">
-                        <div class="product-top">
-                            <img class="product-icon" src="${{p.iconURL || ''}}" 
-                                onerror="this.src='{default_icon}'" alt="${{p.name}}">
-                            <div class="product-info">
-                                <div class="product-name">${{p.name}}
-                                    <span style="font-size:10px;color:#8e9ab5;font-weight:400;
-                                          background:rgba(255,255,255,0.08);padding:2px 6px;
-                                          border-radius:6px;margin-left:6px">${{p._type}}</span>
-                                </div>
-                                <div class="product-dev">${{p.developerName || ''}}</div>
-                                <div class="product-desc">${{p.localizedDescription || ''}}</div>
-                            </div>
-                        </div>
-                        <div class="product-bottom">
-                            <span class="price-tag">
-                                ${{p._price_usd ? '$' + p._price_usd : ''}}
-                                ${{p._price_vnd ? ' / ' + Number(p._price_vnd).toLocaleString('vi-VN') + '₫' : ''}}
-                            </span>
-                            <button class="select-btn">Mua ngay</button>
-                        </div>
-                    </div>
-                `).join('');
-            }} catch(e) {{
-                list.innerHTML = '<div style="text-align:center;color:#ff8080;padding:40px">Lỗi tải sản phẩm: ' + e.message + '</div>';
-            }}
-        }}
-
-        // ──────────────────────────────────────────────
-        // CHỌN SẢN PHẨM → mở checkout sheet
-        // ──────────────────────────────────────────────
-        function selectProduct(i) {{
-            const udidInput = document.getElementById('udidInput');
-            const udid = udidInput.value.trim();
-            if (!udid || !udidInput.classList.contains('filled')) {{
-                showToast('⚠️ Vui lòng lấy tự động hoặc nhập + Xác nhận UDID trước!');
-                udidInput.focus();
-                return;
-            }}
-            // Bỏ chọn card cũ
-            document.querySelectorAll('.product-card').forEach(c => c.classList.remove('selected'));
-            document.getElementById('card-' + i).classList.add('selected');
-            selectedProduct = allProducts[i];
-
-            document.getElementById('sheetProductName').textContent = selectedProduct.name;
-            document.getElementById('sheetPkg').textContent = selectedProduct.bundleIdentifier;
-            document.getElementById('sheetUdid').textContent = udid;
-            document.getElementById('sheetPrice').textContent =
-                (selectedProduct._price_usd ? '$' + selectedProduct._price_usd : '') +
-                (selectedProduct._price_vnd ? ' / ' + Number(selectedProduct._price_vnd).toLocaleString('vi-VN') + '₫' : '');
-
-            openCheckout();
-            renderPayPalButton();
-        }}
-
-        // ──────────────────────────────────────────────
-        // PAYPAL BUTTON (SDK)
-        // ──────────────────────────────────────────────
-        let ppRendered = false;
-        function renderPayPalButton() {{
-            if (ppRendered) return;
-            ppRendered = true;
-            paypal.Buttons({{
-                style: {{ color: 'gold', shape: 'rect', label: 'pay', height: 48 }},
-                createOrder: (data, actions) => {{
-                    const p = selectedProduct;
-                    return actions.order.create({{
-                        purchase_units: [{{
-                            amount: {{
-                                value: String(p._price_usd || '1.00'),
-                                currency_code: 'USD'
-                            }},
-                            description: p.name + ' (' + p.bundleIdentifier + ')'
-                        }}]
-                    }});
-                }},
-                onApprove: async (data, actions) => {{
-                    const order = await actions.order.capture();
-                    showToast('✅ PayPal thành công! Đang tạo license...');
-                    await requestLicense('paypal', order.id);
-                }},
-                onError: (err) => {{
-                    showToast('❌ Lỗi PayPal: ' + err.message);
-                }}
-            }}).render('#paypal-button-container');
-        }}
-
-        // ──────────────────────────────────────────────
-        // PAYOS / MOMO — redirect tới URL thanh toán
-        // (Edge Function riêng sẽ tạo link — TODO Giai đoạn 4)
-        // ──────────────────────────────────────────────
-        async function payWithPayOS() {{
-            if (!selectedProduct) return;
-            showToast('⏳ Đang tạo link PayOS...');
-            const udid = document.getElementById('udidInput').value.trim();
-            const {{ data: {{ session }} }} = await sb.auth.getSession();
-            if (!session) {{ showToast('⚠️ Cần đăng nhập trước!'); return; }}
-            const resp = await fetch(SUPABASE_URL + '/functions/v1/create-order', {{
-                method: 'POST',
-                headers: {{
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + session.access_token
-                }},
-                body: JSON.stringify({{
-                    product_id: selectedProduct.bundleIdentifier,
-                    udid,
-                    provider: 'payos'
-                }})
-            }});
-            const result = await resp.json();
-            if (result.checkout_url) window.location.href = result.checkout_url;
-            else showToast('❌ Lỗi: ' + (result.error || 'Không tạo được link'));
-        }}
-
-        async function payWithMomo() {{
-            showToast('⏳ Đang tạo link MoMo...');
-            const udid = document.getElementById('udidInput').value.trim();
-            const {{ data: {{ session }} }} = await sb.auth.getSession();
-            if (!session) {{ showToast('⚠️ Cần đăng nhập trước!'); return; }}
-            const resp = await fetch(SUPABASE_URL + '/functions/v1/create-order', {{
-                method: 'POST',
-                headers: {{
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + session.access_token
-                }},
-                body: JSON.stringify({{
-                    product_id: selectedProduct.bundleIdentifier,
-                    udid,
-                    provider: 'momo'
-                }})
-            }});
-            const result = await resp.json();
-            if (result.pay_url) window.location.href = result.pay_url;
-            else showToast('❌ Lỗi: ' + (result.error || 'Không tạo được link'));
-        }}
-
-        // ──────────────────────────────────────────────
-        // REQUEST LICENSE (Gọi Edge Function tạo key sau khi thanh toán)
-        // ──────────────────────────────────────────────
-        async function requestLicense(provider, txnId) {{
-            const udid = document.getElementById('udidInput').value.trim();
-            const {{ data: {{ session }} }} = await sb.auth.getSession();
-            if (!session) {{ showToast('⚠️ Cần đăng nhập!'); return; }}
-            const resp = await fetch(SUPABASE_URL + '/functions/v1/issue-license', {{
-                method: 'POST',
-                headers: {{
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + session.access_token
-                }},
-                body: JSON.stringify({{
-                    product_id: selectedProduct.bundleIdentifier,
-                    udid, provider, txn_id: txnId
-                }})
-            }});
-            const result = await resp.json();
-            if (result.license_key) {{
-                closeCheckout();
-                showToast('🎉 License tạo thành công!');
-                setTimeout(() => window.location.href = './dashboard.html', 1200);
-            }} else {{
-                showToast('❌ ' + (result.error || 'Lỗi tạo license'));
-            }}
-        }}
-
-        // ──────────────────────────────────────────────
-        // LẤY UDID TỰ ĐỘNG qua .mobileconfig
-        // ──────────────────────────────────────────────
-        async function getUdidAuto() {{
-            const token = crypto.randomUUID().replace(/-/g, '');
-            const btn = document.getElementById('btnGetUdid');
-            const status = document.getElementById('udidStatus');
-            btn.classList.add('loading');
-            btn.textContent = '⏳ Đang chờ...';
-            status.className = 'udid-status';
-            status.textContent = 'Cài profile → quay lại trang này → UDID sẽ tự điền.';
-
-            // Tạo session trong Supabase
-            await sb.from('udid_sessions').insert({{ token, udid: null }});
-
-            // Mở .mobileconfig (iOS hỏi cài không)
-            window.location.href = `${{EDGE_FN_URL}}?token=${{token}}`;
-
-            // Bắt đầu poll sau 3 giây (chờ iOS xử lý + quay lại)
-            pollingTimer = setInterval(() => pollUdid(token), 2000);
-            // Tự dừng sau 5 phút
-            setTimeout(() => stopPolling(token, false), 300000);
-        }}
-
-        async function pollUdid(token) {{
-            const {{ data }} = await sb.from('udid_sessions')
-                .select('udid').eq('token', token).single();
-            if (data?.udid) {{
-                stopPolling(token, true);
-                const input = document.getElementById('udidInput');
-                input.value = data.udid;
-                input.classList.add('filled');
-                document.getElementById('btnGetUdid').textContent = '✅ Đã lấy';
-                document.getElementById('btnConfirmUdid').style.display = 'none';
-                unlockProductSelection();
-                collapseUdidCard(data.udid);
-                // Xoá session (đã dùng xong)
-                await sb.from('udid_sessions').delete().eq('token', token);
-            }}
-        }}
-
-        function stopPolling(token, success) {{
-            if (pollingTimer) {{ clearInterval(pollingTimer); pollingTimer = null; }}
-            const btn = document.getElementById('btnGetUdid');
-            btn.classList.remove('loading');
-            if (!success) {{
-                btn.textContent = '📱 Lấy tự động';
-                const status = document.getElementById('udidStatus');
-                status.className = 'udid-status err';
-                status.textContent = 'Hết thời gian. Thử lại hoặc nhập UDID thủ công rồi bấm Xác nhận.';
-            }}
-        }}
-
-        // ──────────────────────────────────────────────
-        // UDID NHẬP TAY — hiện nút xác nhận khi gõ đủ dài
-        // ──────────────────────────────────────────────
-        const UDID_REGEX = /^[a-fA-F0-9-]{{25,40}}$/; // UDID thường 40 hex hoặc 8-4-4-4-16 dạng mới
-
-        function onUdidTyped() {{
-            const input = document.getElementById('udidInput');
-            const btnConfirm = document.getElementById('btnConfirmUdid');
-            const val = input.value.trim();
-            input.classList.remove('filled');
-            if (val.length >= 20) {{
-                btnConfirm.style.display = 'block';
-            }} else {{
-                btnConfirm.style.display = 'none';
-                lockProductSelection();
-            }}
-        }}
-
-        function confirmUdidManual() {{
-            const input = document.getElementById('udidInput');
-            const val = input.value.trim();
-            if (val.length < 20) {{
-                showToast('⚠️ UDID có vẻ chưa đúng định dạng, kiểm tra lại.');
-                return;
-            }}
-            input.classList.add('filled');
-            document.getElementById('btnConfirmUdid').style.display = 'none';
-            unlockProductSelection();
-            collapseUdidCard(val);
-        }}
-
-        function unlockProductSelection() {{
-            const title = document.getElementById('productsSectionTitle');
-            title.textContent = title.dataset.filterLabel || 'Chọn gói cần mua';
-        }}
-
-        function lockProductSelection() {{
-            // Không còn "khoá" UI nữa — sản phẩm luôn xem được tự do,
-            // UDID chỉ cần khi bấm "Mua" thật sự (xem selectProduct()).
-        }}
-
-        // ──────────────────────────────────────────────
-        // THU GỌN / MỞ RỘNG khung UDID
-        // ──────────────────────────────────────────────
-        function collapseUdidCard(udid) {{
-            document.getElementById('udidExpanded').style.display = 'none';
-            document.getElementById('udidCollapsed').style.display = 'block';
-            const short = udid.length > 24 ? udid.slice(0, 10) + '...' + udid.slice(-8) : udid;
-            document.getElementById('udidCollapsedValue').textContent = short;
-        }}
-
-        function expandUdidCard() {{
-            document.getElementById('udidExpanded').style.display = 'block';
-            document.getElementById('udidCollapsed').style.display = 'none';
-            const status = document.getElementById('udidStatus');
-            status.className = 'udid-status';
-            status.textContent = 'Bấm "Lấy tự động" → cài profile → UDID tự điền, hoặc dán thủ công rồi bấm Xác nhận.';
-        }}
-
-        // ──────────────────────────────────────────────
-        // CHECKOUT SHEET helpers
-        // ──────────────────────────────────────────────
-        function openCheckout() {{
-            document.getElementById('checkoutBackdrop').classList.add('open');
-        }}
-        function closeCheckout(e) {{
-            if (e && e.target !== document.getElementById('checkoutBackdrop')) return;
-            document.getElementById('checkoutBackdrop').classList.remove('open');
-        }}
-        function showToast(msg) {{
-            const t = document.getElementById('toast');
-            t.textContent = msg; t.classList.add('show');
-            setTimeout(() => t.classList.remove('show'), 2500);
-        }}
-
-        // ──────────────────────────────────────────────
-        // TỰ ĐỘNG ĐIỀN UDID ĐÃ LƯU (nếu đã đăng nhập + đã lưu trước đó ở Dashboard)
-        // ──────────────────────────────────────────────
-        async function loadSavedUdid() {{
-            const {{ data: {{ session }} }} = await sb.auth.getSession();
-            if (!session) return;
-            const {{ data: profile }} = await sb.from('profiles')
-                .select('saved_udid').eq('id', session.user.id).single();
-            if (profile?.saved_udid) {{
-                const input = document.getElementById('udidInput');
-                input.value = profile.saved_udid;
-                input.classList.add('filled');
-                collapseUdidCard(profile.saved_udid);
-                unlockProductSelection();
-                const status = document.getElementById('udidStatus');
-                status.className = 'udid-status ok';
-                status.textContent = '✅ Đã tự động điền UDID đã lưu từ tài khoản.';
-            }}
-        }}
-
-        // Khởi tạo
-        loadProducts();
-        loadSavedUdid();
-
-        // Tiếp tục poll nếu có token còn sót trong sessionStorage (sau khi quay lại trang)
-        const pendingToken = sessionStorage.getItem('udid_token');
-        if (pendingToken) {{
-            sessionStorage.removeItem('udid_token');
-            pollingTimer = setInterval(() => pollUdid(pendingToken), 2000);
-            setTimeout(() => stopPolling(pendingToken, false), 120000);
-        }}
-    </script>
-</body>
-</html>
-"""
-
-
-def build_shop_view(output_file,
-                    supabase_url, supabase_anon_key,
-                    paypal_client_id="YOUR_PAYPAL_CLIENT_ID",
-                    edge_function_url=None):
-    """
-    Sinh trang shop.html — trang mua tweak/dylib/ipa.
-
-    Tích hợp:
-      • Lấy UDID tự động qua .mobileconfig (Cách B) + fallback nhập tay
-      • Danh sách sản phẩm từ apps.json/debs.json/dylibs.json
-        (chỉ hiển thị sản phẩm CÓ trong bảng `products` Supabase — có giá)
-      • Nút PayPal (SDK client-side)
-      • Nút PayOS / MoMo (gọi Edge Function `create-order` — Giai đoạn 4)
-      • Sau thanh toán → gọi Edge Function `issue-license` → redirect dashboard
-    """
-    # FIX: URL Edge Function đúng của Supabase là <project>.supabase.co/functions/v1/<tên>
-    # (KHÔNG phải subdomain "functions.supabase.co" — subdomain đó không tồn tại,
-    # gây lỗi {"code":"NOT_FOUND"} vì Supabase không route được request).
-    efn_url = edge_function_url or f"{supabase_url.rstrip('/')}/functions/v1/udid-capture"
-
-    html = SHOP_HTML_TEMPLATE.format(
-        repo_name=config.REPO_NAME,
-        tint=config.TINT_COLOR,
-        default_icon=config.SOURCE_LOGO,
-        base_url=config.BASE_URL,
-        supabase_url=supabase_url,
-        supabase_anon_key=supabase_anon_key,
-        paypal_client_id=paypal_client_id,
-        edge_function_url=efn_url,
-    )
-
-    with open(output_file, 'w', encoding='utf-8') as f:
-        f.write(html)
-    print(f"✅ Tạo xong: {output_file}")
-
-
 DASHBOARD_HTML_TEMPLATE = """<!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -4063,6 +3299,7 @@ DASHBOARD_HTML_TEMPLATE = """<!DOCTYPE html>
     <meta name="theme-color" content="#0a1428">
     <title>Dashboard — {repo_name}</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id={paypal_client_id}&currency=USD&intent=capture"></script>
     <style>
         * {{ box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }}
         html, body {{
@@ -4273,6 +3510,67 @@ DASHBOARD_HTML_TEMPLATE = """<!DOCTYPE html>
             font-size: 14px;
         }}
 
+        /* CHECKOUT SHEET (gộp từ shop.html) */
+        .checkout-backdrop {{
+            position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+            z-index: 200; display: none; align-items: flex-end;
+            backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+        }}
+        .checkout-backdrop.open {{ display: flex; }}
+        .checkout-sheet {{
+            width: 100%; background: #0f1e3d;
+            border-radius: 24px 24px 0 0;
+            padding: 24px 20px 40px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            max-height: 90vh; overflow-y: auto;
+        }}
+        .sheet-handle {{
+            width: 36px; height: 4px; background: rgba(255,255,255,0.2);
+            border-radius: 2px; margin: 0 auto 20px;
+        }}
+        .sheet-title {{ font-size: 18px; font-weight: 700; margin-bottom: 6px; }}
+        .sheet-product {{ font-size: 14px; color: #8e9ab5; margin-bottom: 20px; }}
+        .sheet-row {{
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+            font-size: 14px;
+        }}
+        .sheet-row:last-of-type {{ border-bottom: none; }}
+        .sheet-row span:last-child {{ font-weight: 600; }}
+        .total-row {{ margin-top: 8px; font-size: 16px; font-weight: 700; }}
+        .total-row span:last-child {{ color: #{tint}; font-size: 18px; }}
+        .payment-methods {{ margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }}
+        .pm-label {{
+            font-size: 12px; color: #8e9ab5; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;
+        }}
+        .pm-btn {{
+            width: 100%; padding: 15px; border: none; border-radius: 14px;
+            font-weight: 700; font-size: 15px; cursor: pointer;
+            transition: 0.15s; display: flex; align-items: center;
+            justify-content: center; gap: 8px;
+        }}
+        .pm-btn:active {{ transform: scale(0.97); filter: brightness(0.9); }}
+        .pm-payos {{ background: #0066FF; color: #fff; }}
+        .pm-momo {{ background: #A50064; color: #fff; }}
+        #paypal-button-container {{ margin-top: 10px; }}
+        .or-divider {{
+            text-align: center; color: #8e9ab5; font-size: 12px;
+            margin: 8px 0; position: relative;
+        }}
+        .or-divider::before, .or-divider::after {{
+            content: ''; position: absolute; top: 50%;
+            width: calc(50% - 24px); height: 1px;
+            background: rgba(255,255,255,0.1);
+        }}
+        .or-divider::before {{ left: 0; }}
+        .or-divider::after {{ right: 0; }}
+        .close-sheet {{
+            margin-top: 14px; width: 100%; padding: 14px; border: none;
+            border-radius: 14px; background: rgba(255,255,255,0.06);
+            color: #8e9ab5; font-size: 15px; cursor: pointer;
+        }}
+
         .toast {{
             position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
             background: #1a2a50; color: #fff; padding: 12px 20px;
@@ -4290,7 +3588,7 @@ DASHBOARD_HTML_TEMPLATE = """<!DOCTYPE html>
         <div class="header-more-wrap">
             <button class="header-btn" onclick="toggleMoreMenu()" title="Thêm">•••</button>
             <div class="more-dropdown" id="moreDropdown">
-                <a href="./shop.html" class="more-item">🛒 Mua thêm</a>
+                <a href="./index.html" class="more-item">🛒 Mua thêm</a>
                 <a href="./sign.html" class="more-item">🖊️ Sign IPA</a>
                 <button class="more-item" onclick="logout()">↪ Đăng xuất</button>
             </div>
@@ -4330,9 +3628,12 @@ DASHBOARD_HTML_TEMPLATE = """<!DOCTYPE html>
             <div class="udid-saved-title">🔑 UDID đã lưu</div>
             <div class="udid-saved-row">
                 <input class="udid-saved-input" id="savedUdidInput" placeholder="Chưa lưu UDID nào..." oninput="onSavedUdidTyped()">
-                <button class="udid-saved-btn" onclick="saveUdid()">💾 Lưu</button>
             </div>
-            <div class="udid-saved-hint">Lưu 1 lần, tự động điền khi mua sản phẩm ở Shop — không cần nhập lại.</div>
+            <div class="udid-saved-row" style="margin-top:8px">
+                <button class="udid-saved-btn" id="btnGetUdidAuto" onclick="getUdidAuto()" style="flex:1">📱 Lấy tự động</button>
+                <button class="udid-saved-btn" onclick="saveUdid()" style="flex:1;background:rgba(255,255,255,0.1)">💾 Lưu thủ công</button>
+            </div>
+            <div class="udid-saved-hint" id="udidAutoStatus">Bấm "Lấy tự động" → cài profile → UDID tự điền + tự lưu, hoặc dán tay rồi bấm Lưu.</div>
         </div>
 
         <!-- Giỏ hàng -->
@@ -4361,15 +3662,44 @@ DASHBOARD_HTML_TEMPLATE = """<!DOCTYPE html>
         </div>
     </div>
 
+    <!-- Checkout Sheet (gộp từ shop.html) -->
+    <div class="checkout-backdrop" id="checkoutBackdrop" onclick="closeCheckout(event)">
+        <div class="checkout-sheet">
+            <div class="sheet-handle"></div>
+            <div class="sheet-title">Xác nhận thanh toán</div>
+            <div class="sheet-product" id="sheetProductName">—</div>
+            <div class="sheet-row"><span>Gói</span><span id="sheetPkg">—</span></div>
+            <div class="sheet-row"><span>UDID</span><span id="sheetUdid" style="font-family:monospace;font-size:11px">—</span></div>
+            <div class="sheet-row total-row"><span>Tổng</span><span id="sheetPrice">—</span></div>
+
+            <div class="payment-methods">
+                <div class="pm-label">Chọn cổng thanh toán</div>
+                <div id="paypal-button-container"></div>
+                <div class="or-divider">hoặc</div>
+                <button class="pm-btn pm-payos" onclick="payWithPayOS()">
+                    💙 Thanh toán qua PayOS
+                </button>
+                <button class="pm-btn pm-momo" onclick="payWithMomo()">
+                    💜 Thanh toán qua MoMo
+                </button>
+            </div>
+            <button class="close-sheet" onclick="closeCheckout()">Huỷ</button>
+        </div>
+    </div>
+
     <div class="toast" id="toast"></div>
 
     <script>
         const SUPABASE_URL = "{supabase_url}";
         const SUPABASE_ANON_KEY = "{supabase_anon_key}";
         const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const EDGE_FN_URL = SUPABASE_URL.replace(/\/$/, '') + '/functions/v1/udid-capture';
 
         let ownedProductIds = new Set();
         let currentLibTab = 'apps';
+        let selectedProduct = null;
+        let cartDataMap = {{}};
+        let pollingTimer = null;
         const LIB_SOURCES = {{
             apps: {{ url: '{base_url}apps.json', label: 'IPA' }},
             debs: {{ url: '{base_url}debs.json', label: 'DEB' }},
@@ -4455,8 +3785,10 @@ DASHBOARD_HTML_TEMPLATE = """<!DOCTYPE html>
                 return;
             }}
 
+            cartDataMap = {{}};
             listEl.innerHTML = cartItems.map(item => {{
                 const p = item.products;
+                cartDataMap[item.product_id] = p;
                 const priceLabel = p?.price_usd ? '$' + p.price_usd
                     : (p?.price_vnd ? Number(p.price_vnd).toLocaleString('vi-VN') + '₫' : '');
                 const addedTime = new Date(item.added_at).toLocaleString('vi-VN');
@@ -4475,9 +3807,125 @@ DASHBOARD_HTML_TEMPLATE = """<!DOCTYPE html>
             }}).join('');
         }}
 
+        // ──────────────────────────────────────────────
+        // CHECKOUT (gộp từ shop.html) — mua thẳng từ giỏ hàng, dùng UDID đã lưu
+        // ──────────────────────────────────────────────
         function buyFromCart(productId) {{
-            window.location.href = './shop.html?product=' + encodeURIComponent(productId);
+            const udid = document.getElementById('savedUdidInput').value.trim();
+            if (!udid) {{
+                showToast('⚠️ Vui lòng lưu UDID trước khi mua (mục 🔑 UDID đã lưu ở trên)');
+                document.getElementById('savedUdidInput').focus();
+                return;
+            }}
+            const p = cartDataMap[productId];
+            selectedProduct = {{
+                bundleIdentifier: productId,
+                name: p?.name || productId,
+                _price_usd: p?.price_usd,
+                _price_vnd: p?.price_vnd,
+            }};
+
+            document.getElementById('sheetProductName').textContent = selectedProduct.name;
+            document.getElementById('sheetPkg').textContent = selectedProduct.bundleIdentifier;
+            document.getElementById('sheetUdid').textContent = udid;
+            document.getElementById('sheetPrice').textContent =
+                (selectedProduct._price_usd ? '$' + selectedProduct._price_usd : '') +
+                (selectedProduct._price_vnd ? ' / ' + Number(selectedProduct._price_vnd).toLocaleString('vi-VN') + '₫' : '');
+
+            openCheckout();
+            renderPayPalButton();
         }}
+
+        let ppRendered = false;
+        function renderPayPalButton() {{
+            if (ppRendered) return;
+            ppRendered = true;
+            paypal.Buttons({{
+                style: {{ color: 'gold', shape: 'rect', label: 'pay', height: 48 }},
+                createOrder: (data, actions) => {{
+                    const p = selectedProduct;
+                    return actions.order.create({{
+                        purchase_units: [{{
+                            amount: {{ value: String(p._price_usd || '1.00'), currency_code: 'USD' }},
+                            description: p.name + ' (' + p.bundleIdentifier + ')'
+                        }}]
+                    }});
+                }},
+                onApprove: async (data, actions) => {{
+                    const order = await actions.order.capture();
+                    showToast('✅ PayPal thành công! Đang tạo license...');
+                    await requestLicense('paypal', order.id);
+                }},
+                onError: (err) => {{ showToast('❌ Lỗi PayPal: ' + err.message); }}
+            }}).render('#paypal-button-container');
+        }}
+
+        async function payWithPayOS() {{
+            if (!selectedProduct) return;
+            showToast('⏳ Đang tạo link PayOS...');
+            const udid = document.getElementById('savedUdidInput').value.trim();
+            const {{ data: {{ session }} }} = await sb.auth.getSession();
+            if (!session) {{ showToast('⚠️ Cần đăng nhập trước!'); return; }}
+            const resp = await fetch(SUPABASE_URL + '/functions/v1/create-order', {{
+                method: 'POST',
+                headers: {{ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + session.access_token }},
+                body: JSON.stringify({{ product_id: selectedProduct.bundleIdentifier, udid, provider: 'payos' }})
+            }});
+            const result = await resp.json();
+            if (result.checkout_url) window.location.href = result.checkout_url;
+            else showToast('❌ Lỗi: ' + (result.error || 'Không tạo được link'));
+        }}
+
+        async function payWithMomo() {{
+            showToast('⏳ Đang tạo link MoMo...');
+            const udid = document.getElementById('savedUdidInput').value.trim();
+            const {{ data: {{ session }} }} = await sb.auth.getSession();
+            if (!session) {{ showToast('⚠️ Cần đăng nhập trước!'); return; }}
+            const resp = await fetch(SUPABASE_URL + '/functions/v1/create-order', {{
+                method: 'POST',
+                headers: {{ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + session.access_token }},
+                body: JSON.stringify({{ product_id: selectedProduct.bundleIdentifier, udid, provider: 'momo' }})
+            }});
+            const result = await resp.json();
+            if (result.pay_url) window.location.href = result.pay_url;
+            else showToast('❌ Lỗi: ' + (result.error || 'Không tạo được link'));
+        }}
+
+        async function requestLicense(provider, txnId) {{
+            const udid = document.getElementById('savedUdidInput').value.trim();
+            const {{ data: {{ session }} }} = await sb.auth.getSession();
+            if (!session) {{ showToast('⚠️ Cần đăng nhập!'); return; }}
+            const resp = await fetch(SUPABASE_URL + '/functions/v1/issue-license', {{
+                method: 'POST',
+                headers: {{ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + session.access_token }},
+                body: JSON.stringify({{ product_id: selectedProduct.bundleIdentifier, udid, provider, txn_id: txnId }})
+            }});
+            const result = await resp.json();
+            if (result.license_key) {{
+                closeCheckout();
+                showToast('🎉 License tạo thành công!');
+                // Xoá khỏi giỏ hàng (đã mua xong) + tải lại toàn bộ danh sách
+                await sb.from('cart_items').delete()
+                    .eq('user_id', session.user.id).eq('product_id', selectedProduct.bundleIdentifier);
+                loadCart();
+                const {{ data: licenses }} = await sb.from('licenses')
+                    .select('*').eq('user_id', session.user.id).not('revoked', 'is', true);
+                ownedProductIds = new Set((licenses || []).map(l => l.product_id));
+                renderLicenseList(licenses || []);
+                loadLibrary();
+            }} else {{
+                showToast('❌ ' + (result.error || 'Lỗi tạo license'));
+            }}
+        }}
+
+        function openCheckout() {{
+            document.getElementById('checkoutBackdrop').classList.add('open');
+        }}
+        function closeCheckout(e) {{
+            if (e && e.target !== document.getElementById('checkoutBackdrop')) return;
+            document.getElementById('checkoutBackdrop').classList.remove('open');
+        }}
+
 
         async function removeFromCart(cartItemId) {{
             const {{ error }} = await sb.from('cart_items').delete().eq('id', cartItemId);
@@ -4557,6 +4005,58 @@ DASHBOARD_HTML_TEMPLATE = """<!DOCTYPE html>
                 showToast('❌ Lỗi lưu UDID: ' + error.message);
             }} else {{
                 showToast('✅ Đã lưu UDID — lần sau mua sẽ tự điền');
+                lookupDeviceModel(val);
+            }}
+        }}
+
+        // ──────────────────────────────────────────────
+        // LẤY UDID TỰ ĐỘNG qua .mobileconfig (gộp từ shop.html)
+        // ──────────────────────────────────────────────
+        async function getUdidAuto() {{
+            const token = crypto.randomUUID().replace(/-/g, '');
+            const btn = document.getElementById('btnGetUdidAuto');
+            const status = document.getElementById('udidAutoStatus');
+            btn.style.opacity = '0.6';
+            btn.style.pointerEvents = 'none';
+            btn.textContent = '⏳ Đang chờ...';
+            status.textContent = 'Cài profile → quay lại trang này → UDID sẽ tự điền và tự lưu.';
+
+            await sb.from('udid_sessions').insert({{ token, udid: null }});
+
+            // Mở .mobileconfig (iOS hỏi cài không)
+            window.location.href = `${{EDGE_FN_URL}}?token=${{token}}`;
+
+            pollingTimer = setInterval(() => pollUdidAuto(token), 2000);
+            setTimeout(() => stopPollingAuto(token, false), 300000);
+        }}
+
+        async function pollUdidAuto(token) {{
+            const {{ data }} = await sb.from('udid_sessions')
+                .select('udid').eq('token', token).single();
+            if (data?.udid) {{
+                stopPollingAuto(token, true);
+                document.getElementById('savedUdidInput').value = data.udid;
+                const {{ data: {{ session }} }} = await sb.auth.getSession();
+                if (session) {{
+                    await sb.from('profiles').update({{ saved_udid: data.udid }}).eq('id', session.user.id);
+                }}
+                const status = document.getElementById('udidAutoStatus');
+                status.textContent = '✅ UDID đã lấy tự động và lưu thành công!';
+                lookupDeviceModel(data.udid);
+                showToast('✅ Đã lấy & lưu UDID tự động');
+                await sb.from('udid_sessions').delete().eq('token', token);
+            }}
+        }}
+
+        function stopPollingAuto(token, success) {{
+            if (pollingTimer) {{ clearInterval(pollingTimer); pollingTimer = null; }}
+            const btn = document.getElementById('btnGetUdidAuto');
+            btn.style.opacity = '';
+            btn.style.pointerEvents = '';
+            btn.textContent = '📱 Lấy tự động';
+            if (!success) {{
+                document.getElementById('udidAutoStatus').textContent =
+                    'Hết thời gian chờ. Thử lại hoặc dán tay UDID rồi bấm Lưu thủ công.';
             }}
         }}
 
@@ -4661,16 +4161,21 @@ DASHBOARD_HTML_TEMPLATE = """<!DOCTYPE html>
 """
 
 
-def build_dashboard_view(output_file, supabase_url, supabase_anon_key):
+def build_dashboard_view(output_file, supabase_url, supabase_anon_key, paypal_client_id="YOUR_PAYPAL_CLIENT_ID"):
     """
-    Sinh trang dashboard.html — hiển thị profile + danh sách license của user.
-    
+    Sinh trang dashboard.html — TRUNG TÂM QUẢN LÝ DUY NHẤT của user.
+
     Tính năng:
-      • Thông tin tài khoản (tên, email, ngày tham gia)
-      • Danh sách license (product_id, UDID, license_key, hạn dùng)
-      • Nút "Copy license key" để khách dễ lấy
-      • Nút "Hủy license" (mark as revoked) cho refund/replace
-      • Link đến shop để mua thêm
+      • Thông tin tài khoản (Mã ID, tên, email, ngày tham gia, model máy)
+      • UDID đã lưu (vĩnh viễn, tự điền khi mua)
+      • Giỏ hàng (thêm/xoá, thời gian thêm)
+      • Kho ứng dụng (3 tab, phân loại Miễn phí/Đã sở hữu/Giá tiền)
+      • Danh sách license đã mua (copy key, hủy)
+      • CHECKOUT (gộp từ shop.html) — mua thẳng từ giỏ hàng, dùng UDID
+        đã lưu, chọn PayPal/PayOS/MoMo, gọi issue-license sau thanh toán
+
+    shop.html KHÔNG còn tồn tại — toàn bộ chức năng mua hàng đã gộp
+    vào đây theo yêu cầu đơn giản hoá kiến trúc.
     """
     html = DASHBOARD_HTML_TEMPLATE.format(
         repo_name=config.REPO_NAME,
@@ -4679,6 +4184,7 @@ def build_dashboard_view(output_file, supabase_url, supabase_anon_key):
         base_url=config.BASE_URL,
         supabase_url=supabase_url,
         supabase_anon_key=supabase_anon_key,
+        paypal_client_id=paypal_client_id,
     )
 
     with open(output_file, 'w', encoding='utf-8') as f:
@@ -5053,8 +4559,8 @@ INDEX_HTML_TEMPLATE = """<!DOCTYPE html>
                 <span class="tab-item-icon">→</span>
             </div>
             <div class="premium-divider">Bản trả phí</div>
-            <div class="tab-item tab-item-premium" onclick="navigate('./shop.html?type=ipa')">
-                <div><h3>🛒 IPA Premium</h3><p>Bản đầy đủ tính năng, có UDID license</p></div>
+            <div class="tab-item tab-item-premium" onclick="navigate('./apps.html')">
+                <div><h3>🛒 IPA Premium</h3><p>Xem giá & mua trong danh sách đầy đủ</p></div>
                 <span class="tab-item-icon">→</span>
             </div>
         </div>
@@ -5074,8 +4580,8 @@ INDEX_HTML_TEMPLATE = """<!DOCTYPE html>
                 <span class="tab-item-icon">→</span>
             </div>
             <div class="premium-divider">Bản trả phí</div>
-            <div class="tab-item tab-item-premium" onclick="navigate('./shop.html?type=deb')">
-                <div><h3>🛒 Tweak Premium</h3><p>Bản đầy đủ tính năng, có UDID license</p></div>
+            <div class="tab-item tab-item-premium" onclick="navigate('./debs.html')">
+                <div><h3>🛒 Tweak Premium</h3><p>Xem giá & mua trong danh sách đầy đủ</p></div>
                 <span class="tab-item-icon">→</span>
             </div>
         </div>
@@ -5095,8 +4601,8 @@ INDEX_HTML_TEMPLATE = """<!DOCTYPE html>
                 <span class="tab-item-icon">→</span>
             </div>
             <div class="premium-divider">Bản trả phí</div>
-            <div class="tab-item tab-item-premium" onclick="navigate('./shop.html?type=dylib')">
-                <div><h3>🛒 Dylib Premium</h3><p>Bản đầy đủ tính năng, có UDID license</p></div>
+            <div class="tab-item tab-item-premium" onclick="navigate('./dylibs.html')">
+                <div><h3>🛒 Dylib Premium</h3><p>Xem giá & mua trong danh sách đầy đủ</p></div>
                 <span class="tab-item-icon">→</span>
             </div>
         </div>
@@ -5272,14 +4778,17 @@ def build_index_view(output_file, supabase_url, supabase_anon_key):
       • Nút ⚙️ mở sheet "Cài đặt" (Tài khoản/Ngôn ngữ/Chủ đề/Telegram/Donate)
       • Mỗi tab phân tách RÕ 2 khu vực:
         - Mục MIỄN PHÍ (Add to X / Open in X / View All) — hành vi cũ, không đổi
-        - Mục TRẢ PHÍ ("🛒 X Premium") — dẫn sang shop.html?type=ipa|deb|dylib
+        - Mục TRẢ PHÍ ("🛒 X Premium") — dẫn sang apps/debs/dylibs.html (View All),
+          nơi giá tiền hiện trực tiếp ngay trên từng sản phẩm
 
-    Phân biệt vai trò các trang:
+    Phân biệt vai trò các trang (kiến trúc đã đơn giản hoá — KHÔNG còn shop.html):
       • index.html      = TRANG CHỦ — chỉ để duyệt/điều hướng, không xử lý mua bán
-      • apps/debs/dylibs.html = danh sách chi tiết bản MIỄN PHÍ (browse only)
-      • shop.html        = TRANG MUA — chọn sản phẩm trả phí, nhập UDID, thanh toán
-      • dashboard.html   = TRANG QUẢN LÝ — xem license đã mua, hủy, copy key
-      • auth.html        = đăng nhập/đăng ký (điều kiện tiên quyết cho shop/dashboard)
+      • apps/debs/dylibs.html = danh sách ĐẦY ĐỦ (miễn phí "Nhận" + trả phí hiện
+        giá trực tiếp, bấm giá = thêm vào giỏ hàng)
+      • dashboard.html   = TRUNG TÂM QUẢN LÝ DUY NHẤT — Mã ID, UDID đã lưu
+        (tự động lấy qua .mobileconfig), giỏ hàng, kho ứng dụng, checkout
+        (PayPal/PayOS/MoMo), license đã mua
+      • auth.html        = đăng nhập/đăng ký (điều kiện tiên quyết cho dashboard)
     """
     html = INDEX_HTML_TEMPLATE.format(
         repo_name=config.REPO_NAME,
@@ -5520,7 +5029,7 @@ CHECKOUT_TEMPLATE = """<!DOCTYPE html>
         <p id="message">{message}</p>
         <a href="./dashboard.html" class="btn btn-primary">Xem License</a>
         <div class="space"></div>
-        <a href="./shop.html" class="btn btn-secondary">Tiếp tục mua</a>
+        <a href="./index.html" class="btn btn-secondary">Tiếp tục mua</a>
     </div>
 
     <script>
@@ -5690,26 +5199,21 @@ def build_all_views(supabase_url=None, supabase_anon_key=None):
         supabase_anon_key=resolved_key
     )
 
-    # 4. Trang mua hàng (shop.html) — Giai đoạn 3
-    build_shop_view(
-        os.path.join(config.REPO_HTML_DIR, "shop.html"),
+    # 4. Trang quản lý tài khoản (dashboard.html) — TRUNG TÂM DUY NHẤT
+    # (đã gộp toàn bộ chức năng mua hàng/checkout từ shop.html vào đây —
+    #  shop.html không còn tồn tại nữa)
+    build_dashboard_view(
+        os.path.join(config.REPO_HTML_DIR, "dashboard.html"),
         supabase_url=resolved_url,
         supabase_anon_key=resolved_key,
         paypal_client_id=paypal_id
     )
 
-    # 5. Trang quản lý tài khoản (dashboard.html) — Giai đoạn 3
-    build_dashboard_view(
-        os.path.join(config.REPO_HTML_DIR, "dashboard.html"),
-        supabase_url=resolved_url,
-        supabase_anon_key=resolved_key
-    )
-
-    # 6. Trang thành công/huỷ thanh toán (checkout-success/cancel) — Giai đoạn 4
+    # 5. Trang thành công/huỷ thanh toán (checkout-success/cancel) — Giai đoạn 4
     build_checkout_view("success", os.path.join(config.REPO_HTML_DIR, "checkout-success.html"), resolved_url, resolved_key)
     build_checkout_view("cancel", os.path.join(config.REPO_HTML_DIR, "checkout-cancel.html"), resolved_url, resolved_key)
 
-    # 7. Trang Sign IPA (điều hướng tới công cụ ký công khai bên ngoài)
+    # 6. Trang Sign IPA (điều hướng tới công cụ ký công khai bên ngoài)
     build_sign_view(os.path.join(config.REPO_HTML_DIR, "sign.html"))
 
     print("🎉 Tất cả HTML views v4 đã được tạo thành công!")
