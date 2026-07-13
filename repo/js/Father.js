@@ -1,25 +1,21 @@
 // ==UserScript==
 // @name         2KGT Multi-Script Loader (Father)
-// @description  Nút nổi kéo thả kiểu AssistiveTouch, double-tap mở popup nhỏ để bật/tắt các userscript con
-// @version      8.0.0
+// @namespace    http://tampermonkey.net/
+// @version      13.0
+// @description  Nút chính vuông 37px đồng bộ app con, Dock 45px, nạp script động và hỗ trợ kéo vuốt ẩn thủ công 2/3 vào mép viền.
+// @author       2KGT
 // @match        *://*/*
+// @run-at       document-end
 // @grant        none
-// @run-at       document-idle
 // ==/UserScript==
 
-(function () {
-    "use strict";
+(function() {
+    'use strict';
 
-    alert("Father.js 8.0.0 bắt đầu chạy - nếu bạn thấy dòng này, file đã load đúng");
-
-    try {
-
-    console.log("[Father.js] Đang chạy phiên bản 8.0.0 (debug alert) - " + new Date().toISOString());
-
-    // ==== CẤU HÌNH ====
+    // ==== CẤU HÌNH NẠP SCRIPT ĐỘNG ====
     const BASE_URL = "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/js/";
 
-    // Danh sách các script con - name hiển thị, icon, file để ghép URL, key để lưu trạng thái bật/tắt
+    // Danh sách ứng dụng con đồng bộ từ kho lưu trữ của bạn
     const SCRIPTS = [
         { key: "abpvn", name: "ABPVN AdsBlock", icon: "🛡️", file: "ABPVN AdsBlock.user.js" },
         { key: "act_yt_translate", name: "YouTube Auto-translate", icon: "📺", file: "ACT.YouTube.DM.Auto-translate.user.js" },
@@ -32,7 +28,7 @@
 
     const STORAGE_KEY = "father_active_scripts";
 
-    // ==== QUẢN LÝ TRẠNG THÁI BẬT/TẮT (lưu qua sessionStorage - mỗi tab/phiên riêng) ====
+    // ==== QUẢN LÝ TRẠNG THÁI BẬT/TẮT (sessionStorage) ====
     function loadActiveState() {
         try {
             const raw = sessionStorage.getItem(STORAGE_KEY);
@@ -44,23 +40,18 @@
     function saveActiveState(state) {
         try {
             sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-        } catch {
-            /* ignore quota errors */
-        }
+        } catch {}
     }
 
     let activeState = loadActiveState();
 
-    // ==== TẢI VÀ CHẠY 1 SCRIPT CON ====
+    // ==== TẢI VÀ CHẠY SCRIPT CON ====
     async function loadAndRun(scriptDef) {
         const url = BASE_URL + encodeURIComponent(scriptDef.file).replace(/%2F/g, "/");
         try {
             const res = await fetch(url, { cache: "no-store" });
-            if (!res.ok) {
-                throw new Error("HTTP " + res.status);
-            }
+            if (!res.ok) throw new Error("HTTP " + res.status);
             const code = await res.text();
-            // Chạy code trong scope hàm riêng để tránh xung đột biến toàn cục
             const runner = new Function(code);
             runner();
             return { success: true };
@@ -69,7 +60,7 @@
         }
     }
 
-    // ==== KÍCH HOẠT / KHÔI PHỤC 1 SCRIPT ====
+    // ==== KÍCH HOẠT / KHÔI PHỤC SCRIPT KHI CLICK APP CON ====
     async function toggleScript(scriptDef, glowEl) {
         const isActive = !!activeState[scriptDef.key];
 
@@ -85,9 +76,7 @@
                 setTimeout(() => { glowEl.className = "father-app-glow"; }, 2000);
             }
         } else {
-            const confirmReload = confirm(
-                scriptDef.name + " đang bật.\nBấm OK để tải lại trang (khôi phục bản gốc)."
-            );
+            const confirmReload = confirm(scriptDef.name + " đang bật.\nBấm OK để tải lại trang (khái phục bản gốc).");
             if (confirmReload) {
                 delete activeState[scriptDef.key];
                 saveActiveState(activeState);
@@ -96,241 +85,414 @@
         }
     }
 
-    // ==== GIAO DIỆN: NÚT NỔI KÉO THẢ (KIỂU ASSISTIVETOUCH) + POPUP NHỎ CẠNH NÚT ====
-    function injectStyles() {
-        const style = document.createElement("style");
-        style.textContent = `
-            #father-loader-ui * { box-sizing: border-box; }
-
-            #father-loader-fab {
-                position: fixed;
-                bottom: 90px;
-                right: 16px;
-                width: 46px; height: 46px;
-                background: rgba(28,28,30,0.72);
-                backdrop-filter: blur(18px) saturate(180%);
-                -webkit-backdrop-filter: blur(18px) saturate(180%);
-                border-radius: 14px;
-                display: flex; align-items: center; justify-content: center;
-                box-shadow: 0 4px 14px rgba(0,0,0,0.3), 0 0 0 0.5px rgba(255,255,255,0.08);
-                cursor: pointer;
-                user-select: none;
-                transition: transform 0.12s ease, box-shadow 0.15s ease, background 0.15s ease;
-                z-index: 2147483646;
-                -webkit-tap-highlight-color: transparent;
-            }
-            #father-loader-fab:active {
-                transform: scale(0.9);
-            }
-
-            /* Icon 4 ô vuông kiểu grid/Windows - luôn cố định, không đổi hình dạng */
-            .father-fab-grid {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                grid-template-rows: repeat(2, 1fr);
-                gap: 3px;
-                width: 18px; height: 18px;
-            }
-            .father-fab-grid span {
-                background: rgba(255,255,255,0.92);
-                border-radius: 2.5px;
-            }
-
-            /* Khi dock đang mở: chỉ đổi màu nền fab để báo hiệu trạng thái */
-            #father-loader-fab.menu-open {
-                background: rgba(10,132,255,0.85);
-            }
-
-            /* ===== Popup dạng layer cuộn dọc, cao vừa đúng 3 icon để luôn thấy cần cuộn ===== */
-            #father-popup {
-                position: fixed;
-                bottom: 144px;
-                right: 16px;
-                width: 60px;
-                /* Chiều cao vừa đúng 3 item: mỗi item 44px icon-wrap + 8px gap.
-                   3 item = 44*3 + 8*2 = 148px, cộng padding 6px*2 = 160px */
-                height: 160px;
-                background: rgba(30,30,32,0.55);
-                backdrop-filter: blur(20px) saturate(180%);
-                -webkit-backdrop-filter: blur(20px) saturate(180%);
-                border-radius: 18px;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.35), 0 0 0 0.5px rgba(255,255,255,0.08);
-                opacity: 0;
-                transform: scale(0.85);
-                transform-origin: bottom right;
-                pointer-events: none;
-                transition: opacity 0.18s ease, transform 0.18s cubic-bezier(0.34, 1.4, 0.64, 1);
-                z-index: 2147483647;
-                font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-                padding: 6px;
-                display: flex;
-                flex-direction: column;
-            }
-            #father-popup.open {
-                opacity: 1;
-                transform: scale(1);
-                pointer-events: auto;
-            }
-
-            /* Layer cuộn thật: overflow-y: auto đơn giản, không có logic JS can thiệp,
-               giống cách image-grid-lister.user.js xử lý .igl-navbar/.igl-grid */
-            .father-popup-list {
-                flex: 1;
-                overflow-y: auto;
-                -webkit-overflow-scrolling: touch;
-                overscroll-behavior: contain;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 8px;
-                scrollbar-width: none;
-            }
-            .father-popup-list::-webkit-scrollbar { display: none; }
-
-            /* Icon app nhỏ gọn, không có label chữ bên dưới */
-            .father-app-item {
-                display: flex;
-                cursor: pointer;
-                -webkit-tap-highlight-color: transparent;
-                flex-shrink: 0;
-            }
-            .father-app-icon-wrap {
-                position: relative;
-                width: 44px; height: 44px;
-                display: flex; align-items: center; justify-content: center;
-            }
-            .father-app-icon {
-                width: 40px; height: 40px;
-                border-radius: 11px;
-                background: linear-gradient(145deg, #3a3a3c, #1c1c1e);
-                display: flex; align-items: center; justify-content: center;
-                font-size: 18px;
-                box-shadow: 0 3px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06);
-                transition: transform 0.15s ease;
-                position: relative;
-                z-index: 2;
-            }
-            .father-app-item:active .father-app-icon {
-                transform: scale(0.9);
-            }
-
-            /* Vòng sáng xanh bao quanh khi script đang bật */
-            .father-app-glow {
-                position: absolute;
-                inset: -4px;
-                border-radius: 15px;
-                z-index: 1;
-                opacity: 0;
-                transition: opacity 0.25s ease;
-                background: radial-gradient(circle, rgba(48,209,88,0.55) 0%, rgba(48,209,88,0.15) 60%, transparent 75%);
-                box-shadow: 0 0 8px 2px rgba(48,209,88,0.5);
-            }
-            .father-app-glow.on { opacity: 1; }
-            .father-app-glow.loading {
-                opacity: 1;
-                background: radial-gradient(circle, rgba(255,159,10,0.55) 0%, rgba(255,159,10,0.15) 60%, transparent 75%);
-                box-shadow: 0 0 8px 2px rgba(255,159,10,0.5);
-                animation: father-pulse 0.9s ease-in-out infinite;
-            }
-            .father-app-glow.error {
-                opacity: 1;
-                background: radial-gradient(circle, rgba(255,69,58,0.55) 0%, rgba(255,69,58,0.15) 60%, transparent 75%);
-                box-shadow: 0 0 8px 2px rgba(255,69,58,0.5);
-            }
-            @keyframes father-pulse {
-                0%, 100% { opacity: 1; }
-                50% { opacity: 0.5; }
-            }
-        `;
-        document.head.appendChild(style);
+    function createSVG(dPath, styleStr = '', viewBox = '0 0 24 24') {
+        return `<svg viewBox="${viewBox}" style="width:18px;height:18px;fill:currentColor;display:block;${styleStr}"><path d="${dPath}"/></svg>`;
     }
 
-    function buildUI() {
-        injectStyles();
+    // 1. Tạo Container gốc cho giao diện mới
+    const container = document.createElement('div');
+    container.id = 'lc-multitask-container';
+    container.style.cssText = 'position:fixed !important; z-index:999999 !important; right:4px !important; top:50% !important; transform:translateY(-50%) !important; touch-action:none !important; user-select:none !important;';
+    const shadow = container.attachShadow({ mode: 'open' });
 
-        // ==== Nút nổi cố định vị trí (không kéo thả, chỉ click để mở/đóng) ====
-        const fab = document.createElement("div");
-        fab.id = "father-loader-fab";
-        fab.innerHTML = `
-            <div class="father-fab-grid">
-                <span></span><span></span><span></span><span></span>
-            </div>
-        `;
-        document.body.appendChild(fab);
-
-        // ==== Dock các icon script con - layer cuộn dọc thật, luôn ở vị trí cố định trên fab ====
-        const popup = document.createElement("div");
-        popup.id = "father-popup";
-
-        const list = document.createElement("div");
-        list.className = "father-popup-list";
-
-        SCRIPTS.forEach((scriptDef) => {
-            const item = document.createElement("div");
-            item.className = "father-app-item";
-
-            const iconWrap = document.createElement("div");
-            iconWrap.className = "father-app-icon-wrap";
-
-            const glow = document.createElement("div");
-            glow.className = "father-app-glow" + (activeState[scriptDef.key] ? " on" : "");
-
-            const icon = document.createElement("div");
-            icon.className = "father-app-icon";
-            icon.textContent = scriptDef.icon;
-
-            iconWrap.appendChild(glow);
-            iconWrap.appendChild(icon);
-            item.appendChild(iconWrap);
-            item.title = scriptDef.name;
-
-            item.addEventListener("click", (e) => {
-                e.stopPropagation();
-                toggleScript(scriptDef, glow);
-            });
-
-            list.appendChild(item);
-        });
-
-        popup.appendChild(list);
-        document.body.appendChild(popup);
-
-        // ==== Mở / đóng dock: chỉ 1 lần click duy nhất trên fab, không phụ thuộc kéo/double-tap ====
-        function openPopup() {
-            popup.classList.add("open");
-            fab.classList.add("menu-open");
+    // 2. Định dạng CSS hệ thống - Gọn gàng 45px & Ẩn 2/3 thủ công/tự động
+    const style = document.createElement('style');
+    style.textContent = `
+        :host {
+            display: block !important;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+            transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1), left 0.4s cubic-bezier(0.16, 1, 0.3, 1), top 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease !important;
         }
-        function closePopup() {
-            popup.classList.remove("open");
-            fab.classList.remove("menu-open");
+        
+        :host(.dragging) {
+            transition: none !important;
+        }
+        
+        /* LOGIC VUỐT SÁT MÉP GIẤU 2/3 THÂN MÌNH (Thò lại khoảng 14px vừa đủ chạm nhẹ) */
+        :host(.edge-hidden-right) { right: -31px !important; opacity: 0.6 !important; }
+        :host(.edge-hidden-left) { left: -31px !important; opacity: 0.6 !important; }
+        
+        :host(:hover) { opacity: 1 !important; }
+
+        /* DOCK CHA CHUẨN ĐẸP 45PX */
+        .dock-main {
+            display: inline-flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            padding: 4px !important;
+            background: rgba(245, 245, 247, 0.85) !important; 
+            backdrop-filter: blur(20px) saturate(190%) !important;
+            -webkit-backdrop-filter: blur(20px) saturate(190%) !important;
+            border-radius: 13px !important;
+            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06), 0 8px 24px rgba(0, 0, 0, 0.08) !important;
+            box-sizing: border-box !important;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            overflow: hidden !important;
+            
+            min-width: 45px !important;
+            max-width: 45px !important;
+            min-height: 45px !important;
+            max-height: 45px !important;
         }
 
-        fab.addEventListener("click", (e) => {
+        .dock-main.expanded {
+            border-radius: 14px !important;
+            min-height: 150px !important;
+            max-height: 240px !important;
+            background: rgba(255, 255, 255, 0.95) !important;
+            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08), 0 12px 36px rgba(0, 0, 0, 0.15) !important;
+        }
+
+        /* NÚT CHÍNH HÌNH VUÔNG BO 9PX ĐỒNG BỘ HOÀN HẢO */
+        .btn-main-toggle { 
+            width: 37px !important;  
+            height: 37px !important;
+            border-radius: 9px !important; 
+            border: none !important;
+            background: #10a37f !important; 
+            color: #ffffff !important; 
+            cursor: move !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            outline: none !important;
+            box-sizing: border-box !important;
+            flex-shrink: 0 !important;
+            touch-action: none !important;
+            transition: background 0.2s, border-radius 0.3s, transform 0.1s !important;
+            z-index: 5 !important;
+            box-shadow: 0 2px 6px rgba(16, 163, 127, 0.25) !important;
+        }
+        
+        .btn-main-toggle:active { transform: scale(0.92) !important; }
+        .btn-main-toggle svg { transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important; }
+        .dock-main.expanded .btn-main-toggle svg { transform: rotate(180deg) !important; }
+
+        /* ĐỒNG BỘ DARK MODE */
+        @media (prefers-color-scheme: dark) {
+            .dock-main {
+                background: rgba(28, 28, 30, 0.85) !important;
+                box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.08), 0 8px 24px rgba(0, 0, 0, 0.25) !important;
+            }
+            .dock-main.expanded {
+                background: rgba(28, 28, 30, 0.96) !important;
+            }
+        }
+
+        /* LỚP LÓT CHỨA DANH SÁCH APP CON CUỘN */
+        .apps-sub-container-bg {
+            width: 37px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            background: transparent !important;
+            border-radius: 9px !important;
+            margin-top: 0px !important;
+            box-sizing: border-box !important;
+            overflow: hidden !important;
+            flex-shrink: 0 !important;
+            
+            opacity: 0 !important;
+            max-height: 0px !important;
+            transform: scale(0.95) translateY(-6px) !important;
+            transition: opacity 0.2s ease, transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), max-height 0.3s ease, margin-top 0.2s !important;
+        }
+
+        .dock-main.expanded .apps-sub-container-bg {
+            opacity: 1 !important;
+            max-height: 185px !important;
+            margin-top: 6px !important;
+            transform: scale(1) translateY(0) !important;
+        }
+
+        /* VÙNG CUỘN CHỨA APP CON (Giới hạn hiển thị mượt mà) */
+        .apps-scroll-layer {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            gap: 7px !important;
+            width: 37px !important;
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+            scrollbar-width: none !important;
+            -webkit-overflow-scrolling: touch !important;
+        }
+        .apps-scroll-layer::-webkit-scrollbar { display: none !important; }
+
+        /* CÁC NÚT APP CON TIÊU CHUẨN VUÔNG 37PX */
+        .btn-app {
+            position: relative !important;
+            width: 37px !important;  
+            height: 37px !important;
+            border-radius: 9px !important;
+            border: none !important;
+            background: linear-gradient(145deg, #3a3a3c, #1c1c1e) !important;
+            cursor: pointer !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 17px !important;
+            transition: transform 0.12s ease !important;
+            padding: 0 !important;
+            overflow: visible !important;
+            outline: none !important;
+            box-sizing: border-box !important;
+            flex-shrink: 0 !important;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.06) !important;
+        }
+        .btn-app:active { transform: scale(0.88) !important; }
+
+        /* VÒNG SÁNG GLOW BÁO TRẠNG THÁI SCRIPT CON */
+        .father-app-glow {
+            position: absolute !important;
+            inset: -3px !important;
+            border-radius: 12px !important;
+            z-index: 1 !important;
+            opacity: 0 !important;
+            transition: opacity 0.25s ease !important;
+            background: radial-gradient(circle, rgba(48,209,88,0.55) 0%, rgba(48,209,88,0.15) 60%, transparent 75%) !important;
+            box-shadow: 0 0 6px 2px rgba(48,209,88,0.5) !important;
+            pointer-events: none !important;
+        }
+        .father-app-glow.on { opacity: 1 !important; }
+        .father-app-glow.loading {
+            opacity: 1 !important;
+            background: radial-gradient(circle, rgba(255,159,10,0.55) 0%, rgba(255,159,10,0.15) 60%, transparent 75%) !important;
+            box-shadow: 0 0 6px 2px rgba(255,159,10,0.5) !important;
+            animation: father-pulse 0.9s ease-in-out infinite !important;
+        }
+        .father-app-glow.error {
+            opacity: 1 !important;
+            background: radial-gradient(circle, rgba(255,69,58,0.55) 0%, rgba(255,69,58,0.15) 60%, transparent 75%) !important;
+            box-shadow: 0 0 6px 2px rgba(255,69,58,0.5) !important;
+        }
+        @keyframes father-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    `;
+
+    // 3. Xây dựng cây cấu trúc DOM giao diện Father mới
+    const dock = document.createElement('div');
+    dock.className = 'dock-main';
+
+    const pathArrow = "M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z";
+
+    // Khởi tạo nút Toggle chính
+    dock.innerHTML = `
+        <button class="btn-main-toggle" title="Kéo di chuyển / Vuốt sát mép để ẩn 2/3 thủ công">
+            ${createSVG(pathArrow)}
+        </button>
+        <div class="apps-sub-container-bg">
+            <div class="apps-scroll-layer"></div>
+        </div>
+    `;
+
+    const mainToggleBtn = dock.querySelector('.btn-main-toggle');
+    const appsScrollLayer = dock.querySelector('.apps-scroll-layer');
+    let currentSide = 'right';
+
+    // Đổ danh sách Script con vào layer cuộn
+    SCRIPTS.forEach((scriptDef) => {
+        const itemBtn = document.createElement("button");
+        itemBtn.className = "btn-app";
+        itemBtn.title = scriptDef.name;
+
+        const glow = document.createElement("div");
+        glow.className = "father-app-glow" + (activeState[scriptDef.key] ? " on" : "");
+
+        const iconSpan = document.createElement("span");
+        iconSpan.style.cssText = "position:relative; z-index:2;";
+        iconSpan.textContent = scriptDef.icon;
+
+        itemBtn.appendChild(glow);
+        itemBtn.appendChild(iconSpan);
+
+        itemBtn.addEventListener("click", (e) => {
             e.stopPropagation();
-            popup.classList.contains("open") ? closePopup() : openPopup();
+            toggleScript(scriptDef, glow);
         });
 
-        // Đóng popup khi bấm ra ngoài (ra ngoài cả fab lẫn popup)
-        document.addEventListener("click", (e) => {
-            if (
-                popup.classList.contains("open") &&
-                !popup.contains(e.target) &&
-                !fab.contains(e.target)
-            ) {
-                closePopup();
+        appsScrollLayer.appendChild(itemBtn);
+    });
+
+    // --- LOGIC KÉO THẢ & CHỦ ĐỘNG VUỐT CẤT VÀO MÉP ---
+    let isDragging = false;
+    let startX, startY, initialX, initialY;
+    let hasMoved = false;
+
+    function onStart(e) {
+        if (e.target.closest('.apps-sub-container-bg')) return; 
+
+        isDragging = true;
+        hasMoved = false;
+        container.classList.add('dragging');
+        stopAutoHideTimer();
+
+        const clientX = e.type.startsWith('touch') ? e.touches[0].clientX : e.clientX;
+        const clientY = e.type.startsWith('touch') ? e.touches[0].clientY : e.clientY;
+
+        startX = clientX;
+        startY = clientY;
+
+        const rect = container.getBoundingClientRect();
+        initialX = rect.left;
+        initialY = rect.top;
+    }
+
+    function onMove(e) {
+        if (!isDragging) return;
+        
+        const clientX = e.type.startsWith('touch') ? e.touches[0].clientX : e.clientX;
+        const clientY = e.type.startsWith('touch') ? e.touches[0].clientY : e.clientY;
+
+        const dx = clientX - startX;
+        const dy = clientY - startY;
+
+        if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+            hasMoved = true;
+        }
+
+        if (!hasMoved) return;
+
+        let targetX = initialX + dx;
+        let targetY = initialY + dy;
+
+        // Cho phép kéo dôi hẳn ra viền để kích hoạt ẩn thủ công ngay lập tức
+        targetX = Math.max(-35, Math.min(window.innerWidth - container.offsetWidth + 35, targetX));
+        targetY = Math.max(10, Math.min(window.innerHeight - container.offsetHeight - 10, targetY));
+
+        container.style.removeProperty('right');
+        container.style.removeProperty('top');
+        container.style.removeProperty('transform');
+        container.style.left = `${targetX}px`;
+        container.style.top = `${targetY}px`;
+    }
+
+    function onEnd() {
+        if (!isDragging) return;
+        isDragging = false;
+        container.classList.remove('dragging');
+
+        if (!hasMoved) {
+            // Nếu đang ẩn 2/3 mà chạm nhẹ, khôi phục lại trạng thái lộ diện
+            if (container.classList.contains('edge-hidden-left') || container.classList.contains('edge-hidden-right')) {
+                resetAutoHideTimer();
+            } else {
+                startAutoHideTimer();
             }
-        });
+            return;
+        }
+
+        const rect = container.getBoundingClientRect();
+        const midPoint = window.innerWidth / 2;
+        
+        container.style.removeProperty('left');
+        container.style.removeProperty('right');
+
+        if (rect.left + rect.width / 2 < midPoint) {
+            currentSide = 'left';
+            if (rect.left < 15) { // Kéo sát lề trái thủ công
+                container.style.left = '4px';
+                container.classList.add('edge-hidden-left');
+            } else {
+                container.style.left = '4px';
+                startAutoHideTimer();
+            }
+        } else {
+            currentSide = 'right';
+            if (window.innerWidth - rect.right < 15) { // Kéo sát lề phải thủ công
+                container.style.right = '4px';
+                container.classList.add('edge-hidden-right');
+            } else {
+                container.style.right = '4px';
+                startAutoHideTimer();
+            }
+        }
+
+        let finalTop = rect.top + rect.height / 2;
+        finalTop = Math.max(rect.height / 2 + 10, Math.min(window.innerHeight - rect.height / 2 - 10, finalTop));
+        container.style.top = `${finalTop}px`;
+        container.style.transform = 'translateY(-50%)';
     }
 
+    mainToggleBtn.addEventListener('mousedown', onStart);
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onEnd);
+
+    mainToggleBtn.addEventListener('touchstart', onStart, { passive: true });
+    window.addEventListener('touchmove', onMove, { passive: false });
+    window.addEventListener('touchend', onEnd);
+
+    // --- LOGIC BẤM ĐÓNG / MỞ DOCK ---
+    mainToggleBtn.addEventListener('click', (e) => {
+        if (hasMoved) return; 
+        
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (container.classList.contains('edge-hidden-left') || container.classList.contains('edge-hidden-right')) {
+            resetAutoHideTimer();
+            return;
+        }
+
+        const isExpanded = dock.classList.contains('expanded');
+        if (isExpanded) {
+            dock.classList.remove('expanded');
+        } else {
+            dock.classList.add('expanded');
+            setTimeout(() => { appsScrollLayer.scrollTop = 0; }, 50);
+        }
+        resetAutoHideTimer();
+    });
+
+    dock.addEventListener('click', (e) => e.stopPropagation());
+
+    // --- CÔ LẬP SỰ KIỆN CUỘN TRÊN ĐIỆN THOẠI ---
+    appsScrollLayer.addEventListener('touchstart', (e) => e.stopPropagation(), { passive: true });
+    appsScrollLayer.addEventListener('touchmove', (e) => e.stopPropagation(), { passive: false });
+
+    // --- TỰ ĐỘNG THỤT ẨN 2/3 SAU 5 GIÂY KHÔNG DÙNG ---
+    let hideTimer = null;
+
+    function startAutoHideTimer() {
+        stopAutoHideTimer();
+        hideTimer = setTimeout(() => {
+            if (dock.classList.contains('expanded')) return;
+            if (currentSide === 'left') {
+                container.classList.add('edge-hidden-left');
+            } else {
+                container.classList.add('edge-hidden-right');
+            }
+        }, 5000); 
+    }
+
+    function stopAutoHideTimer() {
+        if (hideTimer) {
+            clearTimeout(hideTimer);
+            hideTimer = null;
+        }
+    }
+
+    function resetAutoHideTimer() {
+        container.classList.remove('edge-hidden-left', 'edge-hidden-right');
+        startAutoHideTimer();
+    }
+
+    container.addEventListener('mouseenter', () => {
+        container.classList.remove('edge-hidden-left', 'edge-hidden-right');
+        stopAutoHideTimer();
+    });
+    container.addEventListener('mouseleave', () => startAutoHideTimer());
+
+    // 4. Nhúng giao diện vào trang web thông qua Shadow DOM
+    shadow.appendChild(style);
+    shadow.appendChild(dock);
+    
     if (document.body) {
-        buildUI();
+        document.body.appendChild(container);
     } else {
-        document.addEventListener("DOMContentLoaded", buildUI);
+        window.addEventListener('DOMContentLoaded', () => document.body.appendChild(container));
     }
 
-    alert("Father.js 8.0.0 chạy xong toàn bộ, không có lỗi nào cả!");
-
-    } catch (err) {
-        alert("Father.js LỖI: " + err.message + "\n\nDòng: " + (err.lineNumber || "không rõ") + "\n\nStack: " + (err.stack || "không có"));
-    }
+    startAutoHideTimer();
 })();
