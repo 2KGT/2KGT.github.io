@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         2KGT Multi-Script Loader (Father)
 // @namespace    http://tampermonkey.net/
-// @version      13.0
-// @description  Nút chính vuông 37px đồng bộ app con, Dock 45px, nạp script động và hỗ trợ kéo vuốt ẩn thủ công 2/3 vào mép viền.
+// @version      13.1
+// @description  Nút chính vuông 37px đồng bộ app con, Dock 45px, nạp script động và sửa chính xác tên file theo thư mục repo/js/.
 // @author       2KGT
 // @match        *://*/*
 // @run-at       document-end
@@ -12,17 +12,17 @@
 (function() {
     'use strict';
 
-    // ==== CẤU HÌNH NẠP SCRIPT ĐỘNG ====
-    const BASE_URL = "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/js/";
+    // ==== CẤU HÌNH NẠP SCRIPT ĐỘNG (ĐÃ SỬA ĐÚNG ĐƯỜNG DẪN THƯ MỤC CHA) ====
+    const BASE_URL = "https://raw.githubusercontent.com/2KGT/2KGT.github.io/refs/heads/main/repo/js/";
 
-    // Danh sách ứng dụng con đồng bộ từ kho lưu trữ của bạn
+    // Danh sách ứng dụng con (ĐÃ KHỚP CHUẨN TÊN FILE THEO ẢNH THƯ MỤC)
     const SCRIPTS = [
         { key: "abpvn", name: "ABPVN AdsBlock", icon: "🛡️", file: "ABPVN AdsBlock.user.js" },
         { key: "act_yt_translate", name: "YouTube Auto-translate", icon: "📺", file: "ACT.YouTube.DM.Auto-translate.user.js" },
         { key: "adguard_extra", name: "AdGuard Extra", icon: "🧩", file: "AdGuard Extra.user.js" },
         { key: "adguard_popup", name: "AdGuard Popup Blocker", icon: "🚫", file: "AdGuard Popup Blocker.user.js" },
-        { key: "auto_translate_vi", name: "Dịch sang Tiếng Việt", icon: "🇻🇳", file: "auto translate vi.user.js" },
-        { key: "image_grid", name: "Image Grid Lister", icon: "🖼️", file: "image-grid-lister.user.js" },
+        { key: "auto_translate_vi", name: "Dịch sang Tiếng Việt", icon: "🇻🇳", file: "auto translate vi_user.js" },
+        { key: "image_grid", name: "Image Grid Lister", icon: "🖼️", file: "image-grid-lister_user.js" },
         { key: "open_inapp", name: "Mở App khi bấm link", icon: "📲", file: "open inapp.user.js" },
     ];
 
@@ -76,7 +76,7 @@
                 setTimeout(() => { glowEl.className = "father-app-glow"; }, 2000);
             }
         } else {
-            const confirmReload = confirm(scriptDef.name + " đang bật.\nBấm OK để tải lại trang (khái phục bản gốc).");
+            const confirmReload = confirm(scriptDef.name + " đang bật.\nBấm OK để tải lại trang (khôi phục bản gốc).");
             if (confirmReload) {
                 delete activeState[scriptDef.key];
                 saveActiveState(activeState);
@@ -138,7 +138,7 @@
         .dock-main.expanded {
             border-radius: 14px !important;
             min-height: 150px !important;
-            max-height: 240px !important;
+            max-height: 330px !important;
             background: rgba(255, 255, 255, 0.95) !important;
             box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08), 0 12px 36px rgba(0, 0, 0, 0.15) !important;
         }
@@ -199,12 +199,12 @@
 
         .dock-main.expanded .apps-sub-container-bg {
             opacity: 1 !important;
-            max-height: 185px !important;
+            max-height: 280px !important;
             margin-top: 6px !important;
             transform: scale(1) translateY(0) !important;
         }
 
-        /* VÙNG CUỘN CHỨA APP CON (Giới hạn hiển thị mượt mà) */
+        /* VÙNG CUỘN CHỨA APP CON */
         .apps-scroll-layer {
             display: flex !important;
             flex-direction: column !important;
