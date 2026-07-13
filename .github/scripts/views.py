@@ -3610,7 +3610,7 @@ DASHBOARD_HTML_TEMPLATE = """<!DOCTYPE html>
         <div class="header-more-wrap">
             <button class="header-btn" onclick="toggleMoreMenu()" title="Thêm">•••</button>
             <div class="more-dropdown" id="moreDropdown">
-                <a href="./index.html" class="more-item">🛒 Mua thêm</a>
+                <a href="./apps.html" class="more-item">🛒 Mua thêm</a>
                 <a href="./sign.html" class="more-item">🖊️ Sign IPA</a>
                 <button class="more-item" onclick="logout()">↪ Đăng xuất</button>
             </div>
@@ -3661,33 +3661,20 @@ DASHBOARD_HTML_TEMPLATE = """<!DOCTYPE html>
         <!-- Giỏ hàng -->
         <div class="section-header" onclick="toggleSection('cart')">
             <span class="section-title-inline">🛒 Giỏ hàng</span>
-            <span class="section-chevron" id="chevron-cart">▾</span>
+            <span class="section-chevron collapsed" id="chevron-cart">▾</span>
         </div>
-        <div id="section-cart" class="collapsible-section">
+        <div id="section-cart" class="collapsible-section collapsed">
             <div id="cartList" style="margin-bottom:24px">
                 <div class="empty-state">⏳ Đang tải...</div>
-            </div>
-        </div>
-
-        <!-- Licenses -->
-        <div class="section-header" onclick="toggleSection('license')">
-            <span class="section-title-inline">🔐 License của bạn</span>
-            <span class="section-chevron" id="chevron-license">▾</span>
-        </div>
-        <div id="section-license" class="collapsible-section">
-            <div id="licenseList" class="license-list" style="margin-bottom:24px">
-                <div class="empty-state">
-                    ⏳ Đang tải...
-                </div>
             </div>
         </div>
 
         <!-- Kho ứng dụng -->
         <div class="section-header" onclick="toggleSection('library')">
             <span class="section-title-inline">📦 Kho ứng dụng</span>
-            <span class="section-chevron" id="chevron-library">▾</span>
+            <span class="section-chevron collapsed" id="chevron-library">▾</span>
         </div>
-        <div id="section-library" class="collapsible-section">
+        <div id="section-library" class="collapsible-section collapsed">
             <div class="lib-tabs">
                 <button class="lib-tab-btn active" id="libtab-apps" onclick="switchLibTab('apps')">📱 Apps</button>
                 <button class="lib-tab-btn" id="libtab-debs" onclick="switchLibTab('debs')">🔧 Debs</button>
@@ -3695,6 +3682,19 @@ DASHBOARD_HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
             <div id="libList" style="margin-bottom:24px">
                 <div class="empty-state">⏳ Đang tải...</div>
+            </div>
+        </div>
+
+        <!-- Licenses -->
+        <div class="section-header" onclick="toggleSection('license')">
+            <span class="section-title-inline">🔐 License của bạn</span>
+            <span class="section-chevron collapsed" id="chevron-license">▾</span>
+        </div>
+        <div id="section-license" class="collapsible-section collapsed">
+            <div id="licenseList" class="license-list" style="margin-bottom:24px">
+                <div class="empty-state">
+                    ⏳ Đang tải...
+                </div>
             </div>
         </div>
     </div>
