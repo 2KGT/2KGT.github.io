@@ -1944,6 +1944,20 @@
       "Maintainer": "iOSGods.com",
       "Homepage": "https://iosgods.com",
       "Installed-Size": "11276"
+    },
+    "https://2kgt.github.io/repo/debs/youmute/com.ps.youmute_1.4.1_iphoneos-arm.deb": {
+      "Package": "com.ps.youmute",
+      "Name": "YouMute",
+      "Version": "1.4.1",
+      "Description": "Mutes/unmutes videos in YouTube directly.",
+      "Author": "PoomSmart",
+      "Section": "Tweaks",
+      "Architecture": "iphoneos-arm",
+      "Maintainer": "PoomSmart",
+      "Depends": "mobilesubstrate (>= 0.9.5000), firmware (>= 11.0), com.ps.ytvideooverlay (>= 2.3.2)",
+      "Depiction": "https://poomsmart.github.io/repo/depictions/youmute.html",
+      "SileoDepiction": "https://poomsmart.github.io/repo/sileodepictions/youmute.json",
+      "Installed-Size": "112"
     }
   }
 }

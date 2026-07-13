@@ -645,18 +645,18 @@ SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/YouGroupSettings/yo
 
 Package: com.ps.youmute
 Name: YouMute
-Version: 1.4.0
+Version: 1.4.1
 Architecture: iphoneos-arm
-Filename: debs/youmute/youmute_1.4.0_arm.deb
-Size: 6198
-MD5sum: 151fc1b208fa9105da9f6d74c0069029
-SHA1: 6501bf2a689b1d75317249dbf676b25bd4ffdc12
-SHA256: 27b098f4ac4da14b8ca719f70eff5432bdd41885160a47e799958577acd744ae
+Filename: debs/youmute/com.ps.youmute_1.4.1_iphoneos-arm.deb
+Size: 6254
+MD5sum: e299d7feb080d263a50bfbddf89256fa
+SHA1: d191c8af87ee1f98948b0638fbda35d69064e08b
+SHA256: efd2bb8e4e942077ba8618439fe7cba6ee7a2f3d01fcea3b0477c23c6bfd957b
 Author: PoomSmart
 Description: Mutes/unmutes videos in YouTube directly.
 Section: Tweaks
 Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png
-SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/YouMute/youmute_1.4.0_arm.json
+SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/youmute/com.ps.youmute_1.4.1_iphoneos-arm.json
 
 Package: com.ps.youpip
 Name: YouPiP

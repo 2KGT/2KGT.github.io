@@ -78,6 +78,7 @@
     "repo/data/desc/tweaks/tweach",
     "repo/data/desc/tweaks/twlegacy",
     "repo/data/desc/tweaks/youmod",
+    "repo/data/desc/tweaks/youmute",
     "repo/data/desc/tweaks/youpip",
     "repo/data/desc/tweaks/youspeed",
     "repo/data/desc/tweaks/yt-native-share",
@@ -302,6 +303,7 @@
       "yougroupsettings_1.0.10-arm.deb"
     ],
     "repo/debs/youmute": [
+      "com.ps.youmute_1.4.1_iphoneos-arm.deb",
       "youmute_1.4.0_arm.deb"
     ],
     "repo/debs/ytunshorts": [
@@ -565,6 +567,10 @@
     "repo/data/desc/tweaks/youspeed": [
       "com.ps.youspeed_1.7.1_iphoneos-arm.json",
       "com.ps.youspeed_1.7.1_iphoneos-arm64.json",
+      "default.txt"
+    ],
+    "repo/data/desc/tweaks/youmute": [
+      "com.ps.youmute_1.4.1_iphoneos-arm.json",
       "default.txt"
     ],
     "repo/data/desc/tweaks/twlegacy": [

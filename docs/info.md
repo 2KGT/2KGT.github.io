@@ -1,5 +1,7 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 13/07/2026 07:28:35 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 13/07/2026 09:55:25 (Giờ Hà Nội)*
+
+📝 *Thay đổi thư mục so với lần quét trước: ✨ +1 thư mục mới* — xem chi tiết tại `docs/CHANGELOG.md`
 
 ```text
 🗺️ Root/
@@ -251,6 +253,9 @@
 │   │   │   │   ├── 📂 youmod/
 │   │   │   │   │   ├── default.txt
 │   │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
+│   │   │   │   ├── 📂 youmute/
+│   │   │   │   │   ├── default.txt
+│   │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
 │   │   │   │   ├── 📂 youpip/
 │   │   │   │   │   ├── default.txt
 │   │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 2 file ]
@@ -353,7 +358,7 @@
 │   │   ├── 📂 youmod/
 │   │   │   └── [ 📊 Số lượng: 📦 Package .deb: 1 file ]
 │   │   ├── 📂 youmute/
-│   │   │   └── [ 📊 Số lượng: 📦 Package .deb: 1 file ]
+│   │   │   └── [ 📊 Số lượng: 📦 Package .deb: 2 file ]
 │   │   ├── 📂 youpip/
 │   │   │   └── [ 📊 Số lượng: 📦 Package .deb: 2 file ]
 │   │   ├── 📂 youspeed/
