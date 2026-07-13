@@ -1,163 +1,326 @@
 // ==UserScript==
-// @name         Master Loader
-// @namespace    http://tampermonkey.net/
-// @version      5.1
-// @description  Trung tâm điều khiển script con - Sửa lỗi metadata invalid trên iOS Safari
-// @author       2KGT
+// @name         2KGT Multi-Script Loader (Father)
+// @description  Nút nổi kéo thả kiểu AssistiveTouch, double-tap mở popup nhỏ để bật/tắt các userscript con
+// @version      7.0.0
 // @match        *://*/*
-// @grant        GM_xmlhttpRequest
-// @grant        GM_setValue
-// @grant        GM_getValue
-// @run-at       document-start
+// @grant        none
+// @run-at       document-idle
 // ==/UserScript==
 
-(function() {
-    'use strict';
+(function () {
+    "use strict";
 
-    const BASE_URL = "https://raw.githubusercontent.com/2KGT/2KGT.github.io/refs/heads/main/js/";
+    console.log("[Father.js] Đang chạy phiên bản 7.0.0 (layer cuộn cố định, click đơn giản, mặc định 3 icon) - " + new Date().toISOString());
+
+    // ==== CẤU HÌNH ====
+    const BASE_URL = "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/js/";
+
+    // Danh sách các script con - name hiển thị, icon, file để ghép URL, key để lưu trạng thái bật/tắt
     const SCRIPTS = [
-        "ACT_YouTube_DM_Auto-translate_user.js",
-        "auto-translate-vi_user.js",
-        "ABPVN_AdsBlock.user.js",
-        "AdGuard_Extra.user.js",
-        "AdGuard_Popup_Blocker.user.js",
-        "image-grid-lister_user.js",
-        "open_inapp.js"
+        { key: "abpvn", name: "ABPVN AdsBlock", icon: "🛡️", file: "ABPVN AdsBlock.user.js" },
+        { key: "act_yt_translate", name: "YouTube Auto-translate", icon: "📺", file: "ACT.YouTube.DM.Auto-translate.user.js" },
+        { key: "adguard_extra", name: "AdGuard Extra", icon: "🧩", file: "AdGuard Extra.user.js" },
+        { key: "adguard_popup", name: "AdGuard Popup Blocker", icon: "🚫", file: "AdGuard Popup Blocker.user.js" },
+        { key: "auto_translate_vi", name: "Dịch sang Tiếng Việt", icon: "🇻🇳", file: "auto translate vi.user.js" },
+        { key: "image_grid", name: "Image Grid Lister", icon: "🖼️", file: "image-grid-lister.user.js" },
+        { key: "open_inapp", name: "Mở App khi bấm link", icon: "📲", file: "open inapp.user.js" },
     ];
 
-    // --- 1. KHỞI TẠO GIAO DIỆN ĐIỀU KHIỂN HỆ THỐNG ---
-    function initMasterUI() {
-        if (document.getElementById("kgt-container")) return;
+    const STORAGE_KEY = "father_active_scripts";
 
-        const container = document.createElement('div');
-        container.id = "kgt-container";
-        
-        const floatBtn = document.createElement('div');
-        floatBtn.id = "kgt-float-btn";
-        floatBtn.innerText = "⚙️";
-        
-        // Vị trí cố định phía trên nút Xem media của file con
-        Object.assign(floatBtn.style, {
-            position: 'fixed', bottom: '90px', right: '20px', zIndex: '2147483647',
-            background: '#111', color: '#fff', border: '1px solid #333', width: '45px', height: '45px',
-            borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '18px', boxShadow: '0 4px 14px rgba(0,0,0,.35)', cursor: 'pointer',
-            webkitUserSelect: 'none', userSelect: 'none'
-        });
-
-        const menu = document.createElement('div');
-        menu.id = "kgt-menu";
-        Object.assign(menu.style, {
-            position: 'fixed', bottom: '145px', right: '20px', zIndex: '2147483647',
-            background: '#ffffff', color: '#1e293b', width: '280px', borderRadius: '12px',
-            boxShadow: '0 10px 25px rgba(0,0,0,0.2)', padding: '14px', display: 'none',
-            fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
-            border: '1px solid #e2e8f0', boxSizing: 'border-box'
-        });
-
-        const title = document.createElement('div');
-        title.innerHTML = `<b style="font-size:14px; color:#0f172a;">🛠️ 2KGT Control Center</b>`;
-        title.style.borderBottom = '1px solid #e2e8f0';
-        title.style.paddingBottom = '6px';
-        title.style.marginBottom = '8px';
-        menu.appendChild(title);
-
-        SCRIPTS.forEach((script, index) => {
-            let isChecked = true;
-            try { isChecked = GM_getValue(`running_${script}`, true); } catch(e) {}
-            
-            const displayName = script.replace("_user.js", "").replace(".user.js", "").replace(".js", "");
-            const item = document.createElement('div');
-            Object.assign(item.style, {
-                display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                padding: '8px 0', borderBottom: '1px dashed #f1f5f9', fontSize: '13px'
-            });
-
-            item.innerHTML = `
-                <span style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:180px; color:#334155;">${index + 1}. ${displayName}</span>
-                <input type="checkbox" data-script="${script}" class="kgt-script-toggle" ${isChecked ? 'checked' : ''} style="width:40px; height:20px; cursor:pointer; accent-color:#2563eb;">
-            `;
-            menu.appendChild(item);
-        });
-
-        const note = document.createElement('div');
-        note.innerText = "👉 Chọn xong, hãy Tải lại trang để áp dụng.";
-        Object.assign(note.style, { fontSize: '11px', color: '#64748b', marginTop: '12px', textAlign: 'center', fontWeight: '500' });
-        menu.appendChild(note);
-
-        container.appendChild(floatBtn);
-        container.appendChild(menu);
-        document.documentElement.appendChild(container);
-
-        // Sự kiện Menu
-        floatBtn.addEventListener('click', function(e) {
-            e.preventDefault(); e.stopPropagation();
-            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
-        });
-
-        menu.addEventListener('click', function(e) { e.stopPropagation(); });
-
-        document.addEventListener('click', function(e) {
-            if (!container.contains(e.target)) menu.style.display = 'none';
-        });
-
-        const checkboxes = menu.querySelectorAll('.kgt-script-toggle');
-        checkboxes.forEach(chk => {
-            chk.addEventListener('change', function() {
-                const scriptName = this.getAttribute('data-script');
-                try { GM_setValue(`running_${scriptName}`, this.checked); } catch(e) {}
-            });
-        });
+    // ==== QUẢN LÝ TRẠNG THÁI BẬT/TẮT (lưu qua sessionStorage - mỗi tab/phiên riêng) ====
+    function loadActiveState() {
+        try {
+            const raw = sessionStorage.getItem(STORAGE_KEY);
+            return raw ? JSON.parse(raw) : {};
+        } catch {
+            return {};
+        }
+    }
+    function saveActiveState(state) {
+        try {
+            sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        } catch {
+            /* ignore quota errors */
+        }
     }
 
-    // --- 2. TẢI VÀ THỰC THI TRỰC TIẾP QUA HÀM KHỞI TẠO (VƯỢT LỖI METADATA) ---
-    function loadAndExecuteScript(scriptName) {
-        let isEnabled = true;
-        try { isEnabled = GM_getValue(`running_${scriptName}`, true); } catch(e) {}
-        if (!isEnabled) return;
+    let activeState = loadActiveState();
 
-        if (scriptName.includes("YouTube") && !window.location.hostname.includes("youtube.com")) return; 
+    // ==== TẢI VÀ CHẠY 1 SCRIPT CON ====
+    async function loadAndRun(scriptDef) {
+        const url = BASE_URL + encodeURIComponent(scriptDef.file).replace(/%2F/g, "/");
+        try {
+            const res = await fetch(url, { cache: "no-store" });
+            if (!res.ok) {
+                throw new Error("HTTP " + res.status);
+            }
+            const code = await res.text();
+            // Chạy code trong scope hàm riêng để tránh xung đột biến toàn cục
+            const runner = new Function(code);
+            runner();
+            return { success: true };
+        } catch (e) {
+            return { success: false, error: e.message };
+        }
+    }
 
-        const fullUrl = `${BASE_URL}${scriptName}`;
-        GM_xmlhttpRequest({
-            method: "GET",
-            url: fullUrl,
-            onload: function(response) {
-                if (response.status === 200) {
-                    try {
-                        // Giải pháp thay thế eval: Đóng gói mã nguồn vào Function rồi kích hoạt trực tiếp trong Main Window
-                        // Giúp tương tác các nút bấm của script con hoạt động 100% mà không bị lỗi metadata khi cài đặt
-                        const runScript = new Function(response.responseText);
-                        runScript();
-                        console.log(`[2KGT Master] Kích hoạt tính năng: ${scriptName}`);
-                    } catch (e) {
-                        // Phương thức dự phòng nếu trang web kích hoạt mã bảo mật CSP chặn Function định dạng chuỗi
-                        try {
-                            const scriptEl = document.createElement('script');
-                            scriptEl.textContent = response.responseText;
-                            (document.head || document.documentElement).appendChild(scriptEl);
-                            console.log(`[2KGT Master] Kích hoạt tính năng (Dự phòng): ${scriptName}`);
-                        } catch(innerErr) {
-                            console.error(`[2KGT Master] Lỗi thực thi ${scriptName}:`, innerErr);
-                        }
-                    }
-                }
+    // ==== KÍCH HOẠT / KHÔI PHỤC 1 SCRIPT ====
+    async function toggleScript(scriptDef, glowEl) {
+        const isActive = !!activeState[scriptDef.key];
+
+        if (!isActive) {
+            glowEl.className = "father-app-glow loading";
+            const result = await loadAndRun(scriptDef);
+            if (result.success) {
+                activeState[scriptDef.key] = true;
+                saveActiveState(activeState);
+                glowEl.className = "father-app-glow on";
+            } else {
+                glowEl.className = "father-app-glow error";
+                setTimeout(() => { glowEl.className = "father-app-glow"; }, 2000);
+            }
+        } else {
+            const confirmReload = confirm(
+                scriptDef.name + " đang bật.\nBấm OK để tải lại trang (khôi phục bản gốc)."
+            );
+            if (confirmReload) {
+                delete activeState[scriptDef.key];
+                saveActiveState(activeState);
+                location.reload();
+            }
+        }
+    }
+
+    // ==== GIAO DIỆN: NÚT NỔI KÉO THẢ (KIỂU ASSISTIVETOUCH) + POPUP NHỎ CẠNH NÚT ====
+    function injectStyles() {
+        const style = document.createElement("style");
+        style.textContent = `
+            #father-loader-ui * { box-sizing: border-box; }
+
+            #father-loader-fab {
+                position: fixed;
+                bottom: 90px;
+                right: 16px;
+                width: 46px; height: 46px;
+                background: rgba(28,28,30,0.72);
+                backdrop-filter: blur(18px) saturate(180%);
+                -webkit-backdrop-filter: blur(18px) saturate(180%);
+                border-radius: 14px;
+                display: flex; align-items: center; justify-content: center;
+                box-shadow: 0 4px 14px rgba(0,0,0,0.3), 0 0 0 0.5px rgba(255,255,255,0.08);
+                cursor: pointer;
+                user-select: none;
+                transition: transform 0.12s ease, box-shadow 0.15s ease, background 0.15s ease;
+                z-index: 2147483646;
+                -webkit-tap-highlight-color: transparent;
+            }
+            #father-loader-fab:active {
+                transform: scale(0.9);
+            }
+
+            /* Icon 4 ô vuông kiểu grid/Windows - luôn cố định, không đổi hình dạng */
+            .father-fab-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: repeat(2, 1fr);
+                gap: 3px;
+                width: 18px; height: 18px;
+            }
+            .father-fab-grid span {
+                background: rgba(255,255,255,0.92);
+                border-radius: 2.5px;
+            }
+
+            /* Khi dock đang mở: chỉ đổi màu nền fab để báo hiệu trạng thái */
+            #father-loader-fab.menu-open {
+                background: rgba(10,132,255,0.85);
+            }
+
+            /* ===== Popup dạng layer cuộn dọc, cao vừa đúng 3 icon để luôn thấy cần cuộn ===== */
+            #father-popup {
+                position: fixed;
+                bottom: 144px;
+                right: 16px;
+                width: 60px;
+                /* Chiều cao vừa đúng 3 item: mỗi item 44px icon-wrap + 8px gap.
+                   3 item = 44*3 + 8*2 = 148px, cộng padding 6px*2 = 160px */
+                height: 160px;
+                background: rgba(30,30,32,0.55);
+                backdrop-filter: blur(20px) saturate(180%);
+                -webkit-backdrop-filter: blur(20px) saturate(180%);
+                border-radius: 18px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.35), 0 0 0 0.5px rgba(255,255,255,0.08);
+                opacity: 0;
+                transform: scale(0.85);
+                transform-origin: bottom right;
+                pointer-events: none;
+                transition: opacity 0.18s ease, transform 0.18s cubic-bezier(0.34, 1.4, 0.64, 1);
+                z-index: 2147483647;
+                font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+                padding: 6px;
+                display: flex;
+                flex-direction: column;
+            }
+            #father-popup.open {
+                opacity: 1;
+                transform: scale(1);
+                pointer-events: auto;
+            }
+
+            /* Layer cuộn thật: overflow-y: auto đơn giản, không có logic JS can thiệp,
+               giống cách image-grid-lister.user.js xử lý .igl-navbar/.igl-grid */
+            .father-popup-list {
+                flex: 1;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                overscroll-behavior: contain;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+                scrollbar-width: none;
+            }
+            .father-popup-list::-webkit-scrollbar { display: none; }
+
+            /* Icon app nhỏ gọn, không có label chữ bên dưới */
+            .father-app-item {
+                display: flex;
+                cursor: pointer;
+                -webkit-tap-highlight-color: transparent;
+                flex-shrink: 0;
+            }
+            .father-app-icon-wrap {
+                position: relative;
+                width: 44px; height: 44px;
+                display: flex; align-items: center; justify-content: center;
+            }
+            .father-app-icon {
+                width: 40px; height: 40px;
+                border-radius: 11px;
+                background: linear-gradient(145deg, #3a3a3c, #1c1c1e);
+                display: flex; align-items: center; justify-content: center;
+                font-size: 18px;
+                box-shadow: 0 3px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06);
+                transition: transform 0.15s ease;
+                position: relative;
+                z-index: 2;
+            }
+            .father-app-item:active .father-app-icon {
+                transform: scale(0.9);
+            }
+
+            /* Vòng sáng xanh bao quanh khi script đang bật */
+            .father-app-glow {
+                position: absolute;
+                inset: -4px;
+                border-radius: 15px;
+                z-index: 1;
+                opacity: 0;
+                transition: opacity 0.25s ease;
+                background: radial-gradient(circle, rgba(48,209,88,0.55) 0%, rgba(48,209,88,0.15) 60%, transparent 75%);
+                box-shadow: 0 0 8px 2px rgba(48,209,88,0.5);
+            }
+            .father-app-glow.on { opacity: 1; }
+            .father-app-glow.loading {
+                opacity: 1;
+                background: radial-gradient(circle, rgba(255,159,10,0.55) 0%, rgba(255,159,10,0.15) 60%, transparent 75%);
+                box-shadow: 0 0 8px 2px rgba(255,159,10,0.5);
+                animation: father-pulse 0.9s ease-in-out infinite;
+            }
+            .father-app-glow.error {
+                opacity: 1;
+                background: radial-gradient(circle, rgba(255,69,58,0.55) 0%, rgba(255,69,58,0.15) 60%, transparent 75%);
+                box-shadow: 0 0 8px 2px rgba(255,69,58,0.5);
+            }
+            @keyframes father-pulse {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.5; }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    function buildUI() {
+        injectStyles();
+
+        // ==== Nút nổi cố định vị trí (không kéo thả, chỉ click để mở/đóng) ====
+        const fab = document.createElement("div");
+        fab.id = "father-loader-fab";
+        fab.innerHTML = `
+            <div class="father-fab-grid">
+                <span></span><span></span><span></span><span></span>
+            </div>
+        `;
+        document.body.appendChild(fab);
+
+        // ==== Dock các icon script con - layer cuộn dọc thật, luôn ở vị trí cố định trên fab ====
+        const popup = document.createElement("div");
+        popup.id = "father-popup";
+
+        const list = document.createElement("div");
+        list.className = "father-popup-list";
+
+        SCRIPTS.forEach((scriptDef) => {
+            const item = document.createElement("div");
+            item.className = "father-app-item";
+
+            const iconWrap = document.createElement("div");
+            iconWrap.className = "father-app-icon-wrap";
+
+            const glow = document.createElement("div");
+            glow.className = "father-app-glow" + (activeState[scriptDef.key] ? " on" : "");
+
+            const icon = document.createElement("div");
+            icon.className = "father-app-icon";
+            icon.textContent = scriptDef.icon;
+
+            iconWrap.appendChild(glow);
+            iconWrap.appendChild(icon);
+            item.appendChild(iconWrap);
+            item.title = scriptDef.name;
+
+            item.addEventListener("click", (e) => {
+                e.stopPropagation();
+                toggleScript(scriptDef, glow);
+            });
+
+            list.appendChild(item);
+        });
+
+        popup.appendChild(list);
+        document.body.appendChild(popup);
+
+        // ==== Mở / đóng dock: chỉ 1 lần click duy nhất trên fab, không phụ thuộc kéo/double-tap ====
+        function openPopup() {
+            popup.classList.add("open");
+            fab.classList.add("menu-open");
+        }
+        function closePopup() {
+            popup.classList.remove("open");
+            fab.classList.remove("menu-open");
+        }
+
+        fab.addEventListener("click", (e) => {
+            e.stopPropagation();
+            popup.classList.contains("open") ? closePopup() : openPopup();
+        });
+
+        // Đóng popup khi bấm ra ngoài (ra ngoài cả fab lẫn popup)
+        document.addEventListener("click", (e) => {
+            if (
+                popup.classList.contains("open") &&
+                !popup.contains(e.target) &&
+                !fab.contains(e.target)
+            ) {
+                closePopup();
             }
         });
     }
 
-    // Khởi chạy UI hệ thống
-    if (document.documentElement) {
-        initMasterUI();
+    if (document.body) {
+        buildUI();
     } else {
-        const checkExist = setInterval(function() {
-            if (document.documentElement) {
-                initMasterUI();
-                clearInterval(checkExist);
-            }
-        }, 5);
+        document.addEventListener("DOMContentLoaded", buildUI);
     }
-
-    // Nạp danh sách script con
-    SCRIPTS.forEach(script => loadAndExecuteScript(script));
 })();
