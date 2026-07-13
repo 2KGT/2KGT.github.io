@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Media & File Grid Lister
 // @namespace    https://kyic.local/scripts
-// @version      3.0
-// @description  Liệt kê ảnh, video, và file tài liệu của trang đang truy cập, dạng lưới kiểu Photos app. Có tab IMG / VIDEO / FILE / FILTER, vuốt trái phải xem ảnh, mở gốc hoặc tải về máy.
+// @version      3.1
+// @description  Chạy trực tiếp từ Father Loader, loại bỏ hoàn toàn nút nổi độc lập.
 // @author       Kyic
 // @match        *://*/*
 // @grant        GM_addStyle
@@ -13,7 +13,6 @@
 (function () {
   'use strict';
 
-  const BTN_ID = 'igl-toggle-btn';
   const PANEL_ID = 'igl-panel';
   let panelOpen = false;
   let activeTab = 'img'; // 'img' | 'video' | 'file' | 'filter'
@@ -25,68 +24,6 @@
 
   // ---------- Styles ----------
   const style = `
-    #${BTN_ID} {
-      position: fixed;
-      top: 70%;
-      left: auto;
-      right: 20px;
-      z-index: 2147483647;
-      width: 46px;
-      height: 46px;
-      background: #111;
-      color: #fff;
-      border: 1px solid #333;
-      border-radius: 999px;
-      font-size: 19px;
-      line-height: 1;
-      cursor: grab;
-      box-shadow: 0 4px 14px rgba(0,0,0,.35);
-      user-select: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0;
-      touch-action: none;
-      transition: opacity .25s ease, transform .25s ease, left .25s ease, right .25s ease;
-    }
-    #${BTN_ID}:hover { background: #222; }
-    #${BTN_ID}.igl-hidden { display: none; }
-    #${BTN_ID}.igl-dragging {
-      cursor: grabbing;
-      transition: none;
-      box-shadow: 0 8px 24px rgba(0,0,0,.5);
-    }
-    /* Trạng thái thu gọn: nút trôi dạt vào mép sau vài giây không dùng tới, chỉ để lộ ~40%
-       ra ngoài — giống AssistiveTouch của iOS. Chạm vào hoặc kéo sẽ hiện lại đầy đủ. */
-    #${BTN_ID}.igl-docked-left {
-      opacity: .55;
-      transform: translateX(-40%);
-    }
-    #${BTN_ID}.igl-docked-right {
-      opacity: .55;
-      transform: translateX(40%);
-    }
-    .igl-toggle-count {
-      position: absolute;
-      top: -4px;
-      right: -4px;
-      min-width: 18px;
-      height: 18px;
-      padding: 0 4px;
-      background: #ff453a;
-      color: #fff;
-      font-size: 10px;
-      font-weight: 700;
-      font-family: -apple-system, sans-serif;
-      border-radius: 999px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      line-height: 1;
-      box-shadow: 0 0 0 2px #111;
-      pointer-events: none;
-    }
-
     #${PANEL_ID} {
       position: fixed;
       top: 0;
@@ -118,14 +55,12 @@
       backdrop-filter: saturate(180%) blur(20px);
       border-bottom: 1px solid rgba(255,255,255,.08);
     }
-    /* Hàng chứa navbar (co giãn, tự cuộn ngang riêng) + nút Đóng (cố định, luôn hiện, không bao giờ bị che) */
     .igl-header-row {
       display: flex;
       align-items: center;
       gap: 8px;
       margin-bottom: 12px;
     }
-    /* Nút Đóng: đứng ngoài vùng cuộn của navbar nên luôn hiện trọn vẹn, không đè lên tab nào */
     .igl-close {
       flex: 0 0 auto;
       background: rgba(255,69,58,.9);
@@ -144,7 +79,6 @@
     }
     .igl-close:active { background: rgba(255,69,58,1); }
 
-    /* ---- Navbar bọc toàn bộ thanh tab: iOS 26 segmented/pill glass style ---- */
     .igl-navbar {
       flex: 1 1 auto;
       min-width: 0;
@@ -266,7 +200,6 @@
       padding: 0 14px 8px;
     }
 
-    /* ---- Grid ảnh kiểu Photos app: số cột điều chỉnh được qua nút Zoom trong FILTER ---- */
     .igl-grid {
       flex: 1 1 auto;
       min-height: 0;
@@ -317,7 +250,6 @@
       0% { background-position: 200% 0; }
       100% { background-position: -200% 0; }
     }
-    /* Badge kích thước ảnh: chữ trắng có bóng, không nền pill — giống Photos app */
     .igl-cell .igl-dim-badge {
       position: absolute;
       bottom: 4px;
@@ -328,7 +260,6 @@
       text-shadow: 0 1px 3px rgba(0,0,0,.9), 0 0 2px rgba(0,0,0,.9);
       pointer-events: none;
     }
-    /* Badge thời lượng video: góc dưới phải, chữ trắng đậm có bóng, giống Photos app */
     .igl-cell .igl-duration-badge {
       position: absolute;
       bottom: 4px;
@@ -357,7 +288,6 @@
       grid-column: 1 / -1;
     }
 
-    /* ---- Danh sách dạng list cho FILE / VIDEO không có thumbnail ---- */
     .igl-list {
       flex: 1 1 auto;
       min-height: 0;
@@ -418,7 +348,6 @@
       cursor: pointer;
     }
 
-    /* ---- Lightbox ảnh kiểu Photos app: full screen, vuốt trái/phải ---- */
     .igl-lightbox {
       position: fixed;
       inset: 0;
@@ -429,10 +358,6 @@
       touch-action: none;
     }
     .igl-lightbox.open { display: flex; }
-    /* touch-action không tự kế thừa xuống phần tử con trong CSS — phải ép lại cho TẤT CẢ
-       con cháu trong lightbox, nếu không mỗi nút bấm/thanh trên dưới sẽ có touch-action:auto
-       mặc định, khiến ngón tay pinch ngay trên nút đó vẫn kích hoạt zoom native của Safari
-       cho toàn trang thay vì chỉ zoom ảnh. Đây chính là nguyên nhân các nút bị phóng to theo. */
     .igl-lightbox * {
       touch-action: none;
     }
@@ -542,10 +467,6 @@
     }
     .igl-lb-actions .igl-lb-close-btn:active { background: rgba(255,69,58,.9); }
 
-    /* Nút Thu nhỏ: CÁCH LY HOÀN TOÀN khỏi hàng nút chính Mở/Tải/Đóng — nổi độc lập ở góc
-       trên-phải. Từng đưa nút này vào chung hàng actions rồi lặp lại đúng lỗi phóng to layout
-       khi thao tác pinch gần khu vực nút — nên giữ nguyên tắc tách biệt vĩnh viễn, không gộp
-       lại hàng actions nữa dù cho bất kỳ lý do gì. */
     .igl-lb-zoom-dock {
       position: absolute;
       top: max(56px, calc(env(safe-area-inset-top) + 46px));
@@ -687,7 +608,6 @@
       });
     });
 
-    // Thẻ <a> hoặc <source> trỏ tới file video trực tiếp
     document.querySelectorAll('a[href], source[src]').forEach(el => {
       const raw = el.getAttribute('href') || el.getAttribute('src');
       if (!raw) return;
@@ -697,7 +617,6 @@
       }
     });
 
-    // iframe nhúng từ Youtube/Vimeo... liệt kê như link video ngoài
     document.querySelectorAll('iframe[src]').forEach(f => {
       const url = resolveUrl(f.getAttribute('src'));
       if (url && /youtube\.com|youtu\.be|vimeo\.com|dailymotion\.com/i.test(url) && !found.has(url)) {
@@ -708,7 +627,7 @@
     return Array.from(found.values());
   }
 
-  // ---------- Collect: FILES (tài liệu, nén, cài đặt...) ----------
+  // ---------- Collect: FILES ----------
   function collectFiles() {
     const found = new Map();
 
@@ -725,18 +644,7 @@
     return Array.from(found.values());
   }
 
-  // ---------- UI build ----------
-  // Nút nổi: chỉ icon + số đếm dạng badge tròn, gọn nhất có thể. Cố tình dùng emoji thuần
-  // (🖼️) thay vì icon .svg riêng — một số trang/extension khác có thể nhận nhầm phần tử
-  // <img>/<svg> nổi trên trang thành nút chức năng của chính trang đó, gây xung đột hoặc bị
-  // ẩn/chặn ngoài ý muốn. Text emoji không có rủi ro này.
-  const toggleBtn = document.createElement('button');
-  toggleBtn.id = BTN_ID;
-  toggleBtn.innerHTML = '🖼️<span class="igl-toggle-count" id="igl-toggle-count">0</span>';
-  toggleBtn.setAttribute('aria-label', 'Xem media trên trang');
-  document.documentElement.appendChild(toggleBtn);
-  const toggleCountEl = toggleBtn.querySelector('#igl-toggle-count');
-
+  // ---------- UI build (ĐÃ BỎ TOGGLE_BTN) ----------
   const panel = document.createElement('div');
   panel.id = PANEL_ID;
   panel.innerHTML = `
@@ -770,7 +678,6 @@
   `;
   document.documentElement.appendChild(panel);
 
-  // Lightbox kiểu Photos app (dùng cho tab IMG)
   const lightbox = document.createElement('div');
   lightbox.className = 'igl-lightbox';
   lightbox.innerHTML = `
@@ -820,7 +727,7 @@
   let filteredImages = [];
   let lbIndex = 0;
 
-  // ---------- Render: IMG tab (grid) ----------
+  // ---------- Render: IMG tab ----------
   function renderImages() {
     const minW = parseInt(minWInput.value, 10) || 0;
     const minH = parseInt(minHInput.value, 10) || 0;
@@ -872,8 +779,6 @@
     loadImagesInBatches();
   }
 
-  // Nạp ảnh theo từng lô tuần tự (không phụ thuộc scroll/layout của trang gốc),
-  // tránh hoàn toàn lỗi "đứng im" do IntersectionObserver không fire trên một số trang.
   function loadImagesInBatches() {
     const imgs = Array.from(gridEl.querySelectorAll('img[data-src]'));
     const BATCH_SIZE = 24;
@@ -893,7 +798,7 @@
     loadNext();
   }
 
-  // ---------- Render: VIDEO tab (grid with play badge, using poster if any) ----------
+  // ---------- Render: VIDEO tab ----------
   function renderVideos() {
     gridEl.style.display = 'grid';
     listEl.style.display = 'none';
@@ -921,8 +826,6 @@
       const imEl = cell.querySelector('img');
       if (imEl) imEl.addEventListener('load', () => imEl.classList.add('loaded'));
 
-      // Nếu chưa có poster và video không phải embed ngoài, tự chụp khung hình đầu làm thumbnail
-      // giống cách app Ảnh của iPhone luôn hiện ảnh xem trước thật cho video.
       if (!v.poster && !v.embed) {
         generateVideoThumbnail(v.url, cell);
       }
@@ -936,8 +839,6 @@
     gridEl.appendChild(frag);
   }
 
-  // Tạo thumbnail cho video bằng cách nạp ẩn + chụp khung hình tại giây thứ 1 lên canvas.
-  // Cũng nhân tiện lấy được duration thật nếu trước đó chưa có (link video rời, không phải <video> có sẵn).
   function generateVideoThumbnail(url, cell) {
     const vid = document.createElement('video');
     vid.crossOrigin = 'anonymous';
@@ -973,9 +874,7 @@
         img.src = dataUrl;
         img.addEventListener('load', () => img.classList.add('loaded'));
         cell.insertBefore(img, cell.querySelector('.igl-play-badge'));
-      } catch (e) {
-        // Video bị chặn CORS -> không thể vẽ lên canvas, giữ nguyên placeholder + icon play
-      }
+      } catch (e) {}
       cleanup();
     });
 
@@ -1008,7 +907,7 @@
     wrap.querySelector('#igl-vid-dl').addEventListener('click', () => downloadFile(url));
   }
 
-  // ---------- Render: FILE tab (list) ----------
+  // ---------- Render: FILE tab ----------
   function renderFiles() {
     gridEl.style.display = 'none';
     listEl.style.display = 'block';
@@ -1046,7 +945,6 @@
     if (activeTab === 'img') renderImages();
     else if (activeTab === 'video') renderVideos();
     else if (activeTab === 'file') renderFiles();
-    // 'filter' không có nội dung riêng — nó chỉ mở/đóng panel filter, giữ nguyên tab nội dung trước đó
   }
 
   // ---------- Tab bar interactions ----------
@@ -1067,7 +965,7 @@
     });
   });
 
-  // ---------- Lightbox logic (ảnh, vuốt trái/phải) ----------
+  // ---------- Lightbox logic ----------
   function buildSlides() {
     lbTrack.innerHTML = '';
     filteredImages.forEach((img, i) => {
@@ -1132,8 +1030,7 @@
 
   lbClose.addEventListener('click', closeLightbox);
 
-  // ---------- Zoom & Pan mỗi ảnh (pinch 2 ngón, double-tap, kéo khi đã zoom) ----------
-  // Trạng thái zoom lưu riêng cho ảnh đang xem; reset về 1x mỗi khi chuyển sang ảnh khác.
+  // ---------- Zoom & Pan ----------
   let zoomScale = 1, zoomX = 0, zoomY = 0;
   const ZOOM_MIN = 1, ZOOM_MAX = 4;
 
@@ -1147,8 +1044,6 @@
     if (!img) return;
     img.style.transition = animate ? 'transform .2s ease' : 'none';
     img.style.transform = `translate(${zoomX}px, ${zoomY}px) scale(${zoomScale})`;
-    // Nút Thu nhỏ chỉ hiện khi ảnh đang được zoom lớn hơn 1x — cách chắc chắn để quay về
-    // kích thước gốc, không phụ thuộc double-tap (vốn dễ bị lệch trên một số thiết bị thật).
     if (lbResetZoomBtn) lbResetZoomBtn.style.display = zoomScale > 1.02 ? 'flex' : 'none';
   }
 
@@ -1158,7 +1053,6 @@
   }
 
   function clampPan() {
-    // Giới hạn không cho kéo ảnh trôi quá xa ra khỏi khung nhìn khi đã zoom
     const img = currentSlideImg();
     if (!img) return;
     const maxX = (img.clientWidth * (zoomScale - 1)) / 2;
@@ -1181,7 +1075,6 @@
 
   lbTrack.addEventListener('touchstart', (e) => {
     if (e.touches.length === 2) {
-      // Bắt đầu chụm 2 ngón để zoom
       pinching = true;
       dragging = false;
       pinchStartDist = touchDist(e.touches[0], e.touches[1]);
@@ -1191,7 +1084,6 @@
     }
     if (e.touches.length !== 1) return;
 
-    // Double-tap: chạm 2 lần nhanh trong <300ms và gần cùng vị trí -> zoom nhanh vào/ra
     const now = Date.now();
     const tx = e.touches[0].clientX, ty = e.touches[0].clientY;
     if (now - lastTapTime < 300 && Math.hypot(tx - lastTapX, ty - lastTapY) < 30) {
@@ -1208,9 +1100,6 @@
         applyZoomTransform(true);
       }
       lastTapTime = 0;
-      // Chặn mọi touchmove/touchend còn sót lại của cú chạm thứ 2 can thiệp vào animation
-      // vừa kích hoạt — đây là nguyên nhân khiến ảnh "nhún nhẹ" rồi dừng giữa chừng thay vì
-      // hoàn tất về đúng 1x.
       suppressTouchUntil = now + 250;
       return;
     }
@@ -1219,7 +1108,6 @@
     lastTapY = ty;
 
     if (zoomScale > 1) {
-      // Đã zoom -> kéo để xem các phần khác của ảnh (pan), không chuyển slide
       panStartX = tx;
       panStartY = ty;
       panOriginX = zoomX;
@@ -1245,7 +1133,6 @@
       return;
     }
     if (zoomScale > 1 && e.touches.length === 1) {
-      // Pan ảnh đã zoom
       zoomX = panOriginX + (e.touches[0].clientX - panStartX);
       zoomY = panOriginY + (e.touches[0].clientY - panStartY);
       clampPan();
@@ -1265,11 +1152,10 @@
     if (Date.now() < suppressTouchUntil) { dragging = false; pinching = false; dragOffset = 0; return; }
     if (pinching) {
       pinching = false;
-      // Chụm về gần 1x thì tự snap về đúng 1x, bỏ pan
       if (zoomScale < 1.05) resetZoom(true);
       return;
     }
-    if (zoomScale > 1) return; // đang ở chế độ pan, không chuyển slide
+    if (zoomScale > 1) return;
     if (!dragging) return;
     dragging = false;
     const threshold = window.innerWidth * 0.18;
@@ -1302,7 +1188,6 @@
     dragOffset = 0;
   });
 
-  // Desktop: cuộn chuột (wheel) để zoom, giữ Ctrl hoặc không đều nhận
   lbTrack.addEventListener('wheel', (e) => {
     e.preventDefault();
     const delta = -e.deltaY * 0.01;
@@ -1312,7 +1197,6 @@
     applyZoomTransform(false);
   }, { passive: false });
 
-  // Double-click desktop: giống double-tap
   lbTrack.addEventListener('dblclick', () => {
     if (zoomScale > 1) resetZoom(true);
     else { zoomScale = 2.5; applyZoomTransform(true); }
@@ -1355,188 +1239,31 @@
   }
 
   // ---------- Scan & refresh ----------
-  function updateTabCounts() {
-    const total = allImages.length + allVideos.length + allFiles.length;
-    toggleCountEl.textContent = total > 999 ? '999+' : total;
-  }
-
   function refresh() {
     allImages = collectImages();
     allVideos = collectVideos();
     allFiles = collectFiles();
-    updateTabCounts();
     renderCurrentTab();
   }
 
-  // Lưu vị trí cuộn của trang gốc trước khi khóa, để không bị nhảy về đầu trang
-  // Trước đây khóa body bằng position:fixed + chặn touchmove toàn cục để tránh trang nền
-  // GHI CHÚ VỀ GIỚI HẠN KỸ THUẬT: Safari trên iOS chỉ tự ẩn thanh địa chỉ khi phát hiện
-  // CỬ CHỈ CHẠM THẬT của người dùng cuộn trên document ở tầng hệ thống — không có API công
-  // khai nào cho phép trang web chủ động yêu cầu việc này, và gọi window.scrollTo() từ JS
-  // (kể cả nhích 1px) KHÔNG kích hoạt được hành vi đó vì Safari phân biệt rõ cuộn do script
-  // với cuộn do ngón tay người dùng. Đây là giới hạn của nền tảng, không phải lỗi có thể sửa
-  // bằng code. Điều duy nhất script này có thể làm là không cản trở trang gốc cuộn tự nhiên.
   let savedScrollY = 0;
-
   function lockBodyScroll() {
     savedScrollY = window.scrollY || window.pageYOffset || 0;
   }
-
   function unlockBodyScroll() {
     window.scrollTo(0, savedScrollY);
   }
 
-  // ---------- Kéo-thả tự do cho nút nổi, kiểu AssistiveTouch của iOS ----------
-  // - Kéo tự do khắp màn hình bằng ngón tay hoặc chuột.
-  // - Khi thả tay, tự "dính" (snap) vào mép trái hoặc phải gần nhất.
-  // - Sau vài giây không đụng tới, tự thu gọn trôi một phần vào mép, chỉ lộ ~60%.
-  // - Chạm nhẹ (không kéo) hoặc bắt đầu kéo sẽ hiện lại đầy đủ ngay lập tức.
-  const DOCK_IDLE_MS = 3000;
-  const DRAG_THRESHOLD = 6; // di chuyển dưới ngưỡng này vẫn tính là "chạm" (click), không phải kéo
-  let btnX = 0, btnY = 0; // vị trí góc trên-trái hiện tại của nút, tính bằng px
-  let dragStartX = 0, dragStartY = 0, dragStartBtnX = 0, dragStartBtnY = 0;
-  let isDragging = false, didDrag = false;
-  let idleTimer = null;
-
-  function clampToViewport(x, y) {
-    const w = toggleBtn.offsetWidth || 46;
-    const h = toggleBtn.offsetHeight || 46;
-    const maxX = window.innerWidth - w;
-    const maxY = window.innerHeight - h;
-    return {
-      x: Math.max(0, Math.min(maxX, x)),
-      y: Math.max(0, Math.min(maxY, y))
-    };
-  }
-
-  function setBtnPosition(x, y) {
-    toggleBtn.style.left = `${x}px`;
-    toggleBtn.style.top = `${y}px`;
-    toggleBtn.style.right = 'auto';
-    toggleBtn.style.bottom = 'auto';
-  }
-
-  function undock() {
-    toggleBtn.classList.remove('igl-docked-left', 'igl-docked-right');
-    resetIdleTimer();
-  }
-
-  function dockToNearestEdge() {
-    const w = toggleBtn.offsetWidth || 46;
-    const centerX = btnX + w / 2;
-    const isLeftHalf = centerX < window.innerWidth / 2;
-    toggleBtn.classList.remove('igl-docked-left', 'igl-docked-right');
-    toggleBtn.classList.add(isLeftHalf ? 'igl-docked-left' : 'igl-docked-right');
-  }
-
-  function resetIdleTimer() {
-    if (idleTimer) clearTimeout(idleTimer);
-    idleTimer = setTimeout(() => {
-      if (!panelOpen) dockToNearestEdge();
-    }, DOCK_IDLE_MS);
-  }
-
-  let wasDockedBeforeInteraction = false;
-
-  function onDragStart(clientX, clientY) {
-    isDragging = true;
-    didDrag = false;
-    wasDockedBeforeInteraction = toggleBtn.classList.contains('igl-docked-left') || toggleBtn.classList.contains('igl-docked-right');
-    dragStartX = clientX;
-    dragStartY = clientY;
-    const rect = toggleBtn.getBoundingClientRect();
-    dragStartBtnX = rect.left;
-    dragStartBtnY = rect.top;
-    toggleBtn.classList.add('igl-dragging');
-    undock();
-  }
-
-  function onDragMove(clientX, clientY) {
-    if (!isDragging) return;
-    const dx = clientX - dragStartX;
-    const dy = clientY - dragStartY;
-    if (Math.abs(dx) > DRAG_THRESHOLD || Math.abs(dy) > DRAG_THRESHOLD) didDrag = true;
-    if (!didDrag) return;
-    const clamped = clampToViewport(dragStartBtnX + dx, dragStartBtnY + dy);
-    btnX = clamped.x;
-    btnY = clamped.y;
-    setBtnPosition(btnX, btnY);
-  }
-
-  function onDragEnd() {
-    if (!isDragging) return;
-    isDragging = false;
-    toggleBtn.classList.remove('igl-dragging');
-    if (didDrag) {
-      // Snap vào mép gần nhất theo chiều ngang, giữ nguyên chiều dọc nơi vừa thả tay
-      const w = toggleBtn.offsetWidth || 46;
-      const centerX = btnX + w / 2;
-      const snapX = centerX < window.innerWidth / 2 ? 12 : window.innerWidth - w - 12;
-      btnX = snapX;
-      setBtnPosition(btnX, btnY);
-    }
-    resetIdleTimer();
-  }
-
-  toggleBtn.addEventListener('mousedown', (e) => {
-    e.preventDefault();
-    onDragStart(e.clientX, e.clientY);
-  });
-  window.addEventListener('mousemove', (e) => onDragMove(e.clientX, e.clientY));
-  window.addEventListener('mouseup', onDragEnd);
-
-  toggleBtn.addEventListener('touchstart', (e) => {
-    if (e.touches.length !== 1) return;
-    onDragStart(e.touches[0].clientX, e.touches[0].clientY);
-  }, { passive: true });
-  toggleBtn.addEventListener('touchmove', (e) => {
-    if (e.touches.length !== 1) return;
-    onDragMove(e.touches[0].clientX, e.touches[0].clientY);
-  }, { passive: true });
-  toggleBtn.addEventListener('touchend', onDragEnd);
-
-  // Khởi tạo vị trí ban đầu (góc dưới-phải, giống vị trí mặc định cũ) rồi bắt đầu đếm giờ thu gọn
-  window.addEventListener('load', initTogglePosition, { once: true });
-  function initTogglePosition() {
-    const w = toggleBtn.offsetWidth || 46;
-    const h = toggleBtn.offsetHeight || 46;
-    btnX = window.innerWidth - w - 20;
-    btnY = window.innerHeight - h - 90;
-    setBtnPosition(btnX, btnY);
-    resetIdleTimer();
-  }
-  // Trang có thể đã load xong trước khi script chạy (document-idle) -> gọi luôn không đợi sự kiện load
-  initTogglePosition();
-
-  toggleBtn.addEventListener('click', () => {
-    // Nếu vừa thực hiện thao tác kéo (didDrag=true) thì bỏ qua click ảo mà trình duyệt tự
-    // sinh ra sau khi thả tay, tránh vô tình mở panel ngay sau khi kéo nút.
-    if (didDrag) { didDrag = false; return; }
-    // Nếu nút đang thu gọn ở mép TRƯỚC lúc chạm vào, lần chạm này chỉ để hiện lại đầy đủ,
-    // không mở panel ngay — giống hành vi chạm vào AssistiveTouch đang ẩn nép. Dùng biến đã
-    // lưu từ onDragStart vì lúc này class igl-docked-* đã bị gỡ bởi undock() rồi.
-    if (wasDockedBeforeInteraction) {
-      wasDockedBeforeInteraction = false;
-      return;
-    }
-    panelOpen = !panelOpen;
-    panel.classList.toggle('open', panelOpen);
-    toggleBtn.classList.toggle('igl-hidden', panelOpen);
-    if (panelOpen) { lockBodyScroll(); refresh(); }
-    else { unlockBodyScroll(); resetIdleTimer(); }
-  });
-
+  // ---------- ĐÓNG PANEL ----------
   panel.querySelector('#igl-close').addEventListener('click', () => {
     panelOpen = false;
     panel.classList.remove('open');
-    toggleBtn.classList.remove('igl-hidden');
     unlockBodyScroll();
-    resetIdleTimer();
   });
   panel.querySelector('#igl-refresh').addEventListener('click', refresh);
   panel.querySelector('#igl-download-all').addEventListener('click', downloadAllCurrentTab);
 
-  // ---- Zoom số cột: 2 (to nhất, dễ bấm) đến 6 (nhỏ nhất, xem nhiều cùng lúc) ----
+  // ---- Zoom số cột ----
   let currentCols = 3;
   function applyCols() {
     gridEl.style.setProperty('--igl-cols', currentCols);
@@ -1552,9 +1279,17 @@
   minWInput.addEventListener('input', () => { if (activeTab === 'img') renderImages(); });
   minHInput.addEventListener('input', () => { if (activeTab === 'img') renderImages(); });
 
-  // Quét ngầm ban đầu để hiện số lượng đúng trên nút nổi
+  // ---------- ĐƯA RA ĐƯỜNG KHỞI CHẠY CHO FATHER LOADER ----------
+  // Tạo hàm mở bảng giao diện toàn cục để Father có thể kích hoạt trực tiếp từ xa
+  window.initImageGridLister = function() {
+    panelOpen = true;
+    panel.classList.add('open');
+    lockBodyScroll();
+    refresh();
+  };
+
+  // Quét ngầm dữ liệu ban đầu
   allImages = collectImages();
   allVideos = collectVideos();
   allFiles = collectFiles();
-  updateTabCounts();
 })();
