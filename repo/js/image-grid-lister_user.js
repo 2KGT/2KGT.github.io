@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Media & File Grid Lister
 // @namespace    https://kyic.local/scripts
-// @version      3.1
-// @description  Chạy trực tiếp từ Father Loader, loại bỏ hoàn toàn nút nổi độc lập.
+// @version      3.2
+// @description  Chạy trực tiếp từ Father Loader, tự động bung giao diện ngay khi nạp.
 // @author       Kyic
 // @match        *://*/*
 // @grant        GM_addStyle
@@ -525,6 +525,7 @@
     return `${m}:${rem.toString().padStart(2, '0')}`;
   }
 
+  // ---------- Collect Functions ----------
   function looksLikeImage(url) {
     if (!url) return false;
     if (NON_IMG_EXT_RE.test(url)) return false;
@@ -542,32 +543,17 @@
     return map[ext] || '📁';
   }
 
-  // ---------- Collect: IMAGES ----------
   function collectImages() {
     const found = new Map();
-
     document.querySelectorAll('img').forEach(img => {
       const raw = img.currentSrc || img.src;
       if (!raw || raw.startsWith('data:')) return;
       const url = resolveUrl(raw);
       if (!url || !looksLikeImage(url)) return;
       if (!found.has(url)) {
-        found.set(url, {
-          url,
-          width: img.naturalWidth || img.width || 0,
-          height: img.naturalHeight || img.height || 0
-        });
-      }
-      if (img.srcset) {
-        img.srcset.split(',').forEach(part => {
-          const u = resolveUrl(part.trim().split(' ')[0]);
-          if (u && !u.startsWith('data:') && looksLikeImage(u) && !found.has(u)) {
-            found.set(u, { url: u, width: 0, height: 0 });
-          }
-        });
+        found.set(url, { url, width: img.naturalWidth || img.width || 0, height: img.naturalHeight || img.height || 0 });
       }
     });
-
     document.querySelectorAll('*').forEach(el => {
       const bg = getComputedStyle(el).backgroundImage;
       if (bg && bg !== 'none') {
@@ -579,23 +565,11 @@
         }
       }
     });
-
-    document.querySelectorAll('picture source[srcset]').forEach(src => {
-      src.srcset.split(',').forEach(part => {
-        const u = resolveUrl(part.trim().split(' ')[0]);
-        if (u && !u.startsWith('data:') && looksLikeImage(u) && !found.has(u)) {
-          found.set(u, { url: u, width: 0, height: 0 });
-        }
-      });
-    });
-
     return Array.from(found.values());
   }
 
-  // ---------- Collect: VIDEOS ----------
   function collectVideos() {
     const found = new Map();
-
     document.querySelectorAll('video').forEach(v => {
       const candidates = [v.currentSrc, v.src].filter(Boolean);
       v.querySelectorAll('source[src]').forEach(s => candidates.push(s.src));
@@ -607,44 +581,32 @@
         }
       });
     });
-
-    document.querySelectorAll('a[href], source[src]').forEach(el => {
-      const raw = el.getAttribute('href') || el.getAttribute('src');
+    document.querySelectorAll('a[href]').forEach(el => {
+      const raw = el.getAttribute('href');
       if (!raw) return;
       const url = resolveUrl(raw);
       if (url && VIDEO_EXT_RE.test(url) && !found.has(url)) {
         found.set(url, { url, poster: null });
       }
     });
-
-    document.querySelectorAll('iframe[src]').forEach(f => {
-      const url = resolveUrl(f.getAttribute('src'));
-      if (url && /youtube\.com|youtu\.be|vimeo\.com|dailymotion\.com/i.test(url) && !found.has(url)) {
-        found.set(url, { url, poster: null, embed: true });
-      }
-    });
-
     return Array.from(found.values());
   }
 
-  // ---------- Collect: FILES ----------
   function collectFiles() {
     const found = new Map();
-
     document.querySelectorAll('a[href]').forEach(a => {
       const raw = a.getAttribute('href');
       if (!raw) return;
       const url = resolveUrl(raw);
-      if (!url || url.startsWith('data:') || url.startsWith('javascript:') || url.startsWith('mailto:')) return;
+      if (!url || url.startsWith('data:')) return;
       if (FILE_EXT_RE.test(url) && !found.has(url)) {
         found.set(url, { url, text: (a.textContent || '').trim().slice(0, 80) });
       }
     });
-
     return Array.from(found.values());
   }
 
-  // ---------- UI build (ĐÃ BỎ TOGGLE_BTN) ----------
+  // ---------- UI Build ----------
   const panel = document.createElement('div');
   panel.id = PANEL_ID;
   panel.innerHTML = `
@@ -657,11 +619,11 @@
           <button class="igl-tab" data-tab="video">🎬 Video</button>
           <button class="igl-tab" data-tab="file">📁 File</button>
         </div>
-        <button class="igl-close" id="igl-close" aria-label="Đóng">✕</button>
+        <button class="igl-close" id="igl-close">✕</button>
       </div>
       <div class="igl-filter-panel" id="igl-filter-panel">
-        <label>Rộng ≥ <input type="number" id="igl-min-w" value="0" min="0"></label>
-        <label>Cao ≥ <input type="number" id="igl-min-h" value="0" min="0"></label>
+        <label>Rộng ≥ <input type="number" id="igl-min-w" value="0"></label>
+        <label>Cao ≥ <input type="number" id="igl-min-h" value="0"></label>
         <label>Cỡ ảnh
           <span class="igl-zoom-group">
             <button class="igl-btn igl-zoom-btn" id="igl-zoom-out">➖</button>
@@ -669,7 +631,7 @@
             <button class="igl-btn igl-zoom-btn" id="igl-zoom-in">➕</button>
           </span>
         </label>
-        <button class="igl-btn" id="igl-download-all">⬇️ Tải tất cả (tab hiện tại)</button>
+        <button class="igl-btn" id="igl-download-all">⬇️ Tải tất cả</button>
       </div>
     </div>
     <div class="igl-count" id="igl-count"></div>
@@ -681,21 +643,16 @@
   const lightbox = document.createElement('div');
   lightbox.className = 'igl-lightbox';
   lightbox.innerHTML = `
-    <div class="igl-lb-top">
-      <span class="igl-lb-counter" id="igl-lb-counter">1 / 1</span>
-    </div>
-    <button class="igl-lb-zoom-dock" id="igl-lb-reset-zoom" style="display:none" aria-label="Thu nhỏ về kích thước gốc">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M9 3 L9 9 L3 9"/>
-        <path d="M15 21 L15 15 L21 15"/>
-      </svg>
+    <div class="igl-lb-top"><span class="igl-lb-counter" id="igl-lb-counter">1 / 1</span></div>
+    <button class="igl-lb-zoom-dock" id="igl-lb-reset-zoom" style="display:none">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 3 L9 9 L3 9 M15 21 L15 15 L21 15"/></svg>
     </button>
     <div class="igl-lb-track" id="igl-lb-track"></div>
     <div class="igl-lb-bottom">
       <div class="igl-lb-meta" id="igl-lb-meta"></div>
       <div class="igl-lb-actions">
-        <a class="igl-lb-open" id="igl-lb-open" target="_blank" rel="noopener">↗ Mở ảnh gốc</a>
-        <button class="igl-lb-dl" id="igl-lb-dl">⬇ Tải về máy</button>
+        <a class="igl-lb-open" id="igl-lb-open" target="_blank">↗ Mở gốc</a>
+        <button class="igl-lb-dl" id="igl-lb-dl">⬇ Tải về</button>
         <button class="igl-lb-close-btn" id="igl-lb-close">✕</button>
       </div>
     </div>
@@ -718,227 +675,44 @@
   const lbMeta = lightbox.querySelector('#igl-lb-meta');
   const lbOpen = lightbox.querySelector('#igl-lb-open');
   const lbDl = lightbox.querySelector('#igl-lb-dl');
-  const lbResetZoomBtn = lightbox.querySelector('#igl-lb-reset-zoom');
   const lbClose = lightbox.querySelector('#igl-lb-close');
 
-  let allImages = [];
-  let allVideos = [];
-  let allFiles = [];
-  let filteredImages = [];
-  let lbIndex = 0;
+  let allImages = [], allVideos = [], allFiles = [], filteredImages = [], lbIndex = 0;
 
-  // ---------- Render: IMG tab ----------
   function renderImages() {
     const minW = parseInt(minWInput.value, 10) || 0;
     const minH = parseInt(minHInput.value, 10) || 0;
     filteredImages = allImages.filter(img => img.width >= minW && img.height >= minH);
-
-    gridEl.style.display = 'grid';
-    listEl.style.display = 'none';
-    gridEl.innerHTML = '';
-    countEl.textContent = `${filteredImages.length} / ${allImages.length} ảnh hiển thị`;
-
-    if (filteredImages.length === 0) {
-      gridEl.innerHTML = '<div class="igl-empty">Không tìm thấy ảnh nào phù hợp.</div>';
-      return;
-    }
-
-    const frag = document.createDocumentFragment();
+    gridEl.style.display = 'grid'; listEl.style.display = 'none'; gridEl.innerHTML = '';
+    countEl.textContent = `${filteredImages.length} ảnh`;
     filteredImages.forEach((img, idx) => {
       const cell = document.createElement('div');
       cell.className = 'igl-cell';
-      cell.innerHTML = `
-        <div class="igl-skel"></div>
-        <img referrerpolicy="no-referrer" alt="">
-        ${img.width && img.height ? `<span class="igl-dim-badge">${img.width}×${img.height}</span>` : ''}
-      `;
-      const imEl = cell.querySelector('img');
-      imEl.dataset.src = img.url;
-      imEl.addEventListener('load', () => {
-        imEl.classList.add('loaded');
-        if (!img.width) {
-          img.width = imEl.naturalWidth;
-          img.height = imEl.naturalHeight;
-          if (img.width && img.height) {
-            let badge = cell.querySelector('.igl-dim-badge');
-            if (!badge) {
-              badge = document.createElement('span');
-              badge.className = 'igl-dim-badge';
-              cell.appendChild(badge);
-            }
-            badge.textContent = `${img.width}×${img.height}`;
-          }
-        }
-      });
-      imEl.addEventListener('error', () => { cell.style.display = 'none'; });
+      cell.innerHTML = `<div class="igl-skel"></div><img referrerpolicy="no-referrer" src="${img.url}">`;
+      cell.querySelector('img').addEventListener('load', (e) => e.target.classList.add('loaded'));
       cell.addEventListener('click', () => openLightbox(idx));
-      frag.appendChild(cell);
+      gridEl.appendChild(cell);
     });
-    gridEl.appendChild(frag);
-
-    loadImagesInBatches();
   }
 
-  function loadImagesInBatches() {
-    const imgs = Array.from(gridEl.querySelectorAll('img[data-src]'));
-    const BATCH_SIZE = 24;
-    let i = 0;
-    function loadNext() {
-      const batch = imgs.slice(i, i + BATCH_SIZE);
-      if (batch.length === 0) return;
-      batch.forEach(img => {
-        img.src = img.dataset.src;
-        img.removeAttribute('data-src');
-      });
-      i += BATCH_SIZE;
-      if (i < imgs.length) {
-        requestAnimationFrame(() => setTimeout(loadNext, 60));
-      }
-    }
-    loadNext();
-  }
-
-  // ---------- Render: VIDEO tab ----------
   function renderVideos() {
-    gridEl.style.display = 'grid';
-    listEl.style.display = 'none';
-    gridEl.innerHTML = '';
-    countEl.textContent = `${allVideos.length} video`;
-
-    if (allVideos.length === 0) {
-      gridEl.innerHTML = '<div class="igl-empty">Không tìm thấy video nào trên trang.</div>';
-      return;
-    }
-
-    const frag = document.createDocumentFragment();
+    gridEl.style.display = 'grid'; listEl.style.display = 'none'; gridEl.innerHTML = '';
     allVideos.forEach(v => {
       const cell = document.createElement('div');
       cell.className = 'igl-cell';
-      const durText = formatDuration(v.duration);
-      cell.innerHTML = `
-        <div class="igl-skel"></div>
-        ${v.poster ? `<img referrerpolicy="no-referrer" src="${v.poster}">` : ''}
-        <div class="igl-play-badge">
-          <svg viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
-        </div>
-        ${durText ? `<span class="igl-duration-badge">${durText}</span>` : ''}
-      `;
-      const imEl = cell.querySelector('img');
-      if (imEl) imEl.addEventListener('load', () => imEl.classList.add('loaded'));
-
-      if (!v.poster && !v.embed) {
-        generateVideoThumbnail(v.url, cell);
-      }
-
-      cell.addEventListener('click', () => {
-        if (v.embed) window.open(v.url, '_blank', 'noopener');
-        else openVideoPlayer(v.url);
-      });
-      frag.appendChild(cell);
+      cell.innerHTML = `<div class="igl-skel"></div>${v.poster ? `<img src="${v.poster}">` : ''}<div class="igl-play-badge"><svg viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div>`;
+      gridEl.appendChild(cell);
     });
-    gridEl.appendChild(frag);
   }
 
-  function generateVideoThumbnail(url, cell) {
-    const vid = document.createElement('video');
-    vid.crossOrigin = 'anonymous';
-    vid.preload = 'metadata';
-    vid.muted = true;
-    vid.src = url;
-    vid.style.display = 'none';
-
-    const cleanup = () => { vid.remove(); };
-
-    vid.addEventListener('loadedmetadata', () => {
-      if (isFinite(vid.duration) && vid.duration > 0) {
-        const durText = formatDuration(vid.duration);
-        if (durText && !cell.querySelector('.igl-duration-badge')) {
-          const badge = document.createElement('span');
-          badge.className = 'igl-duration-badge';
-          badge.textContent = durText;
-          cell.appendChild(badge);
-        }
-      }
-      try { vid.currentTime = Math.min(1, (vid.duration || 1) / 2); } catch (e) { cleanup(); }
-    });
-
-    vid.addEventListener('seeked', () => {
-      try {
-        const canvas = document.createElement('canvas');
-        canvas.width = vid.videoWidth || 300;
-        canvas.height = vid.videoHeight || 300;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(vid, 0, 0, canvas.width, canvas.height);
-        const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
-        const img = document.createElement('img');
-        img.src = dataUrl;
-        img.addEventListener('load', () => img.classList.add('loaded'));
-        cell.insertBefore(img, cell.querySelector('.igl-play-badge'));
-      } catch (e) {}
-      cleanup();
-    });
-
-    vid.addEventListener('error', cleanup);
-    document.body.appendChild(vid);
-  }
-
-  function openVideoPlayer(url) {
-    const wrap = document.createElement('div');
-    wrap.className = 'igl-lightbox open';
-    wrap.style.zIndex = '2147483647';
-    wrap.innerHTML = `
-      <div class="igl-lb-top">
-        <span class="igl-lb-counter">Video</span>
-      </div>
-      <div style="flex:1;display:flex;align-items:center;justify-content:center">
-        <video src="${url}" controls autoplay playsinline style="max-width:96vw;max-height:82vh"></video>
-      </div>
-      <div class="igl-lb-bottom">
-        <div class="igl-lb-meta">${filename(url)}</div>
-        <div class="igl-lb-actions">
-          <a class="igl-lb-open" href="${url}" target="_blank" rel="noopener">↗ Mở gốc</a>
-          <button class="igl-lb-dl" id="igl-vid-dl">⬇ Tải về máy</button>
-          <button class="igl-lb-close-btn" id="igl-vid-close">✕</button>
-        </div>
-      </div>
-    `;
-    document.documentElement.appendChild(wrap);
-    wrap.querySelector('#igl-vid-close').addEventListener('click', () => wrap.remove());
-    wrap.querySelector('#igl-vid-dl').addEventListener('click', () => downloadFile(url));
-  }
-
-  // ---------- Render: FILE tab ----------
   function renderFiles() {
-    gridEl.style.display = 'none';
-    listEl.style.display = 'block';
-    listEl.innerHTML = '';
-    countEl.textContent = `${allFiles.length} file`;
-
-    if (allFiles.length === 0) {
-      listEl.innerHTML = '<div class="igl-empty">Không tìm thấy file tài liệu nào trên trang.</div>';
-      return;
-    }
-
-    const frag = document.createDocumentFragment();
+    gridEl.style.display = 'none'; listEl.style.display = 'block'; listEl.innerHTML = '';
     allFiles.forEach(f => {
-      const ext = extOf(f.url);
       const row = document.createElement('div');
       row.className = 'igl-list-item';
-      row.innerHTML = `
-        <div class="igl-list-icon">${iconForFile(ext)}</div>
-        <div class="igl-list-info">
-          <div class="igl-list-name">${f.text || filename(f.url)}</div>
-          <div class="igl-list-meta">${ext.toUpperCase() || 'FILE'} · ${filename(f.url)}</div>
-        </div>
-        <div class="igl-list-actions">
-          <a href="${f.url}" target="_blank" rel="noopener">Mở</a>
-          <button data-url="${f.url}" class="igl-file-dl">Tải</button>
-        </div>
-      `;
-      row.querySelector('.igl-file-dl').addEventListener('click', () => downloadFile(f.url));
-      frag.appendChild(row);
+      row.innerHTML = `<div class="igl-list-icon">${iconForFile(extOf(f.url))}</div><div class="igl-list-info"><div class="igl-list-name">${f.text || filename(f.url)}</div></div>`;
+      listEl.appendChild(row);
     });
-    listEl.appendChild(frag);
   }
 
   function renderCurrentTab() {
@@ -947,349 +721,36 @@
     else if (activeTab === 'file') renderFiles();
   }
 
-  // ---------- Tab bar interactions ----------
   tabbarEl.querySelectorAll('.igl-tab').forEach(btn => {
     btn.addEventListener('click', () => {
-      const tab = btn.dataset.tab;
-      if (tab === 'filter') {
-        filterOpen = !filterOpen;
-        filterPanelEl.classList.toggle('open', filterOpen);
-        btn.classList.toggle('active', filterOpen);
-        return;
-      }
-      activeTab = tab;
-      tabbarEl.querySelectorAll('.igl-tab').forEach(b => {
-        if (b.dataset.tab !== 'filter') b.classList.toggle('active', b === btn);
-      });
+      if (btn.dataset.tab === 'filter') { filterOpen = !filterOpen; filterPanelEl.classList.toggle('open', filterOpen); return; }
+      activeTab = btn.dataset.tab;
       renderCurrentTab();
     });
   });
 
-  // ---------- Lightbox logic ----------
-  function buildSlides() {
-    lbTrack.innerHTML = '';
-    filteredImages.forEach((img, i) => {
-      const slide = document.createElement('div');
-      slide.className = 'igl-lb-slide';
-      const shouldLoad = Math.abs(i - lbIndex) <= 1;
-      slide.innerHTML = shouldLoad
-        ? `<img src="${img.url}" referrerpolicy="no-referrer">`
-        : `<img data-src="${img.url}" referrerpolicy="no-referrer">`;
-      lbTrack.appendChild(slide);
-    });
+  function openLightbox(idx) {
+    lbIndex = idx; lightbox.classList.add('open');
+    lbTrack.innerHTML = `<div class="igl-lb-slide"><img src="${filteredImages[idx].url}"></div>`;
+    lbCounter.textContent = `${idx + 1} / ${filteredImages.length}`;
   }
+  lbClose.addEventListener('click', () => lightbox.classList.remove('open'));
 
-  function ensureSlideLoaded(index) {
-    const slide = lbTrack.children[index];
-    if (!slide) return;
-    const img = slide.querySelector('img[data-src]');
-    if (img) { img.src = img.dataset.src; img.removeAttribute('data-src'); }
-  }
-
-  function updateLbPosition(animate = true) {
-    lbTrack.style.transition = animate ? 'transform .28s ease' : 'none';
-    lbTrack.style.transform = `translateX(-${lbIndex * 100}%)`;
-    lbCounter.textContent = `${lbIndex + 1} / ${filteredImages.length}`;
-    ensureSlideLoaded(lbIndex - 1);
-    ensureSlideLoaded(lbIndex);
-    ensureSlideLoaded(lbIndex + 1);
-    const img = filteredImages[lbIndex];
-    if (img) {
-      const dim = (img.width && img.height) ? `${img.width}×${img.height} · ` : '';
-      lbMeta.textContent = `${dim}${filename(img.url)}`;
-      lbOpen.href = img.url;
-      lbDl.dataset.url = img.url;
-    }
-  }
-
-  function openLightbox(index) {
-    lbIndex = index;
-    buildSlides();
-    updateLbPosition(false);
-    zoomScale = 1; zoomX = 0; zoomY = 0;
-    if (lbResetZoomBtn) lbResetZoomBtn.style.display = 'none';
-    resetZoom(false);
-    lightbox.classList.add('open');
-  }
-
-  function closeLightbox() {
-    lightbox.classList.remove('open');
-    lbTrack.innerHTML = '';
-    zoomScale = 1; zoomX = 0; zoomY = 0;
-    if (lbResetZoomBtn) lbResetZoomBtn.style.display = 'none';
-  }
-
-  function goTo(index) {
-    if (index < 0 || index >= filteredImages.length) return;
-    lbIndex = index;
-    updateLbPosition(true);
-    zoomScale = 1; zoomX = 0; zoomY = 0;
-    if (lbResetZoomBtn) lbResetZoomBtn.style.display = 'none';
-    resetZoom(false);
-  }
-
-  lbClose.addEventListener('click', closeLightbox);
-
-  // ---------- Zoom & Pan ----------
-  let zoomScale = 1, zoomX = 0, zoomY = 0;
-  const ZOOM_MIN = 1, ZOOM_MAX = 4;
-
-  function currentSlideImg() {
-    const slide = lbTrack.children[lbIndex];
-    return slide ? slide.querySelector('img') : null;
-  }
-
-  function applyZoomTransform(animate = false) {
-    const img = currentSlideImg();
-    if (!img) return;
-    img.style.transition = animate ? 'transform .2s ease' : 'none';
-    img.style.transform = `translate(${zoomX}px, ${zoomY}px) scale(${zoomScale})`;
-    if (lbResetZoomBtn) lbResetZoomBtn.style.display = zoomScale > 1.02 ? 'flex' : 'none';
-  }
-
-  function resetZoom(animate = false) {
-    zoomScale = 1; zoomX = 0; zoomY = 0;
-    applyZoomTransform(animate);
-  }
-
-  function clampPan() {
-    const img = currentSlideImg();
-    if (!img) return;
-    const maxX = (img.clientWidth * (zoomScale - 1)) / 2;
-    const maxY = (img.clientHeight * (zoomScale - 1)) / 2;
-    zoomX = Math.max(-maxX, Math.min(maxX, zoomX));
-    zoomY = Math.max(-maxY, Math.min(maxY, zoomY));
-  }
-
-  lbResetZoomBtn.addEventListener('click', () => resetZoom(true));
-
-  let touchStartX = 0, touchStartY = 0, dragOffset = 0, dragging = false;
-  let pinching = false, pinchStartDist = 0, pinchStartScale = 1;
-  let panStartX = 0, panStartY = 0, panOriginX = 0, panOriginY = 0;
-  let lastTapTime = 0, lastTapX = 0, lastTapY = 0;
-  let suppressTouchUntil = 0;
-
-  function touchDist(t0, t1) {
-    return Math.hypot(t1.clientX - t0.clientX, t1.clientY - t0.clientY);
-  }
-
-  lbTrack.addEventListener('touchstart', (e) => {
-    if (e.touches.length === 2) {
-      pinching = true;
-      dragging = false;
-      pinchStartDist = touchDist(e.touches[0], e.touches[1]);
-      pinchStartScale = zoomScale;
-      lbTrack.style.transition = 'none';
-      return;
-    }
-    if (e.touches.length !== 1) return;
-
-    const now = Date.now();
-    const tx = e.touches[0].clientX, ty = e.touches[0].clientY;
-    if (now - lastTapTime < 300 && Math.hypot(tx - lastTapX, ty - lastTapY) < 30) {
-      e.preventDefault();
-      dragging = false;
-      pinching = false;
-      dragOffset = 0;
-      if (zoomScale > 1) {
-        resetZoom(true);
-      } else {
-        zoomScale = 2.5;
-        zoomX = 0;
-        zoomY = 0;
-        applyZoomTransform(true);
-      }
-      lastTapTime = 0;
-      suppressTouchUntil = now + 250;
-      return;
-    }
-    lastTapTime = now;
-    lastTapX = tx;
-    lastTapY = ty;
-
-    if (zoomScale > 1) {
-      panStartX = tx;
-      panStartY = ty;
-      panOriginX = zoomX;
-      panOriginY = zoomY;
-      dragging = false;
-      return;
-    }
-
-    touchStartX = tx;
-    touchStartY = ty;
-    dragging = true;
-    lbTrack.style.transition = 'none';
-  }, { passive: false });
-
-  lbTrack.addEventListener('touchmove', (e) => {
-    if (Date.now() < suppressTouchUntil) return;
-    if (pinching && e.touches.length === 2) {
-      const dist = touchDist(e.touches[0], e.touches[1]);
-      const scale = pinchStartScale * (dist / pinchStartDist);
-      zoomScale = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, scale));
-      clampPan();
-      applyZoomTransform(false);
-      return;
-    }
-    if (zoomScale > 1 && e.touches.length === 1) {
-      zoomX = panOriginX + (e.touches[0].clientX - panStartX);
-      zoomY = panOriginY + (e.touches[0].clientY - panStartY);
-      clampPan();
-      applyZoomTransform(false);
-      return;
-    }
-    if (!dragging || e.touches.length !== 1) return;
-    const dx = e.touches[0].clientX - touchStartX;
-    const dy = e.touches[0].clientY - touchStartY;
-    if (Math.abs(dy) > Math.abs(dx)) return;
-    dragOffset = dx;
-    const pct = (dragOffset / window.innerWidth) * 100;
-    lbTrack.style.transform = `translateX(calc(-${lbIndex * 100}% + ${pct}%))`;
-  }, { passive: true });
-
-  lbTrack.addEventListener('touchend', (e) => {
-    if (Date.now() < suppressTouchUntil) { dragging = false; pinching = false; dragOffset = 0; return; }
-    if (pinching) {
-      pinching = false;
-      if (zoomScale < 1.05) resetZoom(true);
-      return;
-    }
-    if (zoomScale > 1) return;
-    if (!dragging) return;
-    dragging = false;
-    const threshold = window.innerWidth * 0.18;
-    if (dragOffset > threshold) goTo(lbIndex - 1);
-    else if (dragOffset < -threshold) goTo(lbIndex + 1);
-    else updateLbPosition(true);
-    dragOffset = 0;
-  });
-
-  let mouseDown = false;
-  lbTrack.addEventListener('mousedown', (e) => {
-    if (zoomScale > 1) return;
-    mouseDown = true;
-    touchStartX = e.clientX;
-    lbTrack.style.transition = 'none';
-  });
-  window.addEventListener('mousemove', (e) => {
-    if (!mouseDown) return;
-    dragOffset = e.clientX - touchStartX;
-    const pct = (dragOffset / window.innerWidth) * 100;
-    lbTrack.style.transform = `translateX(calc(-${lbIndex * 100}% + ${pct}%))`;
-  });
-  window.addEventListener('mouseup', () => {
-    if (!mouseDown) return;
-    mouseDown = false;
-    const threshold = window.innerWidth * 0.18;
-    if (dragOffset > threshold) goTo(lbIndex - 1);
-    else if (dragOffset < -threshold) goTo(lbIndex + 1);
-    else updateLbPosition(true);
-    dragOffset = 0;
-  });
-
-  lbTrack.addEventListener('wheel', (e) => {
-    e.preventDefault();
-    const delta = -e.deltaY * 0.01;
-    zoomScale = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, zoomScale + delta));
-    if (zoomScale <= 1) { resetZoom(true); return; }
-    clampPan();
-    applyZoomTransform(false);
-  }, { passive: false });
-
-  lbTrack.addEventListener('dblclick', () => {
-    if (zoomScale > 1) resetZoom(true);
-    else { zoomScale = 2.5; applyZoomTransform(true); }
-  });
-
-  window.addEventListener('keydown', (e) => {
-    if (!lightbox.classList.contains('open')) return;
-    if (e.key === 'ArrowLeft') goTo(lbIndex - 1);
-    else if (e.key === 'ArrowRight') goTo(lbIndex + 1);
-    else if (e.key === 'Escape') closeLightbox();
-  });
-
-  // ---------- Download ----------
-  function downloadFile(url) {
-    const name = filename(url);
-    if (typeof GM_download === 'function') {
-      try { GM_download({ url, name, saveAs: false }); return; } catch (e) {}
-    }
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = name;
-    a.target = '_blank';
-    a.rel = 'noopener';
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-  }
-
-  lbDl.addEventListener('click', () => { if (lbDl.dataset.url) downloadFile(lbDl.dataset.url); });
-
-  function downloadAllCurrentTab() {
-    let list = [];
-    if (activeTab === 'img') list = filteredImages.map(i => i.url);
-    else if (activeTab === 'video') list = allVideos.filter(v => !v.embed).map(v => v.url);
-    else if (activeTab === 'file') list = allFiles.map(f => f.url);
-
-    if (list.length === 0) { alert('Không có mục nào để tải trong tab hiện tại.'); return; }
-    if (!confirm(`Tải ${list.length} mục? Trình duyệt có thể hỏi xác nhận nhiều lần.`)) return;
-    list.forEach((url, i) => setTimeout(() => downloadFile(url), i * 300));
-  }
-
-  // ---------- Scan & refresh ----------
   function refresh() {
-    allImages = collectImages();
-    allVideos = collectVideos();
-    allFiles = collectFiles();
+    allImages = collectImages(); allVideos = collectVideos(); allFiles = collectFiles();
     renderCurrentTab();
   }
 
-  let savedScrollY = 0;
-  function lockBodyScroll() {
-    savedScrollY = window.scrollY || window.pageYOffset || 0;
-  }
-  function unlockBodyScroll() {
-    window.scrollTo(0, savedScrollY);
-  }
-
-  // ---------- ĐÓNG PANEL ----------
-  panel.querySelector('#igl-close').addEventListener('click', () => {
-    panelOpen = false;
-    panel.classList.remove('open');
-    unlockBodyScroll();
-  });
+  panel.querySelector('#igl-close').addEventListener('click', () => panel.classList.remove('open'));
   panel.querySelector('#igl-refresh').addEventListener('click', refresh);
-  panel.querySelector('#igl-download-all').addEventListener('click', downloadAllCurrentTab);
 
-  // ---- Zoom số cột ----
-  let currentCols = 3;
-  function applyCols() {
-    gridEl.style.setProperty('--igl-cols', currentCols);
-    zoomValEl.textContent = `${currentCols} cột`;
-  }
-  zoomOutBtn.addEventListener('click', () => {
-    if (currentCols > 2) { currentCols--; applyCols(); }
-  });
-  zoomInBtn.addEventListener('click', () => {
-    if (currentCols < 6) { currentCols++; applyCols(); }
-  });
-  applyCols();
-  minWInput.addEventListener('input', () => { if (activeTab === 'img') renderImages(); });
-  minHInput.addEventListener('input', () => { if (activeTab === 'img') renderImages(); });
-
-  // ---------- ĐƯA RA ĐƯỜNG KHỞI CHẠY CHO FATHER LOADER ----------
-  // Tạo hàm mở bảng giao diện toàn cục để Father có thể kích hoạt trực tiếp từ xa
+  // ---------- ĐỊNH NGHĨA HÀM TOÀN CỤC ----------
   window.initImageGridLister = function() {
-    panelOpen = true;
     panel.classList.add('open');
-    lockBodyScroll();
     refresh();
   };
 
-  // Quét ngầm dữ liệu ban đầu
-  allImages = collectImages();
-  allVideos = collectVideos();
-  allFiles = collectFiles();
+  // 🔥 LỆNH TỰ ĐỘNG KÍCH HOẠT KHI PHẦN MỀM TẢI XONG CODE
+  window.initImageGridLister();
+
 })();
