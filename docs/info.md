@@ -1,7 +1,7 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 13/07/2026 09:55:25 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 13/07/2026 18:35:08 (Giờ Hà Nội)*
 
-📝 *Thay đổi thư mục so với lần quét trước: ✨ +1 thư mục mới* — xem chi tiết tại `docs/CHANGELOG.md`
+📝 *Thay đổi thư mục so với lần quét trước: ✨ +1 thư mục mới, 🗑️ -1 thư mục đã xoá* — xem chi tiết tại `docs/CHANGELOG.md`
 
 ```text
 🗺️ Root/
@@ -42,16 +42,6 @@
 ├── README.md
 ├── cliff.toml
 ├── index.html
-├── 📂 js/
-│   ├── .gitkeep
-│   ├── 2KGT Multi-Script Loader.user.js
-│   ├── ABPVN AdsBlock.user.js
-│   ├── ACT.YouTube.DM.Auto-translate.user.js
-│   ├── AdGuard Extra.user.js
-│   ├── AdGuard Popup Blocker.user.js
-│   ├── auto translate vi_user.js
-│   ├── image-grid-lister.user.js
-│   └── open inapp.user.js
 ├── 📂 repo/
 │   ├── Packages
 │   ├── Packages.bz2
@@ -419,6 +409,18 @@
 │   │   ├── shop.html
 │   │   └── sign.html
 │   ├── index.html
+│   ├── 📂 js/
+│   │   ├── .gitkeep
+│   │   ├── ABPVN AdsBlock.user.js
+│   │   ├── ACT.YouTube.DM.Auto-translate.user.js
+│   │   ├── AdGuard Extra.user.js
+│   │   ├── AdGuard Popup Blocker.user.js
+│   │   ├── Father.js
+│   │   ├── Master Loader.user.js
+│   │   ├── TEST-MINI_user.js
+│   │   ├── auto translate vi_user.js
+│   │   ├── image-grid-lister_user.js
+│   │   └── open inapp.user.js
 │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file, 🖼️ Ảnh PNG: 1 file ]
 └── 📂 supabase/
     ├── .gitkeep
