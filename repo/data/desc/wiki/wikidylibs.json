@@ -26,7 +26,7 @@
       "SHA1": "8195749960bf8230532938a0ec30bd57da03906b",
       "SHA256": "e28cc9fdfbeb4dc660e492d01f0063d8525f34918fc58eacfaf887b5f7bb82d6",
       "Dylib_File": "com.kyic.autocat_1.3.1_iphoneos-arm.dylib",
-      "VersionDate": "2026-07-12T23:33:13Z",
+      "VersionDate": "2026-07-13T00:28:17Z",
       "Permissions": {}
     },
     "https://2kgt.github.io/repo/dylibs/autoCat/com.kyic.autocat_1.3.1_iphoneos-arm64.dylib": {
@@ -55,7 +55,7 @@
       "SHA1": "8195749960bf8230532938a0ec30bd57da03906b",
       "SHA256": "e28cc9fdfbeb4dc660e492d01f0063d8525f34918fc58eacfaf887b5f7bb82d6",
       "Dylib_File": "com.kyic.autocat_1.3.1_iphoneos-arm64.dylib",
-      "VersionDate": "2026-07-12T23:33:13Z",
+      "VersionDate": "2026-07-13T00:28:17Z",
       "Permissions": {}
     },
     "https://2kgt.github.io/repo/dylibs/autoCat/com.kyic.autocat_1.3.1_iphoneos-arm64e.dylib": {
@@ -84,7 +84,7 @@
       "SHA1": "8195749960bf8230532938a0ec30bd57da03906b",
       "SHA256": "e28cc9fdfbeb4dc660e492d01f0063d8525f34918fc58eacfaf887b5f7bb82d6",
       "Dylib_File": "com.kyic.autocat_1.3.1_iphoneos-arm64e.dylib",
-      "VersionDate": "2026-07-12T23:33:13Z",
+      "VersionDate": "2026-07-13T00:28:17Z",
       "Permissions": {}
     },
     "https://2kgt.github.io/repo/dylibs/X-Plugins/DLTwitter.dylib": {
@@ -113,7 +113,7 @@
       "SHA1": "6e1ddbe7aebed08767227e95213179e4970991ab",
       "SHA256": "21b7d1e5cb36951a20dbcf3b087622148fa71c2ff1312e866ac008a52e74fef7",
       "Dylib_File": "DLTwitter.dylib",
-      "VersionDate": "2026-07-12T23:33:13Z",
+      "VersionDate": "2026-07-13T00:28:17Z",
       "Permissions": {}
     },
     "https://2kgt.github.io/repo/dylibs/FbStorySeen/FbStorySeen.dylib": {
@@ -142,7 +142,7 @@
       "SHA1": "f215640152cdff6cf8287d9e4ace7996e4f4234b",
       "SHA256": "8bfe7541307dc3dfdcbd801034427d8acac983d3c9d8e65131ef3db57032e5a9",
       "Dylib_File": "FbStorySeen.dylib",
-      "VersionDate": "2026-07-12T23:33:13Z",
+      "VersionDate": "2026-07-13T00:28:17Z",
       "Permissions": {}
     },
     "https://2kgt.github.io/repo/dylibs/SideloadFix/FixIpa.dylib": {
@@ -171,7 +171,7 @@
       "SHA1": "efbe251f7386428c700ce02e8018a3b7212e52fb",
       "SHA256": "7cadeeaf5880a2b3bf5e3bb40bd99e609f18eb62ddf5a1b889a0bea14eee9421",
       "Dylib_File": "FixIpa.dylib",
-      "VersionDate": "2026-07-12T23:33:13Z",
+      "VersionDate": "2026-07-13T00:28:17Z",
       "Permissions": {}
     },
     "https://2kgt.github.io/repo/dylibs/Ghi âm tắt màn/Ghi âm tắt màn.dylib": {
@@ -200,7 +200,7 @@
       "SHA1": "e078c6b534dbbe336a4332f2e895d1fac9504c42",
       "SHA256": "a1fd45ca2ccf2eddf651c84d6c5b8b20cf3d1c9d005737c45afecff723926b28",
       "Dylib_File": "Ghi âm tắt màn.dylib",
-      "VersionDate": "2026-07-12T23:33:13Z",
+      "VersionDate": "2026-07-13T00:28:17Z",
       "Permissions": {}
     },
     "https://github.com/2KGT/2KGT.github.io/releases/download/v1.4.3/com.w3ltyyy.lead_1.4.3_iphoneos-arm.dylib": {
@@ -298,7 +298,7 @@
       "SHA1": "79406a163bd4e82efa9abc04526391efc79aa20a",
       "SHA256": "8cd82906478fd3911167d315e3fa779e6314b8481f04c446431ae99559e6772c",
       "Dylib_File": "LoadControl.dylib",
-      "VersionDate": "2026-07-12T23:33:13Z",
+      "VersionDate": "2026-07-13T00:28:17Z",
       "Permissions": {}
     },
     "https://2kgt.github.io/repo/dylibs/SideloadFix/sideloadFixerLol.dylib": {
@@ -327,7 +327,7 @@
       "SHA1": "7f502740e81b28e9c9ba6ae7727a5273c68f282c",
       "SHA256": "d6deb84a6694ab03819b0f1392886bd962c2f6a72ed0dc36e497dd1a8a3e35f5",
       "Dylib_File": "sideloadFixerLol.dylib",
-      "VersionDate": "2026-07-12T23:33:13Z",
+      "VersionDate": "2026-07-13T00:28:17Z",
       "Permissions": {}
     },
     "https://2kgt.github.io/repo/dylibs/SideloadFix/sideloadKeychainFix.dylib": {
@@ -356,7 +356,7 @@
       "SHA1": "5df085b6d5a90dd8fe0e0b392a248e8c96443ca8",
       "SHA256": "f8d81929c4de5799c9f5cb5b3e7d7410a7374224bef63afe88128f66fc351d79",
       "Dylib_File": "sideloadKeychainFix.dylib",
-      "VersionDate": "2026-07-12T23:33:13Z",
+      "VersionDate": "2026-07-13T00:28:17Z",
       "Permissions": {}
     },
     "https://2kgt.github.io/repo/dylibs/SideloadFix/Sideloadbypass1.dylib": {
@@ -385,7 +385,7 @@
       "SHA1": "4253c87eb483f492e3a5943b090da98591339d79",
       "SHA256": "6d67f34b3e0732ad4038c562396b919830817906fa8fc2de6dbe0ebb8c3ee10e",
       "Dylib_File": "Sideloadbypass1.dylib",
-      "VersionDate": "2026-07-12T23:33:13Z",
+      "VersionDate": "2026-07-13T00:28:17Z",
       "Permissions": {}
     },
     "https://2kgt.github.io/repo/dylibs/SideloadFix/Sideloadbypass2.dylib": {
@@ -414,7 +414,7 @@
       "SHA1": "c5316abdb891956432b71bfe9c7af002f53a2190",
       "SHA256": "d1c1aec58ae153e573353259c6084cc95aa2d5e7c90738f7c781b27a371f0740",
       "Dylib_File": "Sideloadbypass2.dylib",
-      "VersionDate": "2026-07-12T23:33:13Z",
+      "VersionDate": "2026-07-13T00:28:17Z",
       "Permissions": {}
     },
     "https://2kgt.github.io/repo/dylibs/X-Plugins/TWIGalaxy.dylib": {
@@ -443,7 +443,7 @@
       "SHA1": "d4d62ecfa4c0dba4c2b9a805f13d6671965c6d7e",
       "SHA256": "0defdf6f72ba39e6943d755669d23e69cc6d37cecc4ea6b4565b638410c4ab7b",
       "Dylib_File": "TWIGalaxy.dylib",
-      "VersionDate": "2026-07-12T23:33:13Z",
+      "VersionDate": "2026-07-13T00:28:17Z",
       "Permissions": {}
     },
     "https://2kgt.github.io/repo/dylibs/X-Plugins/TwitDate.dylib": {
@@ -472,7 +472,7 @@
       "SHA1": "bdc2858aa002b92ea03099d006189c65dab05f99",
       "SHA256": "f3c8911d1f783b631a51325fed9be029356bb4175dd63907114a23f58552c80e",
       "Dylib_File": "TwitDate.dylib",
-      "VersionDate": "2026-07-12T23:33:13Z",
+      "VersionDate": "2026-07-13T00:28:17Z",
       "Permissions": {}
     },
     "https://2kgt.github.io/repo/dylibs/XLogin/XLogin.dylib": {
@@ -501,9 +501,9 @@
       "SHA1": "14b4546b068348fe2d55e9f09a07d8b016d045dc",
       "SHA256": "cbee8f12a6e8df00f0ffe0e03499c6e4c887ebd371eb09832e1727e643ae8c5a",
       "Dylib_File": "XLogin.dylib",
-      "VersionDate": "2026-07-12T23:33:13Z",
+      "VersionDate": "2026-07-13T00:28:17Z",
       "Permissions": {}
     }
   },
-  "generated_at": "2026-07-12T23:33:28Z"
+  "generated_at": "2026-07-13T00:28:27Z"
 }
