@@ -3377,10 +3377,10 @@ DASHBOARD_HTML_TEMPLATE = """<!DOCTYPE html>
         }}
         .profile-row span:first-child {{ color: #8e9ab5; }}
 
-        /* UDID ĐÃ LƯU */
-        .udid-saved-card {{
-            background: #0f1e3d; border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 16px; padding: 16px; margin-bottom: 24px;
+        /* UDID ĐÃ LƯU — giờ nằm bên trong profile-card, không phải card riêng */
+        .profile-udid-block {{
+            margin-top: 14px; padding-top: 14px;
+            border-top: 1px solid rgba(255,255,255,0.08);
         }}
         .udid-saved-title {{ font-size: 13px; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }}
         .udid-saved-row {{ display: flex; gap: 8px; }}
@@ -3397,6 +3397,28 @@ DASHBOARD_HTML_TEMPLATE = """<!DOCTYPE html>
         }}
         .udid-saved-btn:active {{ transform: scale(0.96); }}
         .udid-saved-hint {{ font-size: 11px; color: #8e9ab5; margin-top: 8px; }}
+
+        /* THU GỌN / MỞ RỘNG từng khu vực (Giỏ hàng/License/Kho ứng dụng) */
+        .section-header {{
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 4px 4px 10px; cursor: pointer; user-select: none;
+        }}
+        .section-title-inline {{
+            font-size: 13px; font-weight: 700; color: #8e9ab5;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }}
+        .section-chevron {{
+            font-size: 14px; color: #8e9ab5; transition: transform 0.25s;
+        }}
+        .section-chevron.collapsed {{ transform: rotate(-90deg); }}
+        .collapsible-section {{
+            overflow: hidden; max-height: 4000px;
+            transition: max-height 0.3s ease, opacity 0.25s ease;
+            opacity: 1;
+        }}
+        .collapsible-section.collapsed {{
+            max-height: 0; opacity: 0;
+        }}
 
         /* KHO ỨNG DỤNG (tabs + list) */
         .lib-tabs {{
@@ -3596,7 +3618,7 @@ DASHBOARD_HTML_TEMPLATE = """<!DOCTYPE html>
     </div>
 
     <div class="container">
-        <!-- Profile -->
+        <!-- Profile (gồm luôn UDID đã lưu) -->
         <div class="profile-card">
             <div class="profile-header">
                 <div class="profile-avatar" id="avatar">👤</div>
@@ -3621,43 +3643,58 @@ DASHBOARD_HTML_TEMPLATE = """<!DOCTYPE html>
                 <span>Thiết bị</span>
                 <span id="profileDeviceModel">—</span>
             </div>
-        </div>
 
-        <!-- UDID đã lưu -->
-        <div class="udid-saved-card">
-            <div class="udid-saved-title">🔑 UDID đã lưu</div>
-            <div class="udid-saved-row">
-                <input class="udid-saved-input" id="savedUdidInput" placeholder="Chưa lưu UDID nào..." oninput="onSavedUdidTyped()">
+            <!-- UDID đã lưu — gộp vào bảng thông tin tài khoản -->
+            <div class="profile-udid-block">
+                <div class="udid-saved-title">🔑 UDID đã lưu</div>
+                <div class="udid-saved-row">
+                    <input class="udid-saved-input" id="savedUdidInput" placeholder="Chưa lưu UDID nào..." oninput="onSavedUdidTyped()">
+                </div>
+                <div class="udid-saved-row" style="margin-top:8px">
+                    <button class="udid-saved-btn" id="btnGetUdidAuto" onclick="getUdidAuto()" style="flex:1">📱 Lấy tự động</button>
+                    <button class="udid-saved-btn" onclick="saveUdid()" style="flex:1;background:rgba(255,255,255,0.1)">💾 Lưu thủ công</button>
+                </div>
+                <div class="udid-saved-hint" id="udidAutoStatus">Bấm "Lấy tự động" → cài profile → UDID tự điền + tự lưu, hoặc dán tay rồi bấm Lưu.</div>
             </div>
-            <div class="udid-saved-row" style="margin-top:8px">
-                <button class="udid-saved-btn" id="btnGetUdidAuto" onclick="getUdidAuto()" style="flex:1">📱 Lấy tự động</button>
-                <button class="udid-saved-btn" onclick="saveUdid()" style="flex:1;background:rgba(255,255,255,0.1)">💾 Lưu thủ công</button>
-            </div>
-            <div class="udid-saved-hint" id="udidAutoStatus">Bấm "Lấy tự động" → cài profile → UDID tự điền + tự lưu, hoặc dán tay rồi bấm Lưu.</div>
         </div>
 
         <!-- Giỏ hàng -->
-        <div class="section-title">🛒 Giỏ hàng</div>
-        <div id="cartList" style="margin-bottom:24px">
-            <div class="empty-state">⏳ Đang tải...</div>
+        <div class="section-header" onclick="toggleSection('cart')">
+            <span class="section-title-inline">🛒 Giỏ hàng</span>
+            <span class="section-chevron" id="chevron-cart">▾</span>
         </div>
-
-        <!-- Kho ứng dụng -->
-        <div class="section-title">📦 Kho ứng dụng</div>
-        <div class="lib-tabs">
-            <button class="lib-tab-btn active" id="libtab-apps" onclick="switchLibTab('apps')">📱 Apps</button>
-            <button class="lib-tab-btn" id="libtab-debs" onclick="switchLibTab('debs')">🔧 Debs</button>
-            <button class="lib-tab-btn" id="libtab-dylibs" onclick="switchLibTab('dylibs')">📚 Dylibs</button>
-        </div>
-        <div id="libList" style="margin-bottom:24px">
-            <div class="empty-state">⏳ Đang tải...</div>
+        <div id="section-cart" class="collapsible-section">
+            <div id="cartList" style="margin-bottom:24px">
+                <div class="empty-state">⏳ Đang tải...</div>
+            </div>
         </div>
 
         <!-- Licenses -->
-        <div class="section-title">🔐 License của bạn</div>
-        <div id="licenseList" class="license-list">
-            <div class="empty-state">
-                ⏳ Đang tải...
+        <div class="section-header" onclick="toggleSection('license')">
+            <span class="section-title-inline">🔐 License của bạn</span>
+            <span class="section-chevron" id="chevron-license">▾</span>
+        </div>
+        <div id="section-license" class="collapsible-section">
+            <div id="licenseList" class="license-list" style="margin-bottom:24px">
+                <div class="empty-state">
+                    ⏳ Đang tải...
+                </div>
+            </div>
+        </div>
+
+        <!-- Kho ứng dụng -->
+        <div class="section-header" onclick="toggleSection('library')">
+            <span class="section-title-inline">📦 Kho ứng dụng</span>
+            <span class="section-chevron" id="chevron-library">▾</span>
+        </div>
+        <div id="section-library" class="collapsible-section">
+            <div class="lib-tabs">
+                <button class="lib-tab-btn active" id="libtab-apps" onclick="switchLibTab('apps')">📱 Apps</button>
+                <button class="lib-tab-btn" id="libtab-debs" onclick="switchLibTab('debs')">🔧 Debs</button>
+                <button class="lib-tab-btn" id="libtab-dylibs" onclick="switchLibTab('dylibs')">📚 Dylibs</button>
+            </div>
+            <div id="libList" style="margin-bottom:24px">
+                <div class="empty-state">⏳ Đang tải...</div>
             </div>
         </div>
     </div>
@@ -4065,6 +4102,16 @@ DASHBOARD_HTML_TEMPLATE = """<!DOCTYPE html>
                 document.getElementById('udidAutoStatus').textContent =
                     'Hết thời gian chờ. Thử lại hoặc dán tay UDID rồi bấm Lưu thủ công.';
             }}
+        }}
+
+        // ──────────────────────────────────────────────
+        // THU GỌN / MỞ RỘNG khu vực (Giỏ hàng / License / Kho ứng dụng)
+        // ──────────────────────────────────────────────
+        function toggleSection(name) {{
+            const section = document.getElementById('section-' + name);
+            const chevron = document.getElementById('chevron-' + name);
+            section.classList.toggle('collapsed');
+            chevron.classList.toggle('collapsed');
         }}
 
         // ──────────────────────────────────────────────
