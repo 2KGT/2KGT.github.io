@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 13/07/2026 18:35:08 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 23/07/2026 13:58:35 (Giờ Hà Nội)*
 
 📝 *Thay đổi thư mục so với lần quét trước: ✨ +1 thư mục mới, 🗑️ -1 thư mục đã xoá* — xem chi tiết tại `docs/CHANGELOG.md`
 
@@ -125,6 +125,8 @@
 │   │   │   │   │   └── v1.5.0.txt
 │   │   │   │   ├── 📂 UnKeySign/
 │   │   │   │   │   └── v1.1.8.txt
+│   │   │   │   ├── 📂 X/
+│   │   │   │   │   └── v12.10.txt
 │   │   │   │   ├── 📂 YouTube/
 │   │   │   │   │   ├── v21.16.2.txt
 │   │   │   │   │   ├── v21.17.3.txt
@@ -409,18 +411,6 @@
 │   │   ├── shop.html
 │   │   └── sign.html
 │   ├── index.html
-│   ├── 📂 js/
-│   │   ├── .gitkeep
-│   │   ├── ABPVN AdsBlock.user.js
-│   │   ├── ACT.YouTube.DM.Auto-translate.user.js
-│   │   ├── AdGuard Extra.user.js
-│   │   ├── AdGuard Popup Blocker.user.js
-│   │   ├── Father.js
-│   │   ├── Master Loader.user.js
-│   │   ├── TEST-MINI_user.js
-│   │   ├── auto translate vi_user.js
-│   │   ├── image-grid-lister_user.js
-│   │   └── open inapp.user.js
 │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file, 🖼️ Ảnh PNG: 1 file ]
 └── 📂 supabase/
     ├── .gitkeep

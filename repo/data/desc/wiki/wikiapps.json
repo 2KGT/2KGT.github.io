@@ -1147,6 +1147,38 @@
       },
       "minOS": "16.0",
       "buildVersion": "21.25.5"
+    },
+    "https://github.com/2KGT/2KGT.github.io/releases/download/v12.10/X_12.10.ipa": {
+      "bid": "com.atebits.Tweetie2",
+      "ver": "12.10",
+      "name": "X",
+      "size": 249702181,
+      "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
+      "banner": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_banner.webp",
+      "screenshots": [
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_1.jpeg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_2.jpeg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_3.jpeg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_4.jpeg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_5.jpeg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_6.jpeg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_7.jpeg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_8.jpeg"
+      ],
+      "desc": "Ứng dụng X từ Kyic storage.",
+      "permissions": {
+        "Máy ảnh": "Capture and post photos and videos from X.",
+        "Micro": "Capture and post videos with sound from X.",
+        "Thư viện ảnh": "Allow access to share photos from your camera roll.",
+        "Ghi vào Thư viện ảnh": "This lets you download photos and videos to your Photos.",
+        "Vị trí khi dùng ứng dụng": "Enjoy the X experience tailored to your location.",
+        "Danh bạ": "We will securely upload your contacts to our servers to help you connect with friends and suggest users to follow on X.",
+        "Lịch": "Add events to your calendar from X.",
+        "Face ID / Touch ID": "Use FaceID to authenticate on X.",
+        "Theo dõi quảng cáo": "This helps X show you more relevant ads."
+      },
+      "minOS": "15.0",
+      "buildVersion": "12"
     }
   }
 }
