@@ -618,10 +618,10 @@ Name: AutoAC
 Version: 1.1
 Architecture: iphoneos-arm64
 Filename: debs/autoac/com.kyic.autoac_1.1_iphoneos-arm64.deb
-Size: 7468
-MD5sum: 466c4ef87ad45d1652533aa57f8e3b26
-SHA1: 423316ebaddef95f9b1c7d5806979bd4535fd51d
-SHA256: 8eff5c81f9fd2f858a3f07f42c4db1e551d04ee5d8021291ba1320f6a27612e2
+Size: 16904
+MD5sum: 14c603441a5ffe2bf0bf38d143b19c1c
+SHA1: 2d429bdc682c7ad1ce2ecd42477fb40aedea0c74
+SHA256: a5aec88dc758c06a300d1e44d5ecb37b3a14f4618d6a3c39a8b929f535d61d3b
 Author: Kyic
 Description: AutoAC tweak (long press + settings)
 Section: Tweaks

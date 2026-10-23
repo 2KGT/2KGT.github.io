@@ -1969,7 +1969,7 @@
       "Architecture": "iphoneos-arm64",
       "Depends": "mobilesubstrate",
       "Maintainer": "Kyic",
-      "Installed-Size": "172"
+      "Installed-Size": "208"
     }
   }
 }
