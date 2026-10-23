@@ -1,7 +1,7 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 23/07/2026 13:58:35 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 23/10/2026 14:00:17 (Giờ Hà Nội)*
 
-📝 *Thay đổi thư mục so với lần quét trước: ✨ +1 thư mục mới, 🗑️ -1 thư mục đã xoá* — xem chi tiết tại `docs/CHANGELOG.md`
+📝 *Thay đổi thư mục so với lần quét trước: ✨ +4 thư mục mới* — xem chi tiết tại `docs/CHANGELOG.md`
 
 ```text
 🗺️ Root/
@@ -150,6 +150,8 @@
 │   │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
 │   │   │   │   ├── 📂 Ghi âm tắt màn/
 │   │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
+│   │   │   │   ├── 📂 Ghi âm tắt màn/
+│   │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
 │   │   │   │   ├── 📂 Lead/
 │   │   │   │   │   ├── v1.3.3.txt
 │   │   │   │   │   ├── v1.4.2.txt
@@ -207,6 +209,9 @@
 │   │   │   │   │   ├── default.txt
 │   │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
 │   │   │   │   ├── 📂 YouTube X/
+│   │   │   │   │   ├── default.txt
+│   │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
+│   │   │   │   ├── 📂 autoac/
 │   │   │   │   │   ├── default.txt
 │   │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
 │   │   │   │   ├── 📂 bilibili/
@@ -320,6 +325,8 @@
 │   │   │   └── [ 📊 Số lượng: 📦 Package .deb: 3 file ]
 │   │   ├── 📂 YoutubeX/
 │   │   │   └── [ 📊 Số lượng: 📦 Package .deb: 1 file ]
+│   │   ├── 📂 autoac/
+│   │   │   └── [ 📊 Số lượng: 📦 Package .deb: 1 file ]
 │   │   ├── 📂 bilibili/
 │   │   │   ├── .gitkeep
 │   │   │   └── [ 📊 Số lượng: 📦 Package .deb: 1 file ]
@@ -377,6 +384,9 @@
 │   │   ├── 📂 Ghi âm tắt màn/
 │   │   │   ├── .gitkeep
 │   │   │   └── Ghi âm tắt màn.dylib
+│   │   ├── 📂 Ghi âm tắt màn/
+│   │   │   ├── .gitkeep
+│   │   │   └── Ghi âm tắt màn.dylib
 │   │   ├── 📂 SideloadFix/
 │   │   │   ├── .gitkeep
 │   │   │   ├── FixIpa.dylib

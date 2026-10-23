@@ -613,6 +613,21 @@ Section: Tweaks
 Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/ytmu.jpg
 SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/ytmu/com.ginsu.ytmusicultimate_2.4.1_iphoneos-arm64e.json
 
+Package: com.kyic.autoac
+Name: AutoAC
+Version: 1.1
+Architecture: iphoneos-arm64
+Filename: debs/autoac/com.kyic.autoac_1.1_iphoneos-arm64.deb
+Size: 7468
+MD5sum: 466c4ef87ad45d1652533aa57f8e3b26
+SHA1: 423316ebaddef95f9b1c7d5806979bd4535fd51d
+SHA256: 8eff5c81f9fd2f858a3f07f42c4db1e551d04ee5d8021291ba1320f6a27612e2
+Author: Kyic
+Description: AutoAC tweak (long press + settings)
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png
+SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/autoac/com.kyic.autoac_1.1_iphoneos-arm64.json
+
 Package: com.ps.noytpremium
 Name: NoYTPremium
 Version: 1.0.7

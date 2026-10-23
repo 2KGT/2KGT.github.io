@@ -1958,6 +1958,18 @@
       "Depiction": "https://poomsmart.github.io/repo/depictions/youmute.html",
       "SileoDepiction": "https://poomsmart.github.io/repo/sileodepictions/youmute.json",
       "Installed-Size": "112"
+    },
+    "https://2kgt.github.io/repo/debs/autoac/com.kyic.autoac_1.1_iphoneos-arm64.deb": {
+      "Package": "com.kyic.autoac",
+      "Name": "AutoAC",
+      "Version": "1.1",
+      "Description": "AutoAC tweak (long press + settings)",
+      "Author": "Kyic",
+      "Section": "Tweaks",
+      "Architecture": "iphoneos-arm64",
+      "Depends": "mobilesubstrate",
+      "Maintainer": "Kyic",
+      "Installed-Size": "172"
     }
   }
 }
