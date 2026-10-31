@@ -615,18 +615,18 @@ SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/ytmu/com.ginsu.ytmu
 
 Package: com.kyic.autoac
 Name: AutoAC
-Version: 2.1.25
+Version: 2.1.26
 Architecture: iphoneos-arm64
-Filename: debs/autoac/com.kyic.autoac_2.1.25_iphoneos-arm64.deb
-Size: 248982
-MD5sum: 41f63e225f4d4f710466af018be919a4
-SHA1: 4f18f3ac48979ad797f21f75cfa2beae827eb774
-SHA256: bc1c24b47ddafe914dad4acc4c1a8f519bffcf9605ed4a78730957d00e13ca3c
+Filename: debs/autoac/com.kyic.autoac_2.1.26_iphoneos-arm64.deb
+Size: 248588
+MD5sum: 3801c40a5ab79e0400350a2493e06665
+SHA1: 40126647a7fe783d0cb2a425774697e4b3ccf0d7
+SHA256: 641118fccc9e35401b030d7b95231ccc0f11382a798f74e218f0f1f0b8a0a052
 Author: Kyic
 Description: AutoAC tweak (long press + logo YouTube)
 Section: Tweaks
 Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/AutoAC.png
-SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/autoac/com.kyic.autoac_2.1.25_iphoneos-arm64.json
+SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/autoac/com.kyic.autoac_2.1.26_iphoneos-arm64.json
 
 Package: com.ps.noytpremium
 Name: NoYTPremium

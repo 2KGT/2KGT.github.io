@@ -291,6 +291,7 @@
       "com.kyic.autoac_2.1.0_iphoneos-arm64.json",
       "com.kyic.autoac_2.1.10_iphoneos-arm64.json",
       "com.kyic.autoac_2.1.25_iphoneos-arm64.json",
+      "com.kyic.autoac_2.1.26_iphoneos-arm64.json",
       "com.kyic.autoac_2.1.7_iphoneos-arm64.json",
       "com.kyic.autoac_2.1.8_iphoneos-arm64.json",
       "default.txt"
@@ -738,6 +739,7 @@
       "com.kyic.autoac_2.1.0_iphoneos-arm64.deb",
       "com.kyic.autoac_2.1.10_iphoneos-arm64.deb",
       "com.kyic.autoac_2.1.25_iphoneos-arm64.deb",
+      "com.kyic.autoac_2.1.26_iphoneos-arm64.deb",
       "com.kyic.autoac_2.1.7_iphoneos-arm64.deb",
       "com.kyic.autoac_2.1.8_iphoneos-arm64.deb"
     ],

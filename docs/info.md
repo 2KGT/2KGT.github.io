@@ -1,7 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 31/10/2026 19:53:23 (Giờ Hà Nội)*
-
-📝 *Thay đổi thư mục so với lần quét trước: 🗑️ -1 thư mục đã xoá* — xem chi tiết tại `docs/CHANGELOG.md`
+⏱️ *Cập nhật tự động lúc: 31/10/2026 21:59:11 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -213,7 +211,7 @@
 │   │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
 │   │   │   │   ├── 📂 autoac/
 │   │   │   │   │   ├── default.txt
-│   │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 7 file ]
+│   │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 8 file ]
 │   │   │   │   ├── 📂 bilibili/
 │   │   │   │   │   ├── default.txt
 │   │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
@@ -326,7 +324,7 @@
 │   │   ├── 📂 YoutubeX/
 │   │   │   └── [ 📊 Số lượng: 📦 Package .deb: 1 file ]
 │   │   ├── 📂 autoac/
-│   │   │   └── [ 📊 Số lượng: 📦 Package .deb: 7 file ]
+│   │   │   └── [ 📊 Số lượng: 📦 Package .deb: 8 file ]
 │   │   ├── 📂 bilibili/
 │   │   │   ├── .gitkeep
 │   │   │   └── [ 📊 Số lượng: 📦 Package .deb: 1 file ]
