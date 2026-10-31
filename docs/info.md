@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 31/10/2026 18:05:09 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 31/10/2026 18:18:41 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -211,7 +211,7 @@
 │   │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
 │   │   │   │   ├── 📂 autoac/
 │   │   │   │   │   ├── default.txt
-│   │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 7 file ]
+│   │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 6 file ]
 │   │   │   │   ├── 📂 bilibili/
 │   │   │   │   │   ├── default.txt
 │   │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
