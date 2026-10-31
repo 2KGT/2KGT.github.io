@@ -1,5 +1,7 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 31/10/2026 19:08:30 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 31/10/2026 19:18:39 (Giờ Hà Nội)*
+
+📝 *Thay đổi thư mục so với lần quét trước: ✨ +1 thư mục mới* — xem chi tiết tại `docs/CHANGELOG.md`
 
 ```text
 🗺️ Root/
@@ -304,6 +306,8 @@
 │   │       ├── 📂 YouTube/
 │   │       │   ├── .gitkeep
 │   │       │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 6 file ]
+│   │       ├── 📂 autoac/
+│   │       │   └── .gitkeep
 │   │       └── 📂 ytplus/
 │   │           ├── .gitkeep
 │   │           └── [ 📊 Số lượng: 📸 Ảnh JPG: 8 file, 🖼️ Ảnh PNG: 1 file ]

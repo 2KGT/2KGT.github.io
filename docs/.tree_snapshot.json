@@ -102,6 +102,7 @@
     "repo/data/images/Telegram",
     "repo/data/images/Turrit",
     "repo/data/images/YouTube",
+    "repo/data/images/autoac",
     "repo/data/images/ytplus",
     "repo/debs",
     "repo/debs/BHTwitter",
@@ -630,6 +631,9 @@
       "Telegram_6.jpg",
       "Telegram_7.jpg",
       "Telegram_banner.jpg"
+    ],
+    "repo/data/images/autoac": [
+      ".gitkeep"
     ],
     "repo/data/images/ytplus": [
       ".gitkeep",
