@@ -1,5 +1,7 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 31/10/2026 19:45:16 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 31/10/2026 19:48:31 (Giờ Hà Nội)*
+
+📝 *Thay đổi thư mục so với lần quét trước: ✨ +1 thư mục mới* — xem chi tiết tại `docs/CHANGELOG.md`
 
 ```text
 🗺️ Root/
@@ -277,6 +279,8 @@
 │   │   ├── 📂 icons/
 │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 18 file, 🖼️ Ảnh PNG: 19 file ]
 │   │   └── 📂 images/
+│   │       ├── 📂 AutoAC/
+│   │       │   └── .gitkeep
 │   │       ├── 📂 DLiPA/
 │   │       │   ├── .gitkeep
 │   │       │   └── [ 📊 Số lượng: 🖼️ Ảnh PNG: 5 file ]

@@ -91,6 +91,7 @@
     "repo/data/desc/wiki",
     "repo/data/icons",
     "repo/data/images",
+    "repo/data/images/AutoAC",
     "repo/data/images/DLiPA",
     "repo/data/images/Facebook",
     "repo/data/images/Feather",
@@ -610,6 +611,9 @@
       "donate.png"
     ],
     "repo/data/images": [],
+    "repo/data/images/AutoAC": [
+      ".gitkeep"
+    ],
     "repo/data/images/Telegram": [
       "Telegram_1.jpg",
       "Telegram_2.jpg",
