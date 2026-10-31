@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 31/10/2026 21:59:11 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 31/10/2026 22:42:36 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -211,7 +211,7 @@
 │   │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
 │   │   │   │   ├── 📂 autoac/
 │   │   │   │   │   ├── default.txt
-│   │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 8 file ]
+│   │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 9 file ]
 │   │   │   │   ├── 📂 bilibili/
 │   │   │   │   │   ├── default.txt
 │   │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
@@ -324,7 +324,7 @@
 │   │   ├── 📂 YoutubeX/
 │   │   │   └── [ 📊 Số lượng: 📦 Package .deb: 1 file ]
 │   │   ├── 📂 autoac/
-│   │   │   └── [ 📊 Số lượng: 📦 Package .deb: 8 file ]
+│   │   │   └── [ 📊 Số lượng: 📦 Package .deb: 9 file ]
 │   │   ├── 📂 bilibili/
 │   │   │   ├── .gitkeep
 │   │   │   └── [ 📊 Số lượng: 📦 Package .deb: 1 file ]

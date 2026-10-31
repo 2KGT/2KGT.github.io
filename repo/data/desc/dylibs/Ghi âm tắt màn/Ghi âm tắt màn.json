@@ -1,6 +1,6 @@
 {
-  "name": "Ghi âm tắt màn",
-  "bundle": "com.kyic.ghi âm tắt màn",
+  "name": "Ghi âm tắt màn",
+  "bundle": "com.kyic.ghi âm tắt màn",
   "version": "1.0",
   "architecture": "iphoneos-arm64",
   "author": "Kyic storage",
@@ -23,7 +23,7 @@
   "md5": "dcfdaeb27a7f9efde230be2c7d6ce891",
   "sha1": "e078c6b534dbbe336a4332f2e895d1fac9504c42",
   "sha256": "a1fd45ca2ccf2eddf651c84d6c5b8b20cf3d1c9d005737c45afecff723926b28",
-  "downloadURL": "https://2kgt.github.io/repo/dylibs/Ghi âm tắt màn/Ghi âm tắt màn.dylib",
-  "versionDate": "2026-10-31T14:58:52Z",
-  "generated_at": "2026-10-31T14:59:06Z"
+  "downloadURL": "https://2kgt.github.io/repo/dylibs/Ghi âm tắt màn/Ghi âm tắt màn.dylib",
+  "versionDate": "2026-10-31T15:42:20Z",
+  "generated_at": "2026-10-31T15:42:30Z"
 }
