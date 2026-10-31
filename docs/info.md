@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 31/10/2026 18:25:46 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 31/10/2026 19:02:44 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -278,7 +278,6 @@
 │   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 18 file, 🖼️ Ảnh PNG: 18 file ]
 │   │   └── 📂 images/
 │   │       ├── 📂 AutoAC/
-│   │       │   ├── .gitkeep
 │   │       │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 1 file, 🖼️ Ảnh PNG: 8 file ]
 │   │       ├── 📂 DLiPA/
 │   │       │   ├── .gitkeep
