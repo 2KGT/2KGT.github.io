@@ -2042,6 +2042,18 @@
       "Depends": "mobilesubstrate",
       "Maintainer": "Kyic",
       "Installed-Size": "996"
+    },
+    "https://2kgt.github.io/repo/debs/autoac/com.kyic.autoac_2.1.25_iphoneos-arm64.deb": {
+      "Package": "com.kyic.autoac",
+      "Name": "AutoAC",
+      "Version": "2.1.25",
+      "Description": "AutoAC tweak (long press + logo YouTube)",
+      "Author": "Kyic",
+      "Section": "Tweaks",
+      "Architecture": "iphoneos-arm64",
+      "Depends": "mobilesubstrate",
+      "Maintainer": "Kyic",
+      "Installed-Size": "1188"
     }
   }
 }
