@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 31/10/2026 19:02:44 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 31/10/2026 19:08:30 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -275,7 +275,7 @@
 │   │   │   └── 📂 wiki/
 │   │   │       └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
 │   │   ├── 📂 icons/
-│   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 18 file, 🖼️ Ảnh PNG: 18 file ]
+│   │   │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 18 file, 🖼️ Ảnh PNG: 19 file ]
 │   │   └── 📂 images/
 │   │       ├── 📂 AutoAC/
 │   │       │   └── [ 📊 Số lượng: 📸 Ảnh JPG: 1 file, 🖼️ Ảnh PNG: 8 file ]
