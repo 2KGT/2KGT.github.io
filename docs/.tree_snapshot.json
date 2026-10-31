@@ -621,7 +621,16 @@
       "Telegram_banner.jpg"
     ],
     "repo/data/images/autoac": [
-      ".gitkeep"
+      ".gitkeep",
+      "AutoAC_1.jpeg",
+      "AutoAC_2.jpeg",
+      "AutoAC_3.jpeg",
+      "AutoAC_4.jpeg",
+      "AutoAC_5.jpeg",
+      "AutoAC_6.jpeg",
+      "AutoAC_7.jpeg",
+      "AutoAC_8.jpeg",
+      "AutoAC_9.jpeg"
     ],
     "repo/data/images/ytplus": [
       ".gitkeep",
