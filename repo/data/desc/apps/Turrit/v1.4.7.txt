@@ -1,0 +1,6 @@
+Turrit
+
+Turrit v1.47 + TGExtra 1.7.3
+Hỗ trợ đa chức năng cho Telegram, Swifgram…phiên bản mới nhất
+Hướng dẫn mở menu:
+Cài đặt -> nhân giữ about

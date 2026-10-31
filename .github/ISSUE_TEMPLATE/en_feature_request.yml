@@ -1,0 +1,26 @@
+name: "English Feature Request"
+description: "Suggest improvements or new features for our project."
+title: "[FR]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: "Describe the feature request"
+      description: "Describe the feature or enhancement in detail here. Include any relevant context or background information. Be clear and concise."
+      placeholder: "Enter your description here..."
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: "Post Requisites"
+      description: "**IMPORTANT:** Read carefully before checking the box."
+      options:
+        - label: "I have checked that a similar feature request has not been reported before."
+          required: true
+        - label: "I confirm that all information provided above is truthful and accurate."
+          required: true
+        - label: "By submitting this request, I confirm that I have complied with the guidelines. Failure to comply may result in the request being closed without discussion."
+          required: true

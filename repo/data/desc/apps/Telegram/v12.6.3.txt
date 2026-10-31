@@ -1,0 +1,10 @@
+Telegram
+
+Telegram + TGExtra v1.7.4
+(Hỗ trợ Telegram, Swiftgram, Turrit)
+• Tính năng: chặn quảng cáo, Lưu tệp từ kênh bị chặn tải, và 1 số chức năng khác từ trải nghiệm nhé.
+• Cách mở menu:
+• TG & Swiftgram: Vào Cài đặt -> Nhấn giữ nút thứ 3 từ dưới lên.
+• Turrit: Vào Cài đặt -> Nhấn giữ dòng "Về Turrit".
+ •✅ Đã có ngôn ngữ Tiếng Việt 
+• ✅ Hỗ trợ phiên bản tốt: nhất TG 12.6.3 / SG 12.6.2.

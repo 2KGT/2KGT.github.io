@@ -1,0 +1,75 @@
+name: "🦎 Báo lỗi"
+description: "Sử dụng mẫu này để báo cáo các lỗi crash, xung đột hoặc hành vi sai lệch của tweak/app."
+title: "[BUG]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Cảm ơn bạn đã dành thời gian báo lỗi để cải thiện dự án! Vui lòng điền đầy đủ thông tin dưới đây để chúng tôi có thể xử lý nhanh nhất.
+
+  - type: input
+    id: device-info
+    attributes:
+      label: "📱 Thiết bị & Phiên bản iOS"
+      description: "Ví dụ: iPhone 13 Pro - iOS 16.5, hoặc iPad Air 5 - iOS 17.0"
+      placeholder: "Nhập tên máy và phiên bản iOS của bạn tại đây..."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: environment
+    attributes:
+      label: "🛠️ Công cụ cài đặt / Jailbreak"
+      description: "Chọn công cụ bạn đang sử dụng để cài đặt ứng dụng hoặc jailbreak máy."
+      options:
+        - "TrollStore"
+        - "Dopamine (Jailbreak)"
+        - "Palera1n (Jailbreak)"
+        - "AltStore / Sideloadly"
+        - "Khác (Ghi rõ ở phần mô tả lỗi)"
+    validations:
+      required: true
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: "📝 Mô tả chi tiết lỗi xảy ra"
+      description: "Hãy giải thích rõ lỗi xảy ra như thế nào? Hành vi mong muốn là gì và thực tế bị lỗi ra sao?"
+      placeholder: "Lỗi xuất hiện khi tôi bấm vào nút..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: "👣 Các bước tái hiện lỗi"
+      description: "Liệt kê từng bước bạn đã làm khiến lỗi này xuất hiện trở lại."
+      placeholder: |
+        1. Mở ứng dụng Feather/Sileo
+        2. Chọn mục...
+        3. Ứng dụng bị văng (crash) ngay lập tức.
+    validations:
+      required: true
+
+  - type: textarea
+    id: crash-logs
+    attributes:
+      label: "📁 Tệp tin Log / Ảnh chụp màn hình (Nếu có)"
+      description: "Dán đoạn mã Crash Log (từ Krashkop/CrashReporter) hoặc kéo thả ảnh chụp màn hình minh họa lỗi vào đây."
+      placeholder: "Dán log hoặc kéo thả ảnh vào đây..."
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: "🚨 Điều kiện tiên quyết"
+      description: "Vui lòng đọc kỹ và tích chọn để xác nhận trước khi gửi."
+      options:
+        - label: "Tôi đã kiểm tra và đảm bảo lỗi này chưa từng được ai báo cáo trước đây."
+          required: true
+        - label: "Tôi cam kết đã điền đầy đủ thông tin chính xác về thiết bị và log lỗi."
+          required: true
+        - label: "Tôi hiểu rằng nếu gửi thông tin sơ sài hoặc spam, Issue này sẽ bị đóng mà không cần thảo luận."
+          required: true

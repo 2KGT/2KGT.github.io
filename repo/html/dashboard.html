@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0a1428">
+    <title>Dashboard — Kyic storage</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AWhh50vnBM2jLqIGWcHwf2aEBHza85Z1lADA3PH148cDGFJ6Y_Ripv0qJJxu69vypS60QVzqVxfCEB4B&currency=USD&intent=capture"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        html, body {
+            background: #0a1428; color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: rgba(10,20,40,0.95);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            padding: 12px 16px;
+            display: grid; grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            position: sticky; top: 0; z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .header-brand { justify-self: center; font-weight: 800; font-size: 15px; letter-spacing: 0.2px; white-space: nowrap; }
+        .header-btn-left { justify-self: start; }
+        .header-more-wrap { position: relative; justify-self: end; }
+        .header-btn {
+            width: 36px; height: 36px;
+            display: flex; align-items: center; justify-content: center;
+            color: #848ef9; font-size: 16px;
+            text-decoration: none; border-radius: 50%;
+            background: rgba(132,142,249,0.15);
+            transition: 0.15s; border: none; cursor: pointer;
+            letter-spacing: -1px;
+        }
+        .header-btn:active { background: rgba(132,142,249,0.28); transform: scale(0.93); }
+
+        .more-dropdown {
+            position: absolute; top: 44px; right: 0;
+            background: #0f1e3d; border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 14px; padding: 6px;
+            min-width: 160px; box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            display: none; flex-direction: column; gap: 2px;
+            z-index: 150;
+        }
+        .more-dropdown.open { display: flex; }
+        .more-item {
+            display: flex; align-items: center; gap: 8px;
+            padding: 10px 12px; border-radius: 10px;
+            background: transparent; border: none;
+            color: #fff; font-size: 13px; font-weight: 600;
+            text-decoration: none; cursor: pointer; text-align: left;
+            width: 100%; box-sizing: border-box;
+        }
+        .more-item:active { background: rgba(255,255,255,0.08); }
+
+        .container { padding: 20px; max-width: 100%; }
+
+        /* PROFILE CARD */
+        .profile-card {
+            background: linear-gradient(135deg, #0f1e3d, #1a2a50);
+            border: 1px solid rgba(132,142,249,0.3);
+            border-radius: 20px; padding: 20px;
+            margin-bottom: 24px;
+        }
+        .profile-header {
+            display: flex; align-items: center; gap: 14px; margin-bottom: 16px;
+            padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .profile-avatar {
+            width: 56px; height: 56px;
+            background: #848ef9; border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 24px;
+        }
+        .profile-info h2 { font-size: 16px; margin-bottom: 3px; }
+        .profile-info p { font-size: 12px; color: #8e9ab5; }
+        .profile-row {
+            display: flex; justify-content: space-between; padding: 8px 0;
+            font-size: 13px; color: #b0bcd4;
+        }
+        .profile-row span:first-child { color: #8e9ab5; }
+
+        /* UDID ĐÃ LƯU — giờ nằm bên trong profile-card, không phải card riêng */
+        .profile-udid-block {
+            margin-top: 14px; padding-top: 14px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+        .udid-saved-title { font-size: 13px; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+        .udid-saved-row { display: flex; gap: 8px; }
+        .udid-saved-input {
+            flex: 1; min-width: 0; padding: 10px 12px; border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.05); color: #fff; font-size: 12px;
+            font-family: 'SF Mono', monospace;
+        }
+        .udid-saved-input:focus { outline: none; border-color: #848ef9; }
+        .udid-saved-btn {
+            flex-shrink: 0; padding: 10px 14px; border: none; border-radius: 10px;
+            background: #848ef9; color: #fff; font-weight: 700; font-size: 12px; cursor: pointer;
+        }
+        .udid-saved-btn:active { transform: scale(0.96); }
+        .udid-saved-hint { font-size: 11px; color: #8e9ab5; margin-top: 8px; }
+
+        /* THU GỌN / MỞ RỘNG từng khu vực (Giỏ hàng/License/Kho ứng dụng) */
+        .section-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 4px 4px 10px; cursor: pointer; user-select: none;
+        }
+        .section-title-inline {
+            font-size: 13px; font-weight: 700; color: #8e9ab5;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .section-chevron {
+            font-size: 14px; color: #8e9ab5; transition: transform 0.25s;
+        }
+        .section-chevron.collapsed { transform: rotate(-90deg); }
+        .collapsible-section {
+            overflow: hidden; max-height: 4000px;
+            transition: max-height 0.3s ease, opacity 0.25s ease;
+            opacity: 1;
+        }
+        .collapsible-section.collapsed {
+            max-height: 0; opacity: 0;
+        }
+
+        /* KHO ỨNG DỤNG (tabs + list) */
+        .lib-tabs {
+            display: flex; background: rgba(255,255,255,0.06);
+            border-radius: 14px; padding: 4px; margin-bottom: 14px;
+        }
+        .lib-tab-btn {
+            flex: 1; padding: 9px; border: none; background: transparent;
+            color: #8e9ab5; font-weight: 600; font-size: 12px;
+            border-radius: 10px; cursor: pointer; transition: 0.2s;
+        }
+        .lib-tab-btn.active { background: #848ef9; color: #fff; }
+        .lib-item {
+            background: #0f1e3d; border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px; padding: 12px; margin-bottom: 10px;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .lib-item-icon { width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0; object-fit: cover; }
+        .lib-item-info { flex: 1; min-width: 0; }
+        .lib-item-name { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+        .lib-item-dev { font-size: 11px; color: #8e9ab5; }
+        .lib-item-badge {
+            flex-shrink: 0; font-size: 10px; font-weight: 700; padding: 5px 10px;
+            border-radius: 20px; white-space: nowrap;
+        }
+        .lib-badge-free { background: rgba(107,232,160,0.15); color: #6be8a0; }
+        .lib-badge-owned { background: rgba(132,142,249,0.2); color: #848ef9; }
+        .lib-badge-buy {
+            background: rgba(255,255,255,0.08); color: #fff; cursor: pointer;
+            text-decoration: none; display: inline-block;
+        }
+
+        /* GIỎ HÀNG */
+        .cart-item {
+            background: #0f1e3d; border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px; padding: 12px; margin-bottom: 10px;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .cart-item-info { flex: 1; min-width: 0; }
+        .cart-item-name { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+        .cart-item-time { font-size: 10px; color: #8e9ab5; }
+        .cart-item-actions { display: flex; gap: 6px; flex-shrink: 0; }
+        .cart-buy-btn {
+            padding: 8px 14px; border: none; border-radius: 10px;
+            background: #848ef9; color: #fff; font-weight: 700; font-size: 11px; cursor: pointer;
+        }
+        .cart-remove-btn {
+            padding: 8px 10px; border: none; border-radius: 10px;
+            background: rgba(255,80,80,0.15); color: #ff8080; font-size: 12px; cursor: pointer;
+        }
+
+        /* LICENSES */
+        .section-title {
+            font-size: 13px; font-weight: 700; color: #8e9ab5;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            margin: 24px 0 12px;
+            padding: 0 8px;
+        }
+        .license-list {
+            display: flex; flex-direction: column; gap: 12px;
+            margin-bottom: 24px;
+        }
+        .license-card {
+            background: #0f1e3d; border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px; padding: 14px;
+        }
+        .license-top {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            margin-bottom: 10px;
+        }
+        .license-pkg {
+            font-size: 13px; font-weight: 700; color: #848ef9;
+            font-family: 'SF Mono', monospace; word-break: break-all;
+        }
+        .license-type {
+            font-size: 10px; padding: 3px 8px;
+            background: rgba(132,142,249,0.2); color: #848ef9;
+            border-radius: 6px;
+        }
+        .license-udid {
+            font-size: 11px; color: #8e9ab5; font-family: monospace;
+            margin-bottom: 6px; word-break: break-all;
+        }
+        .license-key {
+            font-size: 12px; color: #b0bcd4;
+            background: rgba(255,255,255,0.03); padding: 8px;
+            border-radius: 10px; margin-bottom: 8px;
+            font-family: 'SF Mono', monospace;
+            white-space: pre-wrap; word-break: break-all;
+            max-height: 100px; overflow: auto;
+        }
+        .license-expires {
+            font-size: 11px; color: #8e9ab5; margin-bottom: 8px;
+        }
+        .license-actions {
+            display: flex; gap: 8px;
+        }
+        .btn-copy {
+            flex: 1; padding: 8px; border: none; border-radius: 10px;
+            background: #848ef9; color: #fff; font-weight: 600; font-size: 12px;
+            cursor: pointer;
+        }
+        .btn-revoke {
+            flex: 1; padding: 8px; border: none; border-radius: 10px;
+            background: rgba(255,80,80,0.15); color: #ff8080;
+            font-weight: 600; font-size: 12px; cursor: pointer;
+        }
+
+        .empty-state {
+            text-align: center; color: #8e9ab5; padding: 40px 20px;
+            font-size: 14px;
+        }
+
+        /* CHECKOUT SHEET (gộp từ shop.html) */
+        .checkout-backdrop {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+            z-index: 200; display: none; align-items: flex-end;
+            backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+        }
+        .checkout-backdrop.open { display: flex; }
+        .checkout-sheet {
+            width: 100%; background: #0f1e3d;
+            border-radius: 24px 24px 0 0;
+            padding: 24px 20px 40px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            max-height: 90vh; overflow-y: auto;
+        }
+        .sheet-handle {
+            width: 36px; height: 4px; background: rgba(255,255,255,0.2);
+            border-radius: 2px; margin: 0 auto 20px;
+        }
+        .sheet-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+        .sheet-product { font-size: 14px; color: #8e9ab5; margin-bottom: 20px; }
+        .sheet-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+            font-size: 14px;
+        }
+        .sheet-row:last-of-type { border-bottom: none; }
+        .sheet-row span:last-child { font-weight: 600; }
+        .total-row { margin-top: 8px; font-size: 16px; font-weight: 700; }
+        .total-row span:last-child { color: #848ef9; font-size: 18px; }
+        .payment-methods { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
+        .pm-label {
+            font-size: 12px; color: #8e9ab5; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;
+        }
+        .pm-btn {
+            width: 100%; padding: 15px; border: none; border-radius: 14px;
+            font-weight: 700; font-size: 15px; cursor: pointer;
+            transition: 0.15s; display: flex; align-items: center;
+            justify-content: center; gap: 8px;
+        }
+        .pm-btn:active { transform: scale(0.97); filter: brightness(0.9); }
+        .pm-payos { background: #0066FF; color: #fff; }
+        .pm-momo { background: #A50064; color: #fff; }
+        #paypal-button-container { margin-top: 10px; }
+        .or-divider {
+            text-align: center; color: #8e9ab5; font-size: 12px;
+            margin: 8px 0; position: relative;
+        }
+        .or-divider::before, .or-divider::after {
+            content: ''; position: absolute; top: 50%;
+            width: calc(50% - 24px); height: 1px;
+            background: rgba(255,255,255,0.1);
+        }
+        .or-divider::before { left: 0; }
+        .or-divider::after { right: 0; }
+        .close-sheet {
+            margin-top: 14px; width: 100%; padding: 14px; border: none;
+            border-radius: 14px; background: rgba(255,255,255,0.06);
+            color: #8e9ab5; font-size: 15px; cursor: pointer;
+        }
+
+        .toast {
+            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+            background: #1a2a50; color: #fff; padding: 12px 20px;
+            border-radius: 12px; font-size: 14px; z-index: 999;
+            opacity: 0; transition: 0.3s; pointer-events: none;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .toast.show { opacity: 1; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="./index.html" class="header-btn header-btn-left" title="Trang chủ">🏠</a>
+        <span class="header-brand">Kyic storage</span>
+        <div class="header-more-wrap">
+            <button class="header-btn" onclick="toggleMoreMenu()" title="Thêm">•••</button>
+            <div class="more-dropdown" id="moreDropdown">
+                <a href="./apps.html" class="more-item">🛒 Mua thêm</a>
+                <a href="./sign.html" class="more-item">🖊️ Sign IPA</a>
+                <button class="more-item" onclick="logout()">↪ Đăng xuất</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Profile (gồm luôn UDID đã lưu) -->
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="profile-avatar" id="avatar">👤</div>
+                <div class="profile-info">
+                    <h2 id="userName">—</h2>
+                    <p id="userEmail">—</p>
+                </div>
+            </div>
+            <div class="profile-row">
+                <span>Mã ID</span>
+                <span id="profileCode" style="font-family:monospace;color:#848ef9;font-weight:700">—</span>
+            </div>
+            <div class="profile-row">
+                <span>Email</span>
+                <span id="profileEmail" style="font-family:monospace">—</span>
+            </div>
+            <div class="profile-row">
+                <span>Tham gia</span>
+                <span id="profileJoined">—</span>
+            </div>
+            <div class="profile-row" id="deviceModelRow" style="display:none">
+                <span>Thiết bị</span>
+                <span id="profileDeviceModel">—</span>
+            </div>
+
+            <!-- UDID đã lưu — gộp vào bảng thông tin tài khoản -->
+            <div class="profile-udid-block">
+                <div class="udid-saved-title">🔑 UDID đã lưu</div>
+                <div class="udid-saved-row">
+                    <input class="udid-saved-input" id="savedUdidInput" placeholder="Chưa lưu UDID nào..." oninput="onSavedUdidTyped()">
+                </div>
+                <div class="udid-saved-row" style="margin-top:8px">
+                    <button class="udid-saved-btn" id="btnGetUdidAuto" onclick="getUdidAuto()" style="flex:1">📱 Lấy tự động</button>
+                    <button class="udid-saved-btn" onclick="saveUdid()" style="flex:1;background:rgba(255,255,255,0.1)">💾 Lưu thủ công</button>
+                </div>
+                <div class="udid-saved-hint" id="udidAutoStatus">Bấm "Lấy tự động" → cài profile → UDID tự điền + tự lưu, hoặc dán tay rồi bấm Lưu.</div>
+            </div>
+        </div>
+
+        <!-- Giỏ hàng -->
+        <div class="section-header" onclick="toggleSection('cart')">
+            <span class="section-title-inline">🛒 Giỏ hàng</span>
+            <span class="section-chevron collapsed" id="chevron-cart">▾</span>
+        </div>
+        <div id="section-cart" class="collapsible-section collapsed">
+            <div id="cartList" style="margin-bottom:24px">
+                <div class="empty-state">⏳ Đang tải...</div>
+            </div>
+        </div>
+
+        <!-- Kho ứng dụng -->
+        <div class="section-header" onclick="toggleSection('library')">
+            <span class="section-title-inline">📦 Kho ứng dụng</span>
+            <span class="section-chevron collapsed" id="chevron-library">▾</span>
+        </div>
+        <div id="section-library" class="collapsible-section collapsed">
+            <div class="lib-tabs">
+                <button class="lib-tab-btn active" id="libtab-apps" onclick="switchLibTab('apps')">📱 Apps</button>
+                <button class="lib-tab-btn" id="libtab-debs" onclick="switchLibTab('debs')">🔧 Debs</button>
+                <button class="lib-tab-btn" id="libtab-dylibs" onclick="switchLibTab('dylibs')">📚 Dylibs</button>
+            </div>
+            <div id="libList" style="margin-bottom:24px">
+                <div class="empty-state">⏳ Đang tải...</div>
+            </div>
+        </div>
+
+        <!-- Licenses -->
+        <div class="section-header" onclick="toggleSection('license')">
+            <span class="section-title-inline">🔐 License của bạn</span>
+            <span class="section-chevron collapsed" id="chevron-license">▾</span>
+        </div>
+        <div id="section-license" class="collapsible-section collapsed">
+            <div id="licenseList" class="license-list" style="margin-bottom:24px">
+                <div class="empty-state">
+                    ⏳ Đang tải...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Sheet (gộp từ shop.html) -->
+    <div class="checkout-backdrop" id="checkoutBackdrop" onclick="closeCheckout(event)">
+        <div class="checkout-sheet">
+            <div class="sheet-handle"></div>
+            <div class="sheet-title">Xác nhận thanh toán</div>
+            <div class="sheet-product" id="sheetProductName">—</div>
+            <div class="sheet-row"><span>Gói</span><span id="sheetPkg">—</span></div>
+            <div class="sheet-row"><span>UDID</span><span id="sheetUdid" style="font-family:monospace;font-size:11px">—</span></div>
+            <div class="sheet-row total-row"><span>Tổng</span><span id="sheetPrice">—</span></div>
+
+            <div class="payment-methods">
+                <div class="pm-label">Chọn cổng thanh toán</div>
+                <div id="paypal-button-container"></div>
+                <div class="or-divider">hoặc</div>
+                <button class="pm-btn pm-payos" onclick="payWithPayOS()">
+                    💙 Thanh toán qua PayOS
+                </button>
+                <button class="pm-btn pm-momo" onclick="payWithMomo()">
+                    💜 Thanh toán qua MoMo
+                </button>
+            </div>
+            <button class="close-sheet" onclick="closeCheckout()">Huỷ</button>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const SUPABASE_URL = "https://vubnjcnhdbwrwfstavft.supabase.co/";
+        const SUPABASE_ANON_KEY = "sb_publishable_akuKZo7u5dAhvj8RQvltyg__T6Acs66";
+        const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const EDGE_FN_URL = SUPABASE_URL.replace(/\/$/, '') + '/functions/v1/udid-capture';
+
+        let ownedProductIds = new Set();
+        let currentLibTab = 'apps';
+        let selectedProduct = null;
+        let cartDataMap = {};
+        let pollingTimer = null;
+        const LIB_SOURCES = {
+            apps: { url: 'https://2kgt.github.io/repo/apps.json', label: 'IPA' },
+            debs: { url: 'https://2kgt.github.io/repo/debs.json', label: 'DEB' },
+            dylibs: { url: 'https://2kgt.github.io/repo/dylibs.json', label: 'DYLIB' },
+        };
+
+        async function init() {
+            // Kiểm tra auth
+            const { data: { session } } = await sb.auth.getSession();
+            if (!session) {
+                window.location.href = './auth.html';
+                return;
+            }
+
+            // Tải profile
+            const { data: user } = await sb.auth.getUser();
+            const { data: profile } = await sb.from('profiles')
+                .select('*').eq('id', user.user.id).single();
+
+            document.getElementById('userName').textContent = profile?.display_name || user.user.email;
+            document.getElementById('userEmail').textContent = user.user.email;
+            document.getElementById('profileEmail').textContent = user.user.email;
+            document.getElementById('profileCode').textContent = profile?.customer_code || '—';
+            document.getElementById('profileJoined').textContent =
+                new Date(user.user.created_at).toLocaleDateString('vi-VN');
+            document.getElementById('avatar').textContent =
+                (profile?.display_name || user.user.email)[0].toUpperCase();
+
+            // Điền UDID đã lưu (nếu có) + tra model máy qua udid.help
+            if (profile?.saved_udid) {
+                document.getElementById('savedUdidInput').value = profile.saved_udid;
+                lookupDeviceModel(profile.saved_udid);
+            }
+
+            // Tải licenses (dùng lại cho phần "Đã sở hữu" trong Kho ứng dụng)
+            const { data: licenses } = await sb.from('licenses')
+                .select('*').eq('user_id', user.user.id).not('revoked', 'is', true);
+            ownedProductIds = new Set((licenses || []).map(l => l.product_id));
+
+            await renderLicenseList(licenses || []);
+            loadLibrary(); // Tải Kho ứng dụng (cả 3 loại), mặc định tab 'apps'
+            loadCart();    // Tải Giỏ hàng
+        }
+
+        // ──────────────────────────────────────────────
+        // TRA MODEL MÁY TỪ UDID — API công khai udid.help (không cần key)
+        // ──────────────────────────────────────────────
+        async function lookupDeviceModel(udid) {
+            try {
+                const resp = await fetch('https://udid.help/v1/device/lookup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ udid, platform: 'ios' })
+                });
+                if (!resp.ok) return; // im lặng nếu lỗi, không quan trọng
+                const result = await resp.json();
+                if (result?.data?.model) {
+                    document.getElementById('profileDeviceModel').textContent = result.data.model;
+                    document.getElementById('deviceModelRow').style.display = 'flex';
+                }
+            } catch (e) { /* bỏ qua lỗi mạng, không chặn trang */ }
+        }
+
+        function onSavedUdidTyped() {
+            document.getElementById('deviceModelRow').style.display = 'none';
+        }
+
+        // ──────────────────────────────────────────────
+        // GIỎ HÀNG
+        // ──────────────────────────────────────────────
+        async function loadCart() {
+            const listEl = document.getElementById('cartList');
+            const { data: { session } } = await sb.auth.getSession();
+            if (!session) return;
+
+            const { data: cartItems } = await sb.from('cart_items')
+                .select('*, products(name, price_usd, price_vnd)')
+                .eq('user_id', session.user.id)
+                .order('added_at', { ascending: false });
+
+            if (!cartItems || cartItems.length === 0) {
+                listEl.innerHTML = '<div class="empty-state">Giỏ hàng trống. Bấm giá tiền ở danh sách "Kho ứng dụng" hoặc apps/debs/dylibs để thêm.</div>';
+                return;
+            }
+
+            cartDataMap = {};
+            listEl.innerHTML = cartItems.map(item => {
+                const p = item.products;
+                cartDataMap[item.product_id] = p;
+                const priceLabel = p?.price_usd ? '$' + p.price_usd
+                    : (p?.price_vnd ? Number(p.price_vnd).toLocaleString('vi-VN') + '₫' : '');
+                const addedTime = new Date(item.added_at).toLocaleString('vi-VN');
+                return `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${p?.name || item.product_id} <span style="color:#848ef9">${priceLabel}</span></div>
+                            <div class="cart-item-time">Thêm lúc: ${addedTime}</div>
+                        </div>
+                        <div class="cart-item-actions">
+                            <button class="cart-buy-btn" onclick="buyFromCart('${item.product_id}')">Mua</button>
+                            <button class="cart-remove-btn" onclick="removeFromCart('${item.id}')">✕</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ──────────────────────────────────────────────
+        // CHECKOUT (gộp từ shop.html) — mua thẳng từ giỏ hàng, dùng UDID đã lưu
+        // ──────────────────────────────────────────────
+        function buyFromCart(productId) {
+            const udid = document.getElementById('savedUdidInput').value.trim();
+            if (!udid) {
+                showToast('⚠️ Vui lòng lưu UDID trước khi mua (mục 🔑 UDID đã lưu ở trên)');
+                document.getElementById('savedUdidInput').focus();
+                return;
+            }
+            const p = cartDataMap[productId];
+            selectedProduct = {
+                bundleIdentifier: productId,
+                name: p?.name || productId,
+                _price_usd: p?.price_usd,
+                _price_vnd: p?.price_vnd,
+            };
+
+            document.getElementById('sheetProductName').textContent = selectedProduct.name;
+            document.getElementById('sheetPkg').textContent = selectedProduct.bundleIdentifier;
+            document.getElementById('sheetUdid').textContent = udid;
+            document.getElementById('sheetPrice').textContent =
+                (selectedProduct._price_usd ? '$' + selectedProduct._price_usd : '') +
+                (selectedProduct._price_vnd ? ' / ' + Number(selectedProduct._price_vnd).toLocaleString('vi-VN') + '₫' : '');
+
+            openCheckout();
+            renderPayPalButton();
+        }
+
+        let ppRendered = false;
+        function renderPayPalButton() {
+            if (ppRendered) return;
+            ppRendered = true;
+            paypal.Buttons({
+                style: { color: 'gold', shape: 'rect', label: 'pay', height: 48 },
+                createOrder: (data, actions) => {
+                    const p = selectedProduct;
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: { value: String(p._price_usd || '1.00'), currency_code: 'USD' },
+                            description: p.name + ' (' + p.bundleIdentifier + ')'
+                        }]
+                    });
+                },
+                onApprove: async (data, actions) => {
+                    const order = await actions.order.capture();
+                    showToast('✅ PayPal thành công! Đang tạo license...');
+                    await requestLicense('paypal', order.id);
+                },
+                onError: (err) => { showToast('❌ Lỗi PayPal: ' + err.message); }
+            }).render('#paypal-button-container');
+        }
+
+        async function payWithPayOS() {
+            if (!selectedProduct) return;
+            showToast('⏳ Đang tạo link PayOS...');
+            const udid = document.getElementById('savedUdidInput').value.trim();
+            const { data: { session } } = await sb.auth.getSession();
+            if (!session) { showToast('⚠️ Cần đăng nhập trước!'); return; }
+            const resp = await fetch(SUPABASE_URL + '/functions/v1/create-order', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + session.access_token },
+                body: JSON.stringify({ product_id: selectedProduct.bundleIdentifier, udid, provider: 'payos' })
+            });
+            const result = await resp.json();
+            if (result.checkout_url) window.location.href = result.checkout_url;
+            else showToast('❌ Lỗi: ' + (result.error || 'Không tạo được link'));
+        }
+
+        async function payWithMomo() {
+            showToast('⏳ Đang tạo link MoMo...');
+            const udid = document.getElementById('savedUdidInput').value.trim();
+            const { data: { session } } = await sb.auth.getSession();
+            if (!session) { showToast('⚠️ Cần đăng nhập trước!'); return; }
+            const resp = await fetch(SUPABASE_URL + '/functions/v1/create-order', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + session.access_token },
+                body: JSON.stringify({ product_id: selectedProduct.bundleIdentifier, udid, provider: 'momo' })
+            });
+            const result = await resp.json();
+            if (result.pay_url) window.location.href = result.pay_url;
+            else showToast('❌ Lỗi: ' + (result.error || 'Không tạo được link'));
+        }
+
+        async function requestLicense(provider, txnId) {
+            const udid = document.getElementById('savedUdidInput').value.trim();
+            const { data: { session } } = await sb.auth.getSession();
+            if (!session) { showToast('⚠️ Cần đăng nhập!'); return; }
+            const resp = await fetch(SUPABASE_URL + '/functions/v1/issue-license', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + session.access_token },
+                body: JSON.stringify({ product_id: selectedProduct.bundleIdentifier, udid, provider, txn_id: txnId })
+            });
+            const result = await resp.json();
+            if (result.license_key) {
+                closeCheckout();
+                showToast('🎉 License tạo thành công!');
+                // Xoá khỏi giỏ hàng (đã mua xong) + tải lại toàn bộ danh sách
+                await sb.from('cart_items').delete()
+                    .eq('user_id', session.user.id).eq('product_id', selectedProduct.bundleIdentifier);
+                loadCart();
+                const { data: licenses } = await sb.from('licenses')
+                    .select('*').eq('user_id', session.user.id).not('revoked', 'is', true);
+                ownedProductIds = new Set((licenses || []).map(l => l.product_id));
+                await renderLicenseList(licenses || []);
+                loadLibrary();
+            } else {
+                showToast('❌ ' + (result.error || 'Lỗi tạo license'));
+            }
+        }
+
+        function openCheckout() {
+            document.getElementById('checkoutBackdrop').classList.add('open');
+        }
+        function closeCheckout(e) {
+            if (e && e.target !== document.getElementById('checkoutBackdrop')) return;
+            document.getElementById('checkoutBackdrop').classList.remove('open');
+        }
+
+
+        async function removeFromCart(cartItemId) {
+            const { error } = await sb.from('cart_items').delete().eq('id', cartItemId);
+            if (error) { showToast('❌ Lỗi: ' + error.message); return; }
+            showToast('🗑️ Đã xoá khỏi giỏ hàng');
+            loadCart();
+        }
+
+        async function renderLicenseList(licenses) {
+            const list = document.getElementById('licenseList');
+            if (!licenses || licenses.length === 0) {
+                list.innerHTML = `<div class="empty-state">
+                    Bạn chưa mua license nào. Bấm ••• ở góc trên để mua thêm.
+                </div>`;
+                return;
+            }
+
+            // Lấy tên sản phẩm thân thiện (thay vì chỉ hiện bundleIdentifier)
+            const productIds = [...new Set(licenses.map(l => l.product_id))];
+            const { data: productsInfo } = await sb.from('products')
+                .select('id,name').in('id', productIds);
+            const nameMap = {};
+            (productsInfo || []).forEach(p => { nameMap[p.id] = p.name; });
+
+            list.innerHTML = licenses.map(lic => `
+                <div class="license-card">
+                    <div class="license-top">
+                        <div>
+                            <div class="license-pkg">${nameMap[lic.product_id] || lic.product_id}</div>
+                            <div style="font-size:10px;color:#8e9ab5;font-family:monospace">${lic.product_id}</div>
+                        </div>
+                    </div>
+                    <div class="license-udid">📱 Thiết bị (UDID): ${lic.udid}</div>
+                    <div class="license-key" id="key-${lic.id}">${lic.license_key}</div>
+                    <div class="license-expires">
+                        ⏱️ Hết hạn: ${new Date(lic.expires_at).toLocaleDateString('vi-VN')}
+                    </div>
+                    <div class="license-actions">
+                        <button class="btn-copy" onclick="copyLicense('${lic.id}')">
+                            📋 Copy key
+                        </button>
+                        <button class="btn-revoke" onclick="revokeLicense('${lic.id}')">
+                            🗑️ Hủy
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function logout() {
+            await sb.auth.signOut();
+            window.location.href = './auth.html';
+        }
+
+        async function addToCartFromDashboard(bundleId, btnEl) {
+            const { data: { session } } = await sb.auth.getSession();
+            if (!session) return;
+            const original = btnEl.textContent;
+            btnEl.textContent = '⏳';
+            const { error } = await sb.from('cart_items')
+                .upsert({ user_id: session.user.id, product_id: bundleId }, { onConflict: 'user_id,product_id' });
+            if (error) {
+                btnEl.textContent = original;
+                showToast('❌ Lỗi: ' + error.message);
+            } else {
+                btnEl.textContent = '✅';
+                showToast('✅ Đã thêm vào giỏ hàng');
+                loadCart();
+                setTimeout(() => { btnEl.textContent = original; }, 1500);
+            }
+        }
+
+        // ──────────────────────────────────────────────
+        // LƯU UDID VĨNH VIỄN VÀO PROFILE
+        // ──────────────────────────────────────────────
+        async function saveUdid() {
+            const val = document.getElementById('savedUdidInput').value.trim();
+            if (!val) { showToast('⚠️ Chưa nhập UDID'); return; }
+            const { data: { session } } = await sb.auth.getSession();
+            if (!session) return;
+            const { error } = await sb.from('profiles')
+                .update({ saved_udid: val }).eq('id', session.user.id);
+            if (error) {
+                showToast('❌ Lỗi lưu UDID: ' + error.message);
+            } else {
+                showToast('✅ Đã lưu UDID — lần sau mua sẽ tự điền');
+                lookupDeviceModel(val);
+            }
+        }
+
+        // ──────────────────────────────────────────────
+        // LẤY UDID TỰ ĐỘNG qua .mobileconfig (gộp từ shop.html)
+        // ──────────────────────────────────────────────
+        async function getUdidAuto() {
+            const token = crypto.randomUUID().replace(/-/g, '');
+            const btn = document.getElementById('btnGetUdidAuto');
+            const status = document.getElementById('udidAutoStatus');
+            btn.style.opacity = '0.6';
+            btn.style.pointerEvents = 'none';
+            btn.textContent = '⏳ Đang chờ...';
+            status.textContent = 'Cài profile → quay lại trang này → UDID sẽ tự điền và tự lưu.';
+
+            await sb.from('udid_sessions').insert({ token, udid: null });
+
+            // Mở .mobileconfig (iOS hỏi cài không)
+            window.location.href = `${EDGE_FN_URL}?token=${token}`;
+
+            pollingTimer = setInterval(() => pollUdidAuto(token), 2000);
+            setTimeout(() => stopPollingAuto(token, false), 300000);
+        }
+
+        async function pollUdidAuto(token) {
+            const { data } = await sb.from('udid_sessions')
+                .select('udid').eq('token', token).single();
+            if (data?.udid) {
+                stopPollingAuto(token, true);
+                document.getElementById('savedUdidInput').value = data.udid;
+                const { data: { session } } = await sb.auth.getSession();
+                if (session) {
+                    await sb.from('profiles').update({ saved_udid: data.udid }).eq('id', session.user.id);
+                }
+                const status = document.getElementById('udidAutoStatus');
+                status.textContent = '✅ UDID đã lấy tự động và lưu thành công!';
+                lookupDeviceModel(data.udid);
+                showToast('✅ Đã lấy & lưu UDID tự động');
+                await sb.from('udid_sessions').delete().eq('token', token);
+            }
+        }
+
+        function stopPollingAuto(token, success) {
+            if (pollingTimer) { clearInterval(pollingTimer); pollingTimer = null; }
+            const btn = document.getElementById('btnGetUdidAuto');
+            btn.style.opacity = '';
+            btn.style.pointerEvents = '';
+            btn.textContent = '📱 Lấy tự động';
+            if (!success) {
+                document.getElementById('udidAutoStatus').textContent =
+                    'Hết thời gian chờ. Thử lại hoặc dán tay UDID rồi bấm Lưu thủ công.';
+            }
+        }
+
+        // ──────────────────────────────────────────────
+        // THU GỌN / MỞ RỘNG khu vực (Giỏ hàng / License / Kho ứng dụng)
+        // ──────────────────────────────────────────────
+        function toggleSection(name) {
+            const section = document.getElementById('section-' + name);
+            const chevron = document.getElementById('chevron-' + name);
+            section.classList.toggle('collapsed');
+            chevron.classList.toggle('collapsed');
+        }
+
+        // ──────────────────────────────────────────────
+        // KHO ỨNG DỤNG — 3 tab, phân loại Miễn phí / Đã sở hữu / Chưa mua
+        // ──────────────────────────────────────────────
+        async function switchLibTab(tab) {
+            currentLibTab = tab;
+            document.querySelectorAll('.lib-tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('libtab-' + tab).classList.add('active');
+            await loadLibrary();
+        }
+
+        async function loadLibrary() {
+            const listEl = document.getElementById('libList');
+            listEl.innerHTML = '<div class="empty-state">⏳ Đang tải...</div>';
+            try {
+                const source = LIB_SOURCES[currentLibTab];
+                const resp = await fetch(source.url);
+                const data = await resp.json();
+                const apps = data.apps || [];
+
+                // CHỈ hiện sản phẩm ĐÃ SỞ HỮU (đã mua) — danh sách đầy đủ (miễn phí +
+                // chưa mua) đã có sẵn ở apps/debs/dylibs.html (View All), không lặp lại ở đây.
+                const ownedApps = apps.filter(app => ownedProductIds.has(app.bundleIdentifier));
+
+                if (ownedApps.length === 0) {
+                    listEl.innerHTML = `<div class="empty-state">
+                        Bạn chưa sở hữu sản phẩm ${source.label} nào.<br>
+                        Xem <a href="./${currentLibTab}.html" style="color:#848ef9">danh sách đầy đủ</a> để mua.
+                    </div>`;
+                    return;
+                }
+
+                listEl.innerHTML = ownedApps.map(app => `
+                    <div class="lib-item">
+                        <img class="lib-item-icon" src="${app.iconURL || ''}"
+                            onerror="this.src='https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png'" alt="${app.name}">
+                        <div class="lib-item-info">
+                            <div class="lib-item-name">${app.name}</div>
+                            <div class="lib-item-dev">${app.developerName || ''}</div>
+                        </div>
+                        <span class="lib-item-badge lib-badge-owned">✅ Đã sở hữu</span>
+                    </div>
+                `).join('');
+            } catch (e) {
+                listEl.innerHTML = '<div class="empty-state">Lỗi tải dữ liệu: ' + e.message + '</div>';
+            }
+        }
+
+        function toggleMoreMenu() {
+            document.getElementById('moreDropdown').classList.toggle('open');
+        }
+        document.addEventListener('click', (e) => {
+            const wrap = document.querySelector('.header-more-wrap');
+            const dropdown = document.getElementById('moreDropdown');
+            if (wrap && dropdown && !wrap.contains(e.target)) {
+                dropdown.classList.remove('open');
+            }
+        });
+
+        function copyLicense(id) {
+            const key = document.getElementById('key-' + id)?.textContent;
+            if (key) {
+                navigator.clipboard.writeText(key).then(() => {
+                    showToast('✅ Đã copy license key');
+                });
+            }
+        }
+
+        async function revokeLicense(id) {
+            if (!confirm('Bạn chắc muốn hủy license này không?')) return;
+            const { error } = await sb.from('licenses')
+                .update({ revoked: true }).eq('id', id);
+            if (error) {
+                showToast('❌ Lỗi: ' + error.message);
+            } else {
+                showToast('✅ Đã hủy license');
+                setTimeout(() => location.reload(), 1000);
+            }
+        }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg; t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2500);
+        }
+
+        init();
+    </script>
+</body>
+</html>

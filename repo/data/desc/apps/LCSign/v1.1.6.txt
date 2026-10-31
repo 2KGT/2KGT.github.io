@@ -1,0 +1,7 @@
+LCSign IPA signing tool
+
+Bản cập nhật này:
+Khắc phục các sự cố đã biết
+Chế độ cài đặt nhanh mới đã được thêm vào (nằm trong phần cài đặt ứng dụng).
+- Tương tự như việc nhập các tệp IPA thông qua Troll, nó cho phép ký và cài đặt trực tiếp và nhanh chóng.
+Cải thiện kết cấu của các biểu tượng tối màu.

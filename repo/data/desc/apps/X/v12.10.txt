@@ -1,0 +1,30 @@
+X
+
+NFB_6.0.3_TWIGalaxy_LiquidGlass
+Hỗ trợ trả lời gốc (beta)
+
+CÁC BƯỚC QUAN TRỌNG ⚠️
+
+1.) Lắp đặt IPA thủy tinh không lỏng này của X 12.10 NFB + TWIGalaxy
+
+2.) Sau khi cài đặt, hãy mở Cài đặt TWIGalaxy trong X bằng cách nhấp vào biểu tượng 🌟 trên thanh tab.
+
+3.) Bật Tải xuống Video. Khởi động lại X. KHÔNG GỠ CÀI ĐẶT X.
+
+4.) Cài đặt Liquid Glass IPA của X 12.10 NFB + TWIGalaxy từ bài đăng này TRÊN IPA TRƯỚC CỦA X.
+
+Các bước để tải xuống video:
+
+1.) Nhấp vào bất kỳ video nào. Nhấp vào biểu tượng tải xuống ở nửa dưới bên trái của màn hình.
+
+Các bước để bật trả lời gốc:
+
+1.) Mở cài đặt X
+
+2.) Nhấn vào NeoFreeBird
+
+3.) Cuộn xuống và nhấn vào Labs
+
+4.) Tắt "Trả lời trong chế độ xem web"
+
+5.) Để trả lời bất kỳ bài đăng nào, hãy nhấp vào bất kỳ bài đăng nào, nhấn vào hộp văn bản "Đăng câu trả lời của bạn", nhập câu trả lời của bạn và nhấp vào trả lời.
