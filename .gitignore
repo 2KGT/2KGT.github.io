@@ -1,0 +1,60 @@
+# ==========================================
+# 🛑 BIẾN TẠM & RÁC HỆ THỐNG PYTHON
+# ==========================================
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.Python
+env/
+venv/
+ENV/
+
+# ==========================================
+# 🛑 TỆP TIN TẠM PHÁT SINH KHI QUÉT DEB/IPA
+# ==========================================
+scripts/temp_*
+temp_*
+*.tmp
+*.bak
+control.tar*
+data.tar*
+debian-binary
+*.log
+
+# ==========================================
+# 🛑 DỮ LIỆU ĐẶC THÙ CỦA MACOS / WINDOWS
+# ==========================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ==========================================
+# ⚠️ GHIM ĐẶC BIỆT CHỈ GIỮ THÀNH PHẨM VÀ MEDIA
+# ==========================================
+# Bắt buộc theo dõi thư mục repo chính và mã nguồn chạy sync
+!repo/
+!scripts/
+!scripts/sync.py
+
+# Ghim chặt các thư mục chứa file cài đặt thành phẩm
+!repo/apps/
+!repo/debs/
+
+# Ghim chặt các thư mục chứa cấu hình hiển thị & ảnh/icon
+!repo/depictions/
+!repo/depictions/icons/
+!repo/depictions/images/
+!repo/depictions/metadata/
+
+# Ghim toàn bộ file hệ thống đầu ra phục vụ Feather, E-Sign, Sileo
+!repo/apps.json
+!repo/sileo.json
+!repo/Packages
+!repo/Packages.bz2
+!repo/Release
+!repo/depictions/metadata/wikiipa.json

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0a1428">
+    <title>Đăng nhập — Kyic storage</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        html, body {
+            background: #0a1428;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+            min-height: 100vh;
+        }
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+        .auth-card {
+            width: 100%;
+            max-width: 400px;
+            background: #0f1e3d;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 26px;
+            padding: 32px 28px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+        }
+        .auth-logo {
+            width: 64px; height: 64px; border-radius: 18px;
+            margin: 0 auto 16px; display: block;
+        }
+        h1 {
+            text-align: center; font-size: 22px; font-weight: 700; margin-bottom: 6px;
+        }
+        .subtitle {
+            text-align: center; color: #8e9ab5; font-size: 14px; margin-bottom: 28px;
+        }
+        .tabs {
+            display: flex; background: rgba(255,255,255,0.06);
+            border-radius: 14px; padding: 4px; margin-bottom: 24px;
+        }
+        .tab-btn {
+            flex: 1; padding: 10px; border: none; background: transparent;
+            color: #8e9ab5; font-weight: 600; font-size: 14px; border-radius: 10px;
+            cursor: pointer; transition: 0.2s;
+        }
+        .tab-btn.active {
+            background: #848ef9; color: #fff;
+        }
+        .form-group { margin-bottom: 16px; }
+        label { display: block; font-size: 13px; color: #8e9ab5; margin-bottom: 6px; }
+        input {
+            width: 100%; padding: 14px; border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.05); color: #fff; font-size: 15px;
+        }
+        input:focus { outline: none; border-color: #848ef9; }
+        .submit-btn {
+            width: 100%; padding: 15px; border: none; border-radius: 14px;
+            background: #848ef9; color: #fff; font-weight: 700; font-size: 15px;
+            cursor: pointer; margin-top: 8px; transition: 0.15s;
+        }
+        .submit-btn:active { transform: scale(0.97); filter: brightness(0.92); }
+        .submit-btn:disabled { opacity: 0.5; }
+        .msg {
+            margin-top: 16px; padding: 12px; border-radius: 10px;
+            font-size: 13px; text-align: center; display: none;
+        }
+        .msg.error { background: rgba(255,80,80,0.15); color: #ff8080; display: block; }
+        .msg.success { background: rgba(80,220,140,0.15); color: #6be8a0; display: block; }
+        .back-link {
+            display: block; text-align: center; margin-top: 20px;
+            color: #8e9ab5; font-size: 13px; text-decoration: none;
+        }
+        .form-panel { display: none; }
+        .form-panel.active { display: block; }
+    </style>
+</head>
+<body>
+    <div class="auth-card">
+        <img class="auth-logo" src="https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png" alt="logo">
+        <h1>Kyic storage</h1>
+        <p class="subtitle">Đăng nhập để quản lý license &amp; đơn hàng</p>
+
+        <div class="tabs">
+            <button class="tab-btn active" id="tabLogin" onclick="switchTab('login')">Đăng nhập</button>
+            <button class="tab-btn" id="tabSignup" onclick="switchTab('signup')">Đăng ký</button>
+        </div>
+
+        <!-- LOGIN -->
+        <div class="form-panel active" id="panelLogin">
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="loginEmail" placeholder="ban@email.com" autocomplete="email">
+            </div>
+            <div class="form-group">
+                <label>Mật khẩu</label>
+                <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
+            </div>
+            <button class="submit-btn" id="btnLogin" onclick="doLogin()">Đăng nhập</button>
+        </div>
+
+        <!-- SIGNUP -->
+        <div class="form-panel" id="panelSignup">
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="signupEmail" placeholder="ban@email.com" autocomplete="email">
+            </div>
+            <div class="form-group">
+                <label>Mật khẩu (tối thiểu 6 ký tự)</label>
+                <input type="password" id="signupPassword" placeholder="••••••••" autocomplete="new-password">
+            </div>
+            <button class="submit-btn" id="btnSignup" onclick="doSignup()">Tạo tài khoản</button>
+        </div>
+
+        <div class="msg" id="msgBox"></div>
+        <a href="./index.html" class="back-link">← Về trang chủ</a>
+    </div>
+
+    <script>
+        // ⚠️ Đây là ANON KEY (public), CHỈ có quyền hạn chế theo RLS —
+        // KHÔNG BAO GIỜ đặt Service Role Key ở đây (file này công khai
+        // trên GitHub Pages, ai cũng xem được source).
+        const SUPABASE_URL = "https://vubnjcnhdbwrwfstavft.supabase.co/";
+        const SUPABASE_ANON_KEY = "sb_publishable_akuKZo7u5dAhvj8RQvltyg__T6Acs66";
+        const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        function switchTab(tab) {
+            document.getElementById('tabLogin').classList.toggle('active', tab === 'login');
+            document.getElementById('tabSignup').classList.toggle('active', tab === 'signup');
+            document.getElementById('panelLogin').classList.toggle('active', tab === 'login');
+            document.getElementById('panelSignup').classList.toggle('active', tab === 'signup');
+            hideMsg();
+        }
+
+        function showMsg(text, type) {
+            const box = document.getElementById('msgBox');
+            box.textContent = text;
+            box.className = 'msg ' + type;
+        }
+        function hideMsg() {
+            const box = document.getElementById('msgBox');
+            box.className = 'msg';
+        }
+
+        async function doLogin() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const btn = document.getElementById('btnLogin');
+            if (!email || !password) { showMsg('Vui lòng nhập đủ email và mật khẩu', 'error'); return; }
+            btn.disabled = true;
+            const { data, error } = await sb.auth.signInWithPassword({ email, password });
+            btn.disabled = false;
+            if (error) { showMsg(error.message, 'error'); return; }
+            showMsg('Đăng nhập thành công! Đang chuyển hướng...', 'success');
+            setTimeout(() => location.href = './dashboard.html', 800);
+        }
+
+        async function doSignup() {
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const btn = document.getElementById('btnSignup');
+            if (!email || password.length < 6) { showMsg('Email hợp lệ + mật khẩu tối thiểu 6 ký tự', 'error'); return; }
+            btn.disabled = true;
+            const { data, error } = await sb.auth.signUp({ email, password });
+            btn.disabled = false;
+            if (error) { showMsg(error.message, 'error'); return; }
+            showMsg('Đăng ký thành công! Kiểm tra email để xác nhận (nếu bật), sau đó đăng nhập.', 'success');
+            setTimeout(() => switchTab('login'), 1500);
+        }
+
+        // Nếu đã đăng nhập sẵn (session còn hiệu lực) → chuyển thẳng dashboard
+        (async () => {
+            const { data: { session } } = await sb.auth.getSession();
+            if (session) location.href = './dashboard.html';
+        })();
+    </script>
+</body>
+</html>
