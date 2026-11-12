@@ -1,0 +1,7 @@
+LCSign
+
+Bản cập nhật này:
+Khắc phục các sự cố đã biết
+Tái cấu trúc toàn bộ giao diện người dùng của mã nguồn phần mềm (một bất ngờ thú vị).
+Thêm trang cài đặt mới - Quản lý dung lượng lưu trữ (Phân tích tổng thể mức sử dụng)
+Đã thêm chức năng tự động thay thế cho các plugin cùng nguồn.

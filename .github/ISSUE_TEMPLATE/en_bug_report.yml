@@ -1,0 +1,75 @@
+name: "English Bug Report"
+description: "Report crashes, glitches, or unexpected behaviors of tweaks/apps."
+title: "[BUG]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to report a bug! Please fill in the information below to help us fix it as quickly as possible.
+
+  - type: input
+    id: device-info
+    attributes:
+      label: "📱 Device & iOS Version"
+      description: "e.g., iPhone 13 Pro - iOS 16.5, or iPad Air 5 - iOS 17.0"
+      placeholder: "Enter your device name and iOS version here..."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: environment
+    attributes:
+      label: "🛠️ Installation / Jailbreak Tool"
+      description: "Select the tool you are using to install apps or jailbreak your device."
+      options:
+        - "TrollStore"
+        - "Dopamine (Jailbreak)"
+        - "Palera1n (Jailbreak)"
+        - "AltStore / Sideloadly"
+        - "Other (Please specify in the bug description)"
+    validations:
+      required: true
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: "📝 Detailed Description of the Bug"
+      description: "What happened? What was the expected behavior and what actually went wrong?"
+      placeholder: "The bug occurs when I tap on..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: "👣 Steps to Reproduce"
+      description: "List the step-by-step actions that trigger the bug."
+      placeholder: |
+        1. Open Feather/Sileo app
+        2. Go to...
+        3. The app crashes immediately.
+    validations:
+      required: true
+
+  - type: textarea
+    id: crash-logs
+    attributes:
+      label: "📁 Crash Logs / Screenshots (Optional)"
+      description: "Paste your crash log (from Krashkop/CrashReporter) or drag and drop screenshots showing the error here."
+      placeholder: "Paste logs or drop images here..."
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: "🚨 Prerequisites"
+      description: "Please read carefully and check the boxes to confirm before submitting."
+      options:
+        - label: "I have checked and ensured this bug has not been reported before."
+          required: true
+        - label: "I confirm that I have provided accurate device information and logs."
+          required: true
+        - label: "I understand that if I provide insufficient information or spam, this issue may be closed without discussion."
+          required: true
