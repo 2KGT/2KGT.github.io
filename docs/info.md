@@ -1,5 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 15/11/2026 02:55:53 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 15/11/2026 02:56:06 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -23,7 +23,6 @@
 │   │   │   ├── sileo_engine.py
 │   │   │   └── utils.py
 │   │   ├── data.py
-│   │   ├── deb_desc.py
 │   │   ├── engine_core.py
 │   │   ├── gemini.py
 │   │   ├── github.py
