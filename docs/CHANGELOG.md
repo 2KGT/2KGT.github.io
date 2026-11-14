@@ -6,6 +6,19 @@
 
 | Tiêu đề | Nội dung |
 |---|---|
+| ⏱️ Time | 15/11/2026 06:55 |
+| 👤 Author | GitHub Action |
+| 💬 Commit | 🚀 Auto Sync: 19 apps, 108 tweaks | 14/11/2026 19:56 [skip ci] |
+| 📊 Overview | 31 file · 2 thư mục thay đổi |
+| 🛠️ Các thay đổi | ✨ Thêm (2)<br>`repo/data/desc/dylibs/AutoAC/`<br>`repo/data/desc/tweaks/AutoAC/`<br><details><summary>✏️ Sửa (29)</summary><br>`repo/Packages`<br>`repo/Packages.bz2`<br>`repo/Packages.gz`<br>`repo/Packages.xz`<br>`repo/Release`<br>`repo/apps.json`<br>`repo/data/desc/dylibs/Autocat/com.kyic.autocat_1.3.1_iphoneos-arm.json`<br>`repo/data/desc/dylibs/Autocat/com.kyic.autocat_1.3.1_iphoneos-arm64.json`<br>`repo/data/desc/dylibs/Autocat/com.kyic.autocat_1.3.1_iphoneos-arm64e.json`<br>`repo/data/desc/dylibs/DLTwitter/DLTwitter.json`<br>`repo/data/desc/dylibs/FbStorySeen/FbStorySeen.json`<br>`repo/data/desc/dylibs/FixIpa/FixIpa.json`<br>`repo/data/desc/dylibs/Ghi a\314\202m ta\314\206\314\201t ma\314\200n/Ghi a\314\202m ta\314\206\314\201t ma\314\200n.json`<br>`repo/data/desc/dylibs/Ghi \303\242m t\341\272\257t m\303\240n/Ghi \303\242m t\341\272\257t m\303\240n.json`<br>`repo/data/desc/dylibs/Lead/com.w3ltyyy.lead_1.3.3_iphoneos-arm.json`<br>`repo/data/desc/dylibs/Lead/com.w3ltyyy.lead_1.4.2_iphoneos-arm.json`<br>`repo/data/desc/dylibs/Lead/com.w3ltyyy.lead_1.4.3_iphoneos-arm.json`<br>`repo/data/desc/dylibs/LoadControl/LoadControl.json`<br>`repo/data/desc/dylibs/SideloadFixerLol/sideloadFixerLol.json`<br>`repo/data/desc/dylibs/SideloadKeychainFix/sideloadKeychainFix.json`<br>`repo/data/desc/dylibs/Sideloadbypass1/Sideloadbypass1.json`<br>`repo/data/desc/dylibs/Sideloadbypass2/Sideloadbypass2.json`<br>`repo/data/desc/dylibs/TWIGalaxy/TWIGalaxy.json`<br>`repo/data/desc/dylibs/TwitDate/TwitDate.json`<br>`repo/data/desc/dylibs/XLogin/XLogin.json`<br>`repo/data/desc/wiki/wikidebs.json`<br>`repo/data/desc/wiki/wikidylibs.json`<br>`repo/debs.json`<br>`repo/dylibs.json`</details><br>✨ Thêm thư mục (2)<br>`repo/data/desc/dylibs/AutoAC/`<br>`repo/data/desc/tweaks/AutoAC/` |
+| ❓ Nguyên nhân | Hệ thống tự động kích hoạt khi có release mới (published/created/edited) · Cập nhật mô tả ứng dụng (depiction) · Commit: 🚀 Auto Sync: 19 apps, 108 tweaks | 14/11/2026 19:56 [skip ci] |
+| 🎯 Kết quả | ✅ Hoàn tất<br><br>📄 File (31): ✏️ Sửa 29, ✨ Thêm 2<br>📂 Thư mục (2): ✨ Thêm 2 |
+
+---
+
+
+| Tiêu đề | Nội dung |
+|---|---|
 | ⏱️ Time | 15/11/2026 02:57 |
 | 👤 Author | 2K |
 | 💬 Commit | Delete .github/scripts/tgbot.py |

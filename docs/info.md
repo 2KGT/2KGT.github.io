@@ -1,5 +1,7 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 15/11/2026 02:57:06 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 15/11/2026 06:55:45 (Giờ Hà Nội)*
+
+📝 *Thay đổi thư mục so với lần quét trước: ✨ +2 thư mục mới* — xem chi tiết tại `docs/CHANGELOG.md`
 
 ```text
 🗺️ Root/
@@ -23,16 +25,12 @@
 │   │   │   ├── sileo_engine.py
 │   │   │   └── utils.py
 │   │   ├── data.py
-│   │   ├── engine_core.py
 │   │   ├── gemini.py
 │   │   ├── github.py
 │   │   ├── logs.py
 │   │   ├── main.py
 │   │   ├── notify.py
-│   │   ├── plan.py
-│   │   ├── publish.py
 │   │   ├── smart_commit.py
-│   │   ├── tgbot.py
 │   │   ├── validate_repo.py
 │   │   └── views.py
 │   └── 📂 workflows/
@@ -143,6 +141,9 @@
 │   │   │   │   │   └── v1.1.28.txt
 │   │   │   │   └── 📂 全能签/
 │   │   │   ├── 📂 dylibs/
+│   │   │   │   ├── 📂 AutoAC/
+│   │   │   │   │   ├── v2.1.91.txt
+│   │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
 │   │   │   │   ├── 📂 AutoRevenuecat/
 │   │   │   │   │   ├── v1.3.1.txt
 │   │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
@@ -180,6 +181,11 @@
 │   │   │   │   └── 📂 XLogin/
 │   │   │   │       └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
 │   │   │   ├── 📂 tweaks/
+│   │   │   │   ├── 📂 AutoAC/
+│   │   │   │   │   ├── com.kyic.autoac_2.1.91_iphoneos-arm64.html
+│   │   │   │   │   ├── default.txt
+│   │   │   │   │   ├── v2.1.91.txt
+│   │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
 │   │   │   │   ├── 📂 BHTwitter/
 │   │   │   │   │   ├── BHTwitter_rootless.html
 │   │   │   │   │   ├── default.txt

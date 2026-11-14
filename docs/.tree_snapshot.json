@@ -38,6 +38,7 @@
     "repo/data/desc/apps/Zebra",
     "repo/data/desc/apps/全能签",
     "repo/data/desc/dylibs",
+    "repo/data/desc/dylibs/AutoAC",
     "repo/data/desc/dylibs/AutoRevenuecat",
     "repo/data/desc/dylibs/Autocat",
     "repo/data/desc/dylibs/DLTwitter",
@@ -55,6 +56,7 @@
     "repo/data/desc/dylibs/TwitDate",
     "repo/data/desc/dylibs/XLogin",
     "repo/data/desc/tweaks",
+    "repo/data/desc/tweaks/AutoAC",
     "repo/data/desc/tweaks/BHTwitter",
     "repo/data/desc/tweaks/Lead",
     "repo/data/desc/tweaks/NFB",
@@ -527,6 +529,12 @@
       "YoutubeX_1.7.19_arm.json",
       "default.txt"
     ],
+    "repo/data/desc/tweaks/AutoAC": [
+      "com.kyic.autoac_2.1.91_iphoneos-arm64.html",
+      "com.kyic.autoac_2.1.91_iphoneos-arm64.json",
+      "default.txt",
+      "v2.1.91.txt"
+    ],
     "repo/data/desc/tweaks/orwellvk": [
       "com.dvntm.ovk_1.1.6_iphoneos-arm.html",
       "com.dvntm.ovk_1.1.6_iphoneos-arm.json",
@@ -806,6 +814,10 @@
     ],
     "repo/data/desc/dylibs/Ghi âm tắt màn": [
       "Ghi âm tắt màn.json"
+    ],
+    "repo/data/desc/dylibs/AutoAC": [
+      "com.kyic.autoac_2.1.91_iphoneos-arm64.json",
+      "v2.1.91.txt"
     ],
     "repo/data/desc/dylibs/FbStorySeen": [
       "FbStorySeen.json"

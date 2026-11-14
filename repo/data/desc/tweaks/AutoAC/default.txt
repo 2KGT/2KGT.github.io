@@ -1,0 +1,13 @@
+AutoAC tweak (long press + logo YouTube)
+
+━━ Cập nhật tự động ━━
+AutoAC v2.1.91 — 15/11/2026
+
+✨ Tính năng mới
+• Hỗ trợ YouTube 21.83.3 tốt nhất
+
+📌 Hỗ trợ tốt nhất: YouTube 21.45.4
+🧩 Hệ sinh thái: Rootless (iphoneos-arm64)
+🔗 Tích hợp: YouTube X, NoYTPremium
+✅ Không phát hiện hook hỏng (13/22 khớp, còn lại chưa kiểm chứng được)
+🗓️ Phát hành: 15/11/2026

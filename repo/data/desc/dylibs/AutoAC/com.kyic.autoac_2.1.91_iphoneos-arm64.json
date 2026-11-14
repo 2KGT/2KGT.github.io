@@ -1,0 +1,29 @@
+{
+  "name": "AutoAC",
+  "bundle": "com.kyic.autoac",
+  "version": "2.1.91",
+  "architecture": "iphoneos-arm64",
+  "author": "Kyic",
+  "description": "AutoAC v2.1.91 ✨ Tính năng mới - Hỗ trợ YouTube 21.83.3 tốt nhất 📌 Hỗ trợ tốt nhất: YouTube 21.45.4 🧩 Hệ sinh thái: Dylib (inject / sideload) · Rootless (iphoneos-arm64) 🔗 Tích hợp: YouTube X, NoYTPremium ✅ Không phát hiện hook hỏng (13/22 khớp, còn lại chưa kiểm chứng được) 🗓️ Phát hành: 15/11/2026",
+  "changelog": "### v2.1.91 (hiện tại)\nAutoAC v2.1.91\n\n✨ Tính năng mới\n- Hỗ trợ YouTube 21.83.3 tốt nhất\n\n📌 Hỗ trợ tốt nhất: YouTube 21.45.4\n🧩 Hệ sinh thái: Dylib (inject / sideload) · Rootless (iphoneos-arm64)\n🔗 Tích hợp: YouTube X, NoYTPremium\n✅ Không phát hiện hook hỏng (13/22 khớp, còn lại chưa kiểm chứng được)\n🗓️ Phát hành: 15/11/2026",
+  "icon": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/AutoAC.png",
+  "banner": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_banner.webp",
+  "video": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_video.mp4",
+  "screenshots": [
+    "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_1.jpeg",
+    "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_2.jpeg",
+    "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_3.jpeg",
+    "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_4.jpeg",
+    "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_5.jpeg",
+    "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_6.jpeg",
+    "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_7.jpeg",
+    "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_8.jpeg"
+  ],
+  "size": 1627568,
+  "md5": "2caa02f6b555e5cfe09669262d8bac51",
+  "sha1": "08182ffa26d902c5e2b27505be0577423acf5db2",
+  "sha256": "1e9067f8c1bba34d25d4f24974fa93bc4ca67392126b85fbe04d9c43cdbbc93a",
+  "downloadURL": "https://github.com/2KGT/2KGT.github.io/releases/download/autoac-v2.1.91/com.kyic.autoac_2.1.91_iphoneos-arm64.dylib",
+  "versionDate": "2026-11-14T23:54:25Z",
+  "generated_at": "2026-11-14T23:55:42Z"
+}

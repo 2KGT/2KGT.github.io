@@ -1537,6 +1537,37 @@ SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/ytmu/com.ginsu.ytmu
 
 Package: com.kyic.autoac
 Name: AutoAC
+Version: 2.1.91
+Architecture: iphoneos-arm64
+Filename: https://github.com/2KGT/2KGT.github.io/releases/download/autoac-v2.1.91/com.kyic.autoac_2.1.91_iphoneos-arm64.deb
+Size: 359428
+MD5sum: 163218d1730c8b8c15bd4d92a570800e
+SHA1: 06926a123d2858a0f7ef313e163ddbb046e808ee
+SHA256: ef5cda2601b5c6ad151f263a7a700ced3fd4b24f7001fd9fc4e912714caada2a
+Author: Kyic
+Maintainer: Kyic
+Depends: mobilesubstrate
+Installed-Size: 1684
+Description: AutoAC tweak (long press + logo YouTube)
+ .
+ ━━ Cập nhật tự động ━━
+ AutoAC v2.1.91 — 15/11/2026
+ .
+ ✨ Tính năng mới
+ • Hỗ trợ YouTube 21.83.3 tốt nhất
+ .
+ 📌 Hỗ trợ tốt nhất: YouTube 21.45.4
+ 🧩 Hệ sinh thái: Rootless (iphoneos-arm64)
+ 🔗 Tích hợp: YouTube X, NoYTPremium
+ ✅ Không phát hiện hook hỏng (13/22 khớp, còn lại chưa kiểm chứng được)
+ 🗓️ Phát hành: 15/11/2026
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/AutoAC.png
+Depiction: https://2kgt.github.io/repo/data/desc/tweaks/AutoAC/com.kyic.autoac_2.1.91_iphoneos-arm64.html
+SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/AutoAC/com.kyic.autoac_2.1.91_iphoneos-arm64.json
+
+Package: com.kyic.autoac
+Name: AutoAC
 Version: 2.1.90
 Architecture: iphoneos-arm64
 Filename: debs/autoac/com.kyic.autoac_2.1.90_iphoneos-arm64.deb
@@ -1572,25 +1603,6 @@ Section: Tweaks
 Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/AutoAC.png
 Depiction: https://2kgt.github.io/repo/data/desc/tweaks/autoac/com.kyic.autoac_2.1.35_iphoneos-arm64.html
 SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/autoac/com.kyic.autoac_2.1.35_iphoneos-arm64.json
-
-Package: com.kyic.autoac
-Name: AutoAC
-Version: 2.1.34
-Architecture: iphoneos-arm64
-Filename: debs/autoac/com.kyic.autoac_2.1.34_iphoneos-arm64.deb
-Size: 259700
-MD5sum: 2d6de5379d591f10d5846c321534ad28
-SHA1: 1cfb0b673da594d5d423f0621f00ea35fef7ce94
-SHA256: 72adfa5ea1a3c636db929314383964e1a1c7ecb1cc8f4eaf8df0a73ce0c8e465
-Author: Kyic
-Maintainer: Kyic
-Depends: mobilesubstrate
-Installed-Size: 1244
-Description: AutoAC tweak (long press + logo YouTube)
-Section: Tweaks
-Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/AutoAC.png
-Depiction: https://2kgt.github.io/repo/data/desc/tweaks/autoac/com.kyic.autoac_2.1.34_iphoneos-arm64.html
-SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/autoac/com.kyic.autoac_2.1.34_iphoneos-arm64.json
 
 Package: com.ps.noytpremium
 Name: NoYTPremium
