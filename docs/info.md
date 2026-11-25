@@ -1,7 +1,7 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 26/11/2026 06:56:45 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 26/11/2026 06:58:37 (Giờ Hà Nội)*
 
-📝 *Thay đổi thư mục so với lần quét trước: ✨ +2 thư mục mới* — xem chi tiết tại `docs/CHANGELOG.md`
+📝 *Thay đổi thư mục so với lần quét trước: ✨ +1 thư mục mới* — xem chi tiết tại `docs/CHANGELOG.md`
 
 ```text
 🗺️ Root/
@@ -143,8 +143,9 @@
 │   │   │   │   └── 📂 全能签/
 │   │   │   ├── 📂 dylibs/
 │   │   │   │   ├── 📂 AutoAC/
+│   │   │   │   │   ├── v2.1.141.txt
 │   │   │   │   │   ├── v2.1.91.txt
-│   │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 1 file ]
+│   │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 2 file ]
 │   │   │   │   ├── 📂 AutoRevenuecat/
 │   │   │   │   │   ├── v1.3.1.txt
 │   │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file ]
@@ -533,11 +534,14 @@
 │   │   ├── 📂 XLogin/
 │   │   │   ├── .gitkeep
 │   │   │   └── XLogin.dylib
-│   │   └── 📂 autoCat/
-│   │       ├── .gitkeep
-│   │       ├── com.kyic.autocat_1.3.1_iphoneos-arm.dylib
-│   │       ├── com.kyic.autocat_1.3.1_iphoneos-arm64.dylib
-│   │       └── com.kyic.autocat_1.3.1_iphoneos-arm64e.dylib
+│   │   ├── 📂 autoCat/
+│   │   │   ├── .gitkeep
+│   │   │   ├── com.kyic.autocat_1.3.1_iphoneos-arm.dylib
+│   │   │   ├── com.kyic.autocat_1.3.1_iphoneos-arm64.dylib
+│   │   │   └── com.kyic.autocat_1.3.1_iphoneos-arm64e.dylib
+│   │   └── 📂 autoac/
+│   │       ├── com.kyic.autoac_2.1.141_iphoneos-arm64.dylib
+│   │       └── v2.1.141.txt
 │   ├── 📂 html/
 │   │   ├── .gitkeep
 │   │   ├── apps.html
