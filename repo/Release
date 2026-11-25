@@ -1,0 +1,19 @@
+Origin: Kyic Premium Store
+Label: Kyic
+Suite: stable
+Version: 1.0
+Codename: ios
+Architectures: iphoneos-arm iphoneos-arm64 iphoneos-arm64e
+Components: main
+Description: Kho tài nguyên ứng dụng của Kyic Premium Store.
+Date: Wed, 25 Nov 2026 23:11:53 UTC
+MD5Sum:
+ 660ebc7d41a50854348c8412aa3f3132    89178 Packages
+ 713d2cbc87e5d13ee126fca86fd337cf    15690 Packages.gz
+ 3d0fb7d1ec05ea9c4d6acb306e32c127    14044 Packages.bz2
+ 36cabf8705c0aad7afd265a443a6d536    13844 Packages.xz
+SHA256:
+ 3a83e0b775005f6d73dde209f245e35f353ad6d25fc0e94e061d61b6f24c81dc    89178 Packages
+ 1015e48268b1fd0de00605f844bccc958560291cd0f78a2a88fdb3f395b27fe3    15690 Packages.gz
+ 638451cce9f6c4f36873b47a3cda1b45b84e8db47731e3a0bd9a7b3ab61483db    14044 Packages.bz2
+ 20516b2c107e223a949fbd2cf7d0bafd0e61abe793e64716128e5bbdff3f9827    13844 Packages.xz

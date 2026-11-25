@@ -1,0 +1,7 @@
+Lead dylib
+
+•Đã thêmKhả năng tạo giá trị tùy chỉnh cho số sao (trực quan)
+•Đã sửaNút thoại bị chồng lên nút hình tròn trong Swiftgram.
+•Đã sửa: hiện tượng giật lag khi khởi chạy ứng dụng
+•Đã sửaCác vạch sóng nhỏ và đồng đều.
+•Đã sửa: Chức năng Ghost Exceptions hiện đã hiển thị chính xác tên/tên người dùng.

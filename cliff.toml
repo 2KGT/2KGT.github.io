@@ -1,0 +1,54 @@
+# git-cliff configuration file
+# https://git-cliff.org/docs/configuration
+
+[changelog]
+# Tiêu đề nằm ở đầu file Changelog
+header = """
+# Changelog
+All notable changes to this project will be documented in this file.
+"""
+# Định dạng nội dung hiển thị cho từng phiên bản
+body = """
+{% if version %}\
+    ## [{{ version | trim_start_matches(pat="v") }}] - {{ timestamp | date(format="%Y-%m-%d") }}
+{% else %}\
+    ## [unreleased]
+{% endif %}\
+{% for group, commits in commits | group_by(attribute="group") %}
+    ### {{ group | upper_first }}
+    {% for commit in commits %}
+        - {% if commit.scope %}*({{ commit.scope }})* {% endif %}{{ commit.message | upper_first }}\
+    {% endfor %}
+{% endfor %}\
+"""
+# Xóa các khoảng trắng thừa trong template
+trim = true
+
+[git]
+# Bật tính năng phân tích commit theo chuẩn Conventional Commits
+conventional_commits = true
+# Lọc bỏ hoàn toàn các commit viết sai cấu trúc (không có tiền tố như feat, fix, docs...)
+filter_unconventional = true
+# Xử lý từng dòng của commit dưới dạng một commit độc lập
+split_commits = false
+# Bộ lọc phân loại commit vào các mục tương ứng dựa theo từ khóa đầu dòng
+commit_parsers = [
+    { message = "^feat", group = "🚀 Features (Tính năng mới)" },
+    { message = "^fix", group = "🐛 Bug Fixes (Sửa lỗi)" },
+    { message = "^doc", group = "📝 Documentation (Tài liệu)" },
+    { message = "^perf", group = "⚡ Performance (Tối ưu hiệu năng)" },
+    { message = "^refactor", group = "🛠️ Refactor (Cấu trúc lại code)" },
+    { message = "^style", group = "🎨 Styling (Giao diện & Định dạng)" },
+    { message = "^test", group = "🧪 Testing (Kiểm thử)" },
+    { message = "^chore\\(release\\):", skip = true },
+    { message = "^chore", group = "⚙️ Miscellaneous (Hệ thống vặt)" },
+    { body = ".*Security.*", group = "🔒 Security (Bảo mật)" },
+]
+# Bảo vệ các thay đổi lớn (Breaking Changes) không bị bỏ qua
+protect_breaking_commits = false
+# Định dạng thẻ phiên bản để bot nhận diện (Ví dụ: v1.0.0, v2.1.0)
+tag_pattern = "v[0-9]*"
+# Sắp xếp các tag theo cấu trúc hình cây
+topo_order = false
+# Sắp xếp các commit bên trong từng mục theo thứ tự từ cũ đến mới nhất
+sort_commits = "oldest"
