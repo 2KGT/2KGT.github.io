@@ -1,0 +1,8 @@
+🔧 Cải tiến
+- Cập nhật phiên bản v2.1.140
+
+📌 Hỗ trợ tốt nhất: YouTube 21.46.3
+🧩 Hệ sinh thái: Rootless (iphoneos-arm64)
+🔗 Tích hợp: YouTube X, NoYTPremium
+✅ Không phát hiện hook hỏng (13/22 khớp, còn lại chưa kiểm chứng được)
+🗓️ Phát hành: 26/11/2026
