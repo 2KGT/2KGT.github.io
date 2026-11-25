@@ -1,0 +1,30 @@
+{
+ "schema": 1,
+ "stage": "debs",
+ "project": "AutoAC",
+ "version": "2.1.141",
+ "package": "com.kyic.autoac",
+ "title": "AutoAC v2.1.141",
+ "notes": "🔧 Cải tiến\n- Cập nhật phiên bản v2.1.141\n\n📌 Hỗ trợ tốt nhất: YouTube 21.46.3\n🧩 Hệ sinh thái: Dylib (inject / sideload) · Rootful (iphoneos-arm) · Rootless (iphoneos-arm64)\n🔗 Tích hợp: YouTube X, NoYTPremium\n✅ Không phát hiện hook hỏng (13/22 khớp, còn lại chưa kiểm chứng được)\n🗓️ Phát hành: 26/11/2026",
+ "ecosystems": [
+  "dylib",
+  "rootful",
+  "rootless"
+ ],
+ "files": [
+  {
+   "name": "com.kyic.autoac_2.1.141_iphoneos-arm64.deb",
+   "kind": "deb",
+   "size": 426938,
+   "sha256": "a9e8ac84a5b6390ad1c9372af231bab53b50208a4c43cda3bebf3a36b1f68dbd"
+  }
+ ],
+ "source": {
+  "repository": "2KGT/build",
+  "run_id": "45724451464",
+  "run_url": "https://github.com/2KGT/build/actions/runs/45724451464",
+  "actor": "2KGT",
+  "sha": "63e5737e08391a76b1f074615ab0f6496926f7cc"
+ },
+ "created": "2026-11-25T23:55:33Z"
+}
