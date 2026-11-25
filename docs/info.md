@@ -1,7 +1,5 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 26/11/2026 06:46:39 (Giờ Hà Nội)*
-
-📝 *Thay đổi thư mục so với lần quét trước: 🗑️ -2 thư mục đã xoá* — xem chi tiết tại `docs/CHANGELOG.md`
+⏱️ *Cập nhật tự động lúc: 26/11/2026 06:49:53 (Giờ Hà Nội)*
 
 ```text
 🗺️ Root/
@@ -388,7 +386,7 @@
 │   │   │   │   │   ├── com.dvntm.ytlite_5.2~b1_iphoneos-arm64.html
 │   │   │   │   │   ├── com.dvntm.ytlite_5.2~b1_iphoneos-arm64e.html
 │   │   │   │   │   ├── default.txt
-│   │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 18 file ]
+│   │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 19 file ]
 │   │   │   │   ├── 📂 ytuhd/
 │   │   │   │   │   ├── com.ps.ytuhd_2.6.0_iphoneos-arm.html
 │   │   │   │   │   ├── com.ps.ytuhd_2.6.0_iphoneos-arm64.html
@@ -494,7 +492,7 @@
 │   │   ├── 📂 ytmu/
 │   │   │   └── [ 📊 Số lượng: 📦 Package .deb: 9 file ]
 │   │   ├── 📂 ytplus/
-│   │   │   └── [ 📊 Số lượng: 📦 Package .deb: 18 file ]
+│   │   │   └── [ 📊 Số lượng: 📦 Package .deb: 19 file ]
 │   │   ├── 📂 ytuhd/
 │   │   │   └── [ 📊 Số lượng: 📦 Package .deb: 2 file ]
 │   │   ├── 📂 ytunshorts/

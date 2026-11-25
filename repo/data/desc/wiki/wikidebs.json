@@ -2228,6 +2228,20 @@
       "Depiction": "",
       "SileoDepiction": "",
       "Installed-Size": "1904"
+    },
+    "https://2kgt.github.io/repo/debs/ytplus/com.dvntm.ytlite_6.0.2_iphoneos-arm.deb": {
+      "Package": "com.dvntm.ytlite",
+      "Name": "YTLite",
+      "Version": "6.0~b2",
+      "Description": "Lightweight YouTube Enhancer",
+      "Author": "dvntm",
+      "Section": "Tweaks",
+      "Architecture": "iphoneos-arm",
+      "Depends": "mobilesubstrate",
+      "Maintainer": "dvntm",
+      "Icon": "https://raw.githubusercontent.com/dayanch96/YTLite/refs/heads/main/Resources/icon.png",
+      "SileoDepiction": "https://raw.githubusercontent.com/dayanch96/YTLite/main/Resources/depiction.json",
+      "Installed-Size": "39612"
     }
   }
 }
