@@ -8,36 +8,14 @@
       "bundleIdentifier": "com.kyic.autoac",
       "developerName": "Kyic",
       "subtitle": "Tweak Sideload",
-      "localizedDescription": "AutoAC tweak (long press + logo YouTube)\n\n━━ Cập nhật tự động ━━\nAutoAC v2.1.140 — 26/11/2026\n\n🔧 Cải tiến\n• Cập nhật phiên bản v2.1.140\n\n📌 Hỗ trợ tốt nhất: YouTube 21.46.3\n🧩 Hệ sinh thái: Rootless (iphoneos-arm64)\n🔗 Tích hợp: YouTube X, NoYTPremium\n✅ Không phát hiện hook hỏng (13/22 khớp, còn lại chưa kiểm chứng được)\n🗓️ Phát hành: 26/11/2026",
+      "localizedDescription": "AutoAC tweak (long press + logo YouTube)\n\n━━ Cập nhật tự động ━━\nAutoAC v2.1.91 — 15/11/2026\n\n✨ Tính năng mới\n• Hỗ trợ YouTube 21.83.3 tốt nhất\n\n📌 Hỗ trợ tốt nhất: YouTube 21.45.4\n🧩 Hệ sinh thái: Rootless (iphoneos-arm64)\n🔗 Tích hợp: YouTube X, NoYTPremium\n✅ Không phát hiện hook hỏng (13/22 khớp, còn lại chưa kiểm chứng được)\n🗓️ Phát hành: 15/11/2026",
       "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/AutoAC.png",
       "tintColor": "848ef9",
-      "version": "2.1.140",
-      "versionDate": "2026-11-25T23:40:53Z",
-      "size": 427660,
-      "downloadURL": "debs/autoac/com.kyic.autoac_2.1.140_iphoneos-arm64.deb",
+      "version": "2.1.91",
+      "versionDate": "2026-11-14T23:54:25Z",
+      "size": 359428,
+      "downloadURL": "https://github.com/2KGT/2KGT.github.io/releases/download/autoac-v2.1.91/com.kyic.autoac_2.1.91_iphoneos-arm64.deb",
       "versions": [
-        {
-          "version": "2.1.140",
-          "date": "2026-11-25T23:40:53Z",
-          "size": 427660,
-          "downloadURL": "debs/autoac/com.kyic.autoac_2.1.140_iphoneos-arm64.deb",
-          "localizedDescription": "🔧 Cải tiến\n- Cập nhật phiên bản v2.1.140\n\n📌 Hỗ trợ tốt nhất: YouTube 21.46.3\n🧩 Hệ sinh thái: Rootless (iphoneos-arm64)\n🔗 Tích hợp: YouTube X, NoYTPremium\n✅ Không phát hiện hook hỏng (13/22 khớp, còn lại chưa kiểm chứng được)\n🗓️ Phát hành: 26/11/2026",
-          "architecture": "iphoneos-arm64",
-          "md5": "fd0431426b960d484fdc87d4c77e523f",
-          "sha1": "62d76219787639d097b4113ffbc6a4aec0d582f3",
-          "sha256": "a4eaed716304667e7dfd6cc6f908619df5f42fc399ecf347a85ca921422d4e97"
-        },
-        {
-          "version": "2.1.131",
-          "date": "2026-11-25T23:40:52Z",
-          "size": 414950,
-          "downloadURL": "debs/autoac/com.kyic.autoac_2.1.131_iphoneos-arm64.deb",
-          "localizedDescription": "🔧 Cải tiến\n- Update Tweak.x\n\n📌 Hỗ trợ tốt nhất: YouTube 21.46.3\n🧩 Hệ sinh thái: Rootless (iphoneos-arm64)\n🔗 Tích hợp: YouTube X, NoYTPremium\n✅ Không phát hiện hook hỏng (13/22 khớp, còn lại chưa kiểm chứng được)\n🗓️ Phát hành: 24/11/2026",
-          "architecture": "iphoneos-arm64",
-          "md5": "a0d36b6bec5189402fc4c2845c46d4a6",
-          "sha1": "07be090474911a841cf811c69bcc5c2c3a2885c8",
-          "sha256": "d4485e845bb3ad9b8513e49085ecd2a863d2300ef4cd4bdae28ed6318b4eec31"
-        },
         {
           "version": "2.1.91",
           "date": "2026-11-14T23:54:25Z",
@@ -48,216 +26,17 @@
           "md5": "163218d1730c8b8c15bd4d92a570800e",
           "sha1": "06926a123d2858a0f7ef313e163ddbb046e808ee",
           "sha256": "ef5cda2601b5c6ad151f263a7a700ced3fd4b24f7001fd9fc4e912714caada2a"
-        },
-        {
-          "version": "2.1.90",
-          "date": "2026-11-25T23:40:52Z",
-          "size": 359452,
-          "downloadURL": "debs/autoac/com.kyic.autoac_2.1.90_iphoneos-arm64.deb",
-          "localizedDescription": "Cập nhật lên v2.1.90.",
-          "architecture": "iphoneos-arm64",
-          "md5": "448c59ef709f7b2178aab55008cc6124",
-          "sha1": "8fbcceeffbc81048db84f885fd4f1db44fd5c51a",
-          "sha256": "83020963e22cc73e6c5f7df71bd73d86cb3b37dc672c6c40771e9c78c973ad46"
-        },
-        {
-          "version": "2.1.35",
-          "date": "2026-11-25T23:40:52Z",
-          "size": 259930,
-          "downloadURL": "debs/autoac/com.kyic.autoac_2.1.35_iphoneos-arm64.deb",
-          "localizedDescription": "Cập nhật lên v2.1.35.",
-          "architecture": "iphoneos-arm64",
-          "md5": "5a3edc716e16b0f85ea0532366b2068c",
-          "sha1": "7f8105149dc887744282d29a79fbd84f2171b782",
-          "sha256": "dc6e0442d27922636cec2f0ae3fda036157d211f2d2e1e98a2db512778c28374"
-        },
-        {
-          "version": "2.1.34",
-          "date": "2026-11-25T23:40:52Z",
-          "size": 259700,
-          "downloadURL": "debs/autoac/com.kyic.autoac_2.1.34_iphoneos-arm64.deb",
-          "localizedDescription": "Cập nhật lên v2.1.34.",
-          "architecture": "iphoneos-arm64",
-          "md5": "2d6de5379d591f10d5846c321534ad28",
-          "sha1": "1cfb0b673da594d5d423f0621f00ea35fef7ce94",
-          "sha256": "72adfa5ea1a3c636db929314383964e1a1c7ecb1cc8f4eaf8df0a73ce0c8e465"
-        },
-        {
-          "version": "2.1.33",
-          "date": "2026-11-25T23:40:52Z",
-          "size": 259296,
-          "downloadURL": "debs/autoac/com.kyic.autoac_2.1.33_iphoneos-arm64.deb",
-          "localizedDescription": "Cập nhật lên v2.1.33.",
-          "architecture": "iphoneos-arm64",
-          "md5": "a016847bace9650b6c44a97836897eb6",
-          "sha1": "2905102862fbc9bc46bc994004b0876c37ab962e",
-          "sha256": "5f51150ad875af022328f7dc11e2a11ef0ed47540ae3908d0f7d1e4131200e6f"
-        },
-        {
-          "version": "2.1.32",
-          "date": "2026-11-25T23:40:52Z",
-          "size": 259478,
-          "downloadURL": "debs/autoac/com.kyic.autoac_2.1.32_iphoneos-arm64.deb",
-          "localizedDescription": "Cập nhật lên v2.1.32.",
-          "architecture": "iphoneos-arm64",
-          "md5": "c05cbbc6fbc69c902af155c659dbae91",
-          "sha1": "2a32d75a99d18190e0e91d3d08dd3e6ddcf64a3b",
-          "sha256": "32bbbc5d073b18d14b6259d1699703e0c7dbd3cb78b27d9da25973c956299926"
-        },
-        {
-          "version": "2.1.31",
-          "date": "2026-11-25T23:40:52Z",
-          "size": 253034,
-          "downloadURL": "debs/autoac/com.kyic.autoac_2.1.31_iphoneos-arm64.deb",
-          "localizedDescription": "Cập nhật lên v2.1.31.",
-          "architecture": "iphoneos-arm64",
-          "md5": "1220a71b7f030851139015f83c900d43",
-          "sha1": "6e12df4163d09cd72c27d24ee8b146a6c106bd25",
-          "sha256": "a6387c19f58cbf2d1e05d5e0923505c67c71ca498405315d450ce7f7316a74ee"
-        },
-        {
-          "version": "2.1.30",
-          "date": "2026-11-25T23:40:52Z",
-          "size": 252298,
-          "downloadURL": "debs/autoac/com.kyic.autoac_2.1.30_iphoneos-arm64.deb",
-          "localizedDescription": "Cập nhật lên v2.1.30.",
-          "architecture": "iphoneos-arm64",
-          "md5": "5bcc2555aaf1bd882b2e1e32cb2ea8d4",
-          "sha1": "2ad4955442acff5db982390e3a146d7ca27263c5",
-          "sha256": "d797ee57043629ed624478aaa322e331326e80723bda7d9af4b04a6f94fde28a"
-        },
-        {
-          "version": "2.1.29",
-          "date": "2026-11-25T23:40:52Z",
-          "size": 250970,
-          "downloadURL": "debs/autoac/com.kyic.autoac_2.1.29_iphoneos-arm64.deb",
-          "localizedDescription": "Cập nhật lên v2.1.29.",
-          "architecture": "iphoneos-arm64",
-          "md5": "b771011a6f50221c5968c505f9c287ad",
-          "sha1": "5819cc4c0d792cd8c95c846eeb1228b03214a6f2",
-          "sha256": "9001dc6f6fde1cc5544edfe828b8dc064199dbfecd710dab370b47c3878403ee"
-        },
-        {
-          "version": "2.1.28",
-          "date": "2026-11-25T23:40:52Z",
-          "size": 253688,
-          "downloadURL": "debs/autoac/com.kyic.autoac_2.1.28_iphoneos-arm64.deb",
-          "localizedDescription": "Cập nhật lên v2.1.28.",
-          "architecture": "iphoneos-arm64",
-          "md5": "fc214b4445d0acadc975818c74f93e32",
-          "sha1": "24a010fdfa04440d7c17f3dc8899111dc6bd1eaf",
-          "sha256": "2a9756fadea3e9150ee89fcc9c12917905284742e77a5d3251867077faade0a0"
-        },
-        {
-          "version": "2.1.27",
-          "date": "2026-11-25T23:40:52Z",
-          "size": 251898,
-          "downloadURL": "debs/autoac/com.kyic.autoac_2.1.27_iphoneos-arm64.deb",
-          "localizedDescription": "Cập nhật lên v2.1.27.",
-          "architecture": "iphoneos-arm64",
-          "md5": "3bf329b3ced802afc0496264d1f19d6a",
-          "sha1": "d9d5e6956f54e6c12d88168e4ecff0e42b385fe3",
-          "sha256": "2f412cffc60a8ebf2e969ff8f5416a8dd67958a32e1a2a4fb69f7f81b3ece284"
-        },
-        {
-          "version": "2.1.26",
-          "date": "2026-11-25T23:40:52Z",
-          "size": 248588,
-          "downloadURL": "debs/autoac/com.kyic.autoac_2.1.26_iphoneos-arm64.deb",
-          "localizedDescription": "Cập nhật lên v2.1.26.",
-          "architecture": "iphoneos-arm64",
-          "md5": "3801c40a5ab79e0400350a2493e06665",
-          "sha1": "40126647a7fe783d0cb2a425774697e4b3ccf0d7",
-          "sha256": "641118fccc9e35401b030d7b95231ccc0f11382a798f74e218f0f1f0b8a0a052"
-        },
-        {
-          "version": "2.1.25",
-          "date": "2026-11-25T23:40:52Z",
-          "size": 248982,
-          "downloadURL": "debs/autoac/com.kyic.autoac_2.1.25_iphoneos-arm64.deb",
-          "localizedDescription": "Cập nhật lên v2.1.25.",
-          "architecture": "iphoneos-arm64",
-          "md5": "41f63e225f4d4f710466af018be919a4",
-          "sha1": "4f18f3ac48979ad797f21f75cfa2beae827eb774",
-          "sha256": "bc1c24b47ddafe914dad4acc4c1a8f519bffcf9605ed4a78730957d00e13ca3c"
-        },
-        {
-          "version": "2.1.10",
-          "date": "2026-11-25T23:40:52Z",
-          "size": 214204,
-          "downloadURL": "debs/autoac/com.kyic.autoac_2.1.10_iphoneos-arm64.deb",
-          "localizedDescription": "Cập nhật lên v2.1.10.",
-          "architecture": "iphoneos-arm64",
-          "md5": "456a5bb8028045f221e88402a0834a0f",
-          "sha1": "5f3af246ba666c4826cfdf50c368132760fce66a",
-          "sha256": "e988f95f382be3a6aefa63d8e65f8fd977154348ee826deb009c5c5f4049d294"
-        },
-        {
-          "version": "2.1.8",
-          "date": "2026-11-25T23:40:52Z",
-          "size": 211984,
-          "downloadURL": "debs/autoac/com.kyic.autoac_2.1.8_iphoneos-arm64.deb",
-          "localizedDescription": "Cập nhật lên v2.1.8.",
-          "architecture": "iphoneos-arm64",
-          "md5": "f00c1b2b6ed114655bdc3046266e5953",
-          "sha1": "485502243dce8784a023b42d3724a9ae52c8a024",
-          "sha256": "2272474eafc7f9d9b00c46bfc4f1ac415e2cb00bf95394d64c8b03d66f776779"
-        },
-        {
-          "version": "2.1.7",
-          "date": "2026-11-25T23:40:52Z",
-          "size": 208216,
-          "downloadURL": "debs/autoac/com.kyic.autoac_2.1.7_iphoneos-arm64.deb",
-          "localizedDescription": "Cập nhật lên v2.1.7.",
-          "architecture": "iphoneos-arm64",
-          "md5": "ebc124c8e0549d2c70ad0fa4eea3fee9",
-          "sha1": "1784abed9601aab97cf9312a039c7efd22fc4f54",
-          "sha256": "05ad3d4cba90f83a545f448805e6c1dfbd9d4c6c508cbaa5a407fc4f2a9f1dd4"
-        },
-        {
-          "version": "2.1.0",
-          "date": "2026-11-25T23:40:52Z",
-          "size": 160102,
-          "downloadURL": "debs/autoac/com.kyic.autoac_2.1.0_iphoneos-arm64.deb",
-          "localizedDescription": "Cập nhật lên v2.1.0.",
-          "architecture": "iphoneos-arm64",
-          "md5": "569836556382a093d84768ab29762728",
-          "sha1": "c4fdd28a93d56840b98817973ffe035466d947f1",
-          "sha256": "4eae3c3fc479136ca534bc9b8137722ad16e6ef99ea97f8beb160e911bbee220"
-        },
-        {
-          "version": "2.0.33",
-          "date": "2026-11-25T23:40:52Z",
-          "size": 159850,
-          "downloadURL": "debs/autoac/com.kyic.autoac_2.0.33_iphoneos-arm64.deb",
-          "localizedDescription": "Cập nhật lên v2.0.33.",
-          "architecture": "iphoneos-arm64",
-          "md5": "88e8c76ebb32ca2844b53e52b9f868bf",
-          "sha1": "8eb6e194c2563adc7de3c1e80f9619618b00865c",
-          "sha256": "99957cb7f9fc0db017326e0003b5f298519edb97293be02cbe5995febd018e63"
-        },
-        {
-          "version": "1.1",
-          "date": "2026-11-25T23:40:52Z",
-          "size": 16904,
-          "downloadURL": "debs/autoac/com.kyic.autoac_1.1_iphoneos-arm64.deb",
-          "localizedDescription": "Cập nhật lên v1.1.",
-          "architecture": "iphoneos-arm64",
-          "md5": "14c603441a5ffe2bf0bf38d143b19c1c",
-          "sha1": "2d429bdc682c7ad1ce2ecd42477fb40aedea0c74",
-          "sha256": "a5aec88dc758c06a300d1e44d5ecb37b3a14f4618d6a3c39a8b929f535d61d3b"
         }
       ],
       "screenshotURLs": [
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/autoac/AutoAC_1.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/autoac/AutoAC_2.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/autoac/AutoAC_3.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/autoac/AutoAC_4.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/autoac/AutoAC_5.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/autoac/AutoAC_6.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/autoac/AutoAC_7.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/autoac/AutoAC_8.jpeg",
-        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/images/autoac/AutoAC_9.jpeg"
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_1.jpeg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_2.jpeg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_3.jpeg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_4.jpeg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_5.jpeg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_6.jpeg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_7.jpeg",
+        "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_8.jpeg"
       ],
       "videoURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic_video.mp4",
       "appPermissions": {}
@@ -271,13 +50,13 @@
       "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/BiliBili.png",
       "tintColor": "848ef9",
       "version": "3.3.0",
-      "versionDate": "2026-11-25T23:40:52Z",
+      "versionDate": "2026-11-25T23:45:31Z",
       "size": 3406610,
       "downloadURL": "debs/bilibili/iOSGods.doantien.bilibili_3.3-arm.deb",
       "versions": [
         {
           "version": "3.3.0",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 3406610,
           "downloadURL": "debs/bilibili/iOSGods.doantien.bilibili_3.3-arm.deb",
           "localizedDescription": "Cập nhật lên v3.3.0.",
@@ -309,13 +88,13 @@
       "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/cc18.jpg",
       "tintColor": "848ef9",
       "version": "0.0.3",
-      "versionDate": "2026-11-25T23:40:52Z",
+      "versionDate": "2026-11-25T23:45:31Z",
       "size": 4414,
       "downloadURL": "debs/cc18/com.dvntm.cc18_0.0.3_iphoneos-arm64e.deb",
       "versions": [
         {
           "version": "0.0.3",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 4408,
           "downloadURL": "debs/cc18/com.dvntm.cc18_0.0.3_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v0.0.3.",
@@ -326,7 +105,7 @@
         },
         {
           "version": "0.0.3",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 4494,
           "downloadURL": "debs/cc18/com.dvntm.cc18_0.0.3_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v0.0.3.",
@@ -337,7 +116,7 @@
         },
         {
           "version": "0.0.3",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 4414,
           "downloadURL": "debs/cc18/com.dvntm.cc18_0.0.3_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v0.0.3.",
@@ -369,13 +148,13 @@
       "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/ccappicon.jpg",
       "tintColor": "848ef9",
       "version": "0.0.1",
-      "versionDate": "2026-11-25T23:40:52Z",
+      "versionDate": "2026-11-25T23:45:31Z",
       "size": 3068,
       "downloadURL": "debs/ccappicon/com.dvntm.ccappicon_0.0.1_iphoneos-arm64e.deb",
       "versions": [
         {
           "version": "0.0.1",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 3060,
           "downloadURL": "debs/ccappicon/com.dvntm.ccappicon_0.0.1_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v0.0.1.",
@@ -386,7 +165,7 @@
         },
         {
           "version": "0.0.1",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 3136,
           "downloadURL": "debs/ccappicon/com.dvntm.ccappicon_0.0.1_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v0.0.1.",
@@ -397,7 +176,7 @@
         },
         {
           "version": "0.0.1",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 3068,
           "downloadURL": "debs/ccappicon/com.dvntm.ccappicon_0.0.1_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v0.0.1.",
@@ -429,13 +208,13 @@
       "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/fastlock.jpg",
       "tintColor": "848ef9",
       "version": "1.0.1",
-      "versionDate": "2026-11-25T23:40:52Z",
+      "versionDate": "2026-11-25T23:45:31Z",
       "size": 381912,
       "downloadURL": "debs/fastlock/com.dvntm.fastlock_1.0.1_iphoneos-arm64e.deb",
       "versions": [
         {
           "version": "1.0.1",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 383176,
           "downloadURL": "debs/fastlock/com.dvntm.fastlock_1.0.1_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v1.0.1.",
@@ -446,7 +225,7 @@
         },
         {
           "version": "1.0.1",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 383248,
           "downloadURL": "debs/fastlock/com.dvntm.fastlock_1.0.1_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v1.0.1.",
@@ -457,7 +236,7 @@
         },
         {
           "version": "1.0.1",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 381912,
           "downloadURL": "debs/fastlock/com.dvntm.fastlock_1.0.1_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v1.0.1.",
@@ -468,7 +247,7 @@
         },
         {
           "version": "1.0",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 381912,
           "downloadURL": "debs/fastlock/com.dvntm.fastlock_1.0_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v1.0.",
@@ -479,7 +258,7 @@
         },
         {
           "version": "1.0",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 381870,
           "downloadURL": "debs/fastlock/com.dvntm.fastlock_1.0_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v1.0.",
@@ -490,7 +269,7 @@
         },
         {
           "version": "1.0",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 380868,
           "downloadURL": "debs/fastlock/com.dvntm.fastlock_1.0_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v1.0.",
@@ -501,7 +280,7 @@
         },
         {
           "version": "0.0.1",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 39280,
           "downloadURL": "debs/fastlock/com.dvntm.fastlock_0.0.1_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v0.0.1.",
@@ -512,7 +291,7 @@
         },
         {
           "version": "0.0.1",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 39324,
           "downloadURL": "debs/fastlock/com.dvntm.fastlock_0.0.1_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v0.0.1.",
@@ -523,7 +302,7 @@
         },
         {
           "version": "0.0.1",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 37784,
           "downloadURL": "debs/fastlock/com.dvntm.fastlock_0.0.1_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v0.0.1.",
@@ -555,13 +334,13 @@
       "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/flow.jpg",
       "tintColor": "848ef9",
       "version": "1.0",
-      "versionDate": "2026-11-25T23:40:52Z",
+      "versionDate": "2026-11-25T23:45:31Z",
       "size": 228062,
       "downloadURL": "debs/flow/com.dvntm.flow_1.0_iphoneos-arm64e.deb",
       "versions": [
         {
           "version": "1.0",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 228538,
           "downloadURL": "debs/flow/com.dvntm.flow_1.0_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v1.0.",
@@ -572,7 +351,7 @@
         },
         {
           "version": "1.0",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 228568,
           "downloadURL": "debs/flow/com.dvntm.flow_1.0_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v1.0.",
@@ -583,7 +362,7 @@
         },
         {
           "version": "1.0",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 228062,
           "downloadURL": "debs/flow/com.dvntm.flow_1.0_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v1.0.",
@@ -615,13 +394,13 @@
       "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/glow.jpg",
       "tintColor": "848ef9",
       "version": "1.3.1",
-      "versionDate": "2026-11-25T23:40:52Z",
+      "versionDate": "2026-11-25T23:45:32Z",
       "size": 6905238,
       "downloadURL": "debs/glow/com.dvntm.glow_1.3.1_iphoneos-arm64e.deb",
       "versions": [
         {
           "version": "1.3.1",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 6902718,
           "downloadURL": "debs/glow/com.dvntm.glow_1.3.1_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v1.3.1.",
@@ -632,7 +411,7 @@
         },
         {
           "version": "1.3.1",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 6899448,
           "downloadURL": "debs/glow/com.dvntm.glow_1.3.1_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v1.3.1.",
@@ -643,7 +422,7 @@
         },
         {
           "version": "1.3.1",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 6905238,
           "downloadURL": "debs/glow/com.dvntm.glow_1.3.1_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v1.3.1.",
@@ -654,7 +433,7 @@
         },
         {
           "version": "1.3",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 6900216,
           "downloadURL": "debs/glow/com.dvntm.glow_1.3_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v1.3.",
@@ -665,7 +444,7 @@
         },
         {
           "version": "1.3",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 6899842,
           "downloadURL": "debs/glow/com.dvntm.glow_1.3_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v1.3.",
@@ -676,7 +455,7 @@
         },
         {
           "version": "1.3",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 6901330,
           "downloadURL": "debs/glow/com.dvntm.glow_1.3_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v1.3.",
@@ -687,7 +466,7 @@
         },
         {
           "version": "1.2",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 6869286,
           "downloadURL": "debs/glow/com.dvntm.glow_1.2_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v1.2.",
@@ -698,7 +477,7 @@
         },
         {
           "version": "1.2",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 6865466,
           "downloadURL": "debs/glow/com.dvntm.glow_1.2_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v1.2.",
@@ -709,7 +488,7 @@
         },
         {
           "version": "1.2",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 6875506,
           "downloadURL": "debs/glow/com.dvntm.glow_1.2_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v1.2.",
@@ -720,7 +499,7 @@
         },
         {
           "version": "1.1",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 7803030,
           "downloadURL": "debs/glow/com.dvntm.glow_1.1_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v1.1.",
@@ -731,7 +510,7 @@
         },
         {
           "version": "1.1",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 7798976,
           "downloadURL": "debs/glow/com.dvntm.glow_1.1_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v1.1.",
@@ -742,7 +521,7 @@
         },
         {
           "version": "1.1",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 7804746,
           "downloadURL": "debs/glow/com.dvntm.glow_1.1_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v1.1.",
@@ -753,7 +532,7 @@
         },
         {
           "version": "1.0.1",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 685226,
           "downloadURL": "debs/glow/com.dvntm.glow_1.0.1_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v1.0.1.",
@@ -764,7 +543,7 @@
         },
         {
           "version": "1.0.1",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 686320,
           "downloadURL": "debs/glow/com.dvntm.glow_1.0.1_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v1.0.1.",
@@ -775,7 +554,7 @@
         },
         {
           "version": "1.0.1",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 685238,
           "downloadURL": "debs/glow/com.dvntm.glow_1.0.1_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v1.0.1.",
@@ -786,7 +565,7 @@
         },
         {
           "version": "1.0",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 685238,
           "downloadURL": "debs/glow/com.dvntm.glow_1.0_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v1.0.",
@@ -797,7 +576,7 @@
         },
         {
           "version": "1.0",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 685718,
           "downloadURL": "debs/glow/com.dvntm.glow_1.0_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v1.0.",
@@ -808,7 +587,7 @@
         },
         {
           "version": "1.0",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 683950,
           "downloadURL": "debs/glow/com.dvntm.glow_1.0_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v1.0.",
@@ -840,13 +619,13 @@
       "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/infuseplus.jpg",
       "tintColor": "848ef9",
       "version": "2.5",
-      "versionDate": "2026-11-25T23:40:52Z",
+      "versionDate": "2026-11-25T23:45:32Z",
       "size": 454554,
       "downloadURL": "debs/infuseplus/com.dvntm.infuseplus_2.5_iphoneos-arm64e.deb",
       "versions": [
         {
           "version": "2.5",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 454810,
           "downloadURL": "debs/infuseplus/com.dvntm.infuseplus_2.5_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v2.5.",
@@ -857,7 +636,7 @@
         },
         {
           "version": "2.5",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 455058,
           "downloadURL": "debs/infuseplus/com.dvntm.infuseplus_2.5_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v2.5.",
@@ -868,7 +647,7 @@
         },
         {
           "version": "2.5",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 454554,
           "downloadURL": "debs/infuseplus/com.dvntm.infuseplus_2.5_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v2.5.",
@@ -879,7 +658,7 @@
         },
         {
           "version": "2.4.1",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 446384,
           "downloadURL": "debs/infuseplus/com.dvntm.infuseplus_2.4.1_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v2.4.1.",
@@ -890,7 +669,7 @@
         },
         {
           "version": "2.4.1",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 446736,
           "downloadURL": "debs/infuseplus/com.dvntm.infuseplus_2.4.1_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v2.4.1.",
@@ -901,7 +680,7 @@
         },
         {
           "version": "2.4.1",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 445702,
           "downloadURL": "debs/infuseplus/com.dvntm.infuseplus_2.4.1_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v2.4.1.",
@@ -912,7 +691,7 @@
         },
         {
           "version": "2.4",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 445474,
           "downloadURL": "debs/infuseplus/com.dvntm.infuseplus_2.4_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v2.4.",
@@ -923,7 +702,7 @@
         },
         {
           "version": "2.4",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 445656,
           "downloadURL": "debs/infuseplus/com.dvntm.infuseplus_2.4_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v2.4.",
@@ -934,7 +713,7 @@
         },
         {
           "version": "2.4",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 445362,
           "downloadURL": "debs/infuseplus/com.dvntm.infuseplus_2.4_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v2.4.",
@@ -945,7 +724,7 @@
         },
         {
           "version": "2.3.1",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 421452,
           "downloadURL": "debs/infuseplus/com.dvntm.infuseplus_2.3.1_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v2.3.1.",
@@ -956,7 +735,7 @@
         },
         {
           "version": "2.3.1",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 422420,
           "downloadURL": "debs/infuseplus/com.dvntm.infuseplus_2.3.1_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v2.3.1.",
@@ -967,7 +746,7 @@
         },
         {
           "version": "2.3.1",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 421432,
           "downloadURL": "debs/infuseplus/com.dvntm.infuseplus_2.3.1_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v2.3.1.",
@@ -978,7 +757,7 @@
         },
         {
           "version": "2.3",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 416568,
           "downloadURL": "debs/infuseplus/com.dvntm.infuseplus_2.3_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v2.3.",
@@ -989,7 +768,7 @@
         },
         {
           "version": "2.3",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 416962,
           "downloadURL": "debs/infuseplus/com.dvntm.infuseplus_2.3_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v2.3.",
@@ -1000,7 +779,7 @@
         },
         {
           "version": "2.3",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 416486,
           "downloadURL": "debs/infuseplus/com.dvntm.infuseplus_2.3_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v2.3.",
@@ -1011,7 +790,7 @@
         },
         {
           "version": "2.2",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 406180,
           "downloadURL": "debs/infuseplus/com.dvntm.infuseplus_2.2_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v2.2.",
@@ -1022,7 +801,7 @@
         },
         {
           "version": "2.2",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 405960,
           "downloadURL": "debs/infuseplus/com.dvntm.infuseplus_2.2_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v2.2.",
@@ -1033,7 +812,7 @@
         },
         {
           "version": "2.2",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 405142,
           "downloadURL": "debs/infuseplus/com.dvntm.infuseplus_2.2_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v2.2.",
@@ -1082,7 +861,7 @@
         },
         {
           "version": "1.4.2",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 4163898,
           "downloadURL": "debs/Lead/com.w3ltyyy.lead_1.4.2_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v1.4.2.",
@@ -1093,7 +872,7 @@
         },
         {
           "version": "1.4.1",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 4148842,
           "downloadURL": "debs/Lead/com.w3ltyyy.lead_1.4.1_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v1.4.1.",
@@ -1104,7 +883,7 @@
         },
         {
           "version": "1.4.0",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 4132724,
           "downloadURL": "debs/Lead/com.w3ltyyy.lead_1.4.0_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v1.4.0.",
@@ -1115,7 +894,7 @@
         },
         {
           "version": "1.3.9",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 4083280,
           "downloadURL": "debs/Lead/com.w3ltyyy.lead_1.3.9_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v1.3.9.",
@@ -1126,7 +905,7 @@
         },
         {
           "version": "1.3.7",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 4059076,
           "downloadURL": "debs/Lead/com.w3ltyyy.lead_1.3.7_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v1.3.7.",
@@ -1137,7 +916,7 @@
         },
         {
           "version": "1.3.6",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 4072972,
           "downloadURL": "debs/Lead/com.w3ltyyy.lead_1.3.6_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v1.3.6.",
@@ -1148,7 +927,7 @@
         },
         {
           "version": "1.3.5",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 4067120,
           "downloadURL": "debs/Lead/com.w3ltyyy.lead_1.3.5_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v1.3.5.",
@@ -1159,7 +938,7 @@
         },
         {
           "version": "1.3.3",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 4093124,
           "downloadURL": "debs/Lead/com.w3ltyyy.lead_1.3.3_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v1.3.3.",
@@ -1170,7 +949,7 @@
         },
         {
           "version": "1.3.1",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 4113068,
           "downloadURL": "debs/Lead/com.w3ltyyy.lead_1.3.1_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v1.3.1.",
@@ -1195,13 +974,13 @@
       "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
       "tintColor": "848ef9",
       "version": "4.5",
-      "versionDate": "2026-11-25T23:40:52Z",
+      "versionDate": "2026-11-25T23:45:31Z",
       "size": 6425314,
       "downloadURL": "debs/BHTwitter/BHTwitter_rootless.deb",
       "versions": [
         {
           "version": "4.5",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 6425314,
           "downloadURL": "debs/BHTwitter/BHTwitter_rootless.deb",
           "localizedDescription": "Cập nhật lên v4.5.",
@@ -1212,7 +991,7 @@
         },
         {
           "version": "5.2-1",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 7135864,
           "downloadURL": "debs/NFB/NFB-rootless.deb",
           "localizedDescription": "Cập nhật lên v5.2-1.",
@@ -1244,13 +1023,13 @@
       "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/twlegacy.jpg",
       "tintColor": "848ef9",
       "version": "0.0.1",
-      "versionDate": "2026-11-25T23:40:53Z",
+      "versionDate": "2026-11-25T23:45:32Z",
       "size": 6018,
       "downloadURL": "debs/twlegacy/com.dvntm.twlegacy_0.0.1_iphoneos-arm64e.deb",
       "versions": [
         {
           "version": "0.0.1",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 5960,
           "downloadURL": "debs/twlegacy/com.dvntm.twlegacy_0.0.1_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v0.0.1.",
@@ -1261,7 +1040,7 @@
         },
         {
           "version": "0.0.1",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 6036,
           "downloadURL": "debs/twlegacy/com.dvntm.twlegacy_0.0.1_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v0.0.1.",
@@ -1272,7 +1051,7 @@
         },
         {
           "version": "0.0.1",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 6018,
           "downloadURL": "debs/twlegacy/com.dvntm.twlegacy_0.0.1_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v0.0.1.",
@@ -1304,13 +1083,13 @@
       "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
       "tintColor": "848ef9",
       "version": "1.0.7",
-      "versionDate": "2026-11-25T23:40:52Z",
+      "versionDate": "2026-11-25T23:45:32Z",
       "size": 2842,
       "downloadURL": "debs/noytpremium/noytpremium_1.0.7_arm.deb",
       "versions": [
         {
           "version": "1.0.7",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 2842,
           "downloadURL": "debs/noytpremium/noytpremium_1.0.7_arm.deb",
           "localizedDescription": "Cập nhật lên v1.0.7.",
@@ -1342,13 +1121,13 @@
       "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/oledkeyboard.jpg",
       "tintColor": "848ef9",
       "version": "0.0.3",
-      "versionDate": "2026-11-25T23:40:52Z",
+      "versionDate": "2026-11-25T23:45:32Z",
       "size": 4610,
       "downloadURL": "debs/oledkeyboard/com.dvntm.oledkeyboard_0.0.3_iphoneos-arm64e.deb",
       "versions": [
         {
           "version": "0.0.3",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 4598,
           "downloadURL": "debs/oledkeyboard/com.dvntm.oledkeyboard_0.0.3_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v0.0.3.",
@@ -1359,7 +1138,7 @@
         },
         {
           "version": "0.0.3",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 4686,
           "downloadURL": "debs/oledkeyboard/com.dvntm.oledkeyboard_0.0.3_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v0.0.3.",
@@ -1370,7 +1149,7 @@
         },
         {
           "version": "0.0.3",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 4610,
           "downloadURL": "debs/oledkeyboard/com.dvntm.oledkeyboard_0.0.3_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v0.0.3.",
@@ -1402,13 +1181,13 @@
       "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/orwellvk.jpg",
       "tintColor": "848ef9",
       "version": "1.2",
-      "versionDate": "2026-11-25T23:40:53Z",
+      "versionDate": "2026-11-25T23:45:32Z",
       "size": 10259520,
       "downloadURL": "debs/orwellvk/com.dvntm.ovk_1.2_iphoneos-arm64e.deb",
       "versions": [
         {
           "version": "1.2",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 10264266,
           "downloadURL": "debs/orwellvk/com.dvntm.ovk_1.2_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v1.2.",
@@ -1419,7 +1198,7 @@
         },
         {
           "version": "1.2",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 10269210,
           "downloadURL": "debs/orwellvk/com.dvntm.ovk_1.2_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v1.2.",
@@ -1430,7 +1209,7 @@
         },
         {
           "version": "1.2",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 10259520,
           "downloadURL": "debs/orwellvk/com.dvntm.ovk_1.2_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v1.2.",
@@ -1441,7 +1220,7 @@
         },
         {
           "version": "1.1.6",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 10214918,
           "downloadURL": "debs/orwellvk/com.dvntm.ovk_1.1.6_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v1.1.6.",
@@ -1452,7 +1231,7 @@
         },
         {
           "version": "1.1.6",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 10209882,
           "downloadURL": "debs/orwellvk/com.dvntm.ovk_1.1.6_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v1.1.6.",
@@ -1463,7 +1242,7 @@
         },
         {
           "version": "1.1.6",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 10212080,
           "downloadURL": "debs/orwellvk/com.dvntm.ovk_1.1.6_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v1.1.6.",
@@ -1495,13 +1274,13 @@
       "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
       "tintColor": "848ef9",
       "version": "1.7.6",
-      "versionDate": "2026-11-25T23:40:52Z",
+      "versionDate": "2026-11-25T23:45:31Z",
       "size": 633724,
       "downloadURL": "debs/TGExtra/com.choco.tgextra_227_1.7.6_iphoneos-arm64e.deb",
       "versions": [
         {
           "version": "1.7.6",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 635558,
           "downloadURL": "debs/TGExtra/com.choco.tgextra_227_1.7.6_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v1.7.6.",
@@ -1512,7 +1291,7 @@
         },
         {
           "version": "1.7.6",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 631066,
           "downloadURL": "debs/TGExtra/com.choco.tgextra_227_1.7.6_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v1.7.6.",
@@ -1523,7 +1302,7 @@
         },
         {
           "version": "1.7.6",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 633724,
           "downloadURL": "debs/TGExtra/com.choco.tgextra_227_1.7.6_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v1.7.6.",
@@ -1555,13 +1334,13 @@
       "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/tweach.jpg",
       "tintColor": "848ef9",
       "version": "2.3.3",
-      "versionDate": "2026-11-25T23:40:53Z",
+      "versionDate": "2026-11-25T23:45:32Z",
       "size": 7298768,
       "downloadURL": "debs/tweach/com.dvntm.tweach_2.3.3_iphoneos-arm64e.deb",
       "versions": [
         {
           "version": "2.3.3",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 7296114,
           "downloadURL": "debs/tweach/com.dvntm.tweach_2.3.3_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v2.3.3.",
@@ -1572,7 +1351,7 @@
         },
         {
           "version": "2.3.3",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 7295338,
           "downloadURL": "debs/tweach/com.dvntm.tweach_2.3.3_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v2.3.3.",
@@ -1583,7 +1362,7 @@
         },
         {
           "version": "2.3.3",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 7298768,
           "downloadURL": "debs/tweach/com.dvntm.tweach_2.3.3_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v2.3.3.",
@@ -1594,7 +1373,7 @@
         },
         {
           "version": "2.3.2",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 7300250,
           "downloadURL": "debs/tweach/com.dvntm.tweach_2.3.2_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v2.3.2.",
@@ -1605,7 +1384,7 @@
         },
         {
           "version": "2.3.2",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 7305594,
           "downloadURL": "debs/tweach/com.dvntm.tweach_2.3.2_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v2.3.2.",
@@ -1616,7 +1395,7 @@
         },
         {
           "version": "2.3.2",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 7294814,
           "downloadURL": "debs/tweach/com.dvntm.tweach_2.3.2_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v2.3.2.",
@@ -1627,7 +1406,7 @@
         },
         {
           "version": "2.3.1",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 7299176,
           "downloadURL": "debs/tweach/com.dvntm.tweach_2.3.1_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v2.3.1.",
@@ -1638,7 +1417,7 @@
         },
         {
           "version": "2.3.1",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 7299534,
           "downloadURL": "debs/tweach/com.dvntm.tweach_2.3.1_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v2.3.1.",
@@ -1649,7 +1428,7 @@
         },
         {
           "version": "2.3.1",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 7289934,
           "downloadURL": "debs/tweach/com.dvntm.tweach_2.3.1_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v2.3.1.",
@@ -1660,7 +1439,7 @@
         },
         {
           "version": "2.3",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 7287998,
           "downloadURL": "debs/tweach/com.dvntm.tweach_2.3_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v2.3.",
@@ -1671,7 +1450,7 @@
         },
         {
           "version": "2.3",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 7286324,
           "downloadURL": "debs/tweach/com.dvntm.tweach_2.3_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v2.3.",
@@ -1682,7 +1461,7 @@
         },
         {
           "version": "2.3",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 7285264,
           "downloadURL": "debs/tweach/com.dvntm.tweach_2.3_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v2.3.",
@@ -1714,13 +1493,13 @@
       "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/yougroupsettings.jpg",
       "tintColor": "848ef9",
       "version": "1.0.10",
-      "versionDate": "2026-11-25T23:40:53Z",
+      "versionDate": "2026-11-25T23:45:32Z",
       "size": 5258,
       "downloadURL": "debs/yougroupsettings/yougroupsettings_1.0.10-arm.deb",
       "versions": [
         {
           "version": "1.0.10",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 5258,
           "downloadURL": "debs/yougroupsettings/yougroupsettings_1.0.10-arm.deb",
           "localizedDescription": "Cập nhật lên v1.0.10.",
@@ -1752,13 +1531,13 @@
       "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
       "tintColor": "848ef9",
       "version": "1.3.0",
-      "versionDate": "2026-11-25T23:40:53Z",
+      "versionDate": "2026-11-25T23:45:32Z",
       "size": 162996,
       "downloadURL": "debs/youmod/dev.water888.youmod_1.3.0_iphoneos-arm.deb",
       "versions": [
         {
           "version": "1.3.0",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 162996,
           "downloadURL": "debs/youmod/dev.water888.youmod_1.3.0_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v1.3.0.",
@@ -1790,13 +1569,13 @@
       "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
       "tintColor": "848ef9",
       "version": "1.4.1",
-      "versionDate": "2026-11-25T23:40:53Z",
+      "versionDate": "2026-11-25T23:45:32Z",
       "size": 6254,
       "downloadURL": "debs/youmute/com.ps.youmute_1.4.1_iphoneos-arm.deb",
       "versions": [
         {
           "version": "1.4.1",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 6254,
           "downloadURL": "debs/youmute/com.ps.youmute_1.4.1_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v1.4.1.",
@@ -1807,7 +1586,7 @@
         },
         {
           "version": "1.4.0",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 6198,
           "downloadURL": "debs/youmute/youmute_1.4.0_arm.deb",
           "localizedDescription": "Cập nhật lên v1.4.0.",
@@ -1839,13 +1618,13 @@
       "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
       "tintColor": "848ef9",
       "version": "1.12.12",
-      "versionDate": "2026-11-25T23:40:53Z",
+      "versionDate": "2026-11-25T23:45:32Z",
       "size": 25332,
       "downloadURL": "debs/youpip/com.ps.youpip_1.12.12_iphoneos-arm64.deb",
       "versions": [
         {
           "version": "1.12.12",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 25610,
           "downloadURL": "debs/youpip/com.ps.youpip_1.12.12_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v1.12.12.",
@@ -1856,7 +1635,7 @@
         },
         {
           "version": "1.12.12",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 25332,
           "downloadURL": "debs/youpip/com.ps.youpip_1.12.12_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v1.12.12.",
@@ -1888,13 +1667,13 @@
       "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
       "tintColor": "848ef9",
       "version": "1.7.1",
-      "versionDate": "2026-11-25T23:40:53Z",
+      "versionDate": "2026-11-25T23:45:32Z",
       "size": 12772,
       "downloadURL": "debs/youspeed/com.ps.youspeed_1.7.1_iphoneos-arm64.deb",
       "versions": [
         {
           "version": "1.7.1",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 12926,
           "downloadURL": "debs/youspeed/com.ps.youspeed_1.7.1_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v1.7.1.",
@@ -1905,7 +1684,7 @@
         },
         {
           "version": "1.7.1",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 12772,
           "downloadURL": "debs/youspeed/com.ps.youspeed_1.7.1_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v1.7.1.",
@@ -1916,7 +1695,7 @@
         },
         {
           "version": "1.6.6",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 12130,
           "downloadURL": "debs/youspeed/youspeed_1.6.6_arm.deb",
           "localizedDescription": "Cập nhật lên v1.6.6.",
@@ -1948,13 +1727,13 @@
       "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
       "tintColor": "848ef9",
       "version": "1.0",
-      "versionDate": "2026-11-25T23:40:53Z",
+      "versionDate": "2026-11-25T23:45:32Z",
       "size": 3340,
       "downloadURL": "debs/youtubefix/youtubefix_1.0_arm.deb",
       "versions": [
         {
           "version": "1.0",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 3340,
           "downloadURL": "debs/youtubefix/youtubefix_1.0_arm.deb",
           "localizedDescription": "Cập nhật lên v1.0.",
@@ -1986,13 +1765,13 @@
       "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
       "tintColor": "848ef9",
       "version": "0.2.7",
-      "versionDate": "2026-11-25T23:40:53Z",
+      "versionDate": "2026-11-25T23:45:32Z",
       "size": 5042,
       "downloadURL": "debs/yt-native-share/me.jkhsjdhjs.youtube-native-share_0.2.7_iphoneos-arm64e.deb",
       "versions": [
         {
           "version": "0.2.7",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 10080,
           "downloadURL": "debs/yt-native-share/me.jkhsjdhjs.youtube-native-share_0.2.7_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v0.2.7.",
@@ -2003,7 +1782,7 @@
         },
         {
           "version": "0.2.7",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 5114,
           "downloadURL": "debs/yt-native-share/me.jkhsjdhjs.youtube-native-share_0.2.7_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v0.2.7.",
@@ -2014,7 +1793,7 @@
         },
         {
           "version": "0.2.7",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 5042,
           "downloadURL": "debs/yt-native-share/me.jkhsjdhjs.youtube-native-share_0.2.7_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v0.2.7.",
@@ -2046,13 +1825,13 @@
       "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
       "tintColor": "848ef9",
       "version": "1.7.19",
-      "versionDate": "2026-11-25T23:40:52Z",
+      "versionDate": "2026-11-25T23:45:31Z",
       "size": 5728,
       "downloadURL": "debs/YoutubeX/YoutubeX_1.7.19_arm.deb",
       "versions": [
         {
           "version": "1.7.19",
-          "date": "2026-11-25T23:40:52Z",
+          "date": "2026-11-25T23:45:31Z",
           "size": 5728,
           "downloadURL": "debs/YoutubeX/YoutubeX_1.7.19_arm.deb",
           "localizedDescription": "Cập nhật lên v1.7.19.",
@@ -2084,13 +1863,13 @@
       "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/ytplus.jpg",
       "tintColor": "848ef9",
       "version": "5.2.1",
-      "versionDate": "2026-11-25T23:40:53Z",
+      "versionDate": "2026-11-25T23:45:32Z",
       "size": 7410936,
       "downloadURL": "debs/ytplus/com.dvntm.ytlite_5.2.1_iphoneos-arm64e.deb",
       "versions": [
         {
           "version": "5.2.1",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 7420522,
           "downloadURL": "debs/ytplus/com.dvntm.ytlite_5.2.1_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v5.2.1.",
@@ -2101,7 +1880,7 @@
         },
         {
           "version": "5.2.1",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 7432926,
           "downloadURL": "debs/ytplus/com.dvntm.ytlite_5.2.1_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v5.2.1.",
@@ -2112,7 +1891,7 @@
         },
         {
           "version": "5.2.1",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 7410936,
           "downloadURL": "debs/ytplus/com.dvntm.ytlite_5.2.1_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v5.2.1.",
@@ -2123,7 +1902,7 @@
         },
         {
           "version": "5.2",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 7434188,
           "downloadURL": "debs/ytplus/com.dvntm.ytlite_5.2_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v5.2.",
@@ -2134,7 +1913,7 @@
         },
         {
           "version": "5.2",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 7438534,
           "downloadURL": "debs/ytplus/com.dvntm.ytlite_5.2_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v5.2.",
@@ -2145,7 +1924,7 @@
         },
         {
           "version": "5.2",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 7434214,
           "downloadURL": "debs/ytplus/com.dvntm.ytlite_5.2_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v5.2.",
@@ -2156,7 +1935,7 @@
         },
         {
           "version": "5.2~b1",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 6041648,
           "downloadURL": "debs/ytplus/com.dvntm.ytlite_5.2~b1_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v5.2~b1.",
@@ -2167,7 +1946,7 @@
         },
         {
           "version": "5.2~b1",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 6043940,
           "downloadURL": "debs/ytplus/com.dvntm.ytlite_5.2~b1_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v5.2~b1.",
@@ -2178,7 +1957,7 @@
         },
         {
           "version": "5.2~b1",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 6046020,
           "downloadURL": "debs/ytplus/com.dvntm.ytlite_5.2~b1_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v5.2~b1.",
@@ -2189,7 +1968,7 @@
         },
         {
           "version": "5.2~b2",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 6401056,
           "downloadURL": "debs/ytplus/com.dvntm.ytlite_5.2~b2_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v5.2~b2.",
@@ -2200,7 +1979,7 @@
         },
         {
           "version": "5.2~b2",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 6394080,
           "downloadURL": "debs/ytplus/com.dvntm.ytlite_5.2~b2_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v5.2~b2.",
@@ -2211,7 +1990,7 @@
         },
         {
           "version": "5.2~b2",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 6396588,
           "downloadURL": "debs/ytplus/com.dvntm.ytlite_5.2~b2_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v5.2~b2.",
@@ -2222,7 +2001,7 @@
         },
         {
           "version": "5.2~b3",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 6398164,
           "downloadURL": "debs/ytplus/com.dvntm.ytlite_5.2~b3_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v5.2~b3.",
@@ -2233,7 +2012,7 @@
         },
         {
           "version": "5.2~b3",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 6402780,
           "downloadURL": "debs/ytplus/com.dvntm.ytlite_5.2~b3_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v5.2~b3.",
@@ -2244,7 +2023,7 @@
         },
         {
           "version": "5.2~b3",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 6403028,
           "downloadURL": "debs/ytplus/com.dvntm.ytlite_5.2~b3_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v5.2~b3.",
@@ -2255,7 +2034,7 @@
         },
         {
           "version": "5.2~b4",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 6411144,
           "downloadURL": "debs/ytplus/com.dvntm.ytlite_5.2~b4_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v5.2~b4.",
@@ -2266,7 +2045,7 @@
         },
         {
           "version": "5.2~b4",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 6414442,
           "downloadURL": "debs/ytplus/com.dvntm.ytlite_5.2~b4_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v5.2~b4.",
@@ -2277,7 +2056,7 @@
         },
         {
           "version": "5.2~b4",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 6413578,
           "downloadURL": "debs/ytplus/com.dvntm.ytlite_5.2~b4_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v5.2~b4.",
@@ -2309,13 +2088,13 @@
       "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/ytmu.jpg",
       "tintColor": "848ef9",
       "version": "2.4.1",
-      "versionDate": "2026-11-25T23:40:53Z",
+      "versionDate": "2026-11-25T23:45:32Z",
       "size": 6572062,
       "downloadURL": "debs/ytmu/com.ginsu.ytmusicultimate_2.4.1_iphoneos-arm64e.deb",
       "versions": [
         {
           "version": "2.4.1",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 6576778,
           "downloadURL": "debs/ytmu/com.ginsu.ytmusicultimate_2.4.1_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v2.4.1.",
@@ -2326,7 +2105,7 @@
         },
         {
           "version": "2.4.1",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 6566710,
           "downloadURL": "debs/ytmu/com.ginsu.ytmusicultimate_2.4.1_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v2.4.1.",
@@ -2337,7 +2116,7 @@
         },
         {
           "version": "2.4.1",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 6572062,
           "downloadURL": "debs/ytmu/com.ginsu.ytmusicultimate_2.4.1_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v2.4.1.",
@@ -2348,7 +2127,7 @@
         },
         {
           "version": "2.4",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 6573666,
           "downloadURL": "debs/ytmu/com.ginsu.ytmusicultimate_2.4_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v2.4.",
@@ -2359,7 +2138,7 @@
         },
         {
           "version": "2.4",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 6576970,
           "downloadURL": "debs/ytmu/com.ginsu.ytmusicultimate_2.4_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v2.4.",
@@ -2370,7 +2149,7 @@
         },
         {
           "version": "2.4",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 6563322,
           "downloadURL": "debs/ytmu/com.ginsu.ytmusicultimate_2.4_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v2.4.",
@@ -2381,7 +2160,7 @@
         },
         {
           "version": "2.3.1",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 7456448,
           "downloadURL": "debs/ytmu/com.ginsu.ytmusicultimate_2.3.1_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v2.3.1.",
@@ -2392,7 +2171,7 @@
         },
         {
           "version": "2.3.1",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 7456384,
           "downloadURL": "debs/ytmu/com.ginsu.ytmusicultimate_2.3.1_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v2.3.1.",
@@ -2403,7 +2182,7 @@
         },
         {
           "version": "2.3.1",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 7455378,
           "downloadURL": "debs/ytmu/com.ginsu.ytmusicultimate_2.3.1_iphoneos-arm64e.deb",
           "localizedDescription": "Cập nhật lên v2.3.1.",
@@ -2435,13 +2214,13 @@
       "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
       "tintColor": "848ef9",
       "version": "2.6.0",
-      "versionDate": "2026-11-25T23:40:53Z",
+      "versionDate": "2026-11-25T23:45:32Z",
       "size": 391502,
       "downloadURL": "debs/ytuhd/com.ps.ytuhd_2.6.0_iphoneos-arm64.deb",
       "versions": [
         {
           "version": "2.6.0",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 391984,
           "downloadURL": "debs/ytuhd/com.ps.ytuhd_2.6.0_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v2.6.0.",
@@ -2452,7 +2231,7 @@
         },
         {
           "version": "2.6.0",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 391502,
           "downloadURL": "debs/ytuhd/com.ps.ytuhd_2.6.0_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v2.6.0.",
@@ -2484,13 +2263,13 @@
       "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
       "tintColor": "848ef9",
       "version": "1.3.1",
-      "versionDate": "2026-11-25T23:40:53Z",
+      "versionDate": "2026-11-25T23:45:32Z",
       "size": 3272,
       "downloadURL": "debs/ytunshorts/ytunshorts_1.3.1_arm.deb",
       "versions": [
         {
           "version": "1.3.1",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 3272,
           "downloadURL": "debs/ytunshorts/ytunshorts_1.3.1_arm.deb",
           "localizedDescription": "Cập nhật lên v1.3.1.",
@@ -2522,13 +2301,13 @@
       "iconURL": "https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/default/Kyic.png",
       "tintColor": "848ef9",
       "version": "2.3.6",
-      "versionDate": "2026-11-25T23:40:53Z",
+      "versionDate": "2026-11-25T23:45:32Z",
       "size": 16298,
       "downloadURL": "debs/ytvideooverlay/com.ps.ytvideooverlay_2.3.6_iphoneos-arm64.deb",
       "versions": [
         {
           "version": "2.3.6",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 16436,
           "downloadURL": "debs/ytvideooverlay/com.ps.ytvideooverlay_2.3.6_iphoneos-arm.deb",
           "localizedDescription": "Cập nhật lên v2.3.6.",
@@ -2539,7 +2318,7 @@
         },
         {
           "version": "2.3.6",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 16298,
           "downloadURL": "debs/ytvideooverlay/com.ps.ytvideooverlay_2.3.6_iphoneos-arm64.deb",
           "localizedDescription": "Cập nhật lên v2.3.6.",
@@ -2550,7 +2329,7 @@
         },
         {
           "version": "2.3.5",
-          "date": "2026-11-25T23:40:53Z",
+          "date": "2026-11-25T23:45:32Z",
           "size": 16312,
           "downloadURL": "debs/ytvideooverlay/ytvideooverlay_2.3.5_arm.deb",
           "localizedDescription": "Cập nhật lên v2.3.5.",

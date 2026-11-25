@@ -1537,68 +1537,6 @@ SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/ytmu/com.ginsu.ytmu
 
 Package: com.kyic.autoac
 Name: AutoAC
-Version: 2.1.140
-Architecture: iphoneos-arm64
-Filename: debs/autoac/com.kyic.autoac_2.1.140_iphoneos-arm64.deb
-Size: 427660
-MD5sum: fd0431426b960d484fdc87d4c77e523f
-SHA1: 62d76219787639d097b4113ffbc6a4aec0d582f3
-SHA256: a4eaed716304667e7dfd6cc6f908619df5f42fc399ecf347a85ca921422d4e97
-Author: Kyic
-Maintainer: Kyic
-Depends: mobilesubstrate
-Installed-Size: 1904
-Description: AutoAC tweak (long press + logo YouTube)
- .
- ━━ Cập nhật tự động ━━
- AutoAC v2.1.140 — 26/11/2026
- .
- 🔧 Cải tiến
- • Cập nhật phiên bản v2.1.140
- .
- 📌 Hỗ trợ tốt nhất: YouTube 21.46.3
- 🧩 Hệ sinh thái: Rootless (iphoneos-arm64)
- 🔗 Tích hợp: YouTube X, NoYTPremium
- ✅ Không phát hiện hook hỏng (13/22 khớp, còn lại chưa kiểm chứng được)
- 🗓️ Phát hành: 26/11/2026
-Section: Tweaks
-Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/AutoAC.png
-Depiction: https://2kgt.github.io/repo/data/desc/tweaks/autoac/com.kyic.autoac_2.1.140_iphoneos-arm64.html
-SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/autoac/com.kyic.autoac_2.1.140_iphoneos-arm64.json
-
-Package: com.kyic.autoac
-Name: AutoAC
-Version: 2.1.131
-Architecture: iphoneos-arm64
-Filename: debs/autoac/com.kyic.autoac_2.1.131_iphoneos-arm64.deb
-Size: 414950
-MD5sum: a0d36b6bec5189402fc4c2845c46d4a6
-SHA1: 07be090474911a841cf811c69bcc5c2c3a2885c8
-SHA256: d4485e845bb3ad9b8513e49085ecd2a863d2300ef4cd4bdae28ed6318b4eec31
-Author: Kyic
-Maintainer: Kyic
-Depends: mobilesubstrate
-Installed-Size: 1868
-Description: AutoAC tweak (long press + logo YouTube)
- .
- ━━ Cập nhật tự động ━━
- AutoAC v2.1.131 — 24/11/2026
- .
- 🔧 Cải tiến
- • Update Tweak.x
- .
- 📌 Hỗ trợ tốt nhất: YouTube 21.46.3
- 🧩 Hệ sinh thái: Rootless (iphoneos-arm64)
- 🔗 Tích hợp: YouTube X, NoYTPremium
- ✅ Không phát hiện hook hỏng (13/22 khớp, còn lại chưa kiểm chứng được)
- 🗓️ Phát hành: 24/11/2026
-Section: Tweaks
-Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/AutoAC.png
-Depiction: https://2kgt.github.io/repo/data/desc/tweaks/autoac/com.kyic.autoac_2.1.131_iphoneos-arm64.html
-SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/autoac/com.kyic.autoac_2.1.131_iphoneos-arm64.json
-
-Package: com.kyic.autoac
-Name: AutoAC
 Version: 2.1.91
 Architecture: iphoneos-arm64
 Filename: https://github.com/2KGT/2KGT.github.io/releases/download/autoac-v2.1.91/com.kyic.autoac_2.1.91_iphoneos-arm64.deb

@@ -6,6 +6,19 @@
 
 | Tiêu đề | Nội dung |
 |---|---|
+| ⏱️ Time | 26/11/2026 06:46 |
+| 👤 Author | 2K |
+| 💬 Commit | Delete repo/debs/autoac directory |
+| 📊 Overview | 29 file · 2 thư mục thay đổi |
+| 🛠️ Các thay đổi | <details><summary>✏️ Sửa (29)</summary><br>`repo/Packages`<br>`repo/Packages.bz2`<br>`repo/Packages.gz`<br>`repo/Packages.xz`<br>`repo/Release`<br>`repo/apps.json`<br>`repo/data/desc/dylibs/AutoAC/com.kyic.autoac_2.1.91_iphoneos-arm64.json`<br>`repo/data/desc/dylibs/Autocat/com.kyic.autocat_1.3.1_iphoneos-arm.json`<br>`repo/data/desc/dylibs/Autocat/com.kyic.autocat_1.3.1_iphoneos-arm64.json`<br>`repo/data/desc/dylibs/Autocat/com.kyic.autocat_1.3.1_iphoneos-arm64e.json`<br>`repo/data/desc/dylibs/DLTwitter/DLTwitter.json`<br>`repo/data/desc/dylibs/FbStorySeen/FbStorySeen.json`<br>`repo/data/desc/dylibs/FixIpa/FixIpa.json`<br>`repo/data/desc/dylibs/Ghi a\314\202m ta\314\206\314\201t ma\314\200n/Ghi a\314\202m ta\314\206\314\201t ma\314\200n.json`<br>`repo/data/desc/dylibs/Ghi \303\242m t\341\272\257t m\303\240n/Ghi \303\242m t\341\272\257t m\303\240n.json`<br>`repo/data/desc/dylibs/Lead/com.w3ltyyy.lead_1.3.3_iphoneos-arm.json`<br>`repo/data/desc/dylibs/Lead/com.w3ltyyy.lead_1.4.2_iphoneos-arm.json`<br>`repo/data/desc/dylibs/Lead/com.w3ltyyy.lead_1.4.3_iphoneos-arm.json`<br>`repo/data/desc/dylibs/LoadControl/LoadControl.json`<br>`repo/data/desc/dylibs/SideloadFixerLol/sideloadFixerLol.json`<br>`repo/data/desc/dylibs/SideloadKeychainFix/sideloadKeychainFix.json`<br>`repo/data/desc/dylibs/Sideloadbypass1/Sideloadbypass1.json`<br>`repo/data/desc/dylibs/Sideloadbypass2/Sideloadbypass2.json`<br>`repo/data/desc/dylibs/TWIGalaxy/TWIGalaxy.json`<br>`repo/data/desc/dylibs/TwitDate/TwitDate.json`<br>`repo/data/desc/dylibs/XLogin/XLogin.json`<br>`repo/data/desc/wiki/wikidylibs.json`<br>`repo/debs.json`<br>`repo/dylibs.json`</details><br>🗑️ Xoá thư mục (2)<br>`repo/debs/autoac/`<br>`repo/inbox/` |
+| ❓ Nguyên nhân | Hệ thống tự động kích hoạt khi có push lên nhánh main · Cập nhật mô tả ứng dụng (depiction) · Commit: Delete repo/debs/autoac directory |
+| 🎯 Kết quả | ✅ Hoàn tất<br><br>📄 File (29): ✏️ Sửa 29<br>📂 Thư mục (2): 🗑️ Xoá 2 |
+
+---
+
+
+| Tiêu đề | Nội dung |
+|---|---|
 | ⏱️ Time | 26/11/2026 06:42 |
 | 👤 Author | GitHub Action |
 | 💬 Commit | AutoAC v2.1.140 — debs |

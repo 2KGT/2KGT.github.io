@@ -1,7 +1,7 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 26/11/2026 06:42:02 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 26/11/2026 06:46:39 (Giờ Hà Nội)*
 
-📝 *Thay đổi thư mục so với lần quét trước: ✨ +1 thư mục mới* — xem chi tiết tại `docs/CHANGELOG.md`
+📝 *Thay đổi thư mục so với lần quét trước: 🗑️ -2 thư mục đã xoá* — xem chi tiết tại `docs/CHANGELOG.md`
 
 ```text
 🗺️ Root/
@@ -452,10 +452,6 @@
 │   │   │   └── [ 📊 Số lượng: 📦 Package .deb: 3 file ]
 │   │   ├── 📂 YoutubeX/
 │   │   │   └── [ 📊 Số lượng: 📦 Package .deb: 1 file ]
-│   │   ├── 📂 autoac/
-│   │   │   ├── v2.1.131.txt
-│   │   │   ├── v2.1.140.txt
-│   │   │   └── [ 📊 Số lượng: 📦 Package .deb: 20 file ]
 │   │   ├── 📂 bilibili/
 │   │   │   ├── .gitkeep
 │   │   │   └── [ 📊 Số lượng: 📦 Package .deb: 1 file ]
@@ -549,7 +545,6 @@
 │   │   ├── index.html
 │   │   ├── shop.html
 │   │   └── sign.html
-│   ├── 📂 inbox/
 │   ├── index.html
 │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file, 🖼️ Ảnh PNG: 1 file ]
 └── 📂 supabase/
