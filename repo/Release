@@ -6,14 +6,14 @@ Codename: ios
 Architectures: iphoneos-arm iphoneos-arm64 iphoneos-arm64e
 Components: main
 Description: Kho tài nguyên ứng dụng của Kyic Premium Store.
-Date: Wed, 25 Nov 2026 23:46:32 UTC
+Date: Wed, 25 Nov 2026 23:56:36 UTC
 MD5Sum:
- d8963a546e4dfa9232400870b572646c    87234 Packages
- fb61b8f8653719c7d1429b70b0e3616c    15389 Packages.gz
- 526afe2480e1e5becf4210b5d48b4118    13761 Packages.bz2
- 5eef9ff3c197952d51bdc7e31d5c8e63    13592 Packages.xz
+ 2cfff9a26d3174254fd75bcf270cdab9    88418 Packages
+ da90ed0d93456bc2a278944f27696db7    15590 Packages.gz
+ d2f65e4a8059fbaedc1b616e7d27821d    14018 Packages.bz2
+ f31c40ce5903d4c8ffa18e2cc5dce1cb    13756 Packages.xz
 SHA256:
- df4cec4b165b338026dd94cac48a58843fa91a4a1a40c2d1ca841ab4c784b76d    87234 Packages
- d98d0e649a8638202cdb19f6b4ff52f34a99211968651d363e6880da80350a00    15389 Packages.gz
- ffc61ef9c7ddc33a1f1a9999e69a59eead09c601c53bd8580df246d5c879b840    13761 Packages.bz2
- 88182080277d7ed2de7d615ba437c799f45480630f45d3198ff08addcf214ac6    13592 Packages.xz
+ 704616a7b0033f8cf9ad81c63893ddd7bc84c302df287d100654a8b59ef6ac5c    88418 Packages
+ 54b7e189733e8a8048dede2bd28c7eff9addfc4ca097d02285914d7524af5ce4    15590 Packages.gz
+ abfa27efe8b913f282c2f9e33a666aa4e45c24cf636ea00eb7670e3387629790    14018 Packages.bz2
+ 2b96faa90638217d9c6b97863b2b9e55b837ce162c74347c14ad584e3866be8e    13756 Packages.xz

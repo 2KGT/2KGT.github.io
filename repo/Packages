@@ -1537,6 +1537,37 @@ SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/ytmu/com.ginsu.ytmu
 
 Package: com.kyic.autoac
 Name: AutoAC
+Version: 2.1.141
+Architecture: iphoneos-arm64
+Filename: debs/autoac/com.kyic.autoac_2.1.141_iphoneos-arm64.deb
+Size: 426938
+MD5sum: d5010801dba7f623949b58c162d8b029
+SHA1: f5f53ac28c61186f882e82ec950bbcbf8bc50b6a
+SHA256: a9e8ac84a5b6390ad1c9372af231bab53b50208a4c43cda3bebf3a36b1f68dbd
+Author: Kyic
+Maintainer: Kyic
+Depends: mobilesubstrate
+Installed-Size: 1904
+Description: AutoAC tweak (long press + logo YouTube)
+ .
+ ━━ Cập nhật tự động ━━
+ AutoAC v2.1.141 — 26/11/2026
+ .
+ 🔧 Cải tiến
+ • Cập nhật phiên bản v2.1.141
+ .
+ 📌 Hỗ trợ tốt nhất: YouTube 21.46.3
+ 🧩 Hệ sinh thái: Rootful (iphoneos-arm)
+ 🔗 Tích hợp: YouTube X, NoYTPremium
+ ✅ Không phát hiện hook hỏng (13/22 khớp, còn lại chưa kiểm chứng được)
+ 🗓️ Phát hành: 26/11/2026
+Section: Tweaks
+Icon: https://raw.githubusercontent.com/2KGT/2KGT.github.io/main/repo/data/icons/AutoAC.png
+Depiction: https://2kgt.github.io/repo/data/desc/tweaks/autoac/com.kyic.autoac_2.1.141_iphoneos-arm64.html
+SileoDepiction: https://2kgt.github.io/repo/data/desc/tweaks/autoac/com.kyic.autoac_2.1.141_iphoneos-arm64.json
+
+Package: com.kyic.autoac
+Name: AutoAC
 Version: 2.1.91
 Architecture: iphoneos-arm64
 Filename: https://github.com/2KGT/2KGT.github.io/releases/download/autoac-v2.1.91/com.kyic.autoac_2.1.91_iphoneos-arm64.deb
