@@ -6,6 +6,19 @@
 
 | Tiêu đề | Nội dung |
 |---|---|
+| ⏱️ Time | 28/11/2026 20:19 |
+| 👤 Author | GitHub Action |
+| 💬 Commit | AutoAC v2.1.142 — debs |
+| 📊 Overview | 41 file · 1 thư mục thay đổi |
+| 🛠️ Các thay đổi | ✨ Thêm (5)<br>`repo/data/desc/tweaks/autoac/com.kyic.autoac_2.1.142_iphoneos-arm64.html`<br>`repo/data/desc/tweaks/autoac/com.kyic.autoac_2.1.142_iphoneos-arm64.json`<br>`repo/data/desc/tweaks/autoac/v2.1.142.txt`<br>`repo/debs/autoac/com.kyic.autoac_2.1.142_iphoneos-arm64.deb`<br>`repo/debs/autoac/v2.1.142.txt`<br><details><summary>✏️ Sửa (34)</summary><br>`repo/Packages`<br>`repo/Packages.bz2`<br>`repo/Packages.gz`<br>`repo/Packages.xz`<br>`repo/Release`<br>`repo/apps.json`<br>`repo/data/desc/dylibs/AutoAC/com.kyic.autoac_2.1.141_iphoneos-arm64.json`<br>`repo/data/desc/dylibs/AutoAC/com.kyic.autoac_2.1.91_iphoneos-arm64.json`<br>`repo/data/desc/dylibs/Autocat/com.kyic.autocat_1.3.1_iphoneos-arm.json`<br>`repo/data/desc/dylibs/Autocat/com.kyic.autocat_1.3.1_iphoneos-arm64.json`<br>`repo/data/desc/dylibs/Autocat/com.kyic.autocat_1.3.1_iphoneos-arm64e.json`<br>`repo/data/desc/dylibs/DLTwitter/DLTwitter.json`<br>`repo/data/desc/dylibs/FbStorySeen/FbStorySeen.json`<br>`repo/data/desc/dylibs/FixIpa/FixIpa.json`<br>`repo/data/desc/dylibs/Ghi a\314\202m ta\314\206\314\201t ma\314\200n/Ghi a\314\202m ta\314\206\314\201t ma\314\200n.json`<br>`repo/data/desc/dylibs/Ghi \303\242m t\341\272\257t m\303\240n/Ghi \303\242m t\341\272\257t m\303\240n.json`<br>`repo/data/desc/dylibs/Lead/com.w3ltyyy.lead_1.3.3_iphoneos-arm.json`<br>`repo/data/desc/dylibs/Lead/com.w3ltyyy.lead_1.4.2_iphoneos-arm.json`<br>`repo/data/desc/dylibs/Lead/com.w3ltyyy.lead_1.4.3_iphoneos-arm.json`<br>`repo/data/desc/dylibs/LoadControl/LoadControl.json`<br>`repo/data/desc/dylibs/SideloadFixerLol/sideloadFixerLol.json`<br>`repo/data/desc/dylibs/SideloadKeychainFix/sideloadKeychainFix.json`<br>`repo/data/desc/dylibs/Sideloadbypass1/Sideloadbypass1.json`<br>`repo/data/desc/dylibs/Sideloadbypass2/Sideloadbypass2.json`<br>`repo/data/desc/dylibs/TWIGalaxy/TWIGalaxy.json`<br>`repo/data/desc/dylibs/TwitDate/TwitDate.json`<br>`repo/data/desc/dylibs/XLogin/XLogin.json`<br>`repo/data/desc/tweaks/autoac/com.kyic.autoac_2.1.141_iphoneos-arm64.html`<br>`repo/data/desc/tweaks/autoac/com.kyic.autoac_2.1.141_iphoneos-arm64.json`<br>`repo/data/desc/wiki/wikidebs.json`<br>`repo/data/desc/wiki/wikidylibs.json`<br>`repo/data/intake/ledger.jsonl`<br>`repo/debs.json`<br>`repo/dylibs.json`</details><br>🗑️ Xoá (2)<br>`repo/inbox/20261128-131805-1-debs-autoac/com.kyic.autoac_2.1.142_iphoneos-arm64.deb`<br>`repo/inbox/20261128-131805-1-debs-autoac/manifest.json`<br>✨ Thêm thư mục (1)<br>`repo/inbox/` |
+| ❓ Nguyên nhân | Hệ thống tự động kích hoạt khi có push lên nhánh main · Cập nhật mô tả ứng dụng (depiction) · Commit: AutoAC v2.1.142 — debs |
+| 🎯 Kết quả | ✅ Hoàn tất<br><br>📄 File (41): ✏️ Sửa 34, 🗑️ Xoá 2, ✨ Thêm 5<br>📂 Thư mục (1): ✨ Thêm 1 |
+
+---
+
+
+| Tiêu đề | Nội dung |
+|---|---|
 | ⏱️ Time | 28/11/2026 20:09 |
 | 👤 Author | GitHub Action |
 | 💬 Commit | 🚀 Auto Sync: 19 apps, 107 tweaks | 25/11/2026 23:58 [skip ci] |

@@ -147,6 +147,7 @@
     "repo/dylibs/autoCat",
     "repo/dylibs/autoac",
     "repo/html",
+    "repo/inbox",
     "supabase",
     "supabase/functions",
     "supabase/functions/create-order",
@@ -499,6 +500,8 @@
       "com.kyic.autoac_2.1.140_iphoneos-arm64.json",
       "com.kyic.autoac_2.1.141_iphoneos-arm64.html",
       "com.kyic.autoac_2.1.141_iphoneos-arm64.json",
+      "com.kyic.autoac_2.1.142_iphoneos-arm64.html",
+      "com.kyic.autoac_2.1.142_iphoneos-arm64.json",
       "com.kyic.autoac_2.1.25_iphoneos-arm64.json",
       "com.kyic.autoac_2.1.26_iphoneos-arm64.json",
       "com.kyic.autoac_2.1.27_iphoneos-arm64.json",
@@ -519,7 +522,8 @@
       "default.txt",
       "v2.1.131.txt",
       "v2.1.140.txt",
-      "v2.1.141.txt"
+      "v2.1.141.txt",
+      "v2.1.142.txt"
     ],
     "repo/data/desc/tweaks/ytmu": [
       "com.ginsu.ytmusicultimate_2.3.1_iphoneos-arm.html",
@@ -864,6 +868,7 @@
       "about.png",
       "donate.png"
     ],
+    "repo/inbox": [],
     "repo/apps": [],
     "repo/apps/GBox": [
       ".gitkeep"
@@ -1056,7 +1061,9 @@
     ],
     "repo/debs/autoac": [
       "com.kyic.autoac_2.1.141_iphoneos-arm64.deb",
-      "v2.1.141.txt"
+      "com.kyic.autoac_2.1.142_iphoneos-arm64.deb",
+      "v2.1.141.txt",
+      "v2.1.142.txt"
     ],
     "repo/debs/ytmu": [
       "com.ginsu.ytmusicultimate_2.3.1_iphoneos-arm.deb",

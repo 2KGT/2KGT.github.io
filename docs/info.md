@@ -1,7 +1,7 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 28/11/2026 20:09:05 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 28/11/2026 20:19:20 (Giờ Hà Nội)*
 
-📝 *Thay đổi thư mục so với lần quét trước: 🗑️ -1 thư mục đã xoá* — xem chi tiết tại `docs/CHANGELOG.md`
+📝 *Thay đổi thư mục so với lần quét trước: ✨ +1 thư mục mới* — xem chi tiết tại `docs/CHANGELOG.md`
 
 ```text
 🗺️ Root/
@@ -245,6 +245,7 @@
 │   │   │   │   │   ├── com.kyic.autoac_2.1.131_iphoneos-arm64.html
 │   │   │   │   │   ├── com.kyic.autoac_2.1.140_iphoneos-arm64.html
 │   │   │   │   │   ├── com.kyic.autoac_2.1.141_iphoneos-arm64.html
+│   │   │   │   │   ├── com.kyic.autoac_2.1.142_iphoneos-arm64.html
 │   │   │   │   │   ├── com.kyic.autoac_2.1.34_iphoneos-arm64.html
 │   │   │   │   │   ├── com.kyic.autoac_2.1.35_iphoneos-arm64.html
 │   │   │   │   │   ├── com.kyic.autoac_2.1.90_iphoneos-arm64.html
@@ -252,7 +253,8 @@
 │   │   │   │   │   ├── v2.1.131.txt
 │   │   │   │   │   ├── v2.1.140.txt
 │   │   │   │   │   ├── v2.1.141.txt
-│   │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 21 file ]
+│   │   │   │   │   ├── v2.1.142.txt
+│   │   │   │   │   └── [ 📊 Số lượng: ⚙️ Config .json: 22 file ]
 │   │   │   │   ├── 📂 bilibili/
 │   │   │   │   │   ├── default.txt
 │   │   │   │   │   ├── iOSGods.doantien.bilibili_3.3-arm.html
@@ -457,7 +459,8 @@
 │   │   │   └── [ 📊 Số lượng: 📦 Package .deb: 1 file ]
 │   │   ├── 📂 autoac/
 │   │   │   ├── v2.1.141.txt
-│   │   │   └── [ 📊 Số lượng: 📦 Package .deb: 1 file ]
+│   │   │   ├── v2.1.142.txt
+│   │   │   └── [ 📊 Số lượng: 📦 Package .deb: 2 file ]
 │   │   ├── 📂 bilibili/
 │   │   │   ├── .gitkeep
 │   │   │   └── [ 📊 Số lượng: 📦 Package .deb: 1 file ]
@@ -554,6 +557,7 @@
 │   │   ├── index.html
 │   │   ├── shop.html
 │   │   └── sign.html
+│   ├── 📂 inbox/
 │   ├── index.html
 │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file, 🖼️ Ảnh PNG: 1 file ]
 └── 📂 supabase/

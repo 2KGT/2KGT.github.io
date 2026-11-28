@@ -2256,6 +2256,20 @@
       "Depiction": "",
       "SileoDepiction": "",
       "Installed-Size": "1904"
+    },
+    "https://2kgt.github.io/repo/debs/autoac/com.kyic.autoac_2.1.142_iphoneos-arm64.deb": {
+      "Package": "com.kyic.autoac",
+      "Name": "AutoAC",
+      "Version": "2.1.142",
+      "Description": "AutoAC tweak (long press + logo YouTube)\n\n━━ Cập nhật tự động ━━\nAutoAC v2.1.142 — 28/11/2026\n\n🔧 Cải tiến\n• Cập nhật phiên bản v2.1.142\n\n📌 Hỗ trợ tốt nhất: YouTube 21.46.3\n🧩 Hệ sinh thái: Rootful (iphoneos-arm)\n🔗 Tích hợp: YouTube X, NoYTPremium\n✅ Không phát hiện hook hỏng (13/22 khớp, còn lại chưa kiểm chứng được)\n🗓️ Phát hành: 28/11/2026",
+      "Author": "Kyic",
+      "Section": "Tweaks",
+      "Architecture": "iphoneos-arm64",
+      "Depends": "mobilesubstrate",
+      "Maintainer": "Kyic",
+      "Depiction": "",
+      "SileoDepiction": "",
+      "Installed-Size": "1904"
     }
   }
 }
