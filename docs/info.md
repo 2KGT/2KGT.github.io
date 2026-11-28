@@ -1,7 +1,7 @@
 # 📂 CẤU TRÚC HỆ THỐNG
-⏱️ *Cập nhật tự động lúc: 26/11/2026 06:58:37 (Giờ Hà Nội)*
+⏱️ *Cập nhật tự động lúc: 28/11/2026 20:09:05 (Giờ Hà Nội)*
 
-📝 *Thay đổi thư mục so với lần quét trước: ✨ +1 thư mục mới* — xem chi tiết tại `docs/CHANGELOG.md`
+📝 *Thay đổi thư mục so với lần quét trước: 🗑️ -1 thư mục đã xoá* — xem chi tiết tại `docs/CHANGELOG.md`
 
 ```text
 🗺️ Root/
@@ -554,7 +554,6 @@
 │   │   ├── index.html
 │   │   ├── shop.html
 │   │   └── sign.html
-│   ├── 📂 inbox/
 │   ├── index.html
 │   └── [ 📊 Số lượng: ⚙️ Config .json: 3 file, 🖼️ Ảnh PNG: 1 file ]
 └── 📂 supabase/
